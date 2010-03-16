@@ -134,8 +134,7 @@ class PostgresExporter:
                 try:
                   self.cur.execute("INSERT INTO format(name) VALUES('"+fmt.name+"');")
                 except psycopg2.Error, e:
-                  print "%s" % (e.args)
-                  return   
+                  print "%s" % (e.args)                    
              query = "INSERT INTO releases_formats(discogs_id, format_name, qty, descriptions) VALUES(%s,%s,%s,%s);"
              self.cur.execute(query,(release.discogs_id, fmt.name, fmt.qty, fmt.descriptions))
          labelQuery = "INSERT INTO releases_labels(discogs_id, label, catno) VALUES(%s,%s,%s);"

@@ -1,32 +1,39 @@
 from __future__ import with_statement
 import re
 import sys
-import fileinput
-
-def append_end_tag(end_tag, filename):
-  with open(filename,'a') as f:
-    f.write(end_tag)
+import os
+from contextlib import nested
 
 def clean_and_append_start_tag(start_tag, filename):
   #delete any byte that's between 0x00 and 0x1F except 0x09 (tab), 0x0A (LF), and 0x0D (CR). 
   ctrlregex = re.compile(r'[\x01-\x08|\x0B|\x0C|\x0E-\x1F]')
+  
+  try:
+    os.rename(filename, "%s.old" %filename)
+  except:
+    print "Did not rename"
 
-  f = fileinput.input(filename,inplace=1)
+  with nested(open(filename, "wb" ), open(filename+".old", "rb" )) as (destination, source):
+    #append start tag to the first line
+    first_line = source.readline()
+    destination.write("%s\n%s" % (start_tag, first_line))
+	
+    counter = 0
+    for line in source:
+      rObj = re.search(ctrlregex, line)
+      counter += 1
+      print counter
+      if rObj is not None:
+        newLine = re.sub(ctrlregex, '', line)
+        destination.write(newLine)
+      else:
+        destination.write(line)	
+  
+  os.remove("%s.old" %filename)
 
-  #append start tag to the first line
-  first_line = f.readline()
-  sys.stdout.write("%s\n%s" % (start_tag, first_line))
-
-  counter = 0
-  for line in f:
-    rObj = re.search(ctrlregex, line)
-    counter += 1
-    sys.stderr.write(str(counter)+'\n')
-    if rObj is not None:
-      newLine = re.sub(ctrlregex, '', line)
-      sys.stdout.write(newLine)
-    else:
-      sys.stdout.write(line)
+def append_end_tag(end_tag, filename):
+  with open(filename,'ab') as f:
+    f.write(end_tag)
 
 def usage():
   print "Usage: python fix-xml.py relase, where release is for example 20091101"

@@ -130,7 +130,11 @@ class PostgresExporter:
          for fmt in release.formats:
            if len(release.formats) != 0:
              if not self.formatNames.has_key(fmt.name):
-                self.cur.execute("INSERT INTO format(name) VALUES('"+fmt.name+"');")
+                try:
+                  self.cur.execute("INSERT INTO format(name) VALUES('"+fmt.name+"');")
+                except psycopg2.Error, e:
+                  print "%s" % (e.args)
+                  return   
                 self.formatNames[fmt.name] = True
              query = "INSERT INTO releases_formats(discogs_id, format_name, qty, descriptions) VALUES(%s,%s,%s,%s);"
              self.cur.execute(query,(release.discogs_id, fmt.name, fmt.qty, fmt.descriptions))

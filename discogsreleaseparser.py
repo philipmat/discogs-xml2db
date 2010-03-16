@@ -151,7 +151,10 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
             track.artistJoins.append(aj)
         else:#main release artist
           aj = model.ArtistJoin()
-          aj.artist1 = self.release.artists[len(self.release.artists)-1] 
+          if len(self.release.artists) > 0:
+            aj.artist1 = self.release.artists[-1]
+          else:
+            aj.artist1 = self.release.anv
           aj.join_relation = self.buffer
           self.release.artistJoins.append(aj)
         #global joins

@@ -48,7 +48,11 @@ class PostgresExporter:
          #print values
          query = "INSERT INTO label("+columns+") VALUES"+escapeStrings+";"
          #print query
-         self.cur.execute(query,values)
+         try:
+           self.cur.execute(query,values)
+         except psycopg2.Error, e:
+           print "%s" % (e.args)
+           return   
          imgCols = "uri,height,width,type,uri150"
          for img in label.images:
            imgValues = []
@@ -101,7 +105,11 @@ class PostgresExporter:
          #print values
          query = "INSERT INTO release("+columns+") VALUES"+escapeStrings+";"
          #print query
-         self.cur.execute(query,values)
+         try:
+           self.cur.execute(query,values)
+         except psycopg2.Error, e:
+           print "%s" % (e.args)
+           return   
          imgCols = "uri,height,width,type,uri150"
          for img in release.images:
            imgValues = []

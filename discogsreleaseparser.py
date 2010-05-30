@@ -162,12 +162,8 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
         #  joins[self.buffer] = True
     elif name == 'role':
       if len(self.buffer) != 0:
-        #global roles
-        #roles_list = re.split("((?:\[[^][]+]|[^,])+)", self.buffer)
-        #roles_list = re.split("\s*((?:[^][,]+|\[[^]]*])+),?", self.buffer)
-        '''Commented out until bug is fixed. Percussion [asdf,asdf,asdf] makes trouble, split list+role details
         print "ROLE PRE" + str(self.buffer)
-        roles_list = self.buffer.split(',')
+        roles_list = re.findall('([^[,]+(?:\[[^]]+])?)+', self.buffer) #thanks to jlatour
         print "ROLE POST" + str(self.buffer)
         for role in roles_list:
           role = role.strip()
@@ -184,7 +180,6 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
               trackExtraartist.roles.append(role)
           else:
             self.release.extraartists[len(self.release.extraartists)-1].roles.append(role)
-        #'''
     elif name == 'duration':
       self.release.tracklist[len(self.release.tracklist)-1].duration = self.buffer
     elif name == 'position':

@@ -22,6 +22,7 @@ import model
 import psycopg2
 from postgresexporter import PostgresExporter
 import psyco 
+import re
 psyco.full()
 
 class ReleaseHandler(xml.sax.handler.ContentHandler):
@@ -142,9 +143,9 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
         if self.inElement['track']:#extraartist
           track = self.release.tracklist[len(self.release.tracklist)-1]
           aj = model.ArtistJoin()
-          print "ext: " + str(track.extraartists)
-          print "title: " + str(track.title)
-          print "artists: " + str(track.artists)
+          #print "ext: " + str(track.extraartists)
+          #print "title: " + str(track.title)
+          #print "artists: " + str(track.artists)
           if len(track.artists) > 0: #fix for bug with release 2033428, track 3
             aj.artist1 = track.artists[len(track.artists)-1]
             aj.join_relation = self.buffer
@@ -155,6 +156,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
             aj.artist1 = self.release.artists[-1]
           else:
             aj.artist1 = self.release.anv
+            self.release.artists.append(self.release.anv)
           aj.join_relation = self.buffer
           self.release.artistJoins.append(aj)
         #global joins
@@ -162,9 +164,9 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
         #  joins[self.buffer] = True
     elif name == 'role':
       if len(self.buffer) != 0:
-        print "ROLE PRE" + str(self.buffer)
+        #print "ROLE PRE" + str(self.buffer)
         roles_list = re.findall('([^[,]+(?:\[[^]]+])?)+', self.buffer) #thanks to jlatour
-        print "ROLE POST" + str(self.buffer)
+        #print "ROLE POST" + str(self.buffer)
         for role in roles_list:
           role = role.strip()
           lIndex = role.find('[') 

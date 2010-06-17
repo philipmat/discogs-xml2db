@@ -86,7 +86,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
     if name == 'title':
       if len(self.buffer) != 0:
         if self.inElement['track']:
-            self.release.tracklist[len(self.release.tracklist)-1].title = self.buffer
+            self.release.tracklist[-1].title = self.buffer
         else:
           self.release.title = self.buffer
     elif name == 'country':
@@ -119,7 +119,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
         #  styles[self.buffer] = Style(self.buffer)
     elif name == 'description':
       if len(self.buffer) != 0:
-        self.release.formats[len(self.release.formats)-1].descriptions.append(self.buffer)
+        self.release.formats[-1].descriptions.append(self.buffer)
         #global descriptions
         #if not descriptions.has_key(self.buffer):
         #  descriptions[self.buffer] = True
@@ -127,27 +127,27 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
       if len(self.buffer) != 0:
         if self.inElement['extraartists']:
           if self.inElement['track']:#extraartist for track
-            track = self.release.tracklist[len(self.release.tracklist)-1]
+            track = self.release.tracklist[-1]
             extr = model.Extraartist()
             extr.name = self.buffer
             track.extraartists.append(extr)
           else:#extraartists for release
             self.release.extraartists.append(Extraartist())
-            self.release.extraartists[len(self.release.extraartists)-1].name = self.buffer
+            self.release.extraartists[-1].name = self.buffer
         elif self.inElement['track'] and not self.inElement['extraartists']:
-          self.release.tracklist[len(self.release.tracklist)-1].artists.append(self.buffer)
+          self.release.tracklist[-1].artists.append(self.buffer)
         else: #release artist
           self.release.artists.append(self.buffer)
     elif name == 'join':
       if len(self.buffer) != 0:
         if self.inElement['track']:#extraartist
-          track = self.release.tracklist[len(self.release.tracklist)-1]
+          track = self.release.tracklist[-1]
           aj = model.ArtistJoin()
           #print "ext: " + str(track.extraartists)
           #print "title: " + str(track.title)
           #print "artists: " + str(track.artists)
           if len(track.artists) > 0: #fix for bug with release 2033428, track 3
-            aj.artist1 = track.artists[len(track.artists)-1]
+            aj.artist1 = track.artists[-1]
             aj.join_relation = self.buffer
             track.artistJoins.append(aj)
         else:#main release artist
@@ -178,14 +178,14 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
             idx = len(self.release.tracklist)-1
             track = self.release.tracklist[idx]
             if len(track.extraartists) != 0:
-              trackExtraartist = track.extraartists[len(track.extraartists)-1]
+              trackExtraartist = track.extraartists[-1]
               trackExtraartist.roles.append(role)
           else:
-            self.release.extraartists[len(self.release.extraartists)-1].roles.append(role)
+            self.release.extraartists[-1].roles.append(role)
     elif name == 'duration':
-      self.release.tracklist[len(self.release.tracklist)-1].duration = self.buffer
+      self.release.tracklist[-1].duration = self.buffer
     elif name == 'position':
-      self.release.tracklist[len(self.release.tracklist)-1].position = self.buffer
+      self.release.tracklist[-1].position = self.buffer
     elif name == 'release':
       global releaseCounter
       releaseCounter += 1

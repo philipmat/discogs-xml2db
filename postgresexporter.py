@@ -19,7 +19,7 @@ import uuid
 import sys
 
 host = 'localhost'
-user = 'discogs'
+user = 'postgres'
 dbname = 'discogs'
 
 dbparams = "dbname='%s' user='%s' host='%s'" % (dbname, user, host)
@@ -192,15 +192,13 @@ class PostgresExporter:
              #print extr.name
              #print extr.roles
              self.cur.execute("INSERT INTO tracks_extraartists(track_id, artist_name) VALUES(%s,%s);", (trackid, extr.name))
-             '''Commented out until bug fixed with roleparsing Bleh [asdf,asdf,asdf], hurra[heo]
              for role in extr.roles:
                if type(role).__name__=='tuple':
-                 print trackid
-                 print extr.name
-                 print role[0]
-                 print role[1]
+                 #print trackid
+                 #print extr.name
+                 #print role[0]
+                 #print role[1]
                  self.cur.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name, role_details) VALUES(%s,%s,%s,%s);", (trackid, extr.name, role[0], role[1]))
                else:
                  self.cur.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name) VALUES(%s,%s,%s);", (trackid, extr.name, role))
-             #'''
          #'''

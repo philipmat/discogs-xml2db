@@ -7,7 +7,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
@@ -17,46 +17,157 @@
 import xml.sax.handler
 import xml.sax
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-from discogsartistparser import ArtistHandler
-from discogslabelparser import LabelHandler
-from discogsreleaseparser import ReleaseHandler
+import jsonexporter
+import argparse # in < 2.7 pip install argparse
+from os import path
+from model import ParserStopError
+from collections import deque
 
-def parseArtists(parser,release):
-    artistHandler = ArtistHandler()
-    parser.setContentHandler(artistHandler)
-    parser.parse("discogs_%s_artists.xml" % release)
+#sys.setdefaultencoding('utf-8')
+options = None
 
-def parseLabels(parser, release):
-    labelHandler = LabelHandler()
-    parser.setContentHandler(labelHandler)
-    parser.parse("discogs_%s_labels.xml" % release) 
+exporters = { 'json': 'jsonexporter.JsonConsoleExporter', 
+	'pgsql' : 'postgresexporter.PostgresExporter', 
+	'pgdump': 'postgresexporter.PostgresConsoleDumper'}
 
-def parseReleases(parser, release):
-    releaseHandler = ReleaseHandler()
-    parser.setContentHandler(releaseHandler)
-    parser.parse("discogs_%s_releases.xml" % release)
 
-def usage():
-  print "Usage: python discogsparser.py relase, where release is for example 20091101"
-  sys.exit()
+def first_file_match(file_pattern):
+	global options
+	matches = filter(lambda f: file_pattern in f, options.file)
+	return matches[0] if len(matches) > 0 else None
+
+
+def parseArtists(parser, exporter):
+	global options
+	artist_file = None
+	in_file = first_file_match('_artists.xml')
+	if options.date is not None:
+		artist_file = "discogs_%s_artists.xml" % options.date
+	elif in_file is not None:
+		artist_file = in_file
+
+	if artist_file is None:
+		print "No artist file specified."
+		return
+	elif not path.exists(artist_file):
+		print "File %s doesn't exist:" % artist_file
+		return
+
+	from discogsartistparser import ArtistHandler
+	artistHandler = ArtistHandler(exporter, stop_after=options.n)
+	parser.setContentHandler(artistHandler)
+	try:
+		parser.parse(artist_file)
+	except ParserStopError as pse:
+		print "Parsed %d artists then stopped as requested." % pse.records_parsed
+#	except model.ParserStopError as pse22:
+#		print "Parsed %d artists then stopped as requested." % pse.records_parsed
+#	except Exception as ex:
+#		print "Raised unknown error"
+#		print type(ex)
+
+
+def parseLabels(parser, exporter):
+	global options
+	label_file = None
+	in_file = first_file_match('_labels.xml')
+	if options.date is not None:
+		label_file = "discogs_%s_labels.xml" % options.date
+	elif in_file is not None:
+		label_file = in_file
+
+	if label_file is None or not path.exists(label_file):
+		return
+
+	from discogslabelparser import LabelHandler
+	labelHandler = LabelHandler(exporter, stop_after=options.n)
+	parser.setContentHandler(labelHandler)
+	try:
+		parser.parse(label_file)
+	except ParserStopError as pse:
+		print "Parsed %d labels then stopped as requested." % pse.records_parsed
+
+	parser.parse(label_file)
+
+
+def parseReleases(parser, exporter):
+	global options
+	release_file = None
+	in_file = first_file_match('_releases.xml')
+	if options.date is not None:
+		release_file = "discogs_%s_releases.xml" % options.date
+	elif in_file is not None:
+		release_file = in_file
+
+	if release_file is None or not path.exists(release_file):
+		return
+	from discogsreleaseparser import ReleaseHandler
+	releaseHandler = ReleaseHandler(exporter, stop_after=options.n)
+	parser.setContentHandler(releaseHandler)
+	try:
+		parser.parse(release_file)
+	except ParserStopError as pse:
+		print "Parsed %d releases then stopped as requested." % pse.records_parsed
+
+	parser.parse(release_file)
+
+def select_exporter(options):
+	global exporters
+	if options.output is None:
+		return exporters['json'] 
+	
+	if exporters.has_key(options.output):
+		return exporters[options.output]
+	# should I be throwing an exception here?
+	return exporters['json']
+
+def make_exporter(options):
+	exp_module = select_exporter(options)
+
+	parts = exp_module.split('.')
+	m = __import__('.'.join(parts[:-1]))
+	for i in xrange(1, len(parts)):
+		m = getattr(m, parts[i])
+	
+	return m(options.params)
+		
+
 
 def main(argv):
-    if len(argv) == 0 or len(argv[0]) != 8:
-      usage()
-    try:
-      int(argv[0])
-    except ValueError:
-      usage() 
-      sys.exit()
-    release = argv[0]
+	global exporters
+	opt_parser = argparse.ArgumentParser(
+			description='Parse discogs release',
+			epilog='''
+You must specify either -d DATE or some files.
+JSON output prints to stdout, any other output requires
+that --params is used, e.g.:
+--output pgsql
+--params "host=localhost dbname=discogs user=pguser"
 
-    parser = xml.sax.make_parser()
-    parseArtists(parser, release)
-    parseLabels(parser, release)
-    parseReleases(parser, release)
+--output couchdb
+--params "http://localhost:5353/"
+'''
+			)
+	opt_parser.add_argument('-n', type=int, help='Number of records to parse')
+	opt_parser.add_argument('-d', '--date', help='Date of release. For example 20110301')
+	opt_parser.add_argument('-o', '--output', choices=exporters.keys(), default='json', help='What to output to')
+	opt_parser.add_argument('-p', '--params', help='Parameters for output, e.g. connection string')
+	opt_parser.add_argument('file', nargs='*', help='Specific file(s) to import. Default is to parse artists, labels, releases matching -d')
+	global options
+	options = opt_parser.parse_args(argv)
+
+	if options.date is None and len(options.file) == 0:
+		opt_parser.print_help()
+		sys.exit(1)
+
+	exporter = make_exporter(options)
+	parser = xml.sax.make_parser()
+	try:
+		parseArtists(parser, exporter)
+		parseLabels(parser, exporter)
+		parseReleases(parser, exporter)
+	finally:
+		exporter.finish(completely_done = True)
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
-
+	main(sys.argv[1:])

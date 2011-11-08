@@ -92,3 +92,9 @@ class ImageType:
   PRIMARY = 0
   SECONDARY = 1
 
+
+class ParserStopError(Exception):
+	"""Raised by a parser to signal that it wants to stop parsing."""
+	def __init__(self, count):
+		self.records_parsed = count
+

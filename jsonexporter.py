@@ -6,7 +6,7 @@ def jsonizer(obj):
 	>>> json.dumps(an_artist, default=jsonizer)
 	'{"_type" : "Artist", "name" : ...
 	'''
-	j_dict = { '_type' : obj.__class__.__name__ }
+	j_dict = { 'object_type_name' : obj.__class__.__name__ }
 	j_dict.update(obj.__dict__)
 	return j_dict 
 

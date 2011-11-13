@@ -28,7 +28,9 @@ options = None
 
 exporters = { 'json': 'jsonexporter.JsonConsoleExporter', 
 	'pgsql' : 'postgresexporter.PostgresExporter', 
-	'pgdump': 'postgresexporter.PostgresConsoleDumper'}
+	'pgdump': 'postgresexporter.PostgresConsoleDumper',
+	'couch' : 'couchdbexporter.CouchDbExporter',
+	}
 
 
 def first_file_match(file_pattern):

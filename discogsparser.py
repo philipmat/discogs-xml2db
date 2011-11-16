@@ -30,6 +30,7 @@ exporters = { 'json': 'jsonexporter.JsonConsoleExporter',
 	'pgsql' : 'postgresexporter.PostgresExporter', 
 	'pgdump': 'postgresexporter.PostgresConsoleDumper',
 	'couch' : 'couchdbexporter.CouchDbExporter',
+	'mongo' : 'mongodbexporter.MongoDbExporter',
 	}
 
 

@@ -1,12 +1,14 @@
 import json
 
-def jsonizer(obj):
+def jsonizer(obj, specify_object_type = True):
 	'''Assists in serializing models to JSON.
 
 	>>> json.dumps(an_artist, default=jsonizer)
 	'{"_type" : "Artist", "name" : ...
 	'''
-	j_dict = { 'object_type_name' : obj.__class__.__name__ }
+	j_dict = {}
+	if specify_object_type:
+		j_dict['object_type_name'] = obj.__class__.__name__
 	j_dict.update(obj.__dict__)
 	return j_dict 
 

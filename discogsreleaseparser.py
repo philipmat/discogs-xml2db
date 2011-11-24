@@ -24,7 +24,7 @@ releaseCounter = 0
 
 
 class ReleaseHandler(xml.sax.handler.ContentHandler):
-	def __init__(self, exporter, stop_after):
+	def __init__(self, exporter, stop_after=0, ignore_missing_tags = False):
 		self.inElement = {
 							'anv': False,
 							'artist': False,
@@ -64,12 +64,15 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		self.buffer = ''
 		self.exporter = exporter
 		self.stop_after = stop_after
+		self.ignore_missing_tags = ignore_missing_tags
 
 	def startElement(self, name, attrs):
 		if not name in self.inElement:
-			print "ERROR, UNKOWN ELEMENT!!!"
-			print name
-			sys.exit()
+			if not self.ignore_missing_tags:
+				print "Error: Unknown Release element '%s'." % name
+				sys.exit()
+			elif not name in self.unknown_tags:
+				self.unknown_tags.append(name)
 		self.inElement[name] = True
 		if name == 'release':
 			self.release = model.Release()
@@ -229,6 +232,9 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 
 			releaseCounter += 1
 			if self.stop_after > 0 and releaseCounter >= self.stop_after:
+				self.endDocument()
+				if self.ignore_missing_tags and len(self.unknown_tags) > 0:
+					print 'Encountered some unknown Release tags: %s' % (self.unknown_tags)
 				raise model.ParserStopError(releaseCounter)
 
 			'''PRINT DATA

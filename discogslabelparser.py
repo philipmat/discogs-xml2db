@@ -27,16 +27,20 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 	inElement = {'name':False,'label':False,'labels':False,'contactinfo':False,'image':False,'images':False,'urls':False,'url':False,'profile':False,'parentLabel':False,'sublabels':False}
 	label = model.Label()
 	buffer = ''
+	unknown_tags = []
 
-	def __init__(self, exporter, stop_after=0):
+	def __init__(self, exporter, stop_after=0, ignore_missing_tags = False):
 		self.exporter = exporter
 		self.stop_after = stop_after
+		self.ignore_missing_tags = ignore_missing_tags
 
 	def startElement(self, name, attrs):
 		if not name in self.inElement:
-			print "ERROR, UNKOWN ELEMENT!!!"
-			print name
-			sys.exit()
+			if not self.ignore_missing_tags:
+				print "Error: Unknown Label element '%s'." % name
+				sys.exit()
+			elif not name in self.unknown_tags:
+				self.unknown_tags.append(name)
 		self.inElement[name] = True
 		if name == 'label':
 			if not self.inElement['sublabels']:
@@ -87,6 +91,9 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 				global labelCounter
 				labelCounter += 1
 				if self.stop_after > 0 and labelCounter >= self.stop_after:
+					self.endDocument()
+					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
+						print 'Encountered some unknown Label tags: %s' % (self.unknown_tags)
 					raise model.ParserStopError(labelCounter)
 
 				#global labels

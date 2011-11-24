@@ -29,20 +29,24 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 	inElement = {'artists':False,'artist':False,'name':False,'realname':False,'image':False,'images':False,'urls':False,'url':False,'namevariations':False,'aliases':False,'profile':False,'groups':False,'members':False}
 	artist = None
 	buffer = ''
+	unknown_tags = []
 
-	def __init__(self, exporter, stop_after=0):
+	def __init__(self, exporter, stop_after=0, ignore_missing_tags = False):
 		self.artist = model.Artist()
 		self.exporter = exporter
 		#self.inElement = 
 		#self.element = {}
 		#global options
 		self.stop_after = stop_after
+		self.ignore_missing_tags = ignore_missing_tags
 
 	def startElement(self, name, attrs):
 		if not name in self.inElement:
-			print "ERROR, UNKOWN ELEMENT!!!"
-			print name
-			sys.exit()
+			if not self.ignore_missing_tags:
+				print "Error: Unknown Artist element '%s'." % name
+				sys.exit()
+			elif not name in self.unknown_tags:
+				self.unknown_tags.append(name)
 		self.inElement[name] = True
 
 		if name == "artist":
@@ -103,6 +107,9 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 			global artistCounter
 			artistCounter += 1
 			if self.stop_after > 0 and artistCounter >= self.stop_after:
+				self.endDocument()
+				if self.ignore_missing_tags and len(self.unknown_tags) > 0:
+					print 'Encountered some unknown Artist tags: %s' % (self.unknown_tags)
 				raise model.ParserStopError(artistCounter)
 
 		self.buffer = ''
@@ -117,7 +124,7 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 				print "namevariations: " + str(artists[artist].namevariations)
 				print "aliases: " + str(artists[artist].aliases)
 						print "profile: " + artists[artist].profile
-						print "urls: " + str(artists[artist].urls)
+						rint "urls: " + str(artists[artist].urls)
 						print "members: " + str(artists[artist].members)
 						print "groups: " + str(artists[artist].groups)
 						if len(artists[artist].members) == 0:

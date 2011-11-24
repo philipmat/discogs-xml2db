@@ -57,7 +57,7 @@ def parseArtists(parser, exporter):
 		return
 
 	from discogsartistparser import ArtistHandler
-	artistHandler = ArtistHandler(exporter, stop_after=options.n, ignore_unknown_tags = options.ignore_unknown_tags)
+	artistHandler = ArtistHandler(exporter, stop_after=options.n, ignore_missing_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(artistHandler)
 	try:
 		parser.parse(artist_file)
@@ -83,7 +83,7 @@ def parseLabels(parser, exporter):
 		return
 
 	from discogslabelparser import LabelHandler
-	labelHandler = LabelHandler(exporter, stop_after=options.n, ignore_unknown_tags = options.ignore_unknown_tags)
+	labelHandler = LabelHandler(exporter, stop_after=options.n, ignore_missing_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(labelHandler)
 	try:
 		parser.parse(label_file)
@@ -105,7 +105,7 @@ def parseReleases(parser, exporter):
 	if release_file is None or not path.exists(release_file):
 		return
 	from discogsreleaseparser import ReleaseHandler
-	releaseHandler = ReleaseHandler(exporter, stop_after=options.n, ignore_unknown_tags = options.ignore_unknown_tags)
+	releaseHandler = ReleaseHandler(exporter, stop_after=options.n, ignore_missing_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(releaseHandler)
 	try:
 		parser.parse(release_file)

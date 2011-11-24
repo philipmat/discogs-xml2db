@@ -62,6 +62,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 							}
 		self.release = None
 		self.buffer = ''
+		self.unknown_tags = []
 		self.exporter = exporter
 		self.stop_after = stop_after
 		self.ignore_missing_tags = ignore_missing_tags

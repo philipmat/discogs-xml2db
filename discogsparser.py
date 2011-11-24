@@ -90,8 +90,6 @@ def parseLabels(parser, exporter):
 	except ParserStopError as pse:
 		print "Parsed %d labels then stopped as requested." % pse.records_parsed
 
-	parser.parse(label_file)
-
 
 def parseReleases(parser, exporter):
 	global options
@@ -112,7 +110,6 @@ def parseReleases(parser, exporter):
 	except ParserStopError as pse:
 		print "Parsed %d releases then stopped as requested." % pse.records_parsed
 
-	parser.parse(release_file)
 
 def select_exporter(options):
 	global exporters

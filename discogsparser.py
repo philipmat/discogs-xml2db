@@ -57,7 +57,7 @@ def parseArtists(parser, exporter):
 		return
 
 	from discogsartistparser import ArtistHandler
-	artistHandler = ArtistHandler(exporter, stop_after=options.n)
+	artistHandler = ArtistHandler(exporter, stop_after=options.n, ignore_unknown_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(artistHandler)
 	try:
 		parser.parse(artist_file)
@@ -83,7 +83,7 @@ def parseLabels(parser, exporter):
 		return
 
 	from discogslabelparser import LabelHandler
-	labelHandler = LabelHandler(exporter, stop_after=options.n)
+	labelHandler = LabelHandler(exporter, stop_after=options.n, ignore_unknown_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(labelHandler)
 	try:
 		parser.parse(label_file)
@@ -105,7 +105,7 @@ def parseReleases(parser, exporter):
 	if release_file is None or not path.exists(release_file):
 		return
 	from discogsreleaseparser import ReleaseHandler
-	releaseHandler = ReleaseHandler(exporter, stop_after=options.n)
+	releaseHandler = ReleaseHandler(exporter, stop_after=options.n, ignore_unknown_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(releaseHandler)
 	try:
 		parser.parse(release_file)
@@ -155,7 +155,7 @@ that --params is used, e.g.:
 	opt_parser.add_argument('-d', '--date', help='Date of release. For example 20110301')
 	opt_parser.add_argument('-o', '--output', choices=exporters.keys(), default='json', help='What to output to')
 	opt_parser.add_argument('-p', '--params', help='Parameters for output, e.g. connection string')
-	opt_parser.add_argument('-i', '--ignore-unknown-tags', action='store_true', dest='ignore_errors', help='Do not error out when encountering unknown tags')
+	opt_parser.add_argument('-i', '--ignore-unknown-tags', action='store_true', dest='ignore_unknown_tags', help='Do not error out when encountering unknown tags')
 	opt_parser.add_argument('file', nargs='*', help='Specific file(s) to import. Default is to parse artists, labels, releases matching -d')
 	global options
 	options = opt_parser.parse_args(argv)

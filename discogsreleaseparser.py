@@ -160,8 +160,9 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 						extr.name = self.buffer
 						track.extraartists.append(extr)
 					else:  # extraartists for release
-						self.release.extraartists.append(Extraartist())
-						self.release.extraartists[-1].name = self.buffer
+						extr = model.Extraartist()
+						extr.name = self.buffer
+						self.release.extraartists.append(extr)
 				elif self.inElement['track'] and not self.inElement['extraartists']:
 					self.release.tracklist[-1].artists.append(self.buffer)
 				else:  # release artist

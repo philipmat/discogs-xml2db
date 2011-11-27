@@ -20,7 +20,7 @@ Options for `discogsparser.py`:
     `discogsparser.py -d 20111101` will look for `discogs_20111101_artists.xml`, `discogs_20111101_labels.xml`, and `discogs_20111101_releases.xml` in the current directory;
 * **Input**: parse only specific file(s):
     `discogsparser.py /tmp/discogs_20111101_artists.xml /tmp/discogs_20111101_releases.xml` - will only parse the artist and release dumps from the `/tmp` directory;
-* **Input**: `-i`/`--ignore-unknown tags`: ignores new fields that may appear in the XML as the dump format evolves
+* **Input**: `-i`/`--ignore-unknown-tags`: ignores new fields that may appear in the XML as the dump format evolves
     `discogsparser.py -i` - will display the unknown tags at the end of parsing each file, e.g.: `Encountered some unknown Release tags: [u'data_quality', u'videos', u'video', u'identifiers', u'identifier']`
 * **Output**: `-o json` dumps records as JSON to the console:
     `discogsparser.py -o json discogs_20111101_artists.xml`;

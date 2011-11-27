@@ -30,7 +30,8 @@ Options for `discogsparser.py`:
     * `-o json`, no `-p`: dumps JSON to the console;
     * `-o pgsql -p "connection string"`: exports into a PostgreSQL database. See [The psycopg2 module content](http://initd.org/psycopg/docs/module.html) for connection string documentation.
     * `-o couch -p "couch URI"`: exports to a CouchDB server running on localhost on port 5984 into a database named `discogs`;
-    * `-o mongo -p "mongodb connection URI"`: connects, with `user` and `pass`, to a MongoDB server running on localhost, and into a database named `discogs`. See [Standard Connection String Format](http://www.mongodb.org/display/DOCS/Connections) in the MongoDB docs.
+    * `-o mongo -p "mongodb://localhost/discogs"`: connects, with `user` and `pass`, to a MongoDB server running on localhost, and into a database named `discogs`. See [Standard Connection String Format](http://www.mongodb.org/display/DOCS/Connections) in the MongoDB docs.
+    * `-o mongo -p "file:///path/to/dir/"`: outputs each of the Artists, Labels, Releases into a separate JSON file into the specified directory, `/path/to/dir/` in this case.
 
 
 Examples:

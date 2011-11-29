@@ -50,10 +50,10 @@ def parseArtists(parser, exporter):
 		artist_file = in_file
 
 	if artist_file is None:
-		print "No artist file specified."
+		#print "No artist file specified."
 		return
 	elif not path.exists(artist_file):
-		print "File %s doesn't exist:" % artist_file
+		#print "File %s doesn't exist:" % artist_file
 		return
 
 	from discogsartistparser import ArtistHandler
@@ -79,7 +79,11 @@ def parseLabels(parser, exporter):
 	elif in_file is not None:
 		label_file = in_file
 
-	if label_file is None or not path.exists(label_file):
+	if label_file is None:
+		#print "No label file specified."
+		return
+	elif not path.exists(label_file):
+		#print "File %s doesn't exist:" % label_file
 		return
 
 	from discogslabelparser import LabelHandler
@@ -100,8 +104,13 @@ def parseReleases(parser, exporter):
 	elif in_file is not None:
 		release_file = in_file
 
-	if release_file is None or not path.exists(release_file):
+	if release_file is None:
+		#print "No release file specified."
 		return
+	elif not path.exists(release_file):
+		#print "File %s doesn't exist:" % release_file
+		return
+
 	from discogsreleaseparser import ReleaseHandler
 	releaseHandler = ReleaseHandler(exporter, stop_after=options.n, ignore_missing_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(releaseHandler)

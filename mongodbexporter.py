@@ -16,6 +16,9 @@ class _MongoImportFile(object):
 
 	def update(self, id_dict, content, **kwargs):
 		line = json.dumps(content)
+		lines = line.splitlines()
+		if (len(lines) > 1):
+			line = ' '.join(lines)
 		self._f.writelines((line, '\n'))
 		#print '>%s: %s' % (self._fname, line)
 

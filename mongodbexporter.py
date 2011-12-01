@@ -108,24 +108,31 @@ class MongoDbExporter(object):
 	def finish(self, completely_done=False):
 		collections = self.db.collection_names()
 		if 'artists' in collections:
-			self.db.artists.ensure_index('id', background=True)
+			#self.db.artists.ensure_index('id', background=True)
+			self.db.artists.ensure_index('l_name', background=True, unique=True)
 		if 'labels' in collections:
-			self.db.labels.ensure_index('id', background=True)
+			self.db.labels.ensure_index('l_name', background=True, unique=True)
 		if 'releases' in collections:
-			self.db.releases.ensure_index('artist', background=True)
+			self.db.releases.ensure_index('id', background=True, unique=True)
+			self.db.releases.ensure_index([('l_artist',pymongo.ASCENDING),
+				('l_title',pymongo.ASCENDING)],
+				background=True)
 			self.db.releases.ensure_index('format.name', background=True)
-			self.db.releases.ensure_index('title', background=True)
 		self.db.connection.disconnect()
 
 	def storeLabel(self, label):
 		label.id = label.name
+		label.l_name = label.name.lower()
 		self.execute('labels', label)
 
 	def storeArtist(self, artist):
 		artist.id = artist.name
+		artist.l_name = artist.name.lower()
 		self.execute('artists', artist)
 
 	def storeRelease(self, release):
 		release.id = release.discogs_id
+		release.l_artist = release.artist.lower()
+		release.l_title = release.title.lower()
 		self.execute('releases', release)
 

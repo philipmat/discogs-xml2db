@@ -220,7 +220,12 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			self.release.tracklist[-1].position = self.buffer
 		elif name == 'release':
 			# end of tag
-			self.release.artist = self.release.artists[0] if len(self.release.artists) == 1 else None
+			if len(self.release.artists) == 1:
+				self.release.artist = self.release.artists[0] 
+			else:
+				for j in self.release.artistJoins:
+					self.release.artist += '%s %s ' % (j.artist1, j.join_relation)
+				self.release.artist += self.artists[-1]
 
 			global releaseCounter
 			releaseCounter += 1

@@ -26,6 +26,7 @@ class Release:
      self.formats = []
      self.labels = []
      self.anv = '' #used only if artist name is missing
+     self.artist = ''
      self.artists = [] #join
      self.artistJoins = [] #release_artist_artist
      self.tracklist = [] #join

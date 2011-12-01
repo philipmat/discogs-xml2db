@@ -225,7 +225,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			else:
 				for j in self.release.artistJoins:
 					self.release.artist += '%s %s ' % (j.artist1, j.join_relation)
-				self.release.artist += self.artists[-1]
+				self.release.artist += self.release.artists[-1]
 
 			global releaseCounter
 			releaseCounter += 1

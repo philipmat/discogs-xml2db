@@ -1,3 +1,4 @@
+*.pyc
 Session.vim
 discogs_*_*.xml
 COUCH

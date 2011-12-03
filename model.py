@@ -11,6 +11,7 @@ class Artist:
       self.members = []#MemberNameList, foreign key name, class Artist
       self.groups = []#GroupNameList, foreign key name, class Artist
       #self.artistType = 0 #0 = person, 1 = group 
+      #self.artist_id = ''
 
 class Release:
    def __init__(self):

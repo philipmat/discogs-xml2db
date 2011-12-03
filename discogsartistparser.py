@@ -26,7 +26,7 @@ artistCounter = 0
 
 
 class ArtistHandler(xml.sax.handler.ContentHandler):
-	inElement = {'artists':False,'artist':False,'name':False,'realname':False,'image':False,'images':False,'urls':False,'url':False,'namevariations':False,'aliases':False,'profile':False,'groups':False,'members':False}
+	inElement = {'artists':False,'artist':False,'name':False,'realname':False,'image':False,'images':False,'urls':False,'url':False,'namevariations':False,'aliases':False,'profile':False,'groups':False,'members':False,'id':False}
 	artist = None
 	buffer = ''
 	unknown_tags = []
@@ -101,6 +101,8 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 				else: 
 				self.artist.urls['other'].append(self.buffer)
 				'''
+		elif name == 'id':
+			self.artist.artist_id = self.buffer
 		elif name == "artist":
 
 			self.exporter.storeArtist(self.artist)

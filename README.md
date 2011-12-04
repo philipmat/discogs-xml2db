@@ -1,20 +1,22 @@
-From original source: http://code.google.com/p/discogs-sql-importer/
 
 ----
-
-This is a python program for importing the discogs data dumps found at http://www.discogs.com/data/ into a PostgreSQL database.
+# What is it?
+This is a python program for importing the discogs data dumps found at http://www.discogs.com/data/ into PostgreSQL, CouchDB, or MongoDB database.
 
 MySQL or other databases are not supported at the moment, but you are welcome to submit a patch.
 
+
+# How do I use it?
 Steps to import the datadumps (into PostgreSQL):
 
-1. Download and extract the data dumps
+1. Download and extract the data dumps (you can use `get_latest_dump.sh` to get the latest dumps).
 2. Create the empty database: `createdb -U {user-name} discogs`
 3. Import the database schema: `psql -U {user-name} -d discogs -f discogs.sql`
 4. The XML data dumps often contain control characters and do not have root tags. To fix this run `fix-xml.py _release_`, where release is the release date of the dump, for example `20100201`.
 5. Finally import the data with `python discogsparser.py -o pgsql -p "dbname=discogs" pgsql _release_`, where release is the release date of the dump, for example `20100201`
 
-Options for `discogsparser.py`:
+
+# Options for `discogsparser.py`
 
 * **Input**: `-d`/`--date` parses all three files (artists, labels, releases) for a given monthly dump:
     * `discogsparser.py -d 20111101` will look for `discogs_20111101_artists.xml`, `discogs_20111101_labels.xml`, and `discogs_20111101_releases.xml` in the current directory;
@@ -34,10 +36,19 @@ Options for `discogsparser.py`:
     * `-o mongo -p "file:///path/to/dir/"`: outputs each of the Artists, Labels, Releases into a separate JSON file into the specified directory, `/path/to/dir/` in this case, one line for each. Pass `--ignoreblanks` to `mongoimport` in case extra new-lines are added; you probably also want `--upsert --upseftFields id`.
 
 
-Examples:
+# Examples:
 
     discogsparser.py -n 200 -o couch --params http://127.0.0.1:5984/discogs -d 20111101
     discogsparser.py -o mongo -p mongodb://localhost,remote1/discogs discogs_20111101_artists.xml discogs_20111101_releases.xml
     discogsparser.py -o pgsql -p "host=remote1 dbname=discogs user=postgres password=s3cret" discogs_20111101_artists.xml
 
 
+# Credits
+
+Original project: [discogs-sql-importer](http://code.google.com/p/discogs-sql-importer/)
+
+# Some sort of changelog
+
+* v0.60 - support for CouchDB and MongoDB
+* v0.50 - command line parameters controlling various import options
+* v0.15 - Original import of discogs-sql-importer

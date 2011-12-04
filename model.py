@@ -1,5 +1,6 @@
 class Artist:
    def __init__(self):
+      self.id = 0
       self.name = ''
       self.realname = ''
       self.images = []
@@ -15,7 +16,7 @@ class Artist:
 
 class Release:
    def __init__(self):
-     self.discogs_id = ''
+     self.id = 0
      self.status = ''
      self.title = ''
      self.country = ''
@@ -50,6 +51,7 @@ class ReleaseLabel:
 
 class Label:
   def __init__(self):
+    self.id = 0
     self.name = ''
     self.images = []
     self.contactinfo = ''

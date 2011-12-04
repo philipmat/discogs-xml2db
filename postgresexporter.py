@@ -58,8 +58,9 @@ class PostgresExporter(object):
 
 	def storeLabel(self, label):
 		values = []
+		values.append(label.id)
 		values.append(label.name)
-		columns = "name"
+		columns = "id,name"
 
 		if len(label.contactinfo) != 0:
 			values.append(label.contactinfo)
@@ -102,13 +103,14 @@ class PostgresExporter(object):
 					imgQuery = "INSERT INTO image(" + imgCols + ") VALUES(%s,%s,%s,%s,%s);"
 					self.execute(imgQuery, imgValues)
 					self.imgUris[img.uri] = True
-				self.execute("INSERT INTO labels_images(image_uri, label_name) VALUES(%s,%s);", (img.uri, label.name))
+				self.execute("INSERT INTO labels_images(image_uri, label_id) VALUES(%s,%s);", (img.uri, label.id))
 
 
 	def storeArtist(self, artist):
 		values = []
+		value.append(artist.id)
 		values.append(artist.name)
-		columns = "name"
+		columns = "id,name"
 
 		if len(artist.realname) != 0:
 			values.append(artist.realname)
@@ -158,16 +160,16 @@ class PostgresExporter(object):
 					imgQuery = "INSERT INTO image(" + imgCols + ") VALUES(%s,%s,%s,%s,%s);"
 					self.execute(imgQuery, imgValues)
 					self.imgUris[img.uri] = True
-				self.execute("INSERT INTO artists_images(image_uri, artist_name) VALUES(%s,%s);", (img.uri, artist.name))
+				self.execute("INSERT INTO artists_images(image_uri, artist_id) VALUES(%s,%s);", (img.uri, artist.id))
 
 
 	def storeRelease(self, release):
 
 		values = []
-		values.append(release.discogs_id)
+		values.append(release.id)
 		values.append(release.title)
 		values.append(release.status)
-		columns = "discogs_id, title, status"
+		columns = "id, title, status"
 
 		if len(release.country) != 0:
 			values.append(release.country)
@@ -214,8 +216,8 @@ class PostgresExporter(object):
 						imgQuery = "INSERT INTO image(" + imgCols + ") VALUES(%s,%s,%s,%s,%s);"
 						self.execute(imgQuery, imgValues)
 					self.imgUris[img.uri] = True
-				self.execute("INSERT INTO releases_images(image_uri, discogs_id) VALUES(%s,%s);",
-						(img.uri, release.discogs_id))
+				self.execute("INSERT INTO releases_images(image_uri, release_id) VALUES(%s,%s);",
+						(img.uri, release.id))
 		for fmt in release.formats:
 			if len(release.formats) != 0:
 				if not fmt.name in self.formatNames:
@@ -224,44 +226,44 @@ class PostgresExporter(object):
 						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
 					except PostgresExporter.ExecuteError, e:
 						print "%s" % (e.args)
-				query = "INSERT INTO releases_formats(discogs_id, format_name, qty, descriptions) VALUES(%s,%s,%s,%s);"
-				self.execute(query, (release.discogs_id, fmt.name, fmt.qty, fmt.descriptions))
-		labelQuery = "INSERT INTO releases_labels(discogs_id, label, catno) VALUES(%s,%s,%s);"
+				query = "INSERT INTO releases_formats(release_id, format_name, qty, descriptions) VALUES(%s,%s,%s,%s);"
+				self.execute(query, (release.id, fmt.name, fmt.qty, fmt.descriptions))
+		labelQuery = "INSERT INTO releases_labels(release_id, label, catno) VALUES(%s,%s,%s);"
 		for lbl in release.labels:
-			self.execute(labelQuery, (release.discogs_id, lbl.name, lbl.catno))
+			self.execute(labelQuery, (release.id, lbl.name, lbl.catno))
 
 		if len(release.artists) > 1:
 			for artist in release.artists:
-				query = "INSERT INTO releases_artists(discogs_id, artist_name) VALUES(%s,%s);"
-				self.execute(query, (release.discogs_id, artist))
+				query = "INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (release.id, artist))
 			for aj in release.artistJoins:
 				query = """INSERT INTO releases_artists_joins
-												(discogs_id, join_relation, artist1, artist2)
+												(release_id, join_relation, artist1, artist2)
 												VALUES(%s,%s,%s,%s);"""
 				artistIdx = release.artists.index(aj.artist1) + 1
 				#The last join relation is not between artists but instead
 				#something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
 				if artistIdx >= len(release.artists):
-					values = (release.discogs_id, aj.join_relation, '', '')  # join relation is between all artists and the album
+					values = (release.id, aj.join_relation, '', '')  # join relation is between all artists and the album
 				else:
-					values = (release.discogs_id, aj.join_relation, aj.artist1, release.artists[artistIdx])
+					values = (release.id, aj.join_relation, aj.artist1, release.artists[artistIdx])
 				self.execute(query, values)
 		else:
 			if len(release.artists) == 0:  # use anv if no artist name
-				self.execute("INSERT INTO releases_artists(discogs_id, artist_name) VALUES(%s,%s);",
-						(release.discogs_id, release.anv))
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.anv))
 			else:
-				self.execute("INSERT INTO releases_artists(discogs_id, artist_name) VALUES(%s,%s);",
-						(release.discogs_id, release.artists[0]))
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.artists[0]))
 
 		for extr in release.extraartists:
-			self.execute("INSERT INTO releases_extraartists(discogs_id, artist_name, roles) VALUES(%s,%s,%s);",
-						(release.discogs_id, extr.name, extr.roles))
+			self.execute("INSERT INTO releases_extraartists(release_id, artist_name, roles) VALUES(%s,%s,%s);",
+						(release.id, extr.name, extr.roles))
 
 		for trk in release.tracklist:
 			trackid = str(uuid.uuid4())
-			self.execute("INSERT INTO track(discogs_id, title, duration, position, track_id) VALUES(%s,%s,%s,%s,%s);",
-					(release.discogs_id, trk.title, trk.duration, trk.position, trackid))
+			self.execute("INSERT INTO track(release_id, title, duration, position, track_id) VALUES(%s,%s,%s,%s,%s);",
+					(release.id, trk.title, trk.duration, trk.position, trackid))
 			for artist in trk.artists:
 				query = "INSERT INTO tracks_artists(track_id, artist_name) VALUES(%s,%s);"
 				self.execute(query, (trackid, artist))

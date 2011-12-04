@@ -32,14 +32,11 @@ class CouchDbExporter(object):
 		pass
 
 	def storeLabel(self, label):
-		label.id = label.name
 		self.execute(label)
 	
 	def storeArtist(self, artist):
-		artist.id = artist.name
 		self.execute(artist)
 	
 	def storeRelease(self, release):
-		release.id = release.discogs_id
 		self.execute(release)
 

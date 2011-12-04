@@ -19,6 +19,7 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE artist (
+	id integer NOT NULL,
     name text NOT NULL,
     realname text,
     urls text[],
@@ -37,7 +38,7 @@ CREATE TABLE artist (
 
 CREATE TABLE artists_images (
     image_uri text,
-    artist_name text
+    artist_id integer
 );
 
 
@@ -89,6 +90,7 @@ CREATE TABLE image (
 --
 
 CREATE TABLE label (
+    id integer NOT NULL,
     name text NOT NULL,
     contactinfo text,
     profile text,
@@ -104,7 +106,7 @@ CREATE TABLE label (
 
 CREATE TABLE labels_images (
     image_uri text,
-    label_name text
+    label_id integer
 );
 
 
@@ -113,7 +115,7 @@ CREATE TABLE labels_images (
 --
 
 CREATE TABLE release (
-    discogs_id integer NOT NULL,
+    id integer NOT NULL,
     status text,
     title text,
     country text,
@@ -130,7 +132,7 @@ CREATE TABLE release (
 
 CREATE TABLE releases_artists (
     artist_name text,
-    discogs_id integer
+    release_id integer
 );
 
 
@@ -142,7 +144,7 @@ CREATE TABLE releases_artists_joins (
     artist1 text,
     artist2 text,
     join_relation text,
-    discogs_id integer
+    release_id integer
 );
 
 
@@ -151,7 +153,7 @@ CREATE TABLE releases_artists_joins (
 --
 
 CREATE TABLE releases_extraartists (
-    discogs_id integer,
+    release_id integer,
     artist_name text,
     roles text[]
 );
@@ -162,7 +164,7 @@ CREATE TABLE releases_extraartists (
 --
 
 CREATE TABLE releases_formats (
-    discogs_id integer,
+    release_id integer,
     format_name text,
     qty integer,
     descriptions text[]
@@ -175,7 +177,7 @@ CREATE TABLE releases_formats (
 
 CREATE TABLE releases_images (
     image_uri text,
-    discogs_id integer
+    release_id integer
 );
 
 
@@ -185,7 +187,7 @@ CREATE TABLE releases_images (
 
 CREATE TABLE releases_labels (
     label text,
-    discogs_id integer,
+    release_id integer,
     catno text
 );
 
@@ -204,7 +206,7 @@ CREATE TABLE role (
 --
 
 CREATE TABLE track (
-    discogs_id integer,
+    release_id integer,
     title text,
     duration text,
     "position" text,
@@ -261,7 +263,7 @@ CREATE TABLE tracks_extraartists_roles (
 --
 
 ALTER TABLE ONLY artist
-    ADD CONSTRAINT artist_pkey PRIMARY KEY (name);
+    ADD CONSTRAINT artist_pkey PRIMARY KEY (id);
 
 
 --
@@ -293,7 +295,7 @@ ALTER TABLE ONLY image
 --
 
 ALTER TABLE ONLY label
-    ADD CONSTRAINT label_pkey PRIMARY KEY (name);
+    ADD CONSTRAINT label_pkey PRIMARY KEY (id);
 
 
 --
@@ -301,7 +303,7 @@ ALTER TABLE ONLY label
 --
 
 ALTER TABLE ONLY release
-    ADD CONSTRAINT release_pkey PRIMARY KEY (discogs_id);
+    ADD CONSTRAINT release_pkey PRIMARY KEY (id);
 
 
 --
@@ -325,7 +327,7 @@ ALTER TABLE ONLY artists_images
 --
 
 ALTER TABLE ONLY releases_labels
-    ADD CONSTRAINT foreign_did FOREIGN KEY (discogs_id) REFERENCES release(discogs_id);
+    ADD CONSTRAINT foreign_did FOREIGN KEY (release_id) REFERENCES release(id);
 
 
 --
@@ -345,11 +347,11 @@ ALTER TABLE ONLY labels_images
 
 
 --
--- Name: releases_formats_discogs_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: releases_formats_release_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY releases_formats
-    ADD CONSTRAINT releases_formats_discogs_id_fkey FOREIGN KEY (discogs_id) REFERENCES release(discogs_id);
+    ADD CONSTRAINT releases_formats_release_id_fkey FOREIGN KEY (release_id) REFERENCES release(id);
 
 
 --
@@ -361,11 +363,11 @@ ALTER TABLE ONLY releases_formats
 
 
 --
--- Name: releases_images_discogs_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: releases_images_release_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY releases_images
-    ADD CONSTRAINT releases_images_discogs_id_fkey FOREIGN KEY (discogs_id) REFERENCES release(discogs_id);
+    ADD CONSTRAINT releases_images_release_id_fkey FOREIGN KEY (release_id) REFERENCES release(id);
 
 
 --

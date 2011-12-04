@@ -72,6 +72,8 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 
 	def endElement(self, name):
 		self.buffer = self.buffer.strip()
+		if name == 'id':
+			self.artist.id = int(a)
 		if name == 'name':
 			if len(self.buffer) != 0:
 				if self.inElement['namevariations']:
@@ -101,8 +103,6 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 				else: 
 				self.artist.urls['other'].append(self.buffer)
 				'''
-		elif name == 'id':
-			self.artist.artist_id = self.buffer
 		elif name == "artist":
 
 			self.exporter.storeArtist(self.artist)

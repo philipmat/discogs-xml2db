@@ -78,7 +78,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		self.stack.append(name)
 		if name == 'release':
 			self.release = model.Release()
-			self.release.discogs_id = attrs['id']
+			self.release.id = attrs['id']
 			self.release.status = attrs['status']
 		elif name == 'track':
 			self.release.tracklist.append(model.Track())
@@ -232,7 +232,6 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			#global releases
 			#releases.append(self.release)
 			#print releaseCounter
-			#print self.release.discogs_id
 			#if releaseCounter > 1000:
 			#  self.endDocument()
 			#print self.release.title
@@ -250,7 +249,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			if len(releases) > 50:
 				for release in releases:
 					print "------------------------------------------------"
-					print "id, title, status: " + release.discogs_id + ", " + release.title + ", " + release.status
+					print "id, title, status: " + release.id + ", " + release.title + ", " + release.status
 					print "country: " + release.country
 					print "releasedate: " + release.released
 					print "notes: " + release.notes

@@ -108,7 +108,7 @@ class PostgresExporter(object):
 
 	def storeArtist(self, artist):
 		values = []
-		value.append(artist.id)
+		values.append(artist.id)
 		values.append(artist.name)
 		columns = "id,name"
 

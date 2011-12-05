@@ -307,11 +307,11 @@ ALTER TABLE ONLY release
 
 
 --
--- Name: artists_images_artist_name_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: artists_images_artist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY artists_images
-    ADD CONSTRAINT artists_images_artist_name_fkey FOREIGN KEY (artist_name) REFERENCES artist(name);
+    ADD CONSTRAINT artists_images_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES artist(name);
 
 
 --
@@ -339,11 +339,11 @@ ALTER TABLE ONLY labels_images
 
 
 --
--- Name: labels_images_label_name_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: labels_images_label_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY labels_images
-    ADD CONSTRAINT labels_images_label_name_fkey FOREIGN KEY (label_name) REFERENCES label(name);
+    ADD CONSTRAINT labels_images_label_id_fkey FOREIGN KEY (label_id) REFERENCES label(name);
 
 
 --

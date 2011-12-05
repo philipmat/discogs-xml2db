@@ -266,8 +266,9 @@ class PostgresExporter(object):
 						(release.id, release.artists[0]))
 
 		for extr in release.extraartists:
+			# decide whether to insert flattened composite roles or take the first one from the tuple
 			self.execute("INSERT INTO releases_extraartists(release_id, artist_name, roles) VALUES(%s,%s,%s);",
-					(release.id, extr.name, map(lamda x : x[0] if type(x) is tuple else x, extr.roles)))
+					(release.id, extr.name, map(lambda x : x[0] if type(x) is tuple else x, extr.roles)))
 					#(release.id, extr.name, flatten(extr.roles)))
 
 		for trk in release.tracklist:

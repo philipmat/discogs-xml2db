@@ -18,6 +18,16 @@
 import uuid
 import sys
 
+def untuple(what):
+	if type(what) is tuple:
+		return list(what)
+	else:
+		return [what]
+
+def flatten(what):
+	return list([i for sub in what for i in untuple(sub)])
+
+
 class PostgresExporter(object):
 	class ExecuteError(Exception):
 		def __init__(self, args):
@@ -54,7 +64,6 @@ class PostgresExporter(object):
 		self.conn.commit()
 		if completely_done:
 			self.cur.close()
-
 
 	def storeLabel(self, label):
 		values = []
@@ -258,7 +267,8 @@ class PostgresExporter(object):
 
 		for extr in release.extraartists:
 			self.execute("INSERT INTO releases_extraartists(release_id, artist_name, roles) VALUES(%s,%s,%s);",
-						(release.id, extr.name, extr.roles))
+					(release.id, extr.name, map(lamda x : x[0] if type(x) is tuple else x, extr.roles)))
+					#(release.id, extr.name, flatten(extr.roles)))
 
 		for trk in release.tracklist:
 			trackid = str(uuid.uuid4())
@@ -289,9 +299,11 @@ class PostgresExporter(object):
 							#print extr.name
 							#print role[0]
 							#print role[1]
-							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name, role_details) VALUES(%s,%s,%s,%s);", (trackid, extr.name, role[0], role[1]))
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name, role_details) VALUES(%s,%s,%s,%s);", 
+									(trackid, extr.name, role[0], role[1]))
 						else:
-							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name) VALUES(%s,%s,%s);", (trackid, extr.name, role))
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name) VALUES(%s,%s,%s);", 
+									(trackid, extr.name, role))
 		#'''
 
 class PostgresConsoleDumper(PostgresExporter):

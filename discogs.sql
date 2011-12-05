@@ -311,7 +311,7 @@ ALTER TABLE ONLY release
 --
 
 ALTER TABLE ONLY artists_images
-    ADD CONSTRAINT artists_images_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES artist(name);
+    ADD CONSTRAINT artists_images_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES artist(id);
 
 
 --
@@ -343,7 +343,7 @@ ALTER TABLE ONLY labels_images
 --
 
 ALTER TABLE ONLY labels_images
-    ADD CONSTRAINT labels_images_label_id_fkey FOREIGN KEY (label_id) REFERENCES label(name);
+    ADD CONSTRAINT labels_images_label_id_fkey FOREIGN KEY (label_id) REFERENCES label(id);
 
 
 --

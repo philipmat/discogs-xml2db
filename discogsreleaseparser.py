@@ -78,7 +78,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		self.stack.append(name)
 		if name == 'release':
 			self.release = model.Release()
-			self.release.id = attrs['id']
+			self.release.id = int(attrs['id'])
 			self.release.status = attrs['status']
 		elif name == 'track':
 			self.release.tracklist.append(model.Track())

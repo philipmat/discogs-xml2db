@@ -66,6 +66,8 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 
 	def endElement(self, name):
 		self.buffer = self.buffer.strip()
+		if name == 'id':
+			self.label.id = int(self.buffer)
 		if name == 'name':
 			if len(self.buffer) != 0:
 				self.label.name = self.buffer

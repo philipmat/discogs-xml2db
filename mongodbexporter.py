@@ -1,8 +1,9 @@
-import pymongo
-import urlparse
+from hashlib import md5
 from jsonexporter import jsonizer as _jsonizer
 import json
 import os
+import pymongo
+import urlparse
 
 def jsonizer(obj):
 	return _jsonizer(obj, specify_object_type=False)
@@ -12,7 +13,9 @@ class _MongoImportFile(object):
 	def __init__(self, name, path):
 		self._path = os.path.abspath(os.path.expanduser(path))
 		self._fname = os.path.join(self._path, name + '.json')
+		self._md5_fname = os.path.join(self._path, name + '.md5')
 		self._f = open(self._fname, 'a')
+		self._md5
 
 	def update(self, id_dict, content, **kwargs):
 		line = json.dumps(content)
@@ -20,6 +23,8 @@ class _MongoImportFile(object):
 		if (len(lines) > 1):
 			line = ' '.join(lines)
 		self._f.writelines((line, '\n'))
+		md5sum = md5(line).hexdigest()
+		self._md5.writelines((md5sum, '\n'))
 		#print '>%s: %s' % (self._fname, line)
 
 	def ensure_index(self, name, *args, **kwargs):

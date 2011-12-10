@@ -165,7 +165,7 @@ class MongoDbExporter(object):
 				db_name = u.path
 			if db_name.startswith('/'):
 				db_name = db_name[1:]
-			print 'Connecting to db %s on %s with options.' % (db_name, mongo_uri, options)
+			#print 'Connecting to db %s on %s with options.' % (db_name, mongo_uri, options)
 			mongo = pymongo.Connection(mongo_uri)
 			self.db = mongo[db_name]
 			if 'uniq' in self._options and 'md5' in self._options['uniq']:
@@ -190,7 +190,6 @@ class MongoDbExporter(object):
 		# AttributeError: 'dict' object has no attribute 'read'
 		json_string = json.dumps(what, default=jsonizer)
 		uniq, md5 = self._is_uniq(collection, what.id, json_string)
-		print '%s - %d uniq? %s' % (collection, what.id, uniq)
 		if uniq:
 			doc = json.loads(json_string)
 			self.db[collection].update({'id': what.id}, doc, upsert=True)

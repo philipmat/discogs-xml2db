@@ -6,16 +6,6 @@ This is a python program for importing the discogs data dumps found at http://ww
 MySQL or other databases are not supported at the moment, but you are welcome to submit a patch.
 
 
-# How do I use it?
-Steps to import the datadumps (into PostgreSQL):
-
-1. Download and extract the data dumps (you can use `get_latest_dump.sh` to get the latest dumps).
-2. Create the empty database: `createdb -U {user-name} discogs`
-3. Import the database schema: `psql -U {user-name} -d discogs -f discogs.sql`
-4. The XML data dumps often contain control characters and do not have root tags. To fix this run `fix-xml.py _release_`, where release is the release date of the dump, for example `20100201`.
-5. Finally import the data with `python discogsparser.py -o pgsql -p "dbname=discogs" pgsql _release_`, where release is the release date of the dump, for example `20100201`
-
-
 # Options for `discogsparser.py`
 
 * **Input**: `-d`/`--date` parses all three files (artists, labels, releases) for a given monthly dump:
@@ -41,6 +31,46 @@ Steps to import the datadumps (into PostgreSQL):
     discogsparser.py -n 200 -o couch --params http://127.0.0.1:5984/discogs -d 20111101
     discogsparser.py -o mongo -p mongodb://localhost,remote1/discogs discogs_20111101_artists.xml discogs_20111101_releases.xml
     discogsparser.py -o pgsql -p "host=remote1 dbname=discogs user=postgres password=s3cret" discogs_20111101_artists.xml
+
+
+# How do I use it?
+Start by downloading and extracting the data dumps (you can use `get_latest_dump.sh` to get the latest dumps).
+
+Steps to import the data-dumps into PostgreSQL:
+
+1. Create the empty database: `createdb -U {user-name} discogs`
+2. Import the database schema: `psql -U {user-name} -d discogs -f discogs.sql`
+3. The XML data dumps often contain control characters and do not have root tags. To fix this run `fix-xml.py _release_`, where release is the release date of the dump, for example `20100201`.
+4. Finally import the data with `python discogsparser.py -o pgsql -p "dbname=discogs" pgsql _release_`, where release is the release date of the dump, for example `20100201`
+
+To import data into MongoDB you have two choices: direct import or dumping the records to JSON and then using `mongoimport`. The latter is considerably faster, particularly for the initial import.
+
+To import directly into MongoDB, specify a `mongodb://` scheme, but be aware that the process is not overly quick.  You might find yourself running the initial import for days. 
+
+The JSON dump method is considerably faster, yet in either case you could take advantage of an option to import only the records that have changed from the previous import. 
+The mongo parser will store MD5 hashes of all records it parsed and it can re-use these hashes on subsequent imports, provided you keep the `.md5` files.
+
+To perform a direct import:
+
+    discogsparser.py -i -o mongo -p "mongodb://localhost/discogs?uniq=md5" -d 20111101 
+
+
+The JSON dump route requires that you specify a `file://` scheme and a location where the intermediate files are to be stored 
+(you'll need space - these files are about the same size as the original XMLs):
+
+    discogsparser.py -i -o mongo -p "file:///tmp/discogs/?uniq=md5" -d 20111101 
+    # this results in 2 files creates for each class, e.g. an artists.json file and an artists.md5 file
+    mongoimport -d discogs -c artists --ignoreBlanks artists.json
+    mongoimport -d discogs -c labels --ignoreBlanks labels.json
+    mongoimport -d discogs -c releases --ignoreBlanks releases.json
+    # use the mongo command to connect to the database and create the indexes you need, the ids at a minimum
+    # but you'll probably want l_name as well
+    mongo discogs
+    > db.artists.ensureIndex({id:1}, {background:true,unique:true})
+    > db.artists.ensureIndex({l_name:1}, {background:true})
+    > db.releases.ensureIndex({id:1}, {background:true,unique:true})
+    > db.releases.ensureIndex({l_title:1, l_artist:1}, {background:true, unique:true})
+
 
 
 # Credits

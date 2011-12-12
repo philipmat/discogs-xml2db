@@ -198,10 +198,13 @@ class MongoDbExporter(object):
 	def finish(self, completely_done=False):
 		collections = self.db.collection_names()
 		if 'artists' in collections:
-			#self.db.artists.ensure_index('id', background=True)
-			self.db.artists.ensure_index('l_name', background=True, unique=True)
+			#self.db.artists.('id', background=True)
+			self.db.artists.ensure_index('id', background=True, unique=True)
+			# should be unique=True, but can't seem to offer a true guarantee
+			self.db.artists.ensure_index('l_name', background=True)
 		if 'labels' in collections:
-			self.db.labels.ensure_index('l_name', background=True, unique=True)
+			self.db.labels.ensure_index('id', background=True, unique=True)
+			self.db.labels.ensure_index('l_name', background=True)
 		if 'releases' in collections:
 			self.db.releases.ensure_index('id', background=True, unique=True)
 			self.db.releases.ensure_index([('l_artist', pymongo.ASCENDING),

@@ -58,18 +58,35 @@ To perform a direct import:
 The JSON dump route requires that you specify a `file://` scheme and a location where the intermediate files are to be stored 
 (you'll need space - these files are about the same size as the original XMLs):
 
-    discogsparser.py -i -o mongo -p "file:///tmp/discogs/?uniq=md5" -d 20111101 
+    $ discogsparser.py -i -o mongo -p "file:///tmp/discogs/?uniq=md5" -d 20111101 
     # this results in 2 files creates for each class, e.g. an artists.json file and an artists.md5 file
-    mongoimport -d discogs -c artists --ignoreBlanks artists.json
-    mongoimport -d discogs -c labels --ignoreBlanks labels.json
-    mongoimport -d discogs -c releases --ignoreBlanks releases.json
+
+    $ mongoimport -d discogs -c artists --ignoreBlanks artists.json
+    $ mongoimport -d discogs -c labels --ignoreBlanks labels.json
+    $ mongoimport -d discogs -c releases --ignoreBlanks releases.json
+
     # use the mongo command to connect to the database and create the indexes you need, the ids at a minimum
     # but you'll probably want l_name as well
-    mongo discogs
+    $ mongo discogs
     > db.artists.ensureIndex({id:1}, {background:true,unique:true})
     > db.artists.ensureIndex({l_name:1}, {background:true})
     > db.releases.ensureIndex({id:1}, {background:true,unique:true})
     > db.releases.ensureIndex({l_title:1, l_artist:1}, {background:true, unique:true})
+
+    # now import the next month using --upsert:
+    $ mongoimport -d discogs -c artists --ignoreBlanks --upsert --upsertFields 'id' artists.json
+    
+
+To give you an idea of sizes, the November 10th, 2011 file sizes are: 
+artists (2,149,473 records) - XML: 417MB, JSON: 554M; 
+labels (275,065) - XML: 56MB, JSON: 70M; 
+releases (2,779,084) - XML: 7.5GB, JSON: 6.1GB. 
+
+The December 1st XMLs are a bit bigger, e.g. 422MB for artists. 
+However, if you imported the November XMLs with `?uniq=md5`, the December JSON files are: 
+artists - 18MB (48,852 records changed from November), 
+labels - 3.2MB (11,997 records),
+releases - 256MB (98,287).
 
 
 

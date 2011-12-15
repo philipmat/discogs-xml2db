@@ -218,6 +218,8 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			self.release.tracklist[-1].duration = self.buffer
 		elif name == 'position':
 			self.release.tracklist[-1].position = self.buffer
+		elif name == 'master_id':
+			self.release.master_id = int(self.buffer)
 		elif name == 'release':
 			# end of tag
 			if len(self.release.artists) == 1:

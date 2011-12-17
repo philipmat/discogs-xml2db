@@ -98,6 +98,9 @@ Original project: [discogs-sql-importer](http://code.google.com/p/discogs-sql-im
 
 # Some sort of changelog
 
+* v0.80 - now importing masters
+* v0.70 - Ids as primary identifiers for artists, labels, and releases (not FKs though).
+  MongoDB can now do diff imports when using the `?uniq=md5` option.
 * v0.60 - support for CouchDB and MongoDB
 * v0.50 - command line parameters controlling various import options
 * v0.15 - Original import of discogs-sql-importer

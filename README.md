@@ -8,8 +8,8 @@ MySQL or other databases are not supported at the moment, but you are welcome to
 
 # Options for `discogsparser.py`
 
-* **Input**: `-d`/`--date` parses all three files (artists, labels, releases) for a given monthly dump:
-    * `discogsparser.py -d 20111101` will look for `discogs_20111101_artists.xml`, `discogs_20111101_labels.xml`, and `discogs_20111101_releases.xml` in the current directory;
+* **Input**: `-d`/`--date` parses all three files (artists, labels, masters, releases) for a given monthly dump:
+    * `discogsparser.py -d 20111101` will look for `discogs_20111101_artists.xml`, `discogs_20111101_labels.xml`, `discogs_20111101_masters.xml`, and `discogs_20111101_releases.xml` in the current directory;
 * **Input**: parse only specific file(s):
     * `discogsparser.py /tmp/discogs_20111101_artists.xml /tmp/discogs_20111101_releases.xml` - will only parse the artist and release dumps from the `/tmp` directory;
 * **Input**: `-i`/`--ignore-unknown-tags`: ignores new fields that may appear in the XML as the dump format evolves  
@@ -23,7 +23,7 @@ MySQL or other databases are not supported at the moment, but you are welcome to
     * `-o pgsql -p "connection string"`: exports into a PostgreSQL database. See [The psycopg2 module content](http://initd.org/psycopg/docs/module.html) for connection string documentation.
     * `-o couch -p "couch URI"`: exports to a CouchDB server running on localhost on port 5984 into a database named `discogs`;
     * `-o mongo -p "mongodb://localhost/discogs"`: connects, with `user` and `pass`, to a MongoDB server running on localhost, and into a database named `discogs`. See [Standard Connection String Format](http://www.mongodb.org/display/DOCS/Connections) in the MongoDB docs.
-    * `-o mongo -p "file:///path/to/dir/"`: outputs each of the Artists, Labels, Releases into a separate JSON file into the specified directory, `/path/to/dir/` in this case, one line for each. Pass `--ignoreblanks` to `mongoimport` in case extra new-lines are added; you probably also want `--upsert --upseftFields id`.
+    * `-o mongo -p "file:///path/to/dir/"`: outputs each of the Artists, Labels, Masters, Releases into a separate JSON file into the specified directory, `/path/to/dir/` in this case, one line for each. Pass `--ignoreblanks` to `mongoimport` in case extra new-lines are added; you probably also want `--upsert --upseftFields id`.
 
 
 # Examples:
@@ -63,6 +63,7 @@ The JSON dump route requires that you specify a `file://` scheme and a location 
 
     $ mongoimport -d discogs -c artists --ignoreBlanks artists.json
     $ mongoimport -d discogs -c labels --ignoreBlanks labels.json
+    $ mongoimport -d discogs -c masters --ignoreBlanks masters.json
     $ mongoimport -d discogs -c releases --ignoreBlanks releases.json
 
     # use the mongo command to connect to the database and create the indexes you need, the ids at a minimum
@@ -72,6 +73,7 @@ The JSON dump route requires that you specify a `file://` scheme and a location 
     > db.artists.ensureIndex({l_name:1}, {background:true})
     > db.releases.ensureIndex({id:1}, {background:true,unique:true})
     > db.releases.ensureIndex({l_title:1, l_artist:1}, {background:true, unique:true})
+    # etc
 
     # now import the next month using --upsert:
     $ mongoimport -d discogs -c artists --ignoreBlanks --upsert --upsertFields 'id' artists.json

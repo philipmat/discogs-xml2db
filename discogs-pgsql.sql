@@ -19,7 +19,7 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE artist (
-	id integer NOT NULL,
+    id integer NOT NULL,
     name text NOT NULL,
     realname text,
     urls text[],
@@ -122,7 +122,8 @@ CREATE TABLE release (
     released text,
     notes text,
     genres text,
-    styles text
+    styles text,
+    master_id int
 );
 
 
@@ -259,6 +260,76 @@ CREATE TABLE tracks_extraartists_roles (
 
 
 --
+-- Name: master; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE master (
+    id integer NOT NULL,
+    title text,
+    main_release integer NOT NULL,
+    year int,
+    notes text,
+    genres text,
+    styles text
+);
+
+
+--
+-- Name: masters_artists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE masters_artists (
+    artist_name text,
+    master_id integer
+);
+
+
+--
+-- Name: masters_artists_joins; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE masters_artists_joins (
+    artist1 text,
+    artist2 text,
+    join_relation text,
+    master_id integer
+);
+
+
+--
+-- Name: masters_extraartists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE masters_extraartists (
+    master_id integer,
+    artist_name text,
+    roles text[]
+);
+
+
+--
+-- Name: masters_formats; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE masters_formats (
+    master_id integer,
+    format_name text,
+    qty integer,
+    descriptions text[]
+);
+
+
+--
+-- Name: masters_images; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE masters_images (
+    image_uri text,
+    master_id integer
+);
+
+
+--
 -- Name: artist_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -376,6 +447,29 @@ ALTER TABLE ONLY releases_images
 
 ALTER TABLE ONLY releases_images
     ADD CONSTRAINT releases_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);
+
+
+--
+-- Name: master_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY master
+    ADD CONSTRAINT master_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: masters_images_master_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY masters_images
+    ADD CONSTRAINT masters_images_master_id_fkey FOREIGN KEY (master_id) REFERENCES master(id);
+
+--
+-- Name: masters_images_image_uri_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY masters_images
+    ADD CONSTRAINT masters_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);
 
 
 --

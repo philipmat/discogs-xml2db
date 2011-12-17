@@ -31,12 +31,9 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 	buffer = ''
 	unknown_tags = []
 
-	def __init__(self, exporter, stop_after=0, ignore_missing_tags = False):
+	def __init__(self, exporter, stop_after=0, ignore_missing_tags=False):
 		self.artist = model.Artist()
 		self.exporter = exporter
-		#self.inElement = 
-		#self.element = {}
-		#global options
 		self.stop_after = stop_after
 		self.ignore_missing_tags = ignore_missing_tags
 
@@ -100,38 +97,22 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 				self.artist.urls['wikipedia'] = self.buffer
 				elif self.buffer.find('myspace') != -1:
 				self.artist.urls['myspace'] = self.buffer
-				else: 
+				else:
 				self.artist.urls['other'].append(self.buffer)
 				'''
 		elif name == "artist":
 
-			self.exporter.storeArtist(self.artist)
-			global artistCounter
-			artistCounter += 1
-			if self.stop_after > 0 and artistCounter >= self.stop_after:
-				self.endDocument()
-				if self.ignore_missing_tags and len(self.unknown_tags) > 0:
-					print 'Encountered some unknown Artist tags: %s' % (self.unknown_tags)
-				raise model.ParserStopError(artistCounter)
+			if self.artist.name:
+				self.exporter.storeArtist(self.artist)
+				global artistCounter
+				artistCounter += 1
+				if self.stop_after > 0 and artistCounter >= self.stop_after:
+					self.endDocument()
+					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
+						print 'Encountered some unknown Artist tags: %s' % (self.unknown_tags)
+					raise model.ParserStopError(artistCounter)
+			else:
+				sys.stderr.writelines("Ignoring Artist %s with no name. Dictionary: %s\n" % (self.artist.id, self.artist.__dict__))
 
 		self.buffer = ''
 		self.inElement[name] = False
-
-		'''
-		if len(artists) > 100:
-				for artist in artists:
-						#print "aRIST+" + artists[artist]
-				print "name: " + artists[artist].name
-				print "realname: " + artists[artist].realname
-				print "namevariations: " + str(artists[artist].namevariations)
-				print "aliases: " + str(artists[artist].aliases)
-						print "profile: " + artists[artist].profile
-						rint "urls: " + str(artists[artist].urls)
-						print "members: " + str(artists[artist].members)
-						print "groups: " + str(artists[artist].groups)
-						if len(artists[artist].members) == 0:
-							print "Not a group"
-				for img in artists[artist].images:
-					print "type: " + img.imageType + "size: " + str(img.height) + "x" + str(img.width) + " uri: " + img.uri + " uri150: " + img.uri150
-				os._exit(0)
-			#'''

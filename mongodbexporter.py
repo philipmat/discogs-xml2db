@@ -57,8 +57,9 @@ class _MongoImportFileSet(object):
 		self._artists = None
 		self._labels = None
 		self._releases = None
-		self.collection_names = lambda: ('artists', 'labels', 'releases')
-		self.connection = _MongoImportFileSetConnectionMock(*(self._artists, self._labels, self._releases))
+		self._masters = None
+		self.collection_names = lambda: ('artists', 'labels', 'releases', 'masters')
+		self.connection = _MongoImportFileSetConnectionMock(*(self._artists, self._labels, self._releases, self._masters))
 
 	def __getitem__(self, key):
 		if key in self.collection_names():
@@ -211,6 +212,10 @@ class MongoDbExporter(object):
 				('l_title', pymongo.ASCENDING)],
 				background=True)
 			self.db.releases.ensure_index('format.name', background=True)
+		if 'masters' in collections:
+			self.db.masters.ensure_index('id', background=True, unique=True)
+			self.db.masters.ensure_index('l_title', background=True)
+			self.db.masters.ensure_index('main_release', background=True, unique=True)
 		self.db.connection.disconnect()
 		if self._quick_uniq is not None:
 			self._quick_uniq.finish()
@@ -227,3 +232,8 @@ class MongoDbExporter(object):
 		release.l_artist = release.artist.lower()
 		release.l_title = release.title.lower()
 		self.execute('releases', release)
+
+	def storeMaster(self, master):
+		master.l_artist = master.artist.lower()
+		master.l_title = master.title.lower()
+		self.execute('masters', master)

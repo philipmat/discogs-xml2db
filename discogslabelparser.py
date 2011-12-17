@@ -98,25 +98,6 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 						print 'Encountered some unknown Label tags: %s' % (self.unknown_tags)
 					raise model.ParserStopError(labelCounter)
 
-				#global labels
-				#global labelCounter
-				#labelCounter += 1
-				#print labelCounter
-				#labels[self.label.name] = self.label
-
-				'''
-				if len(labels) > 100:
-					for label in labels:
-						print "name: " + labels[label].name
-						print "contactinfo: " + labels[label].contactinfo
-						print "profile: " + labels[label].profile
-						print "urls: " + str(labels[label].urls)
-						print "parentLabel: " + str(labels[label].parentLabel)
-						print "subLabels: " + str(labels[label].sublabels)
-						#for img in labels[label].images:
-						#	print "type: " + img.imageType + "size: " + str(img.height) + "x" + str(img.width) + " uri: " + img.uri + " uri150: " + img.uri150
-					os._exit(0)
-				#'''
 		self.inElement[name] = False
 		self.buffer = ''
 

@@ -40,3 +40,5 @@ class CouchDbExporter(object):
 	def storeRelease(self, release):
 		self.execute(release)
 
+	def storeMaster(self, master):
+		self.execute(master)

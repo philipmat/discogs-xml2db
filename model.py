@@ -34,6 +34,24 @@ class Release:
      self.tracklist = [] #join
      self.extraartists = []
 
+class Master:
+   def __init__(self):
+     self.id = 0
+     #self.status = ''
+     self.title = ''
+     self.main_release = 0
+     self.year = 0
+     self.notes = ''
+     self.genres = []
+     self.styles = []
+     self.images = []
+     self.anv = '' #used only if artist name is missing
+     self.artist = ''
+     self.artists = [] #join
+     self.artistJoins = [] #release_artist_artist
+     self.extraartists = []
+
+
 class ArtistJoin:
   def __init__(self):
     self.artist1 = ''
@@ -74,7 +92,7 @@ class Style:
 class Genre:
   def __init__(self, name):
     self.name = name
-   
+
 class Track:
   def __init__(self):
     self.artists = []

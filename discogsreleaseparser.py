@@ -222,63 +222,28 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			self.release.master_id = int(self.buffer)
 		elif name == 'release':
 			# end of tag
-			if len(self.release.artists) == 1:
-				self.release.artist = self.release.artists[0] 
+			len_a = len(self.master.artists)
+			if len_a == 0:
+				sys.stderr.writelines("Ignoring Release %s with no artist. Dictionary: %s\n" % (self.artist.id, self.artist.__dict__))
 			else:
-				for j in self.release.artistJoins:
-					self.release.artist += '%s %s ' % (j.artist1, j.join_relation)
-				self.release.artist += self.release.artists[-1]
+				if len(self.release.artists) == 1:
+					self.release.artist = self.release.artists[0]
+				else:
+					for j in self.release.artistJoins:
+						self.release.artist += '%s %s ' % (j.artist1, j.join_relation)
+					self.release.artist += self.release.artists[-1]
 
-			global releaseCounter
-			releaseCounter += 1
-			#global releases
-			#releases.append(self.release)
-			#print releaseCounter
-			#if releaseCounter > 1000:
-			#  self.endDocument()
-			#print self.release.title
-			#'''PREPARE FOR DATABASE
-			self.exporter.storeRelease(self.release)
+				global releaseCounter
+				releaseCounter += 1
+				self.exporter.storeRelease(self.release)
 
-			releaseCounter += 1
-			if self.stop_after > 0 and releaseCounter >= self.stop_after:
-				self.endDocument()
-				if self.ignore_missing_tags and len(self.unknown_tags) > 0:
-					print 'Encountered some unknown Release tags: %s' % (self.unknown_tags)
-				raise model.ParserStopError(releaseCounter)
+				releaseCounter += 1
+				if self.stop_after > 0 and releaseCounter >= self.stop_after:
+					self.endDocument()
+					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
+						print 'Encountered some unknown Release tags: %s' % (self.unknown_tags)
+					raise model.ParserStopError(releaseCounter)
 
-			'''PRINT DATA
-			if len(releases) > 50:
-				for release in releases:
-					print "------------------------------------------------"
-					print "id, title, status: " + release.id + ", " + release.title + ", " + release.status
-					print "country: " + release.country
-					print "releasedate: " + release.released
-					print "notes: " + release.notes
-					print "genres: " + str(release.genres)
-					print "styles: " + str(release.styles)
-					sys.stdout.write("formats: ")
-					for fmt in release.formats:
-						print fmt.name + " " + fmt.qty + " " + str(fmt.descriptions)
-					for img in release.images:
-						print "type: " + img.imageType + "size: " + str(img.height) + "x" + str(img.width) + " uri: " + img.uri + " uri150: " + img.uri150
-					sys.stdout.write("labels: ")
-					for lbl in release.labels:
-						print lbl.name + " " + lbl.catno
-					print "artists: " + str(release.artists)
-					print "artistJoins: " + str(release.artistJoins) for extr
-					in release.extraartists:
-						print "extraartist: " + extr.name + " " + str(extr.roles)
-					print "tracklist:"
-					for trk in release.tracklist:
-						print "track: " + trk.title + " " + trk.duration + " " +trk.position
-						print "artists: " + str(trk.artists)
-						print "artistJoins: " + str(trk.artistJoins)
-						sys.stdout.write("extraartists:")
-						for extr in trk.extraartists:
-							print "extraartist: " + extr.name + " " + str(extr.roles)
-			sys.exit()
-			#'''
 		if self.stack[-1] == name:
 			self.stack.pop()
 		self.buffer = ''
@@ -292,13 +257,3 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		#print [(role, roles[role]) for role in roles]
 		#print len(roles)
 		self.exporter.finish()
-
-
-#genres = {}
-#styles = {}
-#countries = {}
-#formats = {}
-#descriptions = {}
-#releases = []
-#joins = {}
-#roles = {}

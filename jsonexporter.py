@@ -35,3 +35,6 @@ class JsonConsoleExporter:
 		j = self._store(release)
 		print j
 
+	def storeMaster(self, master):
+		j = self._store(master)
+		print j

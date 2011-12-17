@@ -18,11 +18,13 @@
 import uuid
 import sys
 
+
 def untuple(what):
 	if type(what) is tuple:
 		return list(what)
 	else:
 		return [what]
+
 
 def flatten(what):
 	return list([i for sub in what for i in untuple(sub)])
@@ -33,12 +35,11 @@ class PostgresExporter(object):
 		def __init__(self, args):
 			self.args = args
 
-
 	def __init__(self, connection_string):
 		self.formatNames = {}
 		self.imgUris = {}
 		self.connect(connection_string)
-	
+
 	def connect(self, connection_string):
 		import psycopg2
 		try:
@@ -60,7 +61,7 @@ class PostgresExporter(object):
 				print "Error executing: %s" % query
 			raise PostgresExporter.ExecuteError(e.args)
 
-	def finish(self, completely_done = False):
+	def finish(self, completely_done=False):
 		self.conn.commit()
 		if completely_done:
 			self.cur.close()
@@ -113,7 +114,6 @@ class PostgresExporter(object):
 					self.execute(imgQuery, imgValues)
 					self.imgUris[img.uri] = True
 				self.execute("INSERT INTO labels_images(image_uri, label_id) VALUES(%s,%s);", (img.uri, label.id))
-
 
 	def storeArtist(self, artist):
 		values = []
@@ -171,9 +171,7 @@ class PostgresExporter(object):
 					self.imgUris[img.uri] = True
 				self.execute("INSERT INTO artists_images(image_uri, artist_id) VALUES(%s,%s);", (img.uri, artist.id))
 
-
 	def storeRelease(self, release):
-
 		values = []
 		values.append(release.id)
 		values.append(release.title)
@@ -196,8 +194,7 @@ class PostgresExporter(object):
 			values.append(release.styles)
 			columns += ",styles"
 
-
-		#'''INSERT INTO DATABASE
+		# INSERT INTO DATABASE
 		escapeStrings = ''
 		for counter in xrange(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
@@ -220,7 +217,7 @@ class PostgresExporter(object):
 			imgValues.append(img.uri150)
 			if len(imgValues) != 0:
 				if not img.uri in self.imgUris:
-					self.execute("SELECT uri FROM image WHERE uri=%s;",  (img.uri, ))
+					self.execute("SELECT uri FROM image WHERE uri=%s;", (img.uri, ))
 					if self.cur is None or len(self.cur.fetchall()) == 0:
 						imgQuery = "INSERT INTO image(" + imgCols + ") VALUES(%s,%s,%s,%s,%s);"
 						self.execute(imgQuery, imgValues)
@@ -268,7 +265,7 @@ class PostgresExporter(object):
 		for extr in release.extraartists:
 			# decide whether to insert flattened composite roles or take the first one from the tuple
 			self.execute("INSERT INTO releases_extraartists(release_id, artist_name, roles) VALUES(%s,%s,%s);",
-					(release.id, extr.name, map(lambda x : x[0] if type(x) is tuple else x, extr.roles)))
+					(release.id, extr.name, map(lambda x: x[0] if type(x) is tuple else x, extr.roles)))
 					#(release.id, extr.name, flatten(extr.roles)))
 
 		for trk in release.tracklist:
@@ -300,18 +297,632 @@ class PostgresExporter(object):
 							#print extr.name
 							#print role[0]
 							#print role[1]
-							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name, role_details) VALUES(%s,%s,%s,%s);", 
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name, role_details) VALUES(%s,%s,%s,%s);",
 									(trackid, extr.name, role[0], role[1]))
 						else:
-							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name) VALUES(%s,%s,%s);", 
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name) VALUES(%s,%s,%s);",
 									(trackid, extr.name, role))
-		#'''
+
+	def storeRelease(self, release):
+
+		values = []
+		values.append(release.id)
+		values.append(release.title)
+		values.append(release.status)
+		columns = "id, title, status"
+
+		if len(release.country) != 0:
+			values.append(release.country)
+			columns += ",country"
+		if len(release.released) != 0:
+			values.append(release.released)
+			columns += ",released"
+		if len(release.notes) != 0:
+			values.append(release.notes)
+			columns += ",notes"
+		if len(release.genres) != 0:
+			values.append(release.genres)
+			columns += ",genres"
+		if len(release.styles) != 0:
+			values.append(release.styles)
+			columns += ",styles"
+
+		#INSERT INTO DATABASE
+		escapeStrings = ''
+		for counter in xrange(1, len(columns.split(","))):
+			escapeStrings = escapeStrings + ",%s"
+		escapeStrings = '(%s' + escapeStrings + ')'
+		#print values
+		query = "INSERT INTO release(" + columns + ") VALUES" + escapeStrings + ";"
+		#print query
+		try:
+			self.execute(query, values)
+		except PostgresExporter.ExecuteError, e:
+			print "%s" % (e.args)
+			return
+		imgCols = "uri,height,width,type,uri150"
+		for img in release.images:
+			imgValues = []
+			imgValues.append(img.uri)
+			imgValues.append(img.height)
+			imgValues.append(img.width)
+			imgValues.append(img.imageType)
+			imgValues.append(img.uri150)
+			if len(imgValues) != 0:
+				if not img.uri in self.imgUris:
+					self.execute("SELECT uri FROM image WHERE uri=%s;", (img.uri, ))
+					if self.cur is None or len(self.cur.fetchall()) == 0:
+						imgQuery = "INSERT INTO image(" + imgCols + ") VALUES(%s,%s,%s,%s,%s);"
+						self.execute(imgQuery, imgValues)
+					self.imgUris[img.uri] = True
+				self.execute("INSERT INTO releases_images(image_uri, release_id) VALUES(%s,%s);",
+						(img.uri, release.id))
+		for fmt in release.formats:
+			if len(release.formats) != 0:
+				if not fmt.name in self.formatNames:
+					self.formatNames[fmt.name] = True
+					try:
+						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
+					except PostgresExporter.ExecuteError, e:
+						print "%s" % (e.args)
+				query = "INSERT INTO releases_formats(release_id, format_name, qty, descriptions) VALUES(%s,%s,%s,%s);"
+				self.execute(query, (release.id, fmt.name, fmt.qty, fmt.descriptions))
+		labelQuery = "INSERT INTO releases_labels(release_id, label, catno) VALUES(%s,%s,%s);"
+		for lbl in release.labels:
+			self.execute(labelQuery, (release.id, lbl.name, lbl.catno))
+
+		if len(release.artists) > 1:
+			for artist in release.artists:
+				query = "INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (release.id, artist))
+			for aj in release.artistJoins:
+				query = """INSERT INTO releases_artists_joins
+												(release_id, join_relation, artist1, artist2)
+												VALUES(%s,%s,%s,%s);"""
+				artistIdx = release.artists.index(aj.artist1) + 1
+				#The last join relation is not between artists but instead
+				#something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
+				if artistIdx >= len(release.artists):
+					values = (release.id, aj.join_relation, '', '')  # join relation is between all artists and the album
+				else:
+					values = (release.id, aj.join_relation, aj.artist1, release.artists[artistIdx])
+				self.execute(query, values)
+		else:
+			if len(release.artists) == 0:  # use anv if no artist name
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.anv))
+			else:
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.artists[0]))
+
+		for extr in release.extraartists:
+			# decide whether to insert flattened composite roles or take the first one from the tuple
+			self.execute("INSERT INTO releases_extraartists(release_id, artist_name, roles) VALUES(%s,%s,%s);",
+					(release.id, extr.name, map(lambda x: x[0] if type(x) is tuple else x, extr.roles)))
+					#(release.id, extr.name, flatten(extr.roles)))
+
+		for trk in release.tracklist:
+			trackid = str(uuid.uuid4())
+			self.execute("INSERT INTO track(release_id, title, duration, position, track_id) VALUES(%s,%s,%s,%s,%s);",
+					(release.id, trk.title, trk.duration, trk.position, trackid))
+			for artist in trk.artists:
+				query = "INSERT INTO tracks_artists(track_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (trackid, artist))
+			for aj in trk.artistJoins:
+				query = """INSERT INTO tracks_artists_joins
+											(track_id, join_relation, artist1, artist2)
+											VALUES(%s,%s,%s,%s);"""
+				artistIdx = trk.artists.index(aj.artist1) + 1
+				if artistIdx >= len(trk.artists):
+					values = (trackid, aj.join_relation, '', '')  # join relation is between all artists and the track
+				else:
+					values = (trackid, aj.join_relation, aj.artist1, trk.artists[artistIdx])
+				self.execute(query, values)
+
+				#Insert Extraartists for track
+				for extr in trk.extraartists:
+					#print extr.name
+					#print extr.roles
+					self.execute("INSERT INTO tracks_extraartists(track_id, artist_name) VALUES(%s,%s);", (trackid, extr.name))
+					for role in extr.roles:
+						if type(role).__name__ == 'tuple':
+							#print trackid
+							#print extr.name
+							#print role[0]
+							#print role[1]
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name, role_details) VALUES(%s,%s,%s,%s);",
+									(trackid, extr.name, role[0], role[1]))
+						else:
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name) VALUES(%s,%s,%s);",
+									(trackid, extr.name, role))
+
+	def storeRelease(self, release):
+
+		values = []
+		values.append(release.id)
+		values.append(release.title)
+		values.append(release.status)
+		columns = "id, title, status"
+
+		if len(release.country) != 0:
+			values.append(release.country)
+			columns += ",country"
+		if len(release.released) != 0:
+			values.append(release.released)
+			columns += ",released"
+		if len(release.notes) != 0:
+			values.append(release.notes)
+			columns += ",notes"
+		if len(release.genres) != 0:
+			values.append(release.genres)
+			columns += ",genres"
+		if len(release.styles) != 0:
+			values.append(release.styles)
+			columns += ",styles"
+
+		#INSERT INTO DATABASE
+		escapeStrings = ''
+		for counter in xrange(1, len(columns.split(","))):
+			escapeStrings = escapeStrings + ",%s"
+		escapeStrings = '(%s' + escapeStrings + ')'
+		#print values
+		query = "INSERT INTO release(" + columns + ") VALUES" + escapeStrings + ";"
+		#print query
+		try:
+			self.execute(query, values)
+		except PostgresExporter.ExecuteError, e:
+			print "%s" % (e.args)
+			return
+		imgCols = "uri,height,width,type,uri150"
+		for img in release.images:
+			imgValues = []
+			imgValues.append(img.uri)
+			imgValues.append(img.height)
+			imgValues.append(img.width)
+			imgValues.append(img.imageType)
+			imgValues.append(img.uri150)
+			if len(imgValues) != 0:
+				if not img.uri in self.imgUris:
+					self.execute("SELECT uri FROM image WHERE uri=%s;", (img.uri, ))
+					if self.cur is None or len(self.cur.fetchall()) == 0:
+						imgQuery = "INSERT INTO image(" + imgCols + ") VALUES(%s,%s,%s,%s,%s);"
+						self.execute(imgQuery, imgValues)
+					self.imgUris[img.uri] = True
+				self.execute("INSERT INTO releases_images(image_uri, release_id) VALUES(%s,%s);",
+						(img.uri, release.id))
+		for fmt in release.formats:
+			if len(release.formats) != 0:
+				if not fmt.name in self.formatNames:
+					self.formatNames[fmt.name] = True
+					try:
+						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
+					except PostgresExporter.ExecuteError, e:
+						print "%s" % (e.args)
+				query = "INSERT INTO releases_formats(release_id, format_name, qty, descriptions) VALUES(%s,%s,%s,%s);"
+				self.execute(query, (release.id, fmt.name, fmt.qty, fmt.descriptions))
+		labelQuery = "INSERT INTO releases_labels(release_id, label, catno) VALUES(%s,%s,%s);"
+		for lbl in release.labels:
+			self.execute(labelQuery, (release.id, lbl.name, lbl.catno))
+
+		if len(release.artists) > 1:
+			for artist in release.artists:
+				query = "INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (release.id, artist))
+			for aj in release.artistJoins:
+				query = """INSERT INTO releases_artists_joins
+												(release_id, join_relation, artist1, artist2)
+												VALUES(%s,%s,%s,%s);"""
+				artistIdx = release.artists.index(aj.artist1) + 1
+				#The last join relation is not between artists but instead
+				#something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
+				if artistIdx >= len(release.artists):
+					values = (release.id, aj.join_relation, '', '')  # join relation is between all artists and the album
+				else:
+					values = (release.id, aj.join_relation, aj.artist1, release.artists[artistIdx])
+				self.execute(query, values)
+		else:
+			if len(release.artists) == 0:  # use anv if no artist name
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.anv))
+			else:
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.artists[0]))
+
+		for extr in release.extraartists:
+			# decide whether to insert flattened composite roles or take the first one from the tuple
+			self.execute("INSERT INTO releases_extraartists(release_id, artist_name, roles) VALUES(%s,%s,%s);",
+					(release.id, extr.name, map(lambda x: x[0] if type(x) is tuple else x, extr.roles)))
+					#(release.id, extr.name, flatten(extr.roles)))
+
+		for trk in release.tracklist:
+			trackid = str(uuid.uuid4())
+			self.execute("INSERT INTO track(release_id, title, duration, position, track_id) VALUES(%s,%s,%s,%s,%s);",
+					(release.id, trk.title, trk.duration, trk.position, trackid))
+			for artist in trk.artists:
+				query = "INSERT INTO tracks_artists(track_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (trackid, artist))
+			for aj in trk.artistJoins:
+				query = """INSERT INTO tracks_artists_joins
+											(track_id, join_relation, artist1, artist2)
+											VALUES(%s,%s,%s,%s);"""
+				artistIdx = trk.artists.index(aj.artist1) + 1
+				if artistIdx >= len(trk.artists):
+					values = (trackid, aj.join_relation, '', '')  # join relation is between all artists and the track
+				else:
+					values = (trackid, aj.join_relation, aj.artist1, trk.artists[artistIdx])
+				self.execute(query, values)
+
+				#Insert Extraartists for track
+				for extr in trk.extraartists:
+					#print extr.name
+					#print extr.roles
+					self.execute("INSERT INTO tracks_extraartists(track_id, artist_name) VALUES(%s,%s);", (trackid, extr.name))
+					for role in extr.roles:
+						if type(role).__name__ == 'tuple':
+							#print trackid
+							#print extr.name
+							#print role[0]
+							#print role[1]
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name, role_details) VALUES(%s,%s,%s,%s);",
+									(trackid, extr.name, role[0], role[1]))
+						else:
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name) VALUES(%s,%s,%s);",
+									(trackid, extr.name, role))
+
+	def storeRelease(self, master):
+
+		values = []
+		values.append(release.id)
+		values.append(release.title)
+		values.append(release.status)
+		columns = "id, title, status"
+
+		if len(release.country) != 0:
+			values.append(release.country)
+			columns += ",country"
+		if len(release.released) != 0:
+			values.append(release.released)
+			columns += ",released"
+		if len(release.notes) != 0:
+			values.append(release.notes)
+			columns += ",notes"
+		if len(release.genres) != 0:
+			values.append(release.genres)
+			columns += ",genres"
+		if len(release.styles) != 0:
+			values.append(release.styles)
+			columns += ",styles"
+
+		# INSERT INTO DATABASE
+		escapeStrings = ''
+		for counter in xrange(1, len(columns.split(","))):
+			escapeStrings = escapeStrings + ",%s"
+		escapeStrings = '(%s' + escapeStrings + ')'
+		#print values
+		query = "INSERT INTO release(" + columns + ") VALUES" + escapeStrings + ";"
+		#print query
+		try:
+			self.execute(query, values)
+		except PostgresExporter.ExecuteError, e:
+			print "%s" % (e.args)
+			return
+		imgCols = "uri,height,width,type,uri150"
+		for img in release.images:
+			imgValues = []
+			imgValues.append(img.uri)
+			imgValues.append(img.height)
+			imgValues.append(img.width)
+			imgValues.append(img.imageType)
+			imgValues.append(img.uri150)
+			if len(imgValues) != 0:
+				if not img.uri in self.imgUris:
+					self.execute("SELECT uri FROM image WHERE uri=%s;", (img.uri, ))
+					if self.cur is None or len(self.cur.fetchall()) == 0:
+						imgQuery = "INSERT INTO image(" + imgCols + ") VALUES(%s,%s,%s,%s,%s);"
+						self.execute(imgQuery, imgValues)
+					self.imgUris[img.uri] = True
+				self.execute("INSERT INTO releases_images(image_uri, release_id) VALUES(%s,%s);",
+						(img.uri, release.id))
+		for fmt in release.formats:
+			if len(release.formats) != 0:
+				if not fmt.name in self.formatNames:
+					self.formatNames[fmt.name] = True
+					try:
+						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
+					except PostgresExporter.ExecuteError, e:
+						print "%s" % (e.args)
+				query = "INSERT INTO releases_formats(release_id, format_name, qty, descriptions) VALUES(%s,%s,%s,%s);"
+				self.execute(query, (release.id, fmt.name, fmt.qty, fmt.descriptions))
+		labelQuery = "INSERT INTO releases_labels(release_id, label, catno) VALUES(%s,%s,%s);"
+		for lbl in release.labels:
+			self.execute(labelQuery, (release.id, lbl.name, lbl.catno))
+
+		if len(release.artists) > 1:
+			for artist in release.artists:
+				query = "INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (release.id, artist))
+			for aj in release.artistJoins:
+				query = """INSERT INTO releases_artists_joins
+												(release_id, join_relation, artist1, artist2)
+												VALUES(%s,%s,%s,%s);"""
+				artistIdx = release.artists.index(aj.artist1) + 1
+				#The last join relation is not between artists but instead
+				#something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
+				if artistIdx >= len(release.artists):
+					values = (release.id, aj.join_relation, '', '')  # join relation is between all artists and the album
+				else:
+					values = (release.id, aj.join_relation, aj.artist1, release.artists[artistIdx])
+				self.execute(query, values)
+		else:
+			if len(release.artists) == 0:  # use anv if no artist name
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.anv))
+			else:
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.artists[0]))
+
+		for extr in release.extraartists:
+			# decide whether to insert flattened composite roles or take the first one from the tuple
+			self.execute("INSERT INTO releases_extraartists(release_id, artist_name, roles) VALUES(%s,%s,%s);",
+					(release.id, extr.name, map(lambda x: x[0] if type(x) is tuple else x, extr.roles)))
+					#(release.id, extr.name, flatten(extr.roles)))
+
+		for trk in release.tracklist:
+			trackid = str(uuid.uuid4())
+			self.execute("INSERT INTO track(release_id, title, duration, position, track_id) VALUES(%s,%s,%s,%s,%s);",
+					(release.id, trk.title, trk.duration, trk.position, trackid))
+			for artist in trk.artists:
+				query = "INSERT INTO tracks_artists(track_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (trackid, artist))
+			for aj in trk.artistJoins:
+				query = """INSERT INTO tracks_artists_joins
+											(track_id, join_relation, artist1, artist2)
+											VALUES(%s,%s,%s,%s);"""
+				artistIdx = trk.artists.index(aj.artist1) + 1
+				if artistIdx >= len(trk.artists):
+					values = (trackid, aj.join_relation, '', '')  # join relation is between all artists and the track
+				else:
+					values = (trackid, aj.join_relation, aj.artist1, trk.artists[artistIdx])
+				self.execute(query, values)
+
+				#Insert Extraartists for track
+				for extr in trk.extraartists:
+					#print extr.name
+					#print extr.roles
+					self.execute("INSERT INTO tracks_extraartists(track_id, artist_name) VALUES(%s,%s);", (trackid, extr.name))
+					for role in extr.roles:
+						if type(role).__name__ == 'tuple':
+							#print trackid
+							#print extr.name
+							#print role[0]
+							#print role[1]
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name, role_details) VALUES(%s,%s,%s,%s);",
+									(trackid, extr.name, role[0], role[1]))
+						else:
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name) VALUES(%s,%s,%s);",
+									(trackid, extr.name, role))
+
+	def storeRelease(self, release):
+
+		values = []
+		values.append(release.id)
+		values.append(release.title)
+		values.append(release.status)
+		columns = "id, title, status"
+
+		if len(release.country) != 0:
+			values.append(release.country)
+			columns += ",country"
+		if len(release.released) != 0:
+			values.append(release.released)
+			columns += ",released"
+		if len(release.notes) != 0:
+			values.append(release.notes)
+			columns += ",notes"
+		if len(release.genres) != 0:
+			values.append(release.genres)
+			columns += ",genres"
+		if len(release.styles) != 0:
+			values.append(release.styles)
+			columns += ",styles"
+
+		#INSERT INTO DATABASE
+		escapeStrings = ''
+		for counter in xrange(1, len(columns.split(","))):
+			escapeStrings = escapeStrings + ",%s"
+		escapeStrings = '(%s' + escapeStrings + ')'
+		#print values
+		query = "INSERT INTO release(" + columns + ") VALUES" + escapeStrings + ";"
+		#print query
+		try:
+			self.execute(query, values)
+		except PostgresExporter.ExecuteError, e:
+			print "%s" % (e.args)
+			return
+		imgCols = "uri,height,width,type,uri150"
+		for img in release.images:
+			imgValues = []
+			imgValues.append(img.uri)
+			imgValues.append(img.height)
+			imgValues.append(img.width)
+			imgValues.append(img.imageType)
+			imgValues.append(img.uri150)
+			if len(imgValues) != 0:
+				if not img.uri in self.imgUris:
+					self.execute("SELECT uri FROM image WHERE uri=%s;", (img.uri, ))
+					if self.cur is None or len(self.cur.fetchall()) == 0:
+						imgQuery = "INSERT INTO image(" + imgCols + ") VALUES(%s,%s,%s,%s,%s);"
+						self.execute(imgQuery, imgValues)
+					self.imgUris[img.uri] = True
+				self.execute("INSERT INTO releases_images(image_uri, release_id) VALUES(%s,%s);",
+						(img.uri, release.id))
+		for fmt in release.formats:
+			if len(release.formats) != 0:
+				if not fmt.name in self.formatNames:
+					self.formatNames[fmt.name] = True
+					try:
+						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
+					except PostgresExporter.ExecuteError, e:
+						print "%s" % (e.args)
+				query = "INSERT INTO releases_formats(release_id, format_name, qty, descriptions) VALUES(%s,%s,%s,%s);"
+				self.execute(query, (release.id, fmt.name, fmt.qty, fmt.descriptions))
+		labelQuery = "INSERT INTO releases_labels(release_id, label, catno) VALUES(%s,%s,%s);"
+		for lbl in release.labels:
+			self.execute(labelQuery, (release.id, lbl.name, lbl.catno))
+
+		if len(release.artists) > 1:
+			for artist in release.artists:
+				query = "INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (release.id, artist))
+			for aj in release.artistJoins:
+				query = """INSERT INTO releases_artists_joins
+												(release_id, join_relation, artist1, artist2)
+												VALUES(%s,%s,%s,%s);"""
+				artistIdx = release.artists.index(aj.artist1) + 1
+				#The last join relation is not between artists but instead
+				#something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
+				if artistIdx >= len(release.artists):
+					values = (release.id, aj.join_relation, '', '')  # join relation is between all artists and the album
+				else:
+					values = (release.id, aj.join_relation, aj.artist1, release.artists[artistIdx])
+				self.execute(query, values)
+		else:
+			if len(release.artists) == 0:  # use anv if no artist name
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.anv))
+			else:
+				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
+						(release.id, release.artists[0]))
+
+		for extr in release.extraartists:
+			# decide whether to insert flattened composite roles or take the first one from the tuple
+			self.execute("INSERT INTO releases_extraartists(release_id, artist_name, roles) VALUES(%s,%s,%s);",
+					(release.id, extr.name, map(lambda x: x[0] if type(x) is tuple else x, extr.roles)))
+					#(release.id, extr.name, flatten(extr.roles)))
+
+		for trk in release.tracklist:
+			trackid = str(uuid.uuid4())
+			self.execute("INSERT INTO track(release_id, title, duration, position, track_id) VALUES(%s,%s,%s,%s,%s);",
+					(release.id, trk.title, trk.duration, trk.position, trackid))
+			for artist in trk.artists:
+				query = "INSERT INTO tracks_artists(track_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (trackid, artist))
+			for aj in trk.artistJoins:
+				query = """INSERT INTO tracks_artists_joins
+											(track_id, join_relation, artist1, artist2)
+											VALUES(%s,%s,%s,%s);"""
+				artistIdx = trk.artists.index(aj.artist1) + 1
+				if artistIdx >= len(trk.artists):
+					values = (trackid, aj.join_relation, '', '')  # join relation is between all artists and the track
+				else:
+					values = (trackid, aj.join_relation, aj.artist1, trk.artists[artistIdx])
+				self.execute(query, values)
+
+				#Insert Extraartists for track
+				for extr in trk.extraartists:
+					#print extr.name
+					#print extr.roles
+					self.execute("INSERT INTO tracks_extraartists(track_id, artist_name) VALUES(%s,%s);", (trackid, extr.name))
+					for role in extr.roles:
+						if type(role).__name__ == 'tuple':
+							#print trackid
+							#print extr.name
+							#print role[0]
+							#print role[1]
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name, role_details) VALUES(%s,%s,%s,%s);",
+									(trackid, extr.name, role[0], role[1]))
+						else:
+							self.execute("INSERT INTO tracks_extraartists_roles(track_id, artist_name, role_name) VALUES(%s,%s,%s);",
+									(trackid, extr.name, role))
+
+	def storeMaster(self, master):
+
+		values = []
+		values.append(master.id)
+		values.append(master.title)
+		values.append(master.main_release)
+		columns = "id, title, main_release"
+
+		if master.year:
+			values.append(master.year)
+			columns += ",year"
+		if len(master.notes) != 0:
+			values.append(master.notes)
+			columns += ",notes"
+		if len(master.genres) != 0:
+			values.append(master.genres)
+			columns += ",genres"
+		if len(master.styles) != 0:
+			values.append(master.styles)
+			columns += ",styles"
+
+		#INSERT INTO DATABASE
+		escapeStrings = ''
+		for counter in xrange(1, len(columns.split(","))):
+			escapeStrings = escapeStrings + ",%s"
+		escapeStrings = '(%s' + escapeStrings + ')'
+		#print values
+		query = "INSERT INTO master(" + columns + ") VALUES" + escapeStrings + ";"
+		#print query
+		try:
+			self.execute(query, values)
+		except PostgresExporter.ExecuteError, e:
+			print "%s" % (e.args)
+			return
+		imgCols = "uri,height,width,type,uri150"
+		for img in master.images:
+			imgValues = []
+			imgValues.append(img.uri)
+			imgValues.append(img.height)
+			imgValues.append(img.width)
+			imgValues.append(img.imageType)
+			imgValues.append(img.uri150)
+			if len(imgValues) != 0:
+				if not img.uri in self.imgUris:
+					self.execute("SELECT uri FROM image WHERE uri=%s;", (img.uri, ))
+					if self.cur is None or len(self.cur.fetchall()) == 0:
+						imgQuery = "INSERT INTO image(" + imgCols + ") VALUES(%s,%s,%s,%s,%s);"
+						self.execute(imgQuery, imgValues)
+					self.imgUris[img.uri] = True
+				self.execute("INSERT INTO masters_images(image_uri, master_id) VALUES(%s,%s);",
+						(img.uri, master.id))
+
+		if len(master.artists) > 1:
+			for artist in master.artists:
+				query = "INSERT INTO masters_artists(master_id, artist_name) VALUES(%s,%s);"
+				self.execute(query, (master.id, artist))
+			for aj in master.artistJoins:
+				query = """INSERT INTO masters_artists_joins
+												(master_id, join_relation, artist1, artist2)
+												VALUES(%s,%s,%s,%s);"""
+				artistIdx = master.artists.index(aj.artist1) + 1
+				#The last join relation is not between artists but instead
+				#something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
+				if artistIdx >= len(master.artists):
+					values = (master.id, aj.join_relation, '', '')  # join relation is between all artists and the album
+				else:
+					values = (master.id, aj.join_relation, aj.artist1, master.artists[artistIdx])
+				self.execute(query, values)
+		else:
+			if len(master.artists) == 0:  # use anv if no artist name
+				self.execute("INSERT INTO masters_artists(master_id, artist_name) VALUES(%s,%s);",
+						(master.id, master.anv))
+			else:
+				self.execute("INSERT INTO masters_artists(master_id, artist_name) VALUES(%s,%s);",
+						(master.id, master.artists[0]))
+
+		for extr in master.extraartists:
+			# decide whether to insert flattened composite roles or take the first one from the tuple
+			self.execute("INSERT INTO masters_extraartists(master_id, artist_name, roles) VALUES(%s,%s,%s);",
+					(master.id, extr.name, map(lambda x: x[0] if type(x) is tuple else x, extr.roles)))
+					#(master.id, extr.name, flatten(extr.roles)))
+
 
 class PostgresConsoleDumper(PostgresExporter):
 
 	def __init__(self, connection_string):
 		super(PostgresConsoleDumper, self).__init__(connection_string)
-		self.q = lambda x : "'%s'" % x.replace("'", "\\'")
+		self.q = lambda x: "'%s'" % x.replace("'", "\\'")
 
 	def connect(self, connection_string):
 		pass
@@ -330,6 +941,6 @@ class PostgresConsoleDumper(PostgresExporter):
 	def execute(self, query, params):
 		qparams = self.qs(params)
 		print(query % tuple(qparams))
-	
+
 	def finish(self):
 		pass

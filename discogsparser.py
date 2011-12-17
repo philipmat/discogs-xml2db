@@ -120,6 +120,32 @@ def parseReleases(parser, exporter):
 		print "Parsed %d releases then stopped as requested." % pse.records_parsed
 
 
+def parseMasters(parser, exporter):
+	global options
+	master_file = None
+	in_file = first_file_match('_masters.xml')
+	if options.date is not None:
+		master_file = "discogs_%s_masters.xml" % options.date
+	elif in_file is not None:
+		master_file = in_file
+
+	if master_file is None:
+		#print "No masters file specified."
+		return
+	elif not path.exists(master_file):
+		#print "File %s doesn't exist:" % master_file
+		return
+
+	from discogsmasterparser import MasterHandler
+	masterHandler = MasterHandler(exporter, stop_after=options.n, ignore_missing_tags = options.ignore_unknown_tags)
+	parser.setContentHandler(masterHandler)
+	try:
+		parser.parse(master_file)
+	except ParserStopError as pse:
+		print "Parsed %d masters then stopped as requested." % pse.records_parsed
+
+
+
 def select_exporter(options):
 	global exporters
 	if options.output is None:
@@ -177,6 +203,7 @@ that --params is used, e.g.:
 		parseArtists(parser, exporter)
 		parseLabels(parser, exporter)
 		parseReleases(parser, exporter)
+		parseMasters(parser, exporter)
 	finally:
 		exporter.finish(completely_done = True)
 

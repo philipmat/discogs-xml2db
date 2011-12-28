@@ -1,3 +1,4 @@
+from datetime import date
 from hashlib import md5
 from jsonexporter import jsonizer as _jsonizer
 import json
@@ -193,6 +194,7 @@ class MongoDbExporter(object):
 		uniq, md5 = self._is_uniq(collection, what.id, json_string)
 		if uniq:
 			doc = json.loads(json_string)
+			doc.updated_on = "%s" % date.today()
 			self.db[collection].update({'id': what.id}, doc, upsert=True)
 			self._store_processed(collection, what.id, md5)
 

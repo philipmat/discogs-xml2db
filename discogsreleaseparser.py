@@ -222,9 +222,9 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			self.release.master_id = int(self.buffer)
 		elif name == 'release':
 			# end of tag
-			len_a = len(self.master.artists)
+			len_a = len(self.release.artists)
 			if len_a == 0:
-				sys.stderr.writelines("Ignoring Release %s with no artist. Dictionary: %s\n" % (self.artist.id, self.artist.__dict__))
+				sys.stderr.writelines("Ignoring Release %s with no artist. Dictionary: %s\n" % (self.release.id, self.release.__dict__))
 			else:
 				if len(self.release.artists) == 1:
 					self.release.artist = self.release.artists[0]

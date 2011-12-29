@@ -30,6 +30,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 							'artist',
 							'artists',
 							'country',
+							'data_quality',
 							'description',
 							'descriptions',
 							'duration',
@@ -38,6 +39,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 							'formats',
 							'genre',
 							'genres',
+							#'indentifiers', 'identifier',
 							'image',
 							'images',
 							'join',
@@ -141,9 +143,6 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		elif name == 'genre':
 			if len(self.buffer) != 0:
 				self.release.genres.append(self.buffer)
-				#global genres
-				#if not genres.has_key(self.buffer):
-				#  genres[self.buffer] = Genre(self.buffer)
 		elif name == 'style':
 			if len(self.buffer) != 0:
 				self.release.styles.append(self.buffer)
@@ -154,6 +153,9 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			if len(self.buffer) != 0:
 				if 'formats' in self.stack:
 					self.release.formats[-1].descriptions.append(self.buffer)
+		elif name == 'data_quality':
+			if len(self.buffer) != 0:
+				self.release.data_quality = self.buffer
 		elif name == 'name':
 			if len(self.buffer) != 0:
 				if 'extraartists' in self.stack:
@@ -191,9 +193,6 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 						self.release.artists.append(self.release.anv)
 					aj.join_relation = self.buffer
 					self.release.artistJoins.append(aj)
-				#global joins
-				#if not joins.has_key(self.buffer):
-				#  joins[self.buffer] = True
 		elif name == 'role':
 			if len(self.buffer) != 0:
 				#print "ROLE PRE" + str(self.buffer)

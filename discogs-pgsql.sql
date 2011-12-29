@@ -28,7 +28,8 @@ CREATE TABLE artist (
     releases integer[],
     profile text,
     members text[],
-    groups text[]
+    groups text[],
+	data_quality text
 );
 
 
@@ -96,7 +97,8 @@ CREATE TABLE label (
     profile text,
     parent_label text,
     sublabels text[],
-    urls text[]
+    urls text[],
+	data_quality text
 );
 
 
@@ -123,7 +125,8 @@ CREATE TABLE release (
     notes text,
     genres text,
     styles text,
-    master_id int
+    master_id int,
+	data_quality text
 );
 
 
@@ -270,7 +273,8 @@ CREATE TABLE master (
     year int,
     notes text,
     genres text,
-    styles text
+    styles text,
+	data_quality text
 );
 
 

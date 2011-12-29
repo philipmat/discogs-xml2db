@@ -33,6 +33,7 @@ class Release:
      self.artistJoins = [] #release_artist_artist
      self.tracklist = [] #join
      self.extraartists = []
+     #self.indentifiers = [] # 
 
 class Master:
    def __init__(self):

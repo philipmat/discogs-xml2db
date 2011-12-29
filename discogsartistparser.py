@@ -26,7 +26,23 @@ artistCounter = 0
 
 
 class ArtistHandler(xml.sax.handler.ContentHandler):
-	inElement = {'artists':False,'artist':False,'name':False,'realname':False,'image':False,'images':False,'urls':False,'url':False,'namevariations':False,'aliases':False,'profile':False,'groups':False,'members':False,'id':False}
+	inElement = {
+				'artists': False,
+				'artist': False,
+				'aliases': False,
+				'data_quality': False,
+				'groups': False,
+				'id': False,
+				'image': False,
+				'images': False,
+				'members': False,
+				'name': False,
+				'namevariations': False,
+				'profile': False,
+				'realname': False,
+				'urls': False,
+				'url': False,
+				}
 	artist = None
 	buffer = ''
 	unknown_tags = []
@@ -92,14 +108,9 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 		elif name == 'url':
 			if len(self.buffer) != 0:
 				self.artist.urls.append(self.buffer)
-				'''
-				if self.buffer.find('wikipedia') != -1:
-				self.artist.urls['wikipedia'] = self.buffer
-				elif self.buffer.find('myspace') != -1:
-				self.artist.urls['myspace'] = self.buffer
-				else:
-				self.artist.urls['other'].append(self.buffer)
-				'''
+		elif name == 'data_quality':
+			if len(self.buffer) != 0:
+				self.artist.data_quality = self.buffer
 		elif name == "artist":
 
 			if self.artist.name:

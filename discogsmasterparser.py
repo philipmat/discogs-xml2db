@@ -30,7 +30,7 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 							'artist',
 							'artists',
 							#'country',
-							#'data_quality',
+							'data_quality',
 							'description',
 							#'descriptions', #'duration', #'extraartists', #'format', #'formats',
 							'genre', 'genres',
@@ -148,6 +148,9 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 						description = role[lIndex + 1: rIndex]
 						role = (role[:lIndex].strip(), description)
 					self.master.extraartists[-1].roles.append(role)
+		elif name == 'data_quality':
+			if len(self.buffer) != 0:
+				self.master.data_quality = self.buffer
 		elif name == 'master':
 			# end of tag
 			len_a = len(self.master.artists)

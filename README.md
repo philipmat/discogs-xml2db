@@ -24,6 +24,8 @@ MySQL or other databases are not supported at the moment, but you are welcome to
     * `-o couch -p "couch URI"`: exports to a CouchDB server running on localhost on port 5984 into a database named `discogs`;
     * `-o mongo -p "mongodb://localhost/discogs"`: connects, with `user` and `pass`, to a MongoDB server running on localhost, and into a database named `discogs`. See [Standard Connection String Format](http://www.mongodb.org/display/DOCS/Connections) in the MongoDB docs.
     * `-o mongo -p "file:///path/to/dir/"`: outputs each of the Artists, Labels, Masters, Releases into a separate JSON file into the specified directory, `/path/to/dir/` in this case, one line for each. Pass `--ignoreblanks` to `mongoimport` in case extra new-lines are added; you probably also want `--upsert --upseftFields id`.
+* **Output**: `-q`/`--quality` - imports only items with the specified data_quality. Takes in a comma-separated list of values for multiple entries. Valid values: 'Needs Vote', 'Complete And Correct', 'Correct', 'Needs Minor Changes', 'Needs Major Changes', 'Entirely Incorrect', 'Entirely Incorrect Edit'.
+    * `discogsparser.py -q 'Complete And Correct,Correct,Needs Minor Changes'`
 
 
 # Examples:

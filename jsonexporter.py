@@ -14,9 +14,20 @@ def jsonizer(obj, specify_object_type = True):
 
 
 class JsonConsoleExporter:
-	def __init__(self, params):
-		pass
+	def __init__(self, params, data_quality=[]):
+		self.min_data_quality = data_quality
 	
+	def good_quality(self, what):
+		if len(self.min_data_quality):
+			return what.data_quality.lower() in self.min_data_quality
+		return True
+
+	def dump(self, what):
+		if not self.good_quality(what):
+			return
+		j = self._store(what)
+		print j
+		
 	def finish(self, completely_done = False):
 		pass
 	
@@ -24,17 +35,13 @@ class JsonConsoleExporter:
 		return json.dumps(what, default=jsonizer)
 
 	def storeArtist(self, artist):
-		j = self._store(artist)
-		print j
+		self.dump(artist)
 	
 	def storeLabel(self, label):
-		j = self._store(label)
-		print j
+		self.dump(label)
 
 	def storeRelease(self, release):
-		j = self._store(release)
-		print j
+		self.dump(release)
 
 	def storeMaster(self, master):
-		j = self._store(master)
-		print j
+		self.dump(master)

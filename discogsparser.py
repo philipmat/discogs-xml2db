@@ -33,6 +33,16 @@ exporters = { 'json': 'jsonexporter.JsonConsoleExporter',
 	'mongo' : 'mongodbexporter.MongoDbExporter',
 	}
 
+# http://www.discogs.com/help/voting-guidelines.html
+data_quality_values = ( 'Needs Vote',
+		'Complete And Correct', 
+		'Correct',
+		'Needs Minor Changes',
+		'Needs Major Changes',
+		'Entirely Incorrect',
+		'Entirely Incorrect Edit'
+		)
+
 
 def first_file_match(file_pattern):
 	global options
@@ -164,7 +174,8 @@ def make_exporter(options):
 	for i in xrange(1, len(parts)):
 		m = getattr(m, parts[i])
 	
-	return m(options.params)
+	data_quality = list(x.strip().lower() for x in (options.data_quality or '').split(',') if x)
+	return m(options.params, data_quality=data_quality)
 		
 
 
@@ -188,10 +199,11 @@ that --params is used, e.g.:
 	opt_parser.add_argument('-o', '--output', choices=exporters.keys(), default='json', help='What to output to')
 	opt_parser.add_argument('-p', '--params', help='Parameters for output, e.g. connection string')
 	opt_parser.add_argument('-i', '--ignore-unknown-tags', action='store_true', dest='ignore_unknown_tags', help='Do not error out when encountering unknown tags')
+	opt_parser.add_argument('-q', '--quality', dest='data_quality', help='Comma-separated list of permissable data_quality values.')
 	opt_parser.add_argument('file', nargs='*', help='Specific file(s) to import. Default is to parse artists, labels, releases matching -d')
 	global options
 	options = opt_parser.parse_args(argv)
-	# print(options)
+	print(options)
 
 	if options.date is None and len(options.file) == 0:
 		opt_parser.print_help()

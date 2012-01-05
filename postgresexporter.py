@@ -35,10 +35,11 @@ class PostgresExporter(object):
 		def __init__(self, args):
 			self.args = args
 
-	def __init__(self, connection_string):
+	def __init__(self, connection_string, data_quality):
 		self.formatNames = {}
 		self.imgUris = {}
 		self.connect(connection_string)
+		self.min_data_quality = data_quality
 
 	def connect(self, connection_string):
 		import psycopg2
@@ -49,6 +50,11 @@ class PostgresExporter(object):
 		except psycopg2.Error, e:
 			print "%s" % (e.args)
 			sys.exit()
+
+	def good_quality(self, what):
+		if len(self.min_data_quality):
+			return what.data_quality.lower() in self.min_data_quality
+		return True
 
 	def execute(self, query, values):
 		import psycopg2
@@ -67,6 +73,7 @@ class PostgresExporter(object):
 			self.cur.close()
 
 	def storeLabel(self, label):
+		if not self.good_quality(label) return
 		values = []
 		values.append(label.id)
 		values.append(label.name)
@@ -116,6 +123,7 @@ class PostgresExporter(object):
 				self.execute("INSERT INTO labels_images(image_uri, label_id) VALUES(%s,%s);", (img.uri, label.id))
 
 	def storeArtist(self, artist):
+		if not self.good_quality(artist) return
 		values = []
 		values.append(artist.id)
 		values.append(artist.name)
@@ -172,6 +180,7 @@ class PostgresExporter(object):
 				self.execute("INSERT INTO artists_images(image_uri, artist_id) VALUES(%s,%s);", (img.uri, artist.id))
 
 	def storeRelease(self, release):
+		if not self.good_quality(release) return
 		values = []
 		values.append(release.id)
 		values.append(release.title)
@@ -304,6 +313,7 @@ class PostgresExporter(object):
 									(trackid, extr.name, role))
 
 	def storeMaster(self, master):
+		if not self.good_quality(master) return
 
 		values = []
 		values.append(master.id)

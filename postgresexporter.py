@@ -73,7 +73,8 @@ class PostgresExporter(object):
 			self.cur.close()
 
 	def storeLabel(self, label):
-		if not self.good_quality(label) return
+		if not self.good_quality(label):
+			return
 		values = []
 		values.append(label.id)
 		values.append(label.name)
@@ -123,7 +124,8 @@ class PostgresExporter(object):
 				self.execute("INSERT INTO labels_images(image_uri, label_id) VALUES(%s,%s);", (img.uri, label.id))
 
 	def storeArtist(self, artist):
-		if not self.good_quality(artist) return
+		if not self.good_quality(artist):
+			return
 		values = []
 		values.append(artist.id)
 		values.append(artist.name)
@@ -180,7 +182,8 @@ class PostgresExporter(object):
 				self.execute("INSERT INTO artists_images(image_uri, artist_id) VALUES(%s,%s);", (img.uri, artist.id))
 
 	def storeRelease(self, release):
-		if not self.good_quality(release) return
+		if not self.good_quality(release):
+			return
 		values = []
 		values.append(release.id)
 		values.append(release.title)
@@ -313,7 +316,8 @@ class PostgresExporter(object):
 									(trackid, extr.name, role))
 
 	def storeMaster(self, master):
-		if not self.good_quality(master) return
+		if not self.good_quality(master):
+			return
 
 		values = []
 		values.append(master.id)

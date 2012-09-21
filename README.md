@@ -1,9 +1,19 @@
-
 ----
 # What is it?
 This is a python program for importing the discogs data dumps found at http://www.discogs.com/data/ into PostgreSQL, CouchDB, or MongoDB database.
 
 MySQL or other databases are not supported at the moment, but you are welcome to submit a patch.
+
+**discogs-xml2db works with Python 2.7**.  
+It may work with 2.6 or 3.0, but probably not (I don't know, I didn't test). It definitely doesn't work with 2.5.  
+
+discogs-xml2db makes use of the following modules (some are standard in 2.7, some you'll need to `pip install`):
+* xml.sax - for handling the source XML files
+* argparse - for parsing the command line arguments
+* json - to save files in JSON format or talk to some back-ends
+* couchdb - if you use the CouchDB back-end (probably not)
+* pymongo - if you use the MongoDB back-end (best option)
+* psycopg2 - for the PostgreSQL back-end (not your best option)
 
 
 # Options for `discogsparser.py`

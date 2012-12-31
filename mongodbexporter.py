@@ -81,7 +81,7 @@ class _IdHashPairs(object):
 	'''Cache of the current records in the database indexed by id'''
 	def __init__(self, path):
 		self._path = os.path.abspath(os.path.expanduser(path))
-		self._hashes = {'artists': None, 'labels': None, 'releases': None}
+		self._hashes = {'artists': None, 'labels': None, 'releases': None, 'masters': None}
 		self._name = lambda x: os.path.join(self._path, '%s.md5' % x)
 
 	def _load(self, name):

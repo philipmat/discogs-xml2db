@@ -26,6 +26,9 @@ masterCounter = 0
 class MasterHandler(xml.sax.handler.ContentHandler):
 	def __init__(self, exporter, stop_after=0, ignore_missing_tags=False):
 		self.knownTags = (
+							'id',
+							'videos',
+							'video',
 							'anv',
 							'artist',
 							'artists',

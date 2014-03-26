@@ -26,6 +26,17 @@ releaseCounter = 0
 class ReleaseHandler(xml.sax.handler.ContentHandler):
 	def __init__(self, exporter, stop_after=0, ignore_missing_tags=False):
 		self.knownTags = (
+							'id',
+							'identifiers',
+							'identifier',
+							'videos',
+							'video',
+							'companies',
+							'company',
+							'catno',
+							'entity_type',
+							'entity_type_name',
+							'resource_url',
 							'anv',
 							'artist',
 							'artists',

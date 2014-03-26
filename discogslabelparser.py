@@ -25,6 +25,7 @@ labelCounter = 0
 
 class LabelHandler(xml.sax.handler.ContentHandler):
 	inElement = {
+				'id': False,
 				'label': False,
 				'labels': False,
 				'data_quality': False,

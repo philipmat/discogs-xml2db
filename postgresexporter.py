@@ -280,10 +280,12 @@ class PostgresExporter(object):
 					(release.id, extr.name, map(lambda x: x[0] if type(x) is tuple else x, extr.roles)))
 					#(release.id, extr.name, flatten(extr.roles)))
 
+		trackno = 0
 		for trk in release.tracklist:
 			trackid = str(uuid.uuid4())
-			self.execute("INSERT INTO track(release_id, title, duration, position, track_id) VALUES(%s,%s,%s,%s,%s);",
-					(release.id, trk.title, trk.duration, trk.position, trackid))
+			trackno = trackno + 1
+			self.execute("INSERT INTO track(release_id, title, duration, position, track_id, trackno) VALUES(%s,%s,%s,%s,%s,%s);",
+					(release.id, trk.title, trk.duration, trk.position, trackid, trackno))
 			for artist in trk.artists:
 				query = "INSERT INTO tracks_artists(track_id, artist_name) VALUES(%s,%s);"
 				self.execute(query, (trackid, artist))

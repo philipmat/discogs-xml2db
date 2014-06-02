@@ -213,6 +213,7 @@ CREATE TABLE track (
     release_id integer,
     title text,
     duration text,
+    trackno integer,
     "position" text,
     track_id text
 );

@@ -246,16 +246,18 @@ class PostgresExporter(object):
 						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
 					except PostgresExporter.ExecuteError, e:
 						print "%s" % (e.args)
-				query = "INSERT INTO releases_formats(release_id, order, format_name, qty, descriptions) VALUES(%s,%s,%s,%s,%s);"
+				query = "INSERT INTO releases_formats(release_id, position, format_name, qty, descriptions) VALUES(%s,%s,%s,%s,%s);"
 				self.execute(query, (release.id, fmt_order, fmt.name, fmt.qty, fmt.descriptions))
 		labelQuery = "INSERT INTO releases_labels(release_id, label, catno) VALUES(%s,%s,%s);"
 		for lbl in release.labels:
 			self.execute(labelQuery, (release.id, lbl.name, lbl.catno))
 
 		if len(release.artists) > 1:
+                        release_artist_order = 0;
 			for artist in release.artists:
-				query = "INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);"
-				self.execute(query, (release.id, artist))
+				release_artist_order = release_artist_order + 1
+				query = "INSERT INTO releases_artists(release_id, position, artist_name) VALUES(%s,%s,%s);"
+				self.execute(query, (release.id, release_artist_order, artist))
 			for aj in release.artistJoins:
 				query = """INSERT INTO releases_artists_joins
 												(release_id, join_relation, artist1, artist2)
@@ -288,9 +290,11 @@ class PostgresExporter(object):
 			trackno = trackno + 1
 			self.execute("INSERT INTO track(release_id, title, duration, position, track_id, trackno) VALUES(%s,%s,%s,%s,%s,%s);",
 					(release.id, trk.title, trk.duration, trk.position, trackid, trackno))
+                        track_artist_order = 0;
 			for artist in trk.artists:
-				query = "INSERT INTO tracks_artists(track_id, artist_name) VALUES(%s,%s);"
-				self.execute(query, (trackid, artist))
+				track_artist_order = track_artist_order + 1
+				query = "INSERT INTO tracks_artists(track_id, position, artist_name) VALUES(%s,$s,%s);"
+				self.execute(query, (trackid, order, artist))
 			for aj in trk.artistJoins:
 				query = """INSERT INTO tracks_artists_joins
 											(track_id, join_relation, artist1, artist2)

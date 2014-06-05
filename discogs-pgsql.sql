@@ -136,7 +136,9 @@ CREATE TABLE release (
 
 CREATE TABLE releases_artists (
     artist_name text,
-    release_id integer
+    release_id integer,
+    "position"  integer,
+    join_relation 	text
 );
 
 
@@ -169,7 +171,7 @@ CREATE TABLE releases_extraartists (
 
 CREATE TABLE releases_formats (
     release_id integer,
-    order integer,
+    "position" integer,
     format_name text,
     qty integer,
     descriptions text[]
@@ -225,8 +227,10 @@ CREATE TABLE track (
 --
 
 CREATE TABLE tracks_artists (
-    artist_name text,
-    track_id text
+    artist_name 	text,
+    track_id 		text,
+    "position"  	integer,
+    join_relation 	text
 );
 
 

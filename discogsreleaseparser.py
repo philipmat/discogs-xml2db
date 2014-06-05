@@ -31,6 +31,8 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 							'identifier',
 							'videos',
 							'video',
+						        'companies',
+							'company',		
 							'catno',
 							'entity_type',
 							'entity_type_name',

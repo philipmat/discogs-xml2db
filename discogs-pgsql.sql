@@ -169,6 +169,7 @@ CREATE TABLE releases_extraartists (
 
 CREATE TABLE releases_formats (
     release_id integer,
+    order integer,
     format_name text,
     qty integer,
     descriptions text[]

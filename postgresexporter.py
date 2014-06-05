@@ -236,7 +236,9 @@ class PostgresExporter(object):
 					self.imgUris[img.uri] = True
 				self.execute("INSERT INTO releases_images(image_uri, release_id) VALUES(%s,%s);",
 						(img.uri, release.id))
+		fmt_order = 0
 		for fmt in release.formats:
+			fmt_order = fmt_order + 1
 			if len(release.formats) != 0:
 				if not fmt.name in self.formatNames:
 					self.formatNames[fmt.name] = True
@@ -244,8 +246,8 @@ class PostgresExporter(object):
 						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
 					except PostgresExporter.ExecuteError, e:
 						print "%s" % (e.args)
-				query = "INSERT INTO releases_formats(release_id, format_name, qty, descriptions) VALUES(%s,%s,%s,%s);"
-				self.execute(query, (release.id, fmt.name, fmt.qty, fmt.descriptions))
+				query = "INSERT INTO releases_formats(release_id, order, format_name, qty, descriptions) VALUES(%s,%s,%s,%s,%s);"
+				self.execute(query, (release.id, fmt_order, fmt.name, fmt.qty, fmt.descriptions))
 		labelQuery = "INSERT INTO releases_labels(release_id, label, catno) VALUES(%s,%s,%s);"
 		for lbl in release.labels:
 			self.execute(labelQuery, (release.id, lbl.name, lbl.catno))

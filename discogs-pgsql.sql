@@ -381,6 +381,12 @@ ALTER TABLE ONLY label
 ALTER TABLE ONLY release
     ADD CONSTRAINT release_pkey PRIMARY KEY (id);
 
+--
+-- Name: track_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY track
+    ADD CONSTRAINT track_pkey PRIMARY KEY (track_id);
 
 --
 -- Name: artists_images_artist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -

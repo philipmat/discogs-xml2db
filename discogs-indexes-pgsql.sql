@@ -1,0 +1,10 @@
+CREATE INDEX releases_artists_name_idx ON releases_artists (artist_name);
+CREATE INDEX releases_artists_releaseid_idx ON releases_artists (release_id);
+CREATE INDEX tracks_artists_name_idx ON tracks_artists (artist_name);
+CREATE INDEX tracks_artists_trackid_idx ON tracks_artists (track_id);
+CREATE INDEX releases_formats_releaseid_idx ON releases_formats (release_id);
+CREATE INDEX track_releaseid_idx ON track (release_id);
+CREATE INDEX track_releaseid_trackid ON track (release_id, track_id);
+CREATE INDEX releases_labels_name_idx ON releases_labels (label);
+CREATE INDEX label_name_idx ON label (name);
+CREATE INDEX artist_name_idx ON artist (name);

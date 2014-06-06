@@ -293,8 +293,8 @@ class PostgresExporter(object):
                         track_artist_order = 0;
 			for artist in trk.artists:
 				track_artist_order = track_artist_order + 1
-				query = "INSERT INTO tracks_artists(track_id, position, artist_name) VALUES(%s,$s,%s);"
-				self.execute(query, (trackid, order, artist))
+				query = "INSERT INTO tracks_artists(track_id, position, artist_name) VALUES(%s,%s,%s);"
+				self.execute(query, (trackid, track_artist_order, artist))
 			for aj in trk.artistJoins:
 				query = """INSERT INTO tracks_artists_joins
 											(track_id, join_relation, artist1, artist2)

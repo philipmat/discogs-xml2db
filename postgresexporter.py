@@ -272,11 +272,11 @@ class PostgresExporter(object):
 				self.execute(query, values)
 		else:
 			if len(release.artists) == 0:  # use anv if no artist name
-				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
-						(release.id, release.anv))
+				self.execute("INSERT INTO releases_artists(release_id, position, artist_name) VALUES(%s, %s, %s);",
+						(release.id, 1, release.anv))
 			else:
-				self.execute("INSERT INTO releases_artists(release_id, artist_name) VALUES(%s,%s);",
-						(release.id, release.artists[0]))
+				self.execute("INSERT INTO releases_artists(release_id, position, artist_name) VALUES(%s, %s, %s);",
+						(release.id, 1, release.artists[0]))
 
 		for extr in release.extraartists:
 			# decide whether to insert flattened composite roles or take the first one from the tuple

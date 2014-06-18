@@ -144,23 +144,12 @@ CREATE TABLE releases_artists (
 
 
 --
--- Name: releases_artists_joins; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE releases_artists_joins (
-    artist1 text,
-    artist2 text,
-    join_relation text,
-    release_id integer
-);
-
-
---
 -- Name: releases_extraartists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE releases_extraartists (
     release_id integer,
+    artist_id integer,
     artist_name text,
     roles text[]
 );

@@ -58,7 +58,8 @@ class ArtistJoin:
 
 class Extraartist:
   def __init__(self):
-    self.name = ''
+    self.artist_id = 0
+    self.artist_name = ''
     self.roles = []
 
 class ReleaseLabel:

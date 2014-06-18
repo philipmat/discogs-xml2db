@@ -170,7 +170,12 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		elif name == 'id':
 			if len(self.buffer) != 0:
 				if 'extraartists' in self.stack:
-					pass
+					if 'track' in self.stack:  # extraartist for track
+						pass
+					else:  # extraartists for release
+						eaj = model.Extraartist()
+						eaj.artist_id = self.buffer
+						self.release.extraartists.append(eaj)
 				elif 'track' in self.stack and 'extraartists' not in self.stack:
 					pass
 				else:  # release artist
@@ -186,9 +191,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 						extr.name = self.buffer
 						track.extraartists.append(extr)
 					else:  # extraartists for release
-						extr = model.Extraartist()
-						extr.name = self.buffer
-						self.release.extraartists.append(extr)
+						self.release.extraartists[-1].artist_name = self.buffer
 				elif 'track' in self.stack and 'extraartists' not in self.stack:
 					self.release.tracklist[-1].artists.append(self.buffer)
 				else:  # release artist
@@ -198,13 +201,11 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				if 'track' in self.stack:  # extraartist
 					track = self.release.tracklist[-1]
 					aj = model.ArtistJoin()
-					#print "ext: " + str(track.extraartists)
-					#print "title: " + str(track.title)
-					#print "artists: " + str(track.artists)
 					if len(track.artists) > 0:  # fix for bug with release 2033428, track 3
 						aj.artist1 = track.artists[-1]
 						aj.join_relation = self.buffer
 						track.artistJoins.append(aj)
+
 				else:  # main release artist
 					self.release.artistJoins[-1].join_relation = self.buffer
 		elif name == 'role':

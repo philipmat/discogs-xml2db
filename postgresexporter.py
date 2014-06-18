@@ -252,31 +252,16 @@ class PostgresExporter(object):
 		for lbl in release.labels:
 			self.execute(labelQuery, (release.id, lbl.name, lbl.catno))
 
-		if len(release.artists) > 1:
+		if len(release.artistJoins) > 0:
                         release_artist_order = 0;
-			for artist in release.artists:
-				release_artist_order = release_artist_order + 1
-				query = "INSERT INTO releases_artists(release_id, position, artist_name) VALUES(%s,%s,%s);"
-				self.execute(query, (release.id, release_artist_order, artist))
 			for aj in release.artistJoins:
-				query = """INSERT INTO releases_artists_joins
-												(release_id, join_relation, artist1, artist2)
-												VALUES(%s,%s,%s,%s);"""
-				artistIdx = release.artists.index(aj.artist1) + 1
-				#The last join relation is not between artists but instead
-				#something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
-				if artistIdx >= len(release.artists):
-					values = (release.id, aj.join_relation, '', '')  # join relation is between all artists and the album
+				release_artist_order = release_artist_order + 1
+				if aj.join_relation == '':
+					query = "INSERT INTO releases_artists(release_id, position, artist_id, artist_name) VALUES(%s, %s, %s, %s);"
+					self.execute(query, (release.id, release_artist_order, aj.artist_id, aj.artist_name))
 				else:
-					values = (release.id, aj.join_relation, aj.artist1, release.artists[artistIdx])
-				self.execute(query, values)
-		else:
-			if len(release.artists) == 0:  # use anv if no artist name
-				self.execute("INSERT INTO releases_artists(release_id, position, artist_name) VALUES(%s, %s, %s);",
-						(release.id, 1, release.anv))
-			else:
-				self.execute("INSERT INTO releases_artists(release_id, position, artist_name) VALUES(%s, %s, %s);",
-						(release.id, 1, release.artists[0]))
+					query = "INSERT INTO releases_artists(release_id, position, artist_id, artist_name, relation_join) VALUES(%s, %s, %s, %s, %s);"
+					self.execute(query, (release.id, release_artist_order, aj.artist_id, aj.artist_name, aj.join_relation))
 
 		for extr in release.extraartists:
 			# decide whether to insert flattened composite roles or take the first one from the tuple

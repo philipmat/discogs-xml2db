@@ -167,6 +167,16 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		elif name == 'data_quality':
 			if len(self.buffer) != 0:
 				self.release.data_quality = self.buffer
+		elif name == 'id':
+			if len(self.buffer) != 0:
+				if 'extraartists' in self.stack:
+					pass
+				elif 'track' in self.stack and 'extraartists' not in self.stack:
+					pass
+				else:  # release artist
+					aj = model.ArtistJoin()
+					aj.artist_id = self.buffer
+					self.release.artistJoins.append(aj)
 		elif name == 'name':
 			if len(self.buffer) != 0:
 				if 'extraartists' in self.stack:
@@ -182,7 +192,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				elif 'track' in self.stack and 'extraartists' not in self.stack:
 					self.release.tracklist[-1].artists.append(self.buffer)
 				else:  # release artist
-					self.release.artists.append(self.buffer)
+					self.release.artistJoins[-1].artist_name = self.buffer
 		elif name == 'join':
 			if len(self.buffer) != 0:
 				if 'track' in self.stack:  # extraartist
@@ -196,14 +206,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 						aj.join_relation = self.buffer
 						track.artistJoins.append(aj)
 				else:  # main release artist
-					aj = model.ArtistJoin()
-					if len(self.release.artists) > 0:
-						aj.artist1 = self.release.artists[-1]
-					else:
-						aj.artist1 = self.release.anv
-						self.release.artists.append(self.release.anv)
-					aj.join_relation = self.buffer
-					self.release.artistJoins.append(aj)
+					self.release.artistJoins[-1].join_relation = self.buffer
 		elif name == 'role':
 			if len(self.buffer) != 0:
 				#print "ROLE PRE" + str(self.buffer)
@@ -232,17 +235,10 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			self.release.master_id = int(self.buffer)
 		elif name == 'release':
 			# end of tag
-			len_a = len(self.release.artists)
+			len_a = len(self.release.artistJoins)
 			if len_a == 0:
 				sys.stderr.writelines("Ignoring Release %s with no artist. Dictionary: %s\n" % (self.release.id, self.release.__dict__))
 			else:
-				if len(self.release.artists) == 1:
-					self.release.artist = self.release.artists[0]
-				else:
-					for j in self.release.artistJoins:
-						self.release.artist += '%s %s ' % (j.artist1, j.join_relation)
-					self.release.artist += self.release.artists[-1]
-
 				global releaseCounter
 				releaseCounter += 1
 				self.exporter.storeRelease(self.release)

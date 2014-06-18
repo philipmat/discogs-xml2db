@@ -138,7 +138,8 @@ CREATE TABLE releases_artists (
     artist_name text,
     release_id integer,
     "position"  integer,
-    join_relation 	text
+    relation_join 	text,
+    artist_id integer
 );
 
 

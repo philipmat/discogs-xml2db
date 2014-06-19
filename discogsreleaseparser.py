@@ -126,93 +126,124 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 
 	def endElement(self, name):
 		self.buffer = self.buffer.strip()
-		if name == 'title':
+
+		# Track title
+		if name == 'title' and self.stack[-2] == 'track':
 			if len(self.buffer) != 0:
-				# titles we know of can appear in tracks or releases
-				# print "t=%s,k=%s" % (self.buffer, self.stack)
-				if self.stack[-2] == 'track':
-					self.release.tracklist[-1].title = self.buffer
-				elif self.stack[-2] == 'release':
-					self.release.title = self.buffer
+				self.release.tracklist[-1].title = self.buffer
+
+		# Release title
+		if name == 'title' and self.stack[-2] == 'release':
+			if len(self.buffer) != 0:
+				self.release.title = self.buffer
+
+		# Release Country
 		elif name == 'country':
 			if len(self.buffer) != 0:
 				self.release.country = self.buffer
-				#global countries
-				#if not countries.has_key(self.buffer):
-				#  countries[self.buffer] = True
-		elif name == 'anv':
-			if len(self.buffer) != 0:
-				if self.stack[-3] == 'artists' and self.stack[-4] == 'release':
-					self.release.anv = self.buffer
-				# TODO: support anv on tracks
+
+		# Release Date
 		elif name == 'released':
 			if len(self.buffer) != 0:
 				self.release.released = self.buffer
+
+		# Release Notes
 		elif name == 'notes':
 			if len(self.buffer) != 0:
 				self.release.notes = self.buffer
+
+		# Release Genre	
 		elif name == 'genre':
 			if len(self.buffer) != 0:
 				self.release.genres.append(self.buffer)
+
+		# Release Style
 		elif name == 'style':
 			if len(self.buffer) != 0:
 				self.release.styles.append(self.buffer)
-				#global styles
-				#if not styles.has_key(self.buffer):
-				#  styles[self.buffer] = Style(self.buffer)
-		elif name == 'description':
+
+		# Release Format Description
+		elif name == 'description' and 'formats' in self.stack:
 			if len(self.buffer) != 0:
-				if 'formats' in self.stack:
-					self.release.formats[-1].descriptions.append(self.buffer)
+				self.release.formats[-1].descriptions.append(self.buffer)
+
+		# Release Quality
 		elif name == 'data_quality':
 			if len(self.buffer) != 0:
 				self.release.data_quality = self.buffer
-		elif name == 'id':
-			if len(self.buffer) != 0:
-				if 'extraartists' in self.stack:
-					if 'track' in self.stack:  # extraartist for track
-						pass
-					else:  # extraartists for release
-						eaj = model.Extraartist()
-						eaj.artist_id = self.buffer
-						self.release.extraartists.append(eaj)
-				elif 'track' in self.stack and 'extraartists' not in self.stack:
-					pass
-				else:  # release artist
-					aj = model.ArtistJoin()
-					aj.artist_id = self.buffer
-					self.release.artistJoins.append(aj)
-		elif name == 'name':
-			if len(self.buffer) != 0:
-				if 'extraartists' in self.stack:
-					if 'track' in self.stack:  # extraartist for track
-						track = self.release.tracklist[-1]
-						extr = model.Extraartist()
-						extr.name = self.buffer
-						track.extraartists.append(extr)
-					else:  # extraartists for release
-						self.release.extraartists[-1].artist_name = self.buffer
-				elif 'track' in self.stack and 'extraartists' not in self.stack:
-					self.release.tracklist[-1].artists.append(self.buffer)
-				else:  # release artist
-					self.release.artistJoins[-1].artist_name = self.buffer
-		elif name == 'join':
-			if len(self.buffer) != 0:
-				if 'track' in self.stack:  # extraartist
-					track = self.release.tracklist[-1]
-					aj = model.ArtistJoin()
-					if len(track.artists) > 0:  # fix for bug with release 2033428, track 3
-						aj.artist1 = track.artists[-1]
-						aj.join_relation = self.buffer
-						track.artistJoins.append(aj)
 
-				else:  # main release artist
-					self.release.artistJoins[-1].join_relation = self.buffer
-		elif name == 'role':
+		# Track extra artist id
+		elif name == 'id' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' in self.stack:
 			if len(self.buffer) != 0:
-				#print "ROLE PRE" + str(self.buffer)
+		 		teaj = model.Extraartist()
+				teaj.artist_id = self.buffer
+				self.release.tracklist[-1].extraartists.append(teaj)
+
+		# Release extra artist id
+		elif name == 'id' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' in self.stack:
+			if len(self.buffer) != 0:
+				eaj = model.Extraartist()
+				eaj.artist_id = self.buffer
+				self.release.extraartists.append(eaj)
+
+		# Track artist id
+		elif name == 'id' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' not in self.stack:
+			if len(self.buffer) != 0:
+				taj = model.ArtistJoin()
+				taj.artist_id = self.buffer
+				self.release.tracklist[-1].artistJoins.append(taj)
+
+		# Release artist id
+		elif name == 'id' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' not in self.stack:
+			if len(self.buffer) != 0:
+				aj = model.ArtistJoin()
+				aj.artist_id = self.buffer
+				self.release.artistJoins.append(aj)
+
+		# Track extra artist name
+		elif name == 'name' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.tracklist[-1].extraartists[-1].artist_name = self.buffer
+
+		# Release extra artist name
+		elif name == 'name' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.extraartists[-1].artist_name = self.buffer
+
+		# Track artist name
+		elif name == 'name' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' not in self.stack:
+			if len(self.buffer) != 0:
+				self.release.tracklist[-1].artistJoins[-1].artist_name = self.buffer
+
+		# Release artist name
+		elif name == 'name' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' not in self.stack:
+			if len(self.buffer) != 0:
+				self.release.artistJoins[-1].artist_name = self.buffer
+
+		# Track artist  anv
+		elif name == 'anv' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' not in self.stack:
+			if len(self.buffer) != 0:
+				self.release.tracklist[-1].artistJoins[-1].anv = self.buffer
+
+		# Release artist anv
+		elif name == 'anv' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' not in self.stack:
+			if len(self.buffer) != 0:
+				self.release.artistJoins[-1].anv = self.buffer
+
+		# Track artist join
+		elif name == 'join' and 'artist' in self.stack and 'track' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.tracklist[-1].artistJoins[-1].join_relation = self.buffer
+
+		# Release artist join
+		elif name == 'join' and 'artist' in self.stack and 'track' not in self.stack:
+			if len(self.buffer) != 0:
+				self.release.artistJoins[-1].join_relation = self.buffer
+
+		# Track extra artist role
+		elif name == 'role' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' in self.stack:
+			if len(self.buffer) != 0:
 				roles_list = re.findall('([^[,]+(?:\[[^]]+])?)+', self.buffer)  # thanks to jlatour
-				#print "ROLE POST" + str(self.buffer)
 				for role in roles_list:
 					role = role.strip()
 					lIndex = role.find('[')
@@ -220,20 +251,34 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 						rIndex = role.find(']')
 						description = role[lIndex + 1: rIndex]
 						role = (role[:lIndex].strip(), description)
-					if 'track' in self.stack:
-						idx = len(self.release.tracklist) - 1
-						track = self.release.tracklist[idx]
-						if len(track.extraartists) != 0:
-							trackExtraartist = track.extraartists[-1]
-							trackExtraartist.roles.append(role)
-					else:
-						self.release.extraartists[-1].roles.append(role)
+					self.release.tracklist[-1].extraartists[-1].roles.append(role)
+
+		# Release extra artist role
+		elif name == 'role' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' in self.stack:
+			if len(self.buffer) != 0:
+				roles_list = re.findall('([^[,]+(?:\[[^]]+])?)+', self.buffer)  # thanks to jlatour
+				for role in roles_list:
+					role = role.strip()
+					lIndex = role.find('[')
+					if lIndex != -1:
+						rIndex = role.find(']')
+						description = role[lIndex + 1: rIndex]
+						role = (role[:lIndex].strip(), description)
+					self.release.extraartists[-1].roles.append(role)
+
+		# Track Duration	
 		elif name == 'duration':
 			self.release.tracklist[-1].duration = self.buffer
+
+		# Track Position
 		elif name == 'position':
 			self.release.tracklist[-1].position = self.buffer
+
+		# Release Master
 		elif name == 'master_id':
 			self.release.master_id = int(self.buffer)
+
+		# End of Release
 		elif name == 'release':
 			# end of tag
 			len_a = len(self.release.artistJoins)

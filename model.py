@@ -54,12 +54,14 @@ class ArtistJoin:
   def __init__(self):
     self.artist_id = 0
     self.artist_name = ''
+    self.anv = ''
     self.join_relation = ''
 
 class Extraartist:
   def __init__(self):
     self.artist_id = 0
     self.artist_name = ''
+    self.anv = ''
     self.roles = []
 
 class ReleaseLabel:
@@ -95,7 +97,6 @@ class Genre:
 
 class Track:
   def __init__(self):
-    self.artists = []
     self.artistJoins = []
     self.extraartists = []
     self.title = ''

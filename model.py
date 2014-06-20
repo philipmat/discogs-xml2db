@@ -27,11 +27,8 @@ class Release:
      self.images = []
      self.formats = []
      self.labels = []
-     self.anv = '' #used only if artist name is missing
-     self.artist = ''
-     self.artists = [] #join
-     self.artistJoins = [] #release_artist_artist
-     self.tracklist = [] #join
+     self.artistJoins = [] 
+     self.tracklist = [] 
      self.extraartists = []
      #self.indentifiers = [] # 
 
@@ -55,12 +52,16 @@ class Master:
 
 class ArtistJoin:
   def __init__(self):
-    self.artist1 = ''
+    self.artist_id = 0
+    self.artist_name = ''
+    self.anv = ''
     self.join_relation = ''
 
 class Extraartist:
   def __init__(self):
-    self.name = ''
+    self.artist_id = 0
+    self.artist_name = ''
+    self.anv = ''
     self.roles = []
 
 class ReleaseLabel:
@@ -96,7 +97,6 @@ class Genre:
 
 class Track:
   def __init__(self):
-    self.artists = []
     self.artistJoins = []
     self.extraartists = []
     self.title = ''

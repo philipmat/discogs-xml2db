@@ -220,15 +220,26 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			if len(self.buffer) != 0:
 				self.release.artistJoins[-1].artist_name = self.buffer
 
-		# Track artist  anv
+		# Track artist anv
 		elif name == 'anv' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' not in self.stack:
 			if len(self.buffer) != 0:
 				self.release.tracklist[-1].artistJoins[-1].anv = self.buffer
+
+		# Track extra artist anv
+		elif name == 'anv' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.tracklist[-1].extraartists[-1].anv = self.buffer
+
 
 		# Release artist anv
 		elif name == 'anv' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' not in self.stack:
 			if len(self.buffer) != 0:
 				self.release.artistJoins[-1].anv = self.buffer
+
+		# Release extra artist anv
+		elif name == 'anv' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.extraartists[-1].anv = self.buffer
 
 		# Track artist join
 		elif name == 'join' and 'artist' in self.stack and 'track' in self.stack:

@@ -244,17 +244,13 @@ class PostgresExporter(object):
                 release_artist_order = 0;
 		for aj in release.artistJoins:
 			release_artist_order = release_artist_order + 1
-			if aj.join_relation == '':
-				query = "INSERT INTO releases_artists(release_id, position, artist_id, artist_name) VALUES(%s, %s, %s, %s);"
-				self.execute(query, (release.id, release_artist_order, aj.artist_id, aj.artist_name))
-			else:
-				query = "INSERT INTO releases_artists(release_id, position, artist_id, artist_name, join_relation) VALUES(%s, %s, %s, %s, %s);"
-				self.execute(query, (release.id, release_artist_order, aj.artist_id, aj.artist_name, aj.join_relation))
+			query = "INSERT INTO releases_artists(release_id, position, artist_id, artist_name, join_relation, anv)  VALUES(%s, %s, %s, %s, %s, %s);"
+			self.execute(query, (release.id, release_artist_order, aj.artist_id, aj.artist_name, aj.join_relation, aj.anv ))
 
 		for extr in release.extraartists:
 			for role in extr.roles:
-				self.execute("INSERT INTO releases_extraartists(release_id, artist_id, artist_name, role) VALUES(%s,%s,%s,%s);",
-					(release.id, extr.artist_id, extr.artist_name, role))
+				self.execute("INSERT INTO releases_extraartists(release_id, artist_id, artist_name, role, anv) VALUES(%s, %s, %s, %s, %s);",
+					(release.id, extr.artist_id, extr.artist_name, role, extr.anv))
 
 		trackno = 0
 		for trk in release.tracklist:
@@ -266,17 +262,13 @@ class PostgresExporter(object):
                         track_artist_order = 0;
 			for aj in trk.artistJoins:
 				track_artist_order = track_artist_order + 1
-				if aj.join_relation == '':
-					query = "INSERT INTO tracks_artists(track_id, position, artist_name,artist_id) VALUES(%s,%s,%s,%s);"
-					self.execute(query, (trackid, track_artist_order, aj.artist_name, aj.artist_id))
-				else:
-					query = "INSERT INTO tracks_artists(track_id, position, artist_name,artist_id, join_relation) VALUES(%s,%s,%s,%s,%s);"
-					self.execute(query, (trackid, track_artist_order, aj.artist_name, aj.artist_id, aj.join_relation))
+				query = "INSERT INTO tracks_artists(track_id, position, artist_name,artist_id, join_relation, anv) VALUES(%s, %s, %s, %s, %s, %s);"
+				self.execute(query, (trackid, track_artist_order, aj.artist_name, aj.artist_id, aj.join_relation, aj.anv ))
 
 			for extr in trk.extraartists:
 				for role in extr.roles:
-					self.execute("INSERT INTO tracks_extraartists(track_id, artist_id, artist_name, role) VALUES(%s,%s,%s,%s);",
-						(trackid, extr.artist_id, extr.artist_name, role))
+					self.execute("INSERT INTO tracks_extraartists(track_id, artist_id, artist_name, role, anv) VALUES(%s, %s, %s, %s, %s);",
+						(trackid, extr.artist_id, extr.artist_name, role, extr.anv))
 
 	def storeMaster(self, master):
 		if not self.good_quality(master):

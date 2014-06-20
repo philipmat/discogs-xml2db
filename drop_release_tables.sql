@@ -1,7 +1,7 @@
-drop table format;
 drop table releases_artists;
 drop table releases_extraartists;
 drop table releases_formats;
+drop table format;
 drop table releases_images;
 drop table tmp_releases_images;
 drop table tmp_image;

@@ -54,14 +54,14 @@ class ArtistJoin:
   def __init__(self):
     self.artist_id = 0
     self.artist_name = ''
-    self.anv = ''
-    self.join_relation = ''
+    self.anv = None
+    self.join_relation = None
 
 class Extraartist:
   def __init__(self):
     self.artist_id = 0
     self.artist_name = ''
-    self.anv = ''
+    self.anv = None
     self.roles = []
 
 class ReleaseLabel:

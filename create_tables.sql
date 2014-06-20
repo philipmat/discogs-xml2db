@@ -117,6 +117,7 @@ CREATE TABLE releases_extraartists (
     release_id 		integer,
     artist_id 		integer,
     artist_name 	text,
+    anv 			text,
     role 			text
 );
 
@@ -173,6 +174,7 @@ CREATE TABLE tracks_extraartists (
     track_id 	text,
     artist_id 	integer,
     artist_name text,
+    anv		 	text,
     role 		text
 );
 
@@ -235,12 +237,12 @@ ALTER TABLE ONLY release ADD CONSTRAINT release_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY track ADD CONSTRAINT track_pkey PRIMARY KEY (track_id);
 ALTER TABLE ONLY master ADD CONSTRAINT master_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY releases_formats ADD CONSTRAINT releases_formats_pkey PRIMARY KEY (release_id, position);
-ALTER TABLE ONLY releases_labels ADD CONSTRAINT releases_labels_pkey PRIMARY KEY (release_id, label, catno);
+-- ALTER TABLE ONLY releases_labels ADD CONSTRAINT releases_labels_pkey PRIMARY KEY (release_id, label, catno);
 ALTER TABLE ONLY releases_images ADD CONSTRAINT releases_images_pkey PRIMARY KEY (release_id, type,image_uri);
 ALTER TABLE ONLY releases_artists ADD CONSTRAINT releases_artists_pkey PRIMARY KEY (release_id, position);
-ALTER TABLE ONLY releases_extraartists ADD CONSTRAINT releases_extraartists_pkey PRIMARY KEY (release_id, artist_id, role);
+--ALTER TABLE ONLY releases_extraartists ADD CONSTRAINT releases_extraartists_pkey PRIMARY KEY (release_id, artist_id, artist_name, anv, role);
 ALTER TABLE ONLY tracks_artists ADD CONSTRAINT tracks_artists_pkey PRIMARY KEY (track_id, position);
-ALTER TABLE ONLY tracks_extraartists ADD CONSTRAINT tracks_extraartists_pkey PRIMARY KEY (track_id, artist_id, role);
+--ALTER TABLE ONLY tracks_extraartists ADD CONSTRAINT tracks_extraartists_pkey PRIMARY KEY (track_id, artist_id, artist_name, anv, role);
 ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_pkey PRIMARY KEY (artist_id, type,image_uri);
 ALTER TABLE ONLY labels_images ADD CONSTRAINT labels_images_pkey PRIMARY KEY (label_id, type,image_uri);
 ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_pkey PRIMARY KEY (master_id, type,image_uri);

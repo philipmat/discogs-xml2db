@@ -1,7 +1,3 @@
---
--- PostgreSQL database dump
---
-
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
 SET check_function_bodies = false;
@@ -26,6 +22,12 @@ CREATE TABLE artist (
     members 		text[],
     groups 			text[],
 	data_quality 	text
+);
+
+CREATE TABLE tmp_artists_images (
+    image_uri 	text,
+    type 		text,
+    artist_id 	integer
 );
 
 
@@ -53,10 +55,17 @@ CREATE TABLE genre (
 CREATE TABLE image (
     height 			integer,
     width 			integer,
-    type 			text,
     uri 			text NOT NULL,
     uri150 			text
 );
+
+CREATE TABLE tmp_image (
+    height 			integer,
+    width 			integer,
+    uri 			text NOT NULL,
+    uri150 			text
+);
+
 
 CREATE TABLE label (
     id 				integer NOT NULL,
@@ -69,11 +78,18 @@ CREATE TABLE label (
 	data_quality 	text
 );
 
+CREATE TABLE tmp_labels_images (
+    image_uri 	text,
+    type 		text,
+    label_id 	integer
+);
+
 CREATE TABLE labels_images (
     image_uri 	text,
     type 		text,
     label_id 	integer
 );
+
 
 CREATE TABLE release (
     id 			integer NOT NULL,
@@ -94,7 +110,7 @@ CREATE TABLE releases_artists (
     artist_id 		integer,
     artist_name 	text,
     anv 			text,
-    relation_join 	text
+    join_relation 	text
 );
 
 CREATE TABLE releases_extraartists (
@@ -112,11 +128,18 @@ CREATE TABLE releases_formats (
     descriptions 	text[]
 );
 
+CREATE TABLE tmp_releases_images (
+    image_uri 	text,
+    type 		text,
+    release_id 	integer
+);
+
 CREATE TABLE releases_images (
     image_uri 	text,
     type 		text,
     release_id 	integer
 );
+
 
 CREATE TABLE releases_labels (
     label 		text,
@@ -189,14 +212,20 @@ CREATE TABLE masters_formats (
     descriptions 	text[]
 );
 
+CREATE TABLE tmp_masters_images (
+    image_uri text,
+    type 		text,
+    master_id integer
+);
+
 CREATE TABLE masters_images (
     image_uri text,
     type 		text,
     master_id integer
 );
 
-
 ALTER TABLE ONLY artist ADD CONSTRAINT artist_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY country add CONSTRAINT country_key PRIMARY_KEY (name);
 ALTER TABLE ONLY format ADD CONSTRAINT format_pkey PRIMARY KEY (name);
 ALTER TABLE ONLY genre ADD CONSTRAINT genre_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY image ADD CONSTRAINT image_pkey PRIMARY KEY (uri);
@@ -206,11 +235,15 @@ ALTER TABLE ONLY release ADD CONSTRAINT release_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY track ADD CONSTRAINT track_pkey PRIMARY KEY (track_id);
 ALTER TABLE ONLY master ADD CONSTRAINT master_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY releases_formats ADD CONSTRAINT releases_formats_pkey PRIMARY KEY (release_id, position);
+ALTER TABLE ONLY releases_labels ADD CONSTRAINT releases_labels_pkey PRIMARY KEY (release_id, label, catno);
 ALTER TABLE ONLY releases_images ADD CONSTRAINT releases_images_pkey PRIMARY KEY (release_id, type,image_uri);
 ALTER TABLE ONLY releases_artists ADD CONSTRAINT releases_artists_pkey PRIMARY KEY (release_id, position);
+ALTER TABLE ONLY releases_extraartists ADD CONSTRAINT releases_extraartists_pkey PRIMARY KEY (release_id, artist_id, role);
 ALTER TABLE ONLY tracks_artists ADD CONSTRAINT tracks_artists_pkey PRIMARY KEY (track_id, position);
+ALTER TABLE ONLY tracks_extraartists ADD CONSTRAINT tracks_extraartists_pkey PRIMARY KEY (track_id, artist_id, role);
 ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_pkey PRIMARY KEY (artist_id, type,image_uri);
 ALTER TABLE ONLY labels_images ADD CONSTRAINT labels_images_pkey PRIMARY KEY (label_id, type,image_uri);
+ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_pkey PRIMARY KEY (master_id, type,image_uri);
 
 ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES artist(id);
 ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);
@@ -224,17 +257,7 @@ ALTER TABLE ONLY releases_images ADD CONSTRAINT releases_images_image_uri_fkey F
 ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_master_id_fkey FOREIGN KEY (master_id) REFERENCES master(id);
 ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);
 
---
--- Name: public; Type: ACL; Schema: -; Owner: -
---
-
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
-
-
---
--- PostgreSQL database dump complete
---
-

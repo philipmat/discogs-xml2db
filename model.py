@@ -22,6 +22,7 @@ class Release:
      self.country = ''
      self.released = ''
      self.notes = ''
+     self.barcode = None
      self.genres = []
      self.styles = []
      self.images = []

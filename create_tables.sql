@@ -97,6 +97,7 @@ CREATE TABLE release (
     title 		text,
     country 	text,
     released 	text,
+	barcode		text,
     notes 		text,
     genres 		text,
     styles 		text,

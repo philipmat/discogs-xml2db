@@ -183,6 +183,9 @@ class PostgresExporter(object):
 		values.append(release.status)
 		columns = "id, title, status"
 
+		values.append(release.barcode)
+		columns += ",barcode"
+
 		if len(release.country) != 0:
 			values.append(release.country)
 			columns += ",country"

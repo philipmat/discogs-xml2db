@@ -172,7 +172,7 @@ class PostgresExporter(object):
 			if len(imgValues) != 0:
 				imgQuery = "INSERT INTO tmp_image(" + imgCols + ") VALUES(%s,%s,%s,%s);"
 				self.execute(imgQuery, imgValues)
-				self.execute("INSERT INTO tmp_artists_images(image_uri, type, artist_id) VALUES(%s,%s);", (img.uri, image.imageType, artist.id))
+				self.execute("INSERT INTO tmp_artists_images(image_uri, type, artist_id) VALUES(%s, %s, %s);", (img.uri, img.imageType, artist.id))
 
 	def storeRelease(self, release):
 		if not self.good_quality(release):

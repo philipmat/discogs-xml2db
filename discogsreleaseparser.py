@@ -89,12 +89,15 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			elif not name in self.unknown_tags:
 				self.unknown_tags.append(name)
 		self.stack.append(name)
+
 		if name == 'release':
 			self.release = model.Release()
 			self.release.id = int(attrs['id'])
 			self.release.status = attrs['status']
+
 		elif name == 'track':
 			self.release.tracklist.append(model.Track())
+
 		elif name == "image":
 			img = model.ImageInfo()
 			img.height = attrs["height"]
@@ -107,19 +110,23 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				print "ATTR ERROR"
 				print attrs
 				sys.exit()
+
 		elif name == 'format':
 			fmt = model.Format()
 			fmt.name = attrs['name']
 			fmt.qty = attrs['qty']
 			self.release.formats.append(fmt)
-			#global formats
-			#if not formats.has_key(attrs["name"]):
-			#  formats[attrs["name"]] = True
+
 		elif name == 'label':
 			lbl = model.ReleaseLabel()
 			lbl.name = attrs['name']
 			lbl.catno = attrs['catno']
 			self.release.labels.append(lbl)
+
+		# Barcode
+		elif name == 'identifier' and attrs['type'] == 'Barcode':
+			self.release.barcode = attrs['value']
+
 
 	def characters(self, data):
 		self.buffer += data
@@ -220,15 +227,26 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			if len(self.buffer) != 0:
 				self.release.artistJoins[-1].artist_name = self.buffer
 
-		# Track artist  anv
+		# Track artist anv
 		elif name == 'anv' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' not in self.stack:
 			if len(self.buffer) != 0:
 				self.release.tracklist[-1].artistJoins[-1].anv = self.buffer
+
+		# Track extra artist anv
+		elif name == 'anv' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.tracklist[-1].extraartists[-1].anv = self.buffer
+
 
 		# Release artist anv
 		elif name == 'anv' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' not in self.stack:
 			if len(self.buffer) != 0:
 				self.release.artistJoins[-1].anv = self.buffer
+
+		# Release extra artist anv
+		elif name == 'anv' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.extraartists[-1].anv = self.buffer
 
 		# Track artist join
 		elif name == 'join' and 'artist' in self.stack and 'track' in self.stack:

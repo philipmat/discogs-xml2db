@@ -1,6 +1,4 @@
 ALTER TABLE ONLY artist ADD CONSTRAINT artist_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY country add CONSTRAINT country_key PRIMARY_KEY (name);
-ALTER TABLE ONLY format ADD CONSTRAINT format_pkey PRIMARY KEY (name);
 ALTER TABLE ONLY genre ADD CONSTRAINT genre_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY image ADD CONSTRAINT image_pkey PRIMARY KEY (uri);
 ALTER TABLE ONLY label ADD CONSTRAINT label_pkey PRIMARY KEY (id);
@@ -18,6 +16,8 @@ ALTER TABLE ONLY tracks_artists ADD CONSTRAINT tracks_artists_pkey PRIMARY KEY (
 ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_pkey PRIMARY KEY (artist_id, type,image_uri);
 ALTER TABLE ONLY labels_images ADD CONSTRAINT labels_images_pkey PRIMARY KEY (label_id, type,image_uri);
 ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_pkey PRIMARY KEY (master_id, type,image_uri);
+--ALTER TABLE ONLY country ADD CONSTRAINT country_pkey PRIMARY_KEY (name);
+ALTER TABLE ONLY format ADD CONSTRAINT format_pkey PRIMARY KEY (name);
 
 ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES artist(id);
 ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);

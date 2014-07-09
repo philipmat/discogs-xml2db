@@ -66,6 +66,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 							'role',
 							'style',
 							'styles',
+							'sub_tracks',
 							'title',
 							'track',
 							'tracklist',
@@ -95,7 +96,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			self.release.id = int(attrs['id'])
 			self.release.status = attrs['status']
 
-		elif name == 'track':
+		elif name == 'track' and self.stack[-2] == 'tracklist':
 			self.release.tracklist.append(model.Track())
 
 		elif name == "image":
@@ -135,7 +136,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		self.buffer = self.buffer.strip()
 
 		# Track title
-		if name == 'title' and self.stack[-2] == 'track':
+		if name == 'title' and self.stack[-2] == 'track' and 'sub_track' not in self.stack:
 			if len(self.buffer) != 0:
 				self.release.tracklist[-1].title = self.buffer
 
@@ -180,7 +181,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				self.release.data_quality = self.buffer
 
 		# Track extra artist id
-		elif name == 'id' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' in self.stack:
+		elif name == 'id' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack and 'extraartists' in self.stack:
 			if len(self.buffer) != 0:
 		 		teaj = model.Extraartist()
 				teaj.artist_id = self.buffer
@@ -194,7 +195,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				self.release.extraartists.append(eaj)
 
 		# Track artist id
-		elif name == 'id' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' not in self.stack:
+		elif name == 'id' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack and 'extraartists' not in self.stack:
 			if len(self.buffer) != 0:
 				taj = model.ArtistJoin()
 				taj.artist_id = self.buffer
@@ -208,7 +209,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				self.release.artistJoins.append(aj)
 
 		# Track extra artist name
-		elif name == 'name' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' in self.stack:
+		elif name == 'name' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack and 'extraartists' in self.stack:
 			if len(self.buffer) != 0:
 				self.release.tracklist[-1].extraartists[-1].artist_name = self.buffer
 
@@ -218,7 +219,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				self.release.extraartists[-1].artist_name = self.buffer
 
 		# Track artist name
-		elif name == 'name' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' not in self.stack:
+		elif name == 'name' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack and 'extraartists' not in self.stack:
 			if len(self.buffer) != 0:
 				self.release.tracklist[-1].artistJoins[-1].artist_name = self.buffer
 
@@ -228,7 +229,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				self.release.artistJoins[-1].artist_name = self.buffer
 
 		# Track artist anv
-		elif name == 'anv' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' not in self.stack:
+		elif name == 'anv' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack and 'extraartists' not in self.stack:
 			if len(self.buffer) != 0:
 				self.release.tracklist[-1].artistJoins[-1].anv = self.buffer
 
@@ -249,7 +250,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				self.release.extraartists[-1].anv = self.buffer
 
 		# Track artist join
-		elif name == 'join' and 'artist' in self.stack and 'track' in self.stack:
+		elif name == 'join' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack:
 			if len(self.buffer) != 0:
 				self.release.tracklist[-1].artistJoins[-1].join_relation = self.buffer
 
@@ -259,7 +260,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				self.release.artistJoins[-1].join_relation = self.buffer
 
 		# Track extra artist role
-		elif name == 'role' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' in self.stack:
+		elif name == 'role' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack and 'extraartists' in self.stack:
 			if len(self.buffer) != 0:
 				roles_list = re.findall('([^[,]+(?:\[[^]]+])?)+', self.buffer)  # thanks to jlatour
 				for role in roles_list:
@@ -285,11 +286,11 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 					self.release.extraartists[-1].roles.append(role)
 
 		# Track Duration	
-		elif name == 'duration':
+		elif name == 'duration' and 'sub_track' not in self.stack:
 			self.release.tracklist[-1].duration = self.buffer
 
 		# Track Position
-		elif name == 'position':
+		elif name == 'position' and 'sub_track' not in self.stack:
 			self.release.tracklist[-1].position = self.buffer
 
 		# Release Master

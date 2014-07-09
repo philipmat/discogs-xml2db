@@ -10,7 +10,9 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
-CREATE TABLE artist (
+SET synchronous_commit=off;
+
+CREATE UNLOGGED TABLE artist (
     id 				integer NOT NULL,
     name 			text NOT NULL,
     realname 		text,
@@ -24,42 +26,42 @@ CREATE TABLE artist (
 	data_quality 	text
 );
 
-CREATE TABLE tmp_artists_images (
+CREATE UNLOGGED TABLE tmp_artists_images (
     image_uri 	text,
     type 		text,
     artist_id 	integer
 );
 
 
-CREATE TABLE artists_images (
+CREATE UNLOGGED TABLE artists_images (
     image_uri 	text,
     type 		text,
     artist_id 	integer
 );
 
-CREATE TABLE country (
+CREATE UNLOGGED TABLE country (
     name text
 );
 
-CREATE TABLE format (
+CREATE UNLOGGED TABLE format (
     name text NOT NULL
 );
 
-CREATE TABLE genre (
+CREATE UNLOGGED TABLE genre (
     id 				integer NOT NULL,
     name 			text,
     parent_genre 	integer,
     sub_genre 		integer
 );
 
-CREATE TABLE image (
+CREATE UNLOGGED TABLE image (
     height 			integer,
     width 			integer,
     uri 			text NOT NULL,
     uri150 			text
 );
 
-CREATE TABLE tmp_image (
+CREATE UNLOGGED TABLE tmp_image (
     height 			integer,
     width 			integer,
     uri 			text NOT NULL,
@@ -67,7 +69,7 @@ CREATE TABLE tmp_image (
 );
 
 
-CREATE TABLE label (
+CREATE UNLOGGED TABLE label (
     id 				integer NOT NULL,
     name 			text NOT NULL,
     contactinfo 	text,
@@ -78,20 +80,20 @@ CREATE TABLE label (
 	data_quality 	text
 );
 
-CREATE TABLE tmp_labels_images (
+CREATE UNLOGGED TABLE tmp_labels_images (
     image_uri 	text,
     type 		text,
     label_id 	integer
 );
 
-CREATE TABLE labels_images (
+CREATE UNLOGGED TABLE labels_images (
     image_uri 	text,
     type 		text,
     label_id 	integer
 );
 
 
-CREATE TABLE release (
+CREATE UNLOGGED TABLE release (
     id 			integer NOT NULL,
     status 		text,
     title 		text,
@@ -105,7 +107,7 @@ CREATE TABLE release (
 	data_quality text
 );
 
-CREATE TABLE releases_artists (
+CREATE UNLOGGED TABLE releases_artists (
     release_id 		integer,
     "position"  	integer,
     artist_id 		integer,
@@ -114,7 +116,7 @@ CREATE TABLE releases_artists (
     join_relation 	text
 );
 
-CREATE TABLE releases_extraartists (
+CREATE UNLOGGED TABLE releases_extraartists (
     release_id 		integer,
     artist_id 		integer,
     artist_name 	text,
@@ -122,7 +124,7 @@ CREATE TABLE releases_extraartists (
     role 			text
 );
 
-CREATE TABLE releases_formats (
+CREATE UNLOGGED TABLE releases_formats (
     release_id 		integer,
     "position" 		integer,
     format_name 	text,
@@ -130,30 +132,30 @@ CREATE TABLE releases_formats (
     descriptions 	text[]
 );
 
-CREATE TABLE tmp_releases_images (
+CREATE UNLOGGED TABLE tmp_releases_images (
     image_uri 	text,
     type 		text,
     release_id 	integer
 );
 
-CREATE TABLE releases_images (
+CREATE UNLOGGED TABLE releases_images (
     image_uri 	text,
     type 		text,
     release_id 	integer
 );
 
 
-CREATE TABLE releases_labels (
+CREATE UNLOGGED TABLE releases_labels (
     label 		text,
     release_id 	integer,
     catno 		text
 );
 
-CREATE TABLE role (
+CREATE UNLOGGED TABLE role (
     role_name text
 );
 
-CREATE TABLE track (
+CREATE UNLOGGED TABLE track (
     release_id 	integer,
     "position" 	text,
     track_id 	text,
@@ -162,7 +164,7 @@ CREATE TABLE track (
     trackno 	integer
 );
 
-CREATE TABLE tracks_artists (
+CREATE UNLOGGED TABLE tracks_artists (
     track_id 		text,
     "position"  	integer,
     artist_id 		integer,
@@ -171,7 +173,7 @@ CREATE TABLE tracks_artists (
     join_relation 	text
 );
 
-CREATE TABLE tracks_extraartists (
+CREATE UNLOGGED TABLE tracks_extraartists (
     track_id 	text,
     artist_id 	integer,
     artist_name text,
@@ -179,7 +181,7 @@ CREATE TABLE tracks_extraartists (
     role 		text
 );
 
-CREATE TABLE master (
+CREATE UNLOGGED TABLE master (
     id 				integer NOT NULL,
     title 			text,
     main_release 	integer NOT NULL,
@@ -190,75 +192,42 @@ CREATE TABLE master (
 	data_quality 	text
 );
 
-CREATE TABLE masters_artists (
+CREATE UNLOGGED TABLE masters_artists (
     artist_name text,
     master_id integer
 );
 
-CREATE TABLE masters_artists_joins (
+CREATE UNLOGGED TABLE masters_artists_joins (
     artist1 		text,
     artist2 		text,
     join_relation 	text,
     master_id 		integer
 );
 
-CREATE TABLE masters_extraartists (
+CREATE UNLOGGED TABLE masters_extraartists (
     master_id 		integer,
     artist_name 	text,
     roles 			text[]
 );
 
-CREATE TABLE masters_formats (
+CREATE UNLOGGED TABLE masters_formats (
     master_id 		integer,
     format_name 	text,
     qty 			integer,
     descriptions 	text[]
 );
 
-CREATE TABLE tmp_masters_images (
+CREATE UNLOGGED TABLE tmp_masters_images (
     image_uri text,
     type 		text,
     master_id integer
 );
 
-CREATE TABLE masters_images (
+CREATE UNLOGGED TABLE masters_images (
     image_uri text,
     type 		text,
     master_id integer
 );
-
-ALTER TABLE ONLY artist ADD CONSTRAINT artist_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY country add CONSTRAINT country_key PRIMARY_KEY (name);
-ALTER TABLE ONLY format ADD CONSTRAINT format_pkey PRIMARY KEY (name);
-ALTER TABLE ONLY genre ADD CONSTRAINT genre_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY image ADD CONSTRAINT image_pkey PRIMARY KEY (uri);
-ALTER TABLE ONLY label ADD CONSTRAINT label_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY role ADD CONSTRAINT role_pkey PRIMARY KEY (role_name);
-ALTER TABLE ONLY release ADD CONSTRAINT release_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY track ADD CONSTRAINT track_pkey PRIMARY KEY (track_id);
-ALTER TABLE ONLY master ADD CONSTRAINT master_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY releases_formats ADD CONSTRAINT releases_formats_pkey PRIMARY KEY (release_id, position);
--- ALTER TABLE ONLY releases_labels ADD CONSTRAINT releases_labels_pkey PRIMARY KEY (release_id, label, catno);
-ALTER TABLE ONLY releases_images ADD CONSTRAINT releases_images_pkey PRIMARY KEY (release_id, type,image_uri);
-ALTER TABLE ONLY releases_artists ADD CONSTRAINT releases_artists_pkey PRIMARY KEY (release_id, position);
---ALTER TABLE ONLY releases_extraartists ADD CONSTRAINT releases_extraartists_pkey PRIMARY KEY (release_id, artist_id, artist_name, anv, role);
-ALTER TABLE ONLY tracks_artists ADD CONSTRAINT tracks_artists_pkey PRIMARY KEY (track_id, position);
---ALTER TABLE ONLY tracks_extraartists ADD CONSTRAINT tracks_extraartists_pkey PRIMARY KEY (track_id, artist_id, artist_name, anv, role);
-ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_pkey PRIMARY KEY (artist_id, type,image_uri);
-ALTER TABLE ONLY labels_images ADD CONSTRAINT labels_images_pkey PRIMARY KEY (label_id, type,image_uri);
-ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_pkey PRIMARY KEY (master_id, type,image_uri);
-
-ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES artist(id);
-ALTER TABLE ONLY artists_images ADD CONSTRAINT artists_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);
-ALTER TABLE ONLY releases_labels ADD CONSTRAINT foreign_did FOREIGN KEY (release_id) REFERENCES release(id);
-ALTER TABLE ONLY labels_images ADD CONSTRAINT labels_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);
-ALTER TABLE ONLY labels_images ADD CONSTRAINT labels_images_label_id_fkey FOREIGN KEY (label_id) REFERENCES label(id);
-ALTER TABLE ONLY releases_formats ADD CONSTRAINT releases_formats_release_id_fkey FOREIGN KEY (release_id) REFERENCES release(id);
-ALTER TABLE ONLY releases_formats ADD CONSTRAINT releases_formats_format_name_fkey FOREIGN KEY (format_name) REFERENCES format(name);
-ALTER TABLE ONLY releases_images ADD CONSTRAINT releases_images_release_id_fkey FOREIGN KEY (release_id) REFERENCES release(id);
-ALTER TABLE ONLY releases_images ADD CONSTRAINT releases_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);
-ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_master_id_fkey FOREIGN KEY (master_id) REFERENCES master(id);
-ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;

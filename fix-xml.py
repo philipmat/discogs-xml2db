@@ -19,8 +19,8 @@ def clean(filename):
     for line in source:
       rObj = re.search(ctrlregex, line)
       counter += 1
-      print counter
       if rObj is not None:
+        print counter
         newLine = re.sub(ctrlregex, '', line)
         destination.write(newLine)
       else:

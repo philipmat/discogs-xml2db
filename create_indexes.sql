@@ -34,9 +34,9 @@ ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_image_uri_fkey FOR
 CREATE INDEX releases_artists_id_idx ON releases_artists (artist_id);
 CREATE INDEX releases_artists_name_idx ON releases_artists (artist_name);
 CREATE INDEX releases_artists_releaseid_idx ON releases_artists (release_id);
-CREATE INDEX releases_extraartists_id_idx ON releases_artists (artist_id);
-CREATE INDEX releases_extraartists_name_idx ON releases_artists (artist_name);
-CREATE INDEX releases_extraartists_releaseid_idx ON releases_artists (release_id);
+CREATE INDEX releases_extraartists_id_idx ON releases_extraartists (artist_id);
+CREATE INDEX releases_extraartists_name_idx ON releases_extraartists (artist_name);
+CREATE INDEX releases_extraartists_releaseid_idx ON releases_extraartists (release_id);
 CREATE INDEX tracks_artists_id_idx ON tracks_artists (artist_id);
 CREATE INDEX tracks_artists_name_idx ON tracks_artists (artist_name);
 CREATE INDEX tracks_artists_trackid_idx ON tracks_artists (track_id);

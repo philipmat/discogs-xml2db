@@ -319,9 +319,8 @@ class PostgresExporter(object):
 			if len(imgValues) != 0:
 				imgQuery = "INSERT INTO tmp_image(" + imgCols + ") VALUES(%s,%s,%s,%s);"
 				self.execute(imgQuery, imgValues)
-				self.execute("INSERT INTO tmp_masters_images(image_uri, master_id) VALUES(%s,%s);",
-						(img.uri, master.id))
-
+				self.execute("INSERT INTO tmp_masters_images(image_uri, type, master_id) VALUES(%s,%s);",
+						(img.uri, img.image_type, master.id))
 		if len(master.artists) > 1:
 			for artist in master.artists:
 				query = "INSERT INTO masters_artists(master_id, artist_name) VALUES(%s,%s);"

@@ -6,12 +6,12 @@ class Artist:
       self.images = []
       #self.urls = {'wikipedia':None, 'myspace':None,'other':[]}
       self.urls = []
-      self.namevariations = [] 
+      self.namevariations = []
       self.aliases = []
       self.profile = ''
       self.members = []#MemberNameList, foreign key name, class Artist
       self.groups = []#GroupNameList, foreign key name, class Artist
-      #self.artistType = 0 #0 = person, 1 = group 
+      #self.artistType = 0 #0 = person, 1 = group
       #self.artist_id = ''
 
 class Release:
@@ -28,10 +28,11 @@ class Release:
      self.images = []
      self.formats = []
      self.labels = []
-     self.artistJoins = [] 
-     self.tracklist = [] 
+     self.companies = []
+     self.artistJoins = []
+     self.tracklist = []
      self.extraartists = []
-     #self.indentifiers = [] # 
+     #self.indentifiers = [] #
 
 class Master:
    def __init__(self):
@@ -81,10 +82,19 @@ class Label:
     self.urls = []
     self.sublabels = []
 
+class Company:
+  def __init__(self):
+    self.id = 0
+    self.name = ''
+    self.catno = ''
+    self.type = 0
+    self.type_name = ''
+
 class Format:
   def __init__(self):
     self.name = ''
     self.qty = 0
+    self.text = ''
     self.descriptions = []
 
 class Style:
@@ -106,11 +116,11 @@ class Track:
 
 class ImageInfo:
   def __init__(self):
-    self.height = 0      
+    self.height = 0
     self.imageType = None #enum ImageType.PRIMARY or ImageType.SECONDARY
-    self.uri = ''    
-    self.uri150 = '' 
-    self.width = 0   
+    self.uri = ''
+    self.uri150 = ''
+    self.width = 0
 
 class ImageType:
   PRIMARY = 0

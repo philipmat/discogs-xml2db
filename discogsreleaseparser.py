@@ -116,6 +116,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			fmt = model.Format()
 			fmt.name = attrs['name']
 			fmt.qty = attrs['qty']
+			fmt.text = attrs['text']
 			self.release.formats.append(fmt)
 
 		elif name == 'label':
@@ -123,6 +124,9 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			lbl.name = attrs['name']
 			lbl.catno = attrs['catno']
 			self.release.labels.append(lbl)
+
+		elif name == 'company' and 'companies' in self.stack:
+			self.release.companies.append(model.Company())
 
 		# Barcode
 		elif name == 'identifier' and attrs['type'] == 'Barcode':
@@ -160,7 +164,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			if len(self.buffer) != 0:
 				self.release.notes = self.buffer
 
-		# Release Genre	
+		# Release Genre
 		elif name == 'genre':
 			if len(self.buffer) != 0:
 				self.release.genres.append(self.buffer)
@@ -179,6 +183,31 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		elif name == 'data_quality':
 			if len(self.buffer) != 0:
 				self.release.data_quality = self.buffer
+
+		# Company id
+		elif name == 'id' and 'companies' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.companies[-1].id = self.buffer
+
+		# Company name
+		elif name == 'name' and 'companies' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.companies[-1].name = self.buffer
+
+		# Company catno
+		elif name == 'catno' and 'companies' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.companies[-1].catno = self.buffer
+
+		# Company type
+		elif name == 'entity_type' and 'companies' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.companies[-1].type = self.buffer
+
+		# Company type name
+		elif name == 'entity_type_name' and 'companies' in self.stack:
+			if len(self.buffer) != 0:
+				self.release.companies[-1].type_name = self.buffer
 
 		# Track extra artist id
 		elif name == 'id' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack and 'extraartists' in self.stack:
@@ -285,7 +314,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 						role = (role[:lIndex].strip(), description)
 					self.release.extraartists[-1].roles.append(role)
 
-		# Track Duration	
+		# Track Duration
 		elif name == 'duration' and 'sub_track' not in self.stack:
 			self.release.tracklist[-1].duration = self.buffer
 

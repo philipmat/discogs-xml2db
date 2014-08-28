@@ -35,6 +35,8 @@ CREATE INDEX releases_artists_id_idx ON releases_artists (artist_id);
 CREATE INDEX releases_artists_name_idx ON releases_artists (artist_name);
 CREATE INDEX releases_artists_releaseid_idx ON releases_artists (release_id);
 CREATE INDEX releases_extraartists_id_idx ON releases_extraartists (artist_id);
+--This one record prevents index being created as of no interest to us we delete it
+DELETE from releases_extraartists where release_id=4620841 and role='(Other,"Stage Sound & Light Technicians")';
 CREATE INDEX releases_extraartists_name_idx ON releases_extraartists (artist_name);
 CREATE INDEX releases_extraartists_releaseid_idx ON releases_extraartists (release_id);
 CREATE INDEX tracks_artists_id_idx ON tracks_artists (artist_id);

@@ -31,6 +31,9 @@ ALTER TABLE ONLY releases_images ADD CONSTRAINT releases_images_image_uri_fkey F
 ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_master_id_fkey FOREIGN KEY (master_id) REFERENCES master(id);
 ALTER TABLE ONLY masters_images ADD CONSTRAINT masters_images_image_uri_fkey FOREIGN KEY (image_uri) REFERENCES image(uri);
 
+CREATE INDEX release_title_idx ON release (title);
+CREATE INDEX release_country_idx ON release (country);
+CREATE INDEX release_barcode_idx ON release (barcode);
 CREATE INDEX releases_artists_id_idx ON releases_artists (artist_id);
 CREATE INDEX releases_artists_name_idx ON releases_artists (artist_name);
 CREATE INDEX releases_artists_releaseid_idx ON releases_artists (release_id);
@@ -48,6 +51,7 @@ CREATE INDEX tracks_extraartists_trackid_idx ON tracks_extraartists (track_id);
 CREATE INDEX track_releaseid_idx ON track (release_id);
 CREATE INDEX track_releaseid_trackid ON track (release_id, track_id);
 CREATE INDEX releases_labels_name_idx ON releases_labels (label);
+CREATE INDEX releases_labels_catno_idx ON releases_labels (catno);
 CREATE INDEX releases_formats_releaseid_idx ON releases_formats (release_id);
 CREATE INDEX releases_images_releaseid_idx ON releases_images (release_id);
 CREATE INDEX label_name_idx ON label (name);

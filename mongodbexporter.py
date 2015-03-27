@@ -152,9 +152,7 @@ class MongoDbExporter(object):
 		u = urlparse.urlparse(mongo_uri)
 		if u.scheme == 'file':
 			path = u.path
-			if '?' in u.path:
-				path, self._options = u.path.split('?', 1)
-				self._options = urlparse.parse_qs(self._options) if self._options else {}
+			self._options = urlparse.parse_qs(u.query) if u.query else {}
 			path = u.netloc + path
 			self.db = _MongoImportFileSet(path)
 			if 'uniq' in self._options and 'md5' in self._options['uniq']:

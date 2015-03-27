@@ -240,7 +240,10 @@ class MongoDbExporter(object):
 		self.execute('artists', artist)
 
 	def storeRelease(self, release):
-		release.l_artist = release.artist.lower()
+		if hasattr(release, 'artist'):
+			release.l_artist = release.artist.lower()
+		else:
+			release.l_artist = None
 		release.l_title = release.title.lower()
 		self.execute('releases', release)
 

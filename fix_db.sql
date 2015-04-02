@@ -54,3 +54,11 @@ and  t1.type		= t2.type
 and  t1.release_id 	= t2.release_id
 where t2.image_uri is null
 ;
+
+-- Remove duplicate rows
+CREATE TABLE TEMP AS
+SELECT DISTINCT * FROM releases_labels;
+DROP TABLE releases_labels;
+ALTER TABLE temp RENAME TO releases_labels;
+
+

@@ -7,7 +7,7 @@ ALTER TABLE ONLY release ADD CONSTRAINT release_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY track ADD CONSTRAINT track_pkey PRIMARY KEY (track_id);
 ALTER TABLE ONLY master ADD CONSTRAINT master_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY releases_formats ADD CONSTRAINT releases_formats_pkey PRIMARY KEY (release_id, position);
--- ALTER TABLE ONLY releases_labels ADD CONSTRAINT releases_labels_pkey PRIMARY KEY (release_id, label, catno);
+ALTER TABLE ONLY releases_labels ADD CONSTRAINT releases_labels_pkey PRIMARY KEY (release_id, label, catno);
 ALTER TABLE ONLY releases_images ADD CONSTRAINT releases_images_pkey PRIMARY KEY (release_id, type,image_uri);
 ALTER TABLE ONLY releases_artists ADD CONSTRAINT releases_artists_pkey PRIMARY KEY (release_id, position);
 --ALTER TABLE ONLY releases_extraartists ADD CONSTRAINT releases_extraartists_pkey PRIMARY KEY (release_id, artist_id, artist_name, anv, role);

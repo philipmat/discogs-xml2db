@@ -56,9 +56,9 @@ where t2.image_uri is null
 ;
 
 -- Remove duplicate rows
-CREATE TABLE TEMP AS
+CREATE TABLE tmp_release_labels AS
 SELECT DISTINCT * FROM releases_labels;
 DROP TABLE releases_labels;
-ALTER TABLE temp RENAME TO releases_labels;
+ALTER TABLE tmp_release_labels RENAME TO releases_labels;
 
 

@@ -168,6 +168,9 @@ class PostgresExporter(object):
 		values.append(release.barcode)
 		columns += ",barcode"
 
+		if(release.master_id) != 0:
+			values.append(release.master_id)
+			columns += ",master_id"
 		if len(release.country) != 0:
 			values.append(release.country)
 			columns += ",country"

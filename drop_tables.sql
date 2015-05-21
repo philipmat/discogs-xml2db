@@ -15,6 +15,7 @@ DROP TABLE role;
 DROP TABLE track;
 DROP TABLE tracks_artists;
 DROP TABLE tracks_extraartists;
+DROP TABLE master;
 DROP TABLE masters_artists;
 DROP TABLE masters_artists_joins;
 DROP TABLE masters_extraartists;

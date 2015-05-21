@@ -155,6 +155,18 @@ CREATE UNLOGGED TABLE tracks_extraartists (
     data_quality 	text
 );
 
+CREATE UNLOGGED TABLE master (
+    id 				integer NOT NULL,
+    title 			text,
+    main_release 	integer NOT NULL,
+    year 			int,
+    notes 			text,
+    genres 			text,
+    styles 			text,
+    role 		text,
+    data_quality 	text
+ );
+
 CREATE UNLOGGED TABLE masters_artists (
     artist_name text,
     master_id integer

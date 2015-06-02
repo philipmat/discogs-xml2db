@@ -17,6 +17,7 @@ class Artist:
 class Release:
    def __init__(self):
      self.id = 0
+     self.master_id = 0
      self.status = ''
      self.title = ''
      self.country = ''

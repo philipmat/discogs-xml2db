@@ -27,7 +27,7 @@ DROP TABLE releases_images;
 ALTER TABLE temp RENAME TO releases_images;
 
 -- Remove duplicate release labels tuples
-CREATE TABLE TEMP AS
+CREATE TABLE tmp_release_labels AS
 SELECT DISTINCT * FROM releases_labels;
 DROP TABLE releases_labels;
-ALTER TABLE temp RENAME TO releases_labels;
+ALTER TABLE tmp_release_labels RENAME TO releases_labels;

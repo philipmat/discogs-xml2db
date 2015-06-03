@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@ import xml.sax
 import sys
 import jsonexporter
 import argparse # in < 2.7 pip install argparse
+import gzip
+
 from os import path
 from model import ParserStopError
 from collections import deque
@@ -70,7 +72,11 @@ def parseArtists(parser, exporter):
 	artistHandler = ArtistHandler(exporter, stop_after=options.n, ignore_missing_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(artistHandler)
 	try:
-		parser.parse(artist_file)
+		if artist_file.endswith(".gz"):
+			with gzip.open(artist_file) as f:
+				parser.parse(f)
+		else:
+			parser.parse(artist_file)
 	except ParserStopError as pse:
 		print "Parsed %d artists then stopped as requested." % pse.records_parsed
 #	except model.ParserStopError as pse22:
@@ -100,7 +106,11 @@ def parseLabels(parser, exporter):
 	labelHandler = LabelHandler(exporter, stop_after=options.n, ignore_missing_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(labelHandler)
 	try:
-		parser.parse(label_file)
+		if label_file.endswith(".gz"):
+			with gzip.open(label_file) as f:
+				parser.parse(f)
+		else:
+			parser.parse(label_file)
 	except ParserStopError as pse:
 		print "Parsed %d labels then stopped as requested." % pse.records_parsed
 
@@ -125,7 +135,11 @@ def parseReleases(parser, exporter):
 	releaseHandler = ReleaseHandler(exporter, stop_after=options.n, ignore_missing_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(releaseHandler)
 	try:
-		parser.parse(release_file)
+		if release_file.endswith(".gz"):
+			with gzip.open(release_file) as f:
+				parser.parse(f)
+		else:
+			parser.parse(release_file)
 	except ParserStopError as pse:
 		print "Parsed %d releases then stopped as requested." % pse.records_parsed
 
@@ -150,7 +164,11 @@ def parseMasters(parser, exporter):
 	masterHandler = MasterHandler(exporter, stop_after=options.n, ignore_missing_tags = options.ignore_unknown_tags)
 	parser.setContentHandler(masterHandler)
 	try:
-		parser.parse(master_file)
+		if master_file.endswith(".gz"):
+			with gzip.open(master_file) as f:
+				parser.parse(f)
+		else:
+			parser.parse(master_file)
 	except ParserStopError as pse:
 		print "Parsed %d masters then stopped as requested." % pse.records_parsed
 
@@ -159,8 +177,8 @@ def parseMasters(parser, exporter):
 def select_exporter(options):
 	global exporters
 	if options.output is None:
-		return exporters['json'] 
-	
+		return exporters['json']
+
 	if exporters.has_key(options.output):
 		return exporters[options.output]
 	# should I be throwing an exception here?
@@ -173,10 +191,10 @@ def make_exporter(options):
 	m = __import__('.'.join(parts[:-1]))
 	for i in xrange(1, len(parts)):
 		m = getattr(m, parts[i])
-	
+
 	data_quality = list(x.strip().lower() for x in (options.data_quality or '').split(',') if x)
 	return m(options.params, data_quality=data_quality)
-		
+
 
 
 def main(argv):

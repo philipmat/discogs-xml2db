@@ -1,3 +1,0 @@
-CouchDB>=0.8
-psycopg2>=2.4.0
-pymongo>=2.0.0

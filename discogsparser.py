@@ -229,13 +229,12 @@ that --params is used, e.g.:
 
 	exporter = make_exporter(options)
 	parser = xml.sax.make_parser()
-	try:
-		parseArtists(parser, exporter)
-		parseLabels(parser, exporter)
-		parseReleases(parser, exporter)
-		parseMasters(parser, exporter)
-	finally:
-		exporter.finish(completely_done = True)
+	parseArtists(parser, exporter)
+	parseLabels(parser, exporter)
+	parseReleases(parser, exporter)
+	parseMasters(parser, exporter)
+
+	exporter.finish(completely_done = True)
 
 if __name__ == "__main__":
 	main(sys.argv[1:])

@@ -32,7 +32,9 @@ class Release:
      self.artistJoins = [] 
      self.tracklist = [] 
      self.extraartists = []
-     #self.indentifiers = [] # 
+     self.identifiers = [] 
+     self.videos  = []
+     self.companies = [] 
 
 class Master:
    def __init__(self):
@@ -104,6 +106,30 @@ class Track:
     self.title = ''
     self.duration = ''
     self.position = ''
+    
+    
+class Identifier:
+  def __init__(self):
+    self.description = ''
+    self.type = ''
+    self.value = ''
+
+class Video:
+  def __init__(self):
+    self.duration = ''
+    self.embed = ''
+    self.src = ''
+    self.title = ''
+    self.description = ''
+
+class Company:
+  def __init__(self):
+    self.id = ''
+    self.name = ''
+    self.catno = ''
+    self.entity_type = ''
+    self.entity_type_name = ''
+   
 
 class ImageInfo:
   def __init__(self):

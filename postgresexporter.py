@@ -107,8 +107,8 @@ class PostgresExporter(object):
 		except PostgresExporter.ExecuteError as e:
 			print "%s" % (e.args)
 			return
-		for img in label.images:
-			self.execute("INSERT INTO labels_images(type, height, width, label_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, label.id))
+		#~ for img in label.images:
+			#~ self.execute("INSERT INTO labels_images(type, height, width, label_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, label.id))
 
 	def storeArtist(self, artist):
 		if not self.good_quality(artist):
@@ -153,8 +153,8 @@ class PostgresExporter(object):
 			print "%s" % (e.args)
 			return
 
-		for img in artist.images:
-			self.execute("INSERT INTO artists_images(type, height, width, artist_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, artist.id))
+		#~ for img in artist.images:
+			#~ self.execute("INSERT INTO artists_images(type, height, width, artist_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, artist.id))
 
 	def storeRelease(self, release):
 		if not self.good_quality(release):
@@ -200,8 +200,8 @@ class PostgresExporter(object):
 		except PostgresExporter.ExecuteError, e:
 			print "%s" % (e.args)
 			return
-		for img in release.images:
-			self.execute("INSERT INTO releases_images(type, height, width, release_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, release.id))
+		#~ for img in release.images:
+			#~ self.execute("INSERT INTO releases_images(type, height, width, release_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, release.id))
 
 		fmt_order = 0
 		for fmt in release.formats:
@@ -286,8 +286,8 @@ class PostgresExporter(object):
 			print "%s" % (e.args)
 			return
 
-		for img in master.images:
-			self.execute("INSERT INTO masters_images(type, height, width, master_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, master.id))
+		#~ for img in master.images:
+			#~ self.execute("INSERT INTO masters_images(type, height, width, master_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, master.id))
 
 		if len(master.artists) > 1:
 			for artist in master.artists:

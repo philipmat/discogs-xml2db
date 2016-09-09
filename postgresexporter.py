@@ -107,17 +107,8 @@ class PostgresExporter(object):
 		except PostgresExporter.ExecuteError as e:
 			print "%s" % (e.args)
 			return
-		imgCols = "uri,height,width,uri150"
-		for img in label.images:
-			imgValues = []
-			imgValues.append(img.uri)
-			imgValues.append(img.height)
-			imgValues.append(img.width)
-			imgValues.append(img.uri150)
-			if len(imgValues) != 0:
-				imgQuery = "INSERT INTO tmp_image(" + imgCols + ") VALUES(%s,%s,%s,%s);"
-				self.execute(imgQuery, imgValues)
-				self.execute("INSERT INTO tmp_labels_images(image_uri, type, label_id) VALUES(%s,%s, %s);", (img.uri, img.imageType, label.id))
+		#~ for img in label.images:
+			#~ self.execute("INSERT INTO labels_images(type, height, width, label_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, label.id))
 
 	def storeArtist(self, artist):
 		if not self.good_quality(artist):
@@ -162,17 +153,8 @@ class PostgresExporter(object):
 			print "%s" % (e.args)
 			return
 
-		imgCols = "uri,height,width,uri150"
-		for img in artist.images:
-			imgValues = []
-			imgValues.append(img.uri)
-			imgValues.append(img.height)
-			imgValues.append(img.width)
-			imgValues.append(img.uri150)
-			if len(imgValues) != 0:
-				imgQuery = "INSERT INTO tmp_image(" + imgCols + ") VALUES(%s,%s,%s,%s);"
-				self.execute(imgQuery, imgValues)
-				self.execute("INSERT INTO tmp_artists_images(image_uri, type, artist_id) VALUES(%s, %s, %s);", (img.uri, img.imageType, artist.id))
+		#~ for img in artist.images:
+			#~ self.execute("INSERT INTO artists_images(type, height, width, artist_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, artist.id))
 
 	def storeRelease(self, release):
 		if not self.good_quality(release):
@@ -186,6 +168,9 @@ class PostgresExporter(object):
 		values.append(release.barcode)
 		columns += ",barcode"
 
+		if(release.master_id) != 0:
+			values.append(release.master_id)
+			columns += ",master_id"
 		if len(release.country) != 0:
 			values.append(release.country)
 			columns += ",country"
@@ -215,18 +200,9 @@ class PostgresExporter(object):
 		except PostgresExporter.ExecuteError, e:
 			print "%s" % (e.args)
 			return
-		imgCols = "uri,height,width,uri150"
-		for img in release.images:
-			imgValues = []
-			imgValues.append(img.uri)
-			imgValues.append(img.height)
-			imgValues.append(img.width)
-			imgValues.append(img.uri150)
-			if len(imgValues) != 0:
-				imgQuery = "INSERT INTO tmp_image(" + imgCols + ") VALUES(%s,%s,%s,%s);"
-				self.execute(imgQuery, imgValues)
-				self.execute("INSERT INTO tmp_releases_images(image_uri, type,release_id) VALUES(%s,%s,%s);",
-						(img.uri, img.imageType, release.id))
+		#~ for img in release.images:
+			#~ self.execute("INSERT INTO releases_images(type, height, width, release_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, release.id))
+
 		fmt_order = 0
 		for fmt in release.formats:
 			fmt_order = fmt_order + 1
@@ -309,18 +285,9 @@ class PostgresExporter(object):
 		except PostgresExporter.ExecuteError, e:
 			print "%s" % (e.args)
 			return
-		imgCols = "uri,height,width,uri150"
-		for img in master.images:
-			imgValues = []
-			imgValues.append(img.uri)
-			imgValues.append(img.height)
-			imgValues.append(img.width)
-			imgValues.append(img.uri150)
-			if len(imgValues) != 0:
-				imgQuery = "INSERT INTO tmp_image(" + imgCols + ") VALUES(%s,%s,%s,%s);"
-				self.execute(imgQuery, imgValues)
-				self.execute("INSERT INTO tmp_masters_images(image_uri, master_id) VALUES(%s,%s);",
-						(img.uri, master.id))
+
+		#~ for img in master.images:
+			#~ self.execute("INSERT INTO masters_images(type, height, width, master_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, master.id))
 
 		if len(master.artists) > 1:
 			for artist in master.artists:

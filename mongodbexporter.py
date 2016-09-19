@@ -167,7 +167,10 @@ class MongoDbExporter(object):
 			if db_name.startswith('/'):
 				db_name = db_name[1:]
 			#print 'Connecting to db %s on %s with options.' % (db_name, mongo_uri, options)
-			mongo = pymongo.Connection(mongo_uri)
+			try:
+				mongo = pymongo.Connection(mongo_uri)
+			except:
+				mongo = pymongo.MongoClient(mongo_uri)
 			self.db = mongo[db_name]
 			if 'uniq' in self._options and 'md5' in self._options['uniq']:
 				self._quick_uniq = False
@@ -225,7 +228,10 @@ class MongoDbExporter(object):
 			self.db.masters.ensure_index('id', background=True, unique=True)
 			self.db.masters.ensure_index('l_title', background=True)
 			self.db.masters.ensure_index('main_release', background=True, unique=True)
-		self.db.connection.disconnect()
+		try:
+			self.db.connection.disconnect()
+		except:
+			pass
 		if self._quick_uniq is not None:
 			self._quick_uniq.finish()
 

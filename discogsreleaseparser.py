@@ -50,7 +50,6 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 							'formats',
 							'genre',
 							'genres',
-							#'indentifiers', 'identifier',
 							'image',
 							'images',
 							'join',
@@ -72,7 +71,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 							'tracklist',
 							'tracks',
 							'url',
-							'urls',
+							'urls'
 							)
 		self.release = None
 		self.buffer = ''
@@ -128,6 +127,25 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		elif name == 'identifier' and attrs['type'] == 'Barcode':
 			self.release.barcode = attrs['value']
 
+		elif name == 'company':
+			comp = model.Company()
+			self.release.companies.append(comp);			
+
+		elif name == 'video':
+			vid = model.Video()
+			vid.duration = attrs['duration']
+			vid.embed = attrs['embed']
+			vid.src = attrs['src']
+			self.release.videos.append(vid);			
+			
+		## not in the elif, will lose the barcode
+		if name == 'identifier':
+			ident = model.Identifier()
+			if 'description' in attrs:
+				ident.description = attrs['description']
+			ident.type = attrs['type']
+			ident.value = attrs['value']
+			self.release.identifiers.append(ident)
 
 	def characters(self, data):
 		self.buffer += data
@@ -314,6 +332,23 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
 						print 'Encountered some unknown Release tags: %s' % (self.unknown_tags)
 					raise model.ParserStopError(releaseCounter)
+
+		if name == 'id' and 'company' in self.stack:
+			self.release.companies[-1].id = self.buffer
+		if name == 'name' and 'company' in self.stack:
+			self.release.companies[-1].name = self.buffer
+		if name == 'catno' and 'company' in self.stack:
+			self.release.companies[-1].catno = self.buffer
+		if name == 'entity_type' and 'company' in self.stack:
+			self.release.companies[-1].entity_type = self.buffer
+		if name == 'entity_type_name' and 'company' in self.stack:
+			self.release.companies[-1].entity_type_name = self.buffer
+
+		if name == 'title' and 'video' in self.stack:
+			self.release.videos[-1].title = self.buffer
+		if name == 'description' and 'video' in self.stack:
+			self.release.videos[-1].description = self.buffer
+
 
 		if self.stack[-1] == name:
 			self.stack.pop()

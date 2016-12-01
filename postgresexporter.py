@@ -55,18 +55,30 @@ class PostgresExporter(object):
 			return what.data_quality.lower() in self.min_data_quality
 		return True
 
+	batch = dict()
+	
 	def execute(self, query, values):
+		if query not in self.batch:
+			self.batch[query] = list()
+		self.batch[query].append(values)
+		if len(self.batch[query]) >= 10000:
+			self.execBatch(query)
+		
+	def execBatch(self, query):
 		import psycopg2
-		try:
-			self.cur.execute(query, values)
+		try:			
+			self.cur.executemany(query, self.batch[query])
+			self.batch[query] = list()
 		except psycopg2.Error as e:
 			try:
-				print "Error executing: %s" % self.cur.mogrify(query, values)
+				print "Error executing: %s" % query
 			except TypeError:
 				print "Error executing: %s" % query
 			raise PostgresExporter.ExecuteError(e.args)
 
 	def finish(self, completely_done=False):
+		for q in self.batch.keys():
+			self.execBatch(q)		
 		self.conn.commit()
 		if completely_done:
 			self.cur.close()
@@ -248,7 +260,16 @@ class PostgresExporter(object):
 				for role in extr.roles:
 					self.execute("INSERT INTO tracks_extraartists(track_id, artist_id, artist_name, role, anv) VALUES(%s, %s, %s, %s, %s);",
 						(trackid, extr.artist_id, extr.artist_name, role, extr.anv))
-
+		for id in release.identifiers:
+			self.execute("INSERT INTO identifier(release_id, description, type, value) VALUES(%s,%s,%s,%s);",
+					(release.id, id.description,id.type,id.value))
+		for vid in release.videos:
+			self.execute("INSERT INTO video(release_id, duration, embed, src,title,description) VALUES(%s,%s,%s,%s,%s,%s);",
+					(release.id, vid.duration,vid.embed,vid.src,vid.title,vid.description))
+		for comp in release.companies:
+			self.execute("INSERT INTO release_company(release_id, company_id, name, catno,entity_type,entity_type_name) VALUES(%s,%s,%s,%s,%s,%s);",
+					(release.id, comp.id,comp.name,comp.catno,comp.entity_type,comp.entity_type_name))
+    
 	def storeMaster(self, master):
 		if not self.good_quality(master):
 			return

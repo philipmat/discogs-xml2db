@@ -1,17 +1,5 @@
 SET client_encoding = 'UTF8';
-SET standard_conforming_strings = off;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET escape_string_warning = off;
 
-SET search_path = discogs;
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
-SET synchronous_commit=off;
- 
 CREATE UNLOGGED TABLE artist (
     id 				integer NOT NULL,
     name 			text NOT NULL,
@@ -200,6 +188,32 @@ CREATE UNLOGGED TABLE masters_formats (
     --~ width 			integer,
     --~ image_uri text
 --~ );
+
+CREATE UNLOGGED TABLE identifier (
+    release_id integer,
+    description 		text,
+    type 		text,
+    value 		text
+);
+
+CREATE UNLOGGED TABLE video (
+    release_id integer,
+    duration text,
+    embed text,
+    src text,
+    title text,
+    description text
+);
+
+CREATE UNLOGGED TABLE release_company (
+    release_id integer,
+    company_id integer,
+    name text,
+    catno text,
+    entity_type integer,
+    entity_type_name text
+);
+
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;

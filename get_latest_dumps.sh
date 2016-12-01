@@ -16,6 +16,6 @@ for f in `wget -c --user-agent="$USER_AGENT" --header="$ACCEPT" -qO- $D_URL_LIST
 	echo $D_URL_DIR$f >> $D_TMP
 done
 
-wget -c --user-agent="$USER_AGENT" --header="$ACCEPT" --no-clobber --input-file=$D_TMP $TEST --append-output=$D_TMP.log 
+wget -c --user-agent="$USER_AGENT" --header="$ACCEPT" --no-clobber --input-file=$D_TMP $TEST -q --show-progress
 
 

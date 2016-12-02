@@ -86,7 +86,7 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 	def endElement(self, name):
 		self.buffer = self.buffer.strip()
 		if name == 'id':
-                 	if not self.inElement['members']:
+			if not self.inElement['members']:
 				self.artist.id = int(self.buffer)
 		if name == 'name':
 			if len(self.buffer) != 0:

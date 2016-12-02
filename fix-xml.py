@@ -5,16 +5,16 @@ import os
 from contextlib import nested
 
 def clean(filename):
-  #delete any byte that's between 0x00 and 0x1F except 0x09 (tab), 0x0A (LF), and 0x0D (CR). 
+  #delete any byte that's between 0x00 and 0x1F except 0x09 (tab), 0x0A (LF), and 0x0D (CR).
   ctrlregex = re.compile(r'[\x01-\x08|\x0B|\x0C|\x0E-\x1F]')
-  
+
   try:
     os.rename(filename, "%s.old" %filename)
   except:
     print "Did not rename"
 
   with nested(open(filename, "wb" ), open(filename+".old", "rb" )) as (destination, source):
-	
+
     counter = 0
     for line in source:
       rObj = re.search(ctrlregex, line)
@@ -24,12 +24,12 @@ def clean(filename):
         newLine = re.sub(ctrlregex, '', line)
         destination.write(newLine)
       else:
-        destination.write(line)	
-  
+        destination.write(line)
+
   os.remove("%s.old" %filename)
 
 def usage():
-  print "Usage: python fix-xml.py release, where release is for example 20091101"
+  print "Usage: python fix-xml.py release directory, where release is for example 20091101"
   sys.exit()
 
 def main(argv):
@@ -38,18 +38,26 @@ def main(argv):
   try:
     int(argv[0])
   except ValueError:
-    usage() 
+    usage()
     sys.exit()
+
+  if len(argv) > 1 and os.path.isdir(argv[1]):
+    path = argv[1] + '/'
+  else:
+    path = ''
 
   release = argv[0]
 
-  filename = 'discogs_%s_labels.xml' % release
+  filename = path + 'discogs_%s_labels.xml' % release
   clean(filename)
 
-  filename = 'discogs_%s_releases.xml' % release
+  filename = path + 'discogs_%s_releases.xml' % release
   clean(filename)
 
-  filename = 'discogs_%s_artists.xml' % release
+  filename = path + 'discogs_%s_masters.xml' % release
+  clean(filename)
+
+  filename = path + 'discogs_%s_artists.xml' % release
   clean(filename)
 
 if __name__ == '__main__':

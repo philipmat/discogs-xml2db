@@ -13,7 +13,7 @@ TEST=""
 
 echo "" > $D_TMP
 
-for f in `wget -c --user-agent="$USER_AGENT" --header="$ACCEPT" -qO- $D_URL_LIST | ack-grep -io "$D_PATTERN" | sort | uniq | tail -n 4` ; do
+for f in `wget -c --user-agent="$USER_AGENT" --header="$ACCEPT" -qO- $D_URL_LIST | grep -io "$D_PATTERN" | sort | uniq | tail -n 4` ; do
 	echo $D_URL_DIR$f >> $D_TMP
 done
 

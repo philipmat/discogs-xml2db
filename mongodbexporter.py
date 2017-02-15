@@ -24,7 +24,7 @@ class _MongoImportFile(object):
 		if (len(lines) > 1):
 			line = ' '.join(lines)
 		self._f.writelines((line, '\n'))
-		#print '>%s: %s' % (self._fname, line)
+		#print('>%s: %s' % (self._fname, line))
 
 	def ensure_index(self, name, *args, **kwargs):
 		pass
@@ -134,7 +134,7 @@ class _IdHashPairs(object):
 						for id, hash in self._hashes[name].iteritems():
 							f.writelines(('%s:%s' % (id, hash), '\n'))
 			except IOError as e:
-				print 'IOError writing out %s: %s' % (name, e)
+				print('IOError writing out %s: %s' % (name, e))
 
 
 class MongoDbExporter(object):
@@ -166,7 +166,7 @@ class MongoDbExporter(object):
 				db_name = u.path
 			if db_name.startswith('/'):
 				db_name = db_name[1:]
-			#print 'Connecting to db %s on %s with options.' % (db_name, mongo_uri, options)
+			#print('Connecting to db %s on %s with options.' % (db_name, mongo_uri, options))
 			try:
 				mongo = pymongo.Connection(mongo_uri)
 			except:
@@ -193,7 +193,7 @@ class MongoDbExporter(object):
 
 	def execute(self, collection, what):
 		if not self.good_quality(what):
-			# print "Bad quality: %s for %s" % (what.data_quality, what.id)
+			# print("Bad quality: %s for %s" % (what.data_quality, what.id))
 			return
 		# have to convert it to json and back because
 		# on simple objects couchdb-python throws:

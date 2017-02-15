@@ -47,7 +47,7 @@ class PostgresExporter(object):
 			self.cur = self.conn.cursor()
 			self.conn.set_isolation_level(0)
 		except psycopg2.Error, e:
-			print "%s" % (e.args)
+			print("%s" % (e.args))
 			sys.exit()
 
 	def good_quality(self, what):
@@ -61,9 +61,9 @@ class PostgresExporter(object):
 			self.cur.execute(query, values)
 		except psycopg2.Error as e:
 			try:
-				print "Error executing: %s" % self.cur.mogrify(query, values)
+				print("Error executing: %s" % self.cur.mogrify(query, values))
 			except TypeError:
-				print "Error executing: %s" % query
+				print("Error executing: %s" % query)
 			raise PostgresExporter.ExecuteError(e.args)
 
 	def finish(self, completely_done=False):
@@ -99,13 +99,13 @@ class PostgresExporter(object):
 		for counter in xrange(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
-		#print values
+		#print(values)
 		query = "INSERT INTO label(" + columns + ") VALUES" + escapeStrings + ";"
-		#print query
+		#print(query)
 		try:
 			self.execute(query, values)
 		except PostgresExporter.ExecuteError as e:
-			print "%s" % (e.args)
+			print("%s" % (e.args))
 			return
 		#~ for img in label.images:
 			#~ self.execute("INSERT INTO labels_images(type, height, width, label_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, label.id))
@@ -144,13 +144,13 @@ class PostgresExporter(object):
 		for counter in xrange(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
-		#print values
+		#print(values)
 		query = "INSERT INTO artist(" + columns + ") VALUES" + escapeStrings + ";"
-		#print query
+		#print(query)
 		try:
 			self.execute(query, values)
 		except PostgresExporter.ExecuteError, e:
-			print "%s" % (e.args)
+			print("%s" % (e.args))
 			return
 
 		#~ for img in artist.images:
@@ -192,13 +192,13 @@ class PostgresExporter(object):
 		for counter in xrange(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
-		#print values
+		#print(values)
 		query = "INSERT INTO release(" + columns + ") VALUES" + escapeStrings + ";"
-		#print query
+		#print(query)
 		try:
 			self.execute(query, values)
 		except PostgresExporter.ExecuteError, e:
-			print "%s" % (e.args)
+			print("%s" % (e.args))
 			return
 		#~ for img in release.images:
 			#~ self.execute("INSERT INTO releases_images(type, height, width, release_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, release.id))
@@ -212,7 +212,7 @@ class PostgresExporter(object):
 					try:
 						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
 					except PostgresExporter.ExecuteError, e:
-						print "%s" % (e.args)
+						print("%s" % (e.args))
 				query = "INSERT INTO releases_formats(release_id, position, format_name, qty, descriptions) VALUES(%s,%s,%s,%s,%s);"
 				self.execute(query, (release.id, fmt_order, fmt.name, fmt.qty, fmt.descriptions))
 
@@ -277,13 +277,13 @@ class PostgresExporter(object):
 		for counter in xrange(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
-		#print values
+		#print(values)
 		query = "INSERT INTO master(" + columns + ") VALUES" + escapeStrings + ";"
-		#print query
+		#print(query)
 		try:
 			self.execute(query, values)
 		except PostgresExporter.ExecuteError, e:
-			print "%s" % (e.args)
+			print("%s" % (e.args))
 			return
 
 		#~ for img in master.images:
@@ -335,7 +335,7 @@ class PostgresConsoleDumper(PostgresExporter):
 			if type(w) == list:
 				ret.append(self.qs(w))
 			else:
-				#print "q(%s)==%s" % (w, self.q(w))
+				#print("q(%s)==%s" % (w, self.q(w)))
 				ret.append(self.q(w))
 
 		return ret

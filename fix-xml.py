@@ -11,7 +11,7 @@ def clean(filename):
   try:
     os.rename(filename, "%s.old" %filename)
   except:
-    print "Did not rename"
+    print("Did not rename")
 
   with nested(open(filename, "wb" ), open(filename+".old", "rb" )) as (destination, source):
 
@@ -20,7 +20,7 @@ def clean(filename):
       rObj = re.search(ctrlregex, line)
       counter += 1
       if rObj is not None:
-        print counter
+        print(counter)
         newLine = re.sub(ctrlregex, '', line)
         destination.write(newLine)
       else:
@@ -29,7 +29,7 @@ def clean(filename):
   os.remove("%s.old" %filename)
 
 def usage():
-  print "Usage: python fix-xml.py release directory, where release is for example 20091101"
+  print("Usage: python fix-xml.py release directory, where release is for example 20091101")
   sys.exit()
 
 def main(argv):

@@ -56,7 +56,7 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 	def startElement(self, name, attrs):
 		if not name in self.inElement:
 			if not self.ignore_missing_tags:
-				print "Error: Unknown Artist element '%s'." % name
+				print("Error: Unknown Artist element '%s'." % name)
 				sys.exit()
 			elif not name in self.unknown_tags:
 				self.unknown_tags.append(name)
@@ -73,8 +73,8 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 			image.width = attrs["width"]
 			self.artist.images.append(image)
 			if len(attrs) != 5:
-				print "ATTR ERROR"
-				print attrs
+				print("ATTR ERROR")
+				print(attrs)
 				sys.exit()
 
 	def characters(self, data):
@@ -121,7 +121,7 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 				if self.stop_after > 0 and artistCounter >= self.stop_after:
 					self.endDocument()
 					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
-						print 'Encountered some unknown Artist tags: %s' % (self.unknown_tags)
+						print('Encountered some unknown Artist tags: %s' % (self.unknown_tags))
 					raise model.ParserStopError(artistCounter)
 			else:
 				sys.stderr.writelines("Ignoring Artist %s with no name. Dictionary: %s\n" % (self.artist.id, self.artist.__dict__))

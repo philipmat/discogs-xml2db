@@ -212,7 +212,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		# Track extra artist id
 		elif name == 'id' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack and 'extraartists' in self.stack:
 			if len(self.buffer) != 0:
-		 		teaj = model.Extraartist()
+				teaj = model.Extraartist()
 				teaj.artist_id = self.buffer
 				self.release.tracklist[-1].extraartists.append(teaj)
 

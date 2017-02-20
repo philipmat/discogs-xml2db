@@ -13,6 +13,6 @@ while 1:
 			print("ValueError : %s on line:\n%s" % (e, line))
 		if d:
 			n = u'%s |%s' % (d['l_name'], d['artist_id'])
-			print(n.encode('utf-8') )
+			print(n.encode('utf-8'))
 
 f.close()

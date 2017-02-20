@@ -2,6 +2,8 @@
 # What is it?
 This is a python program for importing the discogs data dumps found at http://www.discogs.com/data/ into PostgreSQL, CouchDB, or MongoDB database.
 
+[![Build Status](https://travis-ci.org/philipmat/discogs-xml2db.svg?branch=master)](https://travis-ci.org/philipmat/discogs-xml2db)
+
 MySQL or other databases are not supported at the moment, but you are welcome to submit a patch.
 
 **discogs-xml2db works with Python 2.7**.  

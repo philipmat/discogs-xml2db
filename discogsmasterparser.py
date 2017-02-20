@@ -32,28 +32,28 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 							'anv',
 							'artist',
 							'artists',
-							#'country',
+							# 'country',
 							'data_quality',
 							'description',
-							#'descriptions', #'duration', #'extraartists', #'format', #'formats',
+							# 'descriptions', #'duration', #'extraartists', #'format', #'formats',
 							'genre', 'genres',
 							'image',
 							'images',
 							'join',
-							#'label', #'labels',
+							# 'label', #'labels',
 							'masters', 'master',
 							'main_release',
 							'name',
 							'notes',
-							#'position', #'release', #'released', #'releases',
+							# 'position', #'release', #'released', #'releases',
 							'role',
 							'style',
 							'styles',
 							'title',
-							#'track', #'tracklist',
+							# 'track', #'tracklist',
 							'tracks',
-							#'url', #'urls',
-							#'videos', 'video',
+							# 'url', #'urls',
+							# 'videos', 'video',
 							'year'
 		)
 		self.master = None
@@ -65,11 +65,11 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 		self.stack = []
 
 	def startElement(self, name, attrs):
-		if not name in self.knownTags:
+		if name not in self.knownTags:
 			if not self.ignore_missing_tags:
 				print("Error: Unknown Master element '%s'." % name)
 				sys.exit()
-			elif not name in self.unknown_tags:
+			elif name not in self.unknown_tags:
 				self.unknown_tags.append(name)
 		self.stack.append(name)
 		if name == 'master':
@@ -113,15 +113,15 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 		elif name == 'genre':
 			if len(self.buffer) != 0:
 				self.master.genres.append(self.buffer)
-				#global genres
-				#if not genres.has_key(self.buffer):
-				#  genres[self.buffer] = Genre(self.buffer)
+				# global genres
+				# if not genres.has_key(self.buffer):
+				#   genres[self.buffer] = Genre(self.buffer)
 		elif name == 'style':
 			if len(self.buffer) != 0:
 				self.master.styles.append(self.buffer)
-				#global styles
-				#if not styles.has_key(self.buffer):
-				#  styles[self.buffer] = Style(self.buffer)
+				# global styles
+				# if not styles.has_key(self.buffer):
+				#   styles[self.buffer] = Style(self.buffer)
 		elif name == 'name':
 			if len(self.buffer) != 0:
 				self.master.artists.append(self.buffer)
@@ -135,14 +135,14 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 					self.master.artists.append(self.master.anv)
 				aj.join_relation = self.buffer
 				self.master.artistJoins.append(aj)
-				#global joins
-				#if not joins.has_key(self.buffer):
-				#  joins[self.buffer] = True
+				# global joins
+				# if not joins.has_key(self.buffer):
+				#   joins[self.buffer] = True
 		elif name == 'role':
 			if len(self.buffer) != 0:
-				#print("ROLE PRE" + str(self.buffer))
+				# print("ROLE PRE" + str(self.buffer))
 				roles_list = re.findall('([^[,]+(?:\[[^]]+])?)+', self.buffer)  # thanks to jlatour
-				#print("ROLE POST" + str(self.buffer))
+				# print("ROLE POST" + str(self.buffer))
 				for role in roles_list:
 					role = role.strip()
 					lIndex = role.find('[')
@@ -169,7 +169,7 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 
 				global masterCounter
 				masterCounter += 1
-				#'''PREPARE FOR DATABASE
+				# '''PREPARE FOR DATABASE
 				self.exporter.storeMaster(self.master)
 
 				masterCounter += 1
@@ -184,11 +184,11 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 		self.buffer = ''
 
 	def endDocument(self):
-		#print([genre for genre in genres])
-		#print([style for style in styles])
-		#print([format for format in formats])
-		#print([dsc for dsc in descriptions])
-		#print([j for j in joins])
-		#print([(role, roles[role]) for role in roles])
-		#print(len(roles))
+		# print([genre for genre in genres])
+		# print([style for style in styles])
+		# print([format for format in formats])
+		# print([dsc for dsc in descriptions])
+		# print([j for j in joins])
+		# print([(role, roles[role]) for role in roles])
+		# print(len(roles))
 		self.exporter.finish()

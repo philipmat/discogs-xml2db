@@ -25,7 +25,7 @@ from os import path
 from model import ParserStopError
 from collections import deque
 
-#sys.setdefaultencoding('utf-8')
+# sys.setdefaultencoding('utf-8')
 options = None
 
 exporters = {
@@ -66,10 +66,10 @@ def parseArtists(parser, exporter):
 		artist_file = in_file
 
 	if artist_file is None:
-		#print("No artist file specified.")
+		# print("No artist file specified.")
 		return
 	elif not path.exists(artist_file):
-		#print("File %s doesn't exist:" % artist_file)
+		# print("File %s doesn't exist:" % artist_file)
 		return
 
 	from discogsartistparser import ArtistHandler
@@ -83,11 +83,11 @@ def parseArtists(parser, exporter):
 			parser.parse(artist_file)
 	except ParserStopError as pse:
 		print("Parsed %d artists then stopped as requested." % pse.records_parsed)
-#	except model.ParserStopError as pse22:
-#		print("Parsed %d artists then stopped as requested." % pse.records_parsed)
-#	except Exception as ex:
-#		print("Raised unknown error")
-#		print(type(ex))
+# 	except model.ParserStopError as pse22:
+# 		print("Parsed %d artists then stopped as requested." % pse.records_parsed)
+# 	except Exception as ex:
+# 		print("Raised unknown error")
+# 		print(type(ex))
 
 
 def parseLabels(parser, exporter):
@@ -100,10 +100,10 @@ def parseLabels(parser, exporter):
 		label_file = in_file
 
 	if label_file is None:
-		#print("No label file specified.")
+		# print("No label file specified.")
 		return
 	elif not path.exists(label_file):
-		#print("File %s doesn't exist:" % label_file)
+		# print("File %s doesn't exist:" % label_file)
 		return
 
 	from discogslabelparser import LabelHandler
@@ -129,10 +129,10 @@ def parseReleases(parser, exporter):
 		release_file = in_file
 
 	if release_file is None:
-		#print("No release file specified.")
+		# print("No release file specified.")
 		return
 	elif not path.exists(release_file):
-		#print("File %s doesn't exist:" % release_file)
+		# print("File %s doesn't exist:" % release_file)
 		return
 
 	from discogsreleaseparser import ReleaseHandler
@@ -158,10 +158,10 @@ def parseMasters(parser, exporter):
 		master_file = in_file
 
 	if master_file is None:
-		#print("No masters file specified.")
+		# print("No masters file specified.")
 		return
 	elif not path.exists(master_file):
-		#print("File %s doesn't exist:" % master_file)
+		# print("File %s doesn't exist:" % master_file)
 		return
 
 	from discogsmasterparser import MasterHandler

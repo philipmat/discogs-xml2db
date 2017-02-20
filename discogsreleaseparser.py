@@ -50,7 +50,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 							'formats',
 							'genre',
 							'genres',
-							#'indentifiers', 'identifier',
+							# 'indentifiers', 'identifier',
 							'image',
 							'images',
 							'join',
@@ -83,11 +83,11 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		self.stack = []
 
 	def startElement(self, name, attrs):
-		if not name in self.knownTags:
+		if name not in self.knownTags:
 			if not self.ignore_missing_tags:
 				print("Error: Unknown Release element '%s'." % name)
 				sys.exit()
-			elif not name in self.unknown_tags:
+			elif name not in self.unknown_tags:
 				self.unknown_tags.append(name)
 		self.stack.append(name)
 
@@ -347,11 +347,11 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		self.buffer = ''
 
 	def endDocument(self):
-		#print([genre for genre in genres])
-		#print([style for style in styles])
-		#print([format for format in formats])
-		#print([dsc for dsc in descriptions])
-		#print([j for j in joins])
-		#print([(role, roles[role]) for role in roles])
-		#print(len(roles))
+		# print([genre for genre in genres])
+		# print([style for style in styles])
+		# print([format for format in formats])
+		# print([dsc for dsc in descriptions])
+		# print([j for j in joins])
+		# print([(role, roles[role]) for role in roles])
+		# print(len(roles))
 		self.exporter.finish()

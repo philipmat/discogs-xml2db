@@ -49,11 +49,11 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 		self.ignore_missing_tags = ignore_missing_tags
 
 	def startElement(self, name, attrs):
-		if not name in self.inElement:
+		if name not in self.inElement:
 			if not self.ignore_missing_tags:
 				print("Error: Unknown Label element '%s'." % name)
 				sys.exit()
-			elif not name in self.unknown_tags:
+			elif name not in self.unknown_tags:
 				self.unknown_tags.append(name)
 		self.inElement[name] = True
 		if name == 'label':
@@ -118,5 +118,5 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 		self.inElement[name] = False
 		self.buffer = ''
 
-#labels = {}
-#labelCounter = 0
+# labels = {}
+# labelCounter = 0

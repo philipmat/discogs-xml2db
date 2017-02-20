@@ -4,15 +4,15 @@ class Artist:
 		self.name = ''
 		self.realname = ''
 		self.images = []
-		#self.urls = {'wikipedia':None, 'myspace':None,'other':[]}
+		# self.urls = {'wikipedia':None, 'myspace':None,'other':[]}
 		self.urls = []
 		self.namevariations = []
 		self.aliases = []
 		self.profile = ''
 		self.members = []  # MemberNameList, foreign key name, class Artist
 		self.groups = []  # GroupNameList, foreign key name, class Artist
-		#self.artistType = 0 #0 = person, 1 = group
-		#self.artist_id = ''
+		# self.artistType = 0 #0 = person, 1 = group
+		# self.artist_id = ''
 
 
 class Release:
@@ -34,13 +34,13 @@ class Release:
 		self.artistJoins = []
 		self.tracklist = []
 		self.extraartists = []
-		#self.indentifiers = [] #
+		# self.indentifiers = [] #
 
 
 class Master:
 	def __init__(self):
 		self.id = 0
-		#self.status = ''
+		# self.status = ''
 		self.title = ''
 		self.main_release = 0
 		self.year = 0
@@ -109,7 +109,7 @@ class Format:
 class Style:
 	def __init__(self, name):
 		self.name = name
-		#self.genres = []
+		# self.genres = []
 
 
 class Genre:

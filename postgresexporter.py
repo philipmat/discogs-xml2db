@@ -14,7 +14,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-#import psycopg2
+# import psycopg2
 import uuid
 import sys
 
@@ -99,16 +99,16 @@ class PostgresExporter(object):
 		for counter in xrange(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
-		#print(values)
+		# print(values)
 		query = "INSERT INTO label(" + columns + ") VALUES" + escapeStrings + ";"
-		#print(query)
+		# print(query)
 		try:
 			self.execute(query, values)
 		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
-		#~ for img in label.images:
-			#~ self.execute("INSERT INTO labels_images(type, height, width, label_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, label.id))
+		# for img in label.images:
+			# self.execute("INSERT INTO labels_images(type, height, width, label_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, label.id))
 
 	def storeArtist(self, artist):
 		if not self.good_quality(artist):
@@ -144,17 +144,17 @@ class PostgresExporter(object):
 		for counter in xrange(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
-		#print(values)
+		# print(values)
 		query = "INSERT INTO artist(" + columns + ") VALUES" + escapeStrings + ";"
-		#print(query)
+		# print(query)
 		try:
 			self.execute(query, values)
 		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
 
-		#~ for img in artist.images:
-			#~ self.execute("INSERT INTO artists_images(type, height, width, artist_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, artist.id))
+		# for img in artist.images:
+			# self.execute("INSERT INTO artists_images(type, height, width, artist_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, artist.id))
 
 	def storeRelease(self, release):
 		if not self.good_quality(release):
@@ -192,22 +192,22 @@ class PostgresExporter(object):
 		for counter in xrange(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
-		#print(values)
+		# print(values)
 		query = "INSERT INTO release(" + columns + ") VALUES" + escapeStrings + ";"
-		#print(query)
+		# print(query)
 		try:
 			self.execute(query, values)
 		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
-		#~ for img in release.images:
-			#~ self.execute("INSERT INTO releases_images(type, height, width, release_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, release.id))
+		# for img in release.images:
+			# self.execute("INSERT INTO releases_images(type, height, width, release_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, release.id))
 
 		fmt_order = 0
 		for fmt in release.formats:
 			fmt_order = fmt_order + 1
 			if len(release.formats) != 0:
-				if not fmt.name in self.formatNames:
+				if fmt.name not in self.formatNames:
 					self.formatNames[fmt.name] = True
 					try:
 						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
@@ -275,22 +275,22 @@ class PostgresExporter(object):
 			values.append(master.styles)
 			columns += ",styles"
 
-		#INSERT INTO DATABASE
+		# INSERT INTO DATABASE
 		escapeStrings = ''
 		for counter in xrange(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
-		#print(values)
+		# print(values)
 		query = "INSERT INTO master(" + columns + ") VALUES" + escapeStrings + ";"
-		#print(query)
+		# print(query)
 		try:
 			self.execute(query, values)
 		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
 
-		#~ for img in master.images:
-			#~ self.execute("INSERT INTO masters_images(type, height, width, master_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, master.id))
+		# for img in master.images:
+			# self.execute("INSERT INTO masters_images(type, height, width, master_id) VALUES(%s,%s,%s,%s);", (img.imageType,img.height, img.width, master.id))
 
 		if len(master.artists) > 1:
 			for artist in master.artists:
@@ -301,8 +301,8 @@ class PostgresExporter(object):
 												(master_id, join_relation, artist1, artist2)
 												VALUES(%s,%s,%s,%s);"""
 				artistIdx = master.artists.index(aj.artist1) + 1
-				#The last join relation is not between artists but instead
-				#something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
+				# The last join relation is not between artists but instead
+				# something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
 				if artistIdx >= len(master.artists):
 					values = (master.id, aj.join_relation, '', '')  # join relation is between all artists and the album
 				else:
@@ -323,7 +323,7 @@ class PostgresExporter(object):
 			self.execute(
 				"INSERT INTO masters_extraartists(master_id, artist_name, roles) VALUES(%s,%s,%s);",
 				(master.id, extr.name, map(lambda x: x[0] if type(x) is tuple else x, extr.roles)))
-				#(master.id, extr.name, flatten(extr.roles)))
+			# (master.id, extr.name, flatten(extr.roles)))
 
 
 class PostgresConsoleDumper(PostgresExporter):
@@ -341,7 +341,7 @@ class PostgresConsoleDumper(PostgresExporter):
 			if type(w) == list:
 				ret.append(self.qs(w))
 			else:
-				#print("q(%s)==%s" % (w, self.q(w)))
+				# print("q(%s)==%s" % (w, self.q(w)))
 				ret.append(self.q(w))
 
 		return ret

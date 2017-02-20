@@ -19,8 +19,8 @@ import xml.sax
 import os
 import sys
 import model
-#import psyco
-#psyco.full()
+# import psyco
+# psyco.full()
 
 artistCounter = 0
 
@@ -54,11 +54,11 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 		self.ignore_missing_tags = ignore_missing_tags
 
 	def startElement(self, name, attrs):
-		if not name in self.inElement:
+		if name not in self.inElement:
 			if not self.ignore_missing_tags:
 				print("Error: Unknown Artist element '%s'." % name)
 				sys.exit()
-			elif not name in self.unknown_tags:
+			elif name not in self.unknown_tags:
 				self.unknown_tags.append(name)
 		self.inElement[name] = True
 

@@ -24,7 +24,7 @@ class _MongoImportFile(object):
 		if (len(lines) > 1):
 			line = ' '.join(lines)
 		self._f.writelines((line, '\n'))
-		#print('>%s: %s' % (self._fname, line))
+		# print('>%s: %s' % (self._fname, line))
 
 	def ensure_index(self, name, *args, **kwargs):
 		pass
@@ -159,14 +159,14 @@ class MongoDbExporter(object):
 				self._quick_uniq = _IdHashPairs(path)
 		elif u.scheme == 'mongodb':
 			if '?' in u.path and u.query == '':
-				#url didn't parse it properly u.path is '/dbname?options
+				# url didn't parse it properly u.path is '/dbname?options
 				db_name, self._options = u.path.split('?', 1)
 				self._options = urlparse.parse_qs(self._options) if self._options else {}
 			else:
 				db_name = u.path
 			if db_name.startswith('/'):
 				db_name = db_name[1:]
-			#print('Connecting to db %s on %s with options.' % (db_name, mongo_uri, options))
+			# print('Connecting to db %s on %s with options.' % (db_name, mongo_uri, options))
 			try:
 				mongo = pymongo.Connection(mongo_uri)
 			except:
@@ -211,7 +211,7 @@ class MongoDbExporter(object):
 	def finish(self, completely_done=False):
 		collections = self.db.collection_names()
 		if 'artists' in collections:
-			#self.db.artists.('id', background=True)
+			# self.db.artists.('id', background=True)
 			self.db.artists.ensure_index('id', background=True, unique=True)
 			# should be unique=True, but can't seem to offer a true guarantee
 			self.db.artists.ensure_index('l_name', background=True)

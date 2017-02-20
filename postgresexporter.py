@@ -46,7 +46,7 @@ class PostgresExporter(object):
 			self.conn = psycopg2.connect(connection_string)
 			self.cur = self.conn.cursor()
 			self.conn.set_isolation_level(0)
-		except psycopg2.Error, e:
+		except psycopg2.Error as e:
 			print("%s" % (e.args))
 			sys.exit()
 
@@ -149,7 +149,7 @@ class PostgresExporter(object):
 		#print(query)
 		try:
 			self.execute(query, values)
-		except PostgresExporter.ExecuteError, e:
+		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
 
@@ -197,7 +197,7 @@ class PostgresExporter(object):
 		#print(query)
 		try:
 			self.execute(query, values)
-		except PostgresExporter.ExecuteError, e:
+		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
 		#~ for img in release.images:
@@ -211,7 +211,7 @@ class PostgresExporter(object):
 					self.formatNames[fmt.name] = True
 					try:
 						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
-					except PostgresExporter.ExecuteError, e:
+					except PostgresExporter.ExecuteError as e:
 						print("%s" % (e.args))
 				query = "INSERT INTO releases_formats(release_id, position, format_name, qty, descriptions) VALUES(%s,%s,%s,%s,%s);"
 				self.execute(query, (release.id, fmt_order, fmt.name, fmt.qty, fmt.descriptions))
@@ -285,7 +285,7 @@ class PostgresExporter(object):
 		#print(query)
 		try:
 			self.execute(query, values)
-		except PostgresExporter.ExecuteError, e:
+		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
 

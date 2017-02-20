@@ -67,7 +67,7 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 	def startElement(self, name, attrs):
 		if not name in self.knownTags:
 			if not self.ignore_missing_tags:
-				print "Error: Unknown Master element '%s'." % name
+				print("Error: Unknown Master element '%s'." % name)
 				sys.exit()
 			elif not name in self.unknown_tags:
 				self.unknown_tags.append(name)
@@ -84,8 +84,8 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 			img.width = attrs["width"]
 			self.master.images.append(img)
 			if len(attrs) != 5:
-				print "ATTR ERROR"
-				print attrs
+				print("ATTR ERROR")
+				print(attrs)
 				sys.exit()
 
 	def characters(self, data):
@@ -140,9 +140,9 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 				#  joins[self.buffer] = True
 		elif name == 'role':
 			if len(self.buffer) != 0:
-				#print "ROLE PRE" + str(self.buffer)
+				#print("ROLE PRE" + str(self.buffer))
 				roles_list = re.findall('([^[,]+(?:\[[^]]+])?)+', self.buffer)  # thanks to jlatour
-				#print "ROLE POST" + str(self.buffer)
+				#print("ROLE POST" + str(self.buffer))
 				for role in roles_list:
 					role = role.strip()
 					lIndex = role.find('[')
@@ -176,7 +176,7 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 				if self.stop_after > 0 and masterCounter >= self.stop_after:
 					self.endDocument()
 					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
-						print 'Encountered some unknown Master tags: %s' % (self.unknown_tags)
+						print('Encountered some unknown Master tags: %s' % (self.unknown_tags))
 					raise model.ParserStopError(masterCounter)
 
 		if self.stack[-1] == name:
@@ -184,11 +184,11 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 		self.buffer = ''
 
 	def endDocument(self):
-		#print [genre for genre in genres]
-		#print [style for style in styles]
-		#print [format for format in formats]
-		#print [dsc for dsc in descriptions]
-		#print [j for j in joins]
-		#print [(role, roles[role]) for role in roles]
-		#print len(roles)
+		#print([genre for genre in genres])
+		#print([style for style in styles])
+		#print([format for format in formats])
+		#print([dsc for dsc in descriptions])
+		#print([j for j in joins])
+		#print([(role, roles[role]) for role in roles])
+		#print(len(roles))
 		self.exporter.finish()

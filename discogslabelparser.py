@@ -51,7 +51,7 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 	def startElement(self, name, attrs):
 		if not name in self.inElement:
 			if not self.ignore_missing_tags:
-				print "Error: Unknown Label element '%s'." % name
+				print("Error: Unknown Label element '%s'." % name)
 				sys.exit()
 			elif not name in self.unknown_tags:
 				self.unknown_tags.append(name)
@@ -68,8 +68,8 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 			newImage.width = attrs["width"]
 			self.label.images.append(newImage)
 			if len(attrs) != 5:
-				print "ATTR ERROR"
-				print attrs
+				print("ATTR ERROR")
+				print(attrs)
 				sys.exit()
 
 	def characters(self, data):
@@ -112,7 +112,7 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 				if self.stop_after > 0 and labelCounter >= self.stop_after:
 					self.endDocument()
 					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
-						print 'Encountered some unknown Label tags: %s' % (self.unknown_tags)
+						print('Encountered some unknown Label tags: %s' % (self.unknown_tags))
 					raise model.ParserStopError(labelCounter)
 
 		self.inElement[name] = False

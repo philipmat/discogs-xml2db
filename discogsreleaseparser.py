@@ -85,7 +85,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 	def startElement(self, name, attrs):
 		if not name in self.knownTags:
 			if not self.ignore_missing_tags:
-				print "Error: Unknown Release element '%s'." % name
+				print("Error: Unknown Release element '%s'." % name)
 				sys.exit()
 			elif not name in self.unknown_tags:
 				self.unknown_tags.append(name)
@@ -108,8 +108,8 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 			img.width = attrs["width"]
 			self.release.images.append(img)
 			if len(attrs) != 5:
-				print "ATTR ERROR"
-				print attrs
+				print("ATTR ERROR")
+				print(attrs)
 				sys.exit()
 
 		elif name == 'format':
@@ -212,7 +212,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		# Track extra artist id
 		elif name == 'id' and 'artist' in self.stack and 'track' in self.stack and 'sub_track' not in self.stack and 'extraartists' in self.stack:
 			if len(self.buffer) != 0:
-		 		teaj = model.Extraartist()
+				teaj = model.Extraartist()
 				teaj.artist_id = self.buffer
 				self.release.tracklist[-1].extraartists.append(teaj)
 
@@ -341,7 +341,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 				if self.stop_after > 0 and releaseCounter >= self.stop_after:
 					self.endDocument()
 					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
-						print 'Encountered some unknown Release tags: %s' % (self.unknown_tags)
+						print('Encountered some unknown Release tags: %s' % (self.unknown_tags))
 					raise model.ParserStopError(releaseCounter)
 
 		if self.stack[-1] == name:
@@ -349,11 +349,11 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		self.buffer = ''
 
 	def endDocument(self):
-		#print [genre for genre in genres]
-		#print [style for style in styles]
-		#print [format for format in formats]
-		#print [dsc for dsc in descriptions]
-		#print [j for j in joins]
-		#print [(role, roles[role]) for role in roles]
-		#print len(roles)
+		#print([genre for genre in genres])
+		#print([style for style in styles])
+		#print([format for format in formats])
+		#print([dsc for dsc in descriptions])
+		#print([j for j in joins])
+		#print([(role, roles[role]) for role in roles])
+		#print(len(roles))
 		self.exporter.finish()

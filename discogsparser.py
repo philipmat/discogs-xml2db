@@ -28,8 +28,8 @@ from collections import deque
 #sys.setdefaultencoding('utf-8')
 options = None
 
-exporters = { 'json': 'jsonexporter.JsonConsoleExporter', 
-	'pgsql' : 'postgresexporter.PostgresExporter', 
+exporters = { 'json': 'jsonexporter.JsonConsoleExporter',
+	'pgsql' : 'postgresexporter.PostgresExporter',
 	'pgdump': 'postgresexporter.PostgresConsoleDumper',
 	'couch' : 'couchdbexporter.CouchDbExporter',
 	'mongo' : 'mongodbexporter.MongoDbExporter',
@@ -37,7 +37,7 @@ exporters = { 'json': 'jsonexporter.JsonConsoleExporter',
 
 # http://www.discogs.com/help/voting-guidelines.html
 data_quality_values = ( 'Needs Vote',
-		'Complete And Correct', 
+		'Complete And Correct',
 		'Correct',
 		'Needs Minor Changes',
 		'Needs Major Changes',
@@ -48,8 +48,10 @@ data_quality_values = ( 'Needs Vote',
 
 def first_file_match(file_pattern):
 	global options
-	matches = filter(lambda f: file_pattern in f, options.file)
-	return matches[0] if len(matches) > 0 else None
+	for f in options.file:
+		if file_pattern in f:
+			return f
+	return None
 
 
 def parseArtists(parser, exporter):
@@ -62,10 +64,10 @@ def parseArtists(parser, exporter):
 		artist_file = in_file
 
 	if artist_file is None:
-		#print "No artist file specified."
+		#print("No artist file specified.")
 		return
 	elif not path.exists(artist_file):
-		#print "File %s doesn't exist:" % artist_file
+		#print("File %s doesn't exist:" % artist_file)
 		return
 
 	from discogsartistparser import ArtistHandler
@@ -78,12 +80,12 @@ def parseArtists(parser, exporter):
 		else:
 			parser.parse(artist_file)
 	except ParserStopError as pse:
-		print "Parsed %d artists then stopped as requested." % pse.records_parsed
+		print("Parsed %d artists then stopped as requested." % pse.records_parsed)
 #	except model.ParserStopError as pse22:
-#		print "Parsed %d artists then stopped as requested." % pse.records_parsed
+#		print("Parsed %d artists then stopped as requested." % pse.records_parsed)
 #	except Exception as ex:
-#		print "Raised unknown error"
-#		print type(ex)
+#		print("Raised unknown error")
+#		print(type(ex))
 
 
 def parseLabels(parser, exporter):
@@ -96,10 +98,10 @@ def parseLabels(parser, exporter):
 		label_file = in_file
 
 	if label_file is None:
-		#print "No label file specified."
+		#print("No label file specified.")
 		return
 	elif not path.exists(label_file):
-		#print "File %s doesn't exist:" % label_file
+		#print("File %s doesn't exist:" % label_file)
 		return
 
 	from discogslabelparser import LabelHandler
@@ -112,7 +114,7 @@ def parseLabels(parser, exporter):
 		else:
 			parser.parse(label_file)
 	except ParserStopError as pse:
-		print "Parsed %d labels then stopped as requested." % pse.records_parsed
+		print("Parsed %d labels then stopped as requested." % pse.records_parsed)
 
 
 def parseReleases(parser, exporter):
@@ -125,10 +127,10 @@ def parseReleases(parser, exporter):
 		release_file = in_file
 
 	if release_file is None:
-		#print "No release file specified."
+		#print("No release file specified.")
 		return
 	elif not path.exists(release_file):
-		#print "File %s doesn't exist:" % release_file
+		#print("File %s doesn't exist:" % release_file)
 		return
 
 	from discogsreleaseparser import ReleaseHandler
@@ -141,7 +143,7 @@ def parseReleases(parser, exporter):
 		else:
 			parser.parse(release_file)
 	except ParserStopError as pse:
-		print "Parsed %d releases then stopped as requested." % pse.records_parsed
+		print("Parsed %d releases then stopped as requested." % pse.records_parsed)
 
 
 def parseMasters(parser, exporter):
@@ -154,10 +156,10 @@ def parseMasters(parser, exporter):
 		master_file = in_file
 
 	if master_file is None:
-		#print "No masters file specified."
+		#print("No masters file specified.")
 		return
 	elif not path.exists(master_file):
-		#print "File %s doesn't exist:" % master_file
+		#print("File %s doesn't exist:" % master_file)
 		return
 
 	from discogsmasterparser import MasterHandler
@@ -170,7 +172,7 @@ def parseMasters(parser, exporter):
 		else:
 			parser.parse(master_file)
 	except ParserStopError as pse:
-		print "Parsed %d masters then stopped as requested." % pse.records_parsed
+		print("Parsed %d masters then stopped as requested." % pse.records_parsed)
 
 
 
@@ -179,7 +181,7 @@ def select_exporter(options):
 	if options.output is None:
 		return exporters['json']
 
-	if exporters.has_key(options.output):
+	if options.output in exporters:
 		return exporters[options.output]
 	# should I be throwing an exception here?
 	return exporters['json']
@@ -189,8 +191,8 @@ def make_exporter(options):
 
 	parts = exp_module.split('.')
 	m = __import__('.'.join(parts[:-1]))
-	for i in xrange(1, len(parts)):
-		m = getattr(m, parts[i])
+	for p in parts[1:]:
+		m = getattr(m, p)
 
 	data_quality = list(x.strip().lower() for x in (options.data_quality or '').split(',') if x)
 	return m(options.params, data_quality=data_quality)
@@ -212,7 +214,7 @@ that --params is used, e.g.:
 --params "http://localhost:5353/"
 '''
 			)
-	opt_parser.add_argument('-n', type=int, help='Number of records to parse')
+	opt_parser.add_argument('-n', type=int, help='Number of records to parse', default=0)
 	opt_parser.add_argument('-d', '--date', help='Date of release. For example 20110301')
 	opt_parser.add_argument('-o', '--output', choices=exporters.keys(), default='json', help='What to output to')
 	opt_parser.add_argument('-p', '--params', help='Parameters for output, e.g. connection string')

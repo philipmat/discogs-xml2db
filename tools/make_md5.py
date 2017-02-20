@@ -21,9 +21,9 @@ def main(argv):
 					line = line.rstrip('\r\n')
 					try:
 						id,json = line.split('|',1)
-						print "%s:%s" % (id,md5(json).hexdigest())
+						print("%s:%s" % (id,md5(json).hexdigest()))
 					except ValueError as ve:
-						print "ValueError on line %s." % line
+						print("ValueError on line %s." % line)
 			file.close()
 
 

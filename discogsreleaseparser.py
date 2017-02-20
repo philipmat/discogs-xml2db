@@ -73,7 +73,7 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 							'tracks',
 							'url',
 							'urls',
-							)
+		)
 		self.release = None
 		self.buffer = ''
 		self.unknown_tags = []
@@ -131,7 +131,6 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		# Barcode
 		elif name == 'identifier' and attrs['type'] == 'Barcode':
 			self.release.barcode = attrs['value']
-
 
 	def characters(self, data):
 		self.buffer += data
@@ -266,7 +265,6 @@ class ReleaseHandler(xml.sax.handler.ContentHandler):
 		elif name == 'anv' and 'artist' in self.stack and 'track' in self.stack and 'extraartists' in self.stack:
 			if len(self.buffer) != 0:
 				self.release.tracklist[-1].extraartists[-1].anv = self.buffer
-
 
 		# Release artist anv
 		elif name == 'anv' and 'artist' in self.stack and 'track' not in self.stack and 'extraartists' not in self.stack:

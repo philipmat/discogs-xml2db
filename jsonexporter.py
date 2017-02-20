@@ -1,6 +1,7 @@
 import json
 
-def jsonizer(obj, specify_object_type = True):
+
+def jsonizer(obj, specify_object_type=True):
 	'''Assists in serializing models to JSON.
 
 	>>> json.dumps(an_artist, default=jsonizer)
@@ -28,7 +29,7 @@ class JsonConsoleExporter:
 		j = self._store(what)
 		print(j)
 
-	def finish(self, completely_done = False):
+	def finish(self, completely_done=False):
 		pass
 
 	def _store(self, what):

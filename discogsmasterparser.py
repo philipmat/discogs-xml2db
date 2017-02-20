@@ -55,7 +55,7 @@ class MasterHandler(xml.sax.handler.ContentHandler):
 							#'url', #'urls',
 							#'videos', 'video',
 							'year'
-							)
+		)
 		self.master = None
 		self.buffer = ''
 		self.unknown_tags = []

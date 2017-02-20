@@ -42,7 +42,7 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 				'realname': False,
 				'urls': False,
 				'url': False,
-				}
+	}
 	artist = None
 	buffer = ''
 	unknown_tags = []

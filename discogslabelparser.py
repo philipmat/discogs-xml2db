@@ -38,12 +38,12 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 				'sublabels': False,
 				'urls': False,
 				'url': False,
-				}
+	}
 	label = model.Label()
 	buffer = ''
 	unknown_tags = []
 
-	def __init__(self, exporter, stop_after=0, ignore_missing_tags = False):
+	def __init__(self, exporter, stop_after=0, ignore_missing_tags=False):
 		self.exporter = exporter
 		self.stop_after = stop_after
 		self.ignore_missing_tags = ignore_missing_tags

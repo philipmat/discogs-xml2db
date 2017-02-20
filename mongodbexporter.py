@@ -220,9 +220,7 @@ class MongoDbExporter(object):
 			self.db.labels.ensure_index('l_name', background=True)
 		if 'releases' in collections:
 			self.db.releases.ensure_index('id', background=True, unique=True)
-			self.db.releases.ensure_index([('l_artist', pymongo.ASCENDING),
-				('l_title', pymongo.ASCENDING)],
-				background=True)
+			self.db.releases.ensure_index([('l_artist', pymongo.ASCENDING), ('l_title', pymongo.ASCENDING)], background=True)
 			self.db.releases.ensure_index('format.name', background=True)
 		if 'masters' in collections:
 			self.db.masters.ensure_index('id', background=True, unique=True)

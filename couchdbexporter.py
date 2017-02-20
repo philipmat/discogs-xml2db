@@ -35,8 +35,7 @@ class CouchDbExporter(object):
 		doc = json.loads(json.dumps(what, default=jsonizer))
 		self.db.save(doc)
 
-
-	def finish(self, completely_done = False):
+	def finish(self, completely_done=False):
 		pass
 
 	def storeLabel(self, label):

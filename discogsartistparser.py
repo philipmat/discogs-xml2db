@@ -27,21 +27,21 @@ artistCounter = 0
 
 class ArtistHandler(xml.sax.handler.ContentHandler):
 	inElement = {
-				'artists': False,
-				'artist': False,
-				'aliases': False,
-				'data_quality': False,
-				'groups': False,
-				'id': False,
-				'image': False,
-				'images': False,
-				'members': False,
-				'name': False,
-				'namevariations': False,
-				'profile': False,
-				'realname': False,
-				'urls': False,
-				'url': False,
+		'artists': False,
+		'artist': False,
+		'aliases': False,
+		'data_quality': False,
+		'groups': False,
+		'id': False,
+		'image': False,
+		'images': False,
+		'members': False,
+		'name': False,
+		'namevariations': False,
+		'profile': False,
+		'realname': False,
+		'urls': False,
+		'url': False
 	}
 	artist = None
 	buffer = ''

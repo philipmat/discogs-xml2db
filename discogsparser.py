@@ -38,13 +38,13 @@ exporters = {
 
 # http://www.discogs.com/help/voting-guidelines.html
 data_quality_values = (
-		'Needs Vote',
-		'Complete And Correct',
-		'Correct',
-		'Needs Minor Changes',
-		'Needs Major Changes',
-		'Entirely Incorrect',
-		'Entirely Incorrect Edit'
+	'Needs Vote',
+	'Complete And Correct',
+	'Correct',
+	'Needs Minor Changes',
+	'Needs Major Changes',
+	'Entirely Incorrect',
+	'Entirely Incorrect Edit'
 )
 
 
@@ -203,8 +203,8 @@ def make_exporter(options):
 def main(argv):
 	global exporters
 	opt_parser = argparse.ArgumentParser(
-			description='Parse discogs release',
-			epilog='''
+		description='Parse discogs release',
+		epilog='''
 You must specify either -d DATE or some files.
 JSON output prints to stdout, any other output requires
 that --params is used, e.g.:

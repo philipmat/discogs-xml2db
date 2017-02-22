@@ -25,19 +25,19 @@ labelCounter = 0
 
 class LabelHandler(xml.sax.handler.ContentHandler):
 	inElement = {
-				'id': False,
-				'label': False,
-				'labels': False,
-				'data_quality': False,
-				'contactinfo': False,
-				'image': False,
-				'images': False,
-				'name': False,
-				'profile': False,
-				'parentLabel': False,
-				'sublabels': False,
-				'urls': False,
-				'url': False,
+		'id': False,
+		'label': False,
+		'labels': False,
+		'data_quality': False,
+		'contactinfo': False,
+		'image': False,
+		'images': False,
+		'name': False,
+		'profile': False,
+		'parentLabel': False,
+		'sublabels': False,
+		'urls': False,
+		'url': False,
 	}
 	label = model.Label()
 	buffer = ''

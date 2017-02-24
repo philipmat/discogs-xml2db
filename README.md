@@ -8,8 +8,8 @@ This is a python program for importing the discogs data dumps found at
 MySQL or other databases are not supported at the moment, but you are welcome
 to submit a patch.
 
-**discogs-xml2db works with Python 2.7**.  
-It may work with 2.6 or 3.0, but probably not (I don't know, I didn't test).
+**discogs-xml2db works with Python 2.7 and 3.6**.  
+It may work with 2.6 or 3.x, but probably not (I don't know, I didn't test).
 It definitely doesn't work with 2.5.
 
 discogs-xml2db makes use of the following modules

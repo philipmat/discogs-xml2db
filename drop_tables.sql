@@ -1,15 +1,15 @@
 DROP TABLE artist;
---~ DROP TABLE artists_images;
+DROP TABLE artists_images;
 DROP TABLE country;
 DROP TABLE format;
 DROP TABLE genre;
 DROP TABLE label;
---~ DROP TABLE labels_images;
+DROP TABLE labels_images;
 DROP TABLE release;
 DROP TABLE releases_artists;
 DROP TABLE releases_extraartists;
 DROP TABLE releases_formats;
---~ DROP TABLE releases_images;
+DROP TABLE releases_images;
 DROP TABLE releases_labels;
 DROP TABLE role;
 DROP TABLE track;
@@ -20,5 +20,5 @@ DROP TABLE masters_artists;
 DROP TABLE masters_artists_joins;
 DROP TABLE masters_extraartists;
 DROP TABLE masters_formats;
---~ DROP TABLE masters_images;
+DROP TABLE masters_images;
 

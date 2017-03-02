@@ -26,13 +26,13 @@ CREATE UNLOGGED TABLE artist (
 	data_quality 	text
 );
 
---~ CREATE UNLOGGED TABLE artists_images (
-    --~ artist_id 	integer,
-    --~ type 		text,
-    --~ height 			integer,
-    --~ width 			integer,
-    --~ image_uri 	text
---~ );
+CREATE UNLOGGED TABLE artists_images (
+    artist_id 	integer,
+    type 		text,
+    height 			integer,
+    width 			integer,
+    image_uri 	text
+);
 
 CREATE UNLOGGED TABLE country (
     name text
@@ -61,13 +61,13 @@ CREATE UNLOGGED TABLE label (
 );
 
 
---~ CREATE UNLOGGED TABLE labels_images (
-    --~ label_id 	        integer,
-    --~ type 		text,
-    --~ height 		integer,
-    --~ width 		integer,
-    --~ image_uri 	text
---~ );
+CREATE UNLOGGED TABLE labels_images (
+    label_id 	        integer,
+    type 		text,
+    height 		integer,
+    width 		integer,
+    image_uri 	text
+);
 
 
 CREATE UNLOGGED TABLE release (
@@ -109,13 +109,13 @@ CREATE UNLOGGED TABLE releases_formats (
     descriptions 	text[]
 );
 
---~ CREATE UNLOGGED TABLE releases_images (
-    --~ release_id 	integer,
-    --~ type 		text,
-    --~ height 			integer,
-    --~ width 			integer,
-    --~ image_uri 	text
---~ );
+CREATE UNLOGGED TABLE releases_images (
+    release_id 	integer,
+    type 		text,
+    height 			integer,
+    width 			integer,
+    image_uri 	text
+);
 
 
 CREATE UNLOGGED TABLE releases_labels (
@@ -193,13 +193,13 @@ CREATE UNLOGGED TABLE masters_formats (
 );
 
 
---~ CREATE UNLOGGED TABLE masters_images (
-    --~ master_id integer,
-    --~ type 		text,
-    --~ height 			integer,
-    --~ width 			integer,
-    --~ image_uri text
---~ );
+CREATE UNLOGGED TABLE masters_images (
+    master_id integer,
+    type 		text,
+    height 			integer,
+    width 			integer,
+    image_uri text
+);
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;

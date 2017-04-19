@@ -96,7 +96,7 @@ class PostgresExporter(object):
 			columns += ",sublabels"
 
 		escapeStrings = ''
-		for counter in xrange(1, len(columns.split(","))):
+		for counter in range(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
 		# print(values)
@@ -141,7 +141,7 @@ class PostgresExporter(object):
 			columns += ",members"
 
 		escapeStrings = ''
-		for counter in xrange(1, len(columns.split(","))):
+		for counter in range(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
 		# print(values)
@@ -189,7 +189,7 @@ class PostgresExporter(object):
 
 		# INSERT INTO DATABASE
 		escapeStrings = ''
-		for counter in xrange(1, len(columns.split(","))):
+		for counter in range(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
 		# print(values)
@@ -277,7 +277,7 @@ class PostgresExporter(object):
 
 		# INSERT INTO DATABASE
 		escapeStrings = ''
-		for counter in xrange(1, len(columns.split(","))):
+		for counter in range(1, len(columns.split(","))):
 			escapeStrings = escapeStrings + ",%s"
 		escapeStrings = '(%s' + escapeStrings + ')'
 		# print(values)
@@ -328,9 +328,10 @@ class PostgresExporter(object):
 
 class PostgresConsoleDumper(PostgresExporter):
 
-	def __init__(self, connection_string):
-		super(PostgresConsoleDumper, self).__init__(connection_string)
-		self.q = lambda x: "'%s'" % x.replace("'", "\\'")
+	def __init__(self, connection_string, data_quality=None):
+		super(PostgresConsoleDumper, self).__init__(connection_string, data_quality)
+		self.q = lambda x: "'%s'" % str(x).replace("'", "\\'") if x else "''"
+		self.min_data_quality = data_quality
 
 	def connect(self, connection_string):
 		pass
@@ -350,5 +351,5 @@ class PostgresConsoleDumper(PostgresExporter):
 		qparams = self.qs(params)
 		print(query % tuple(qparams))
 
-	def finish(self):
+	def finish(self, completely_done=False):
 		pass

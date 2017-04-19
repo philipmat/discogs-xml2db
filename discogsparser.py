@@ -56,125 +56,53 @@ def first_file_match(file_pattern):
 	return None
 
 
-def parseArtists(parser, exporter):
+def parseEntities(parser, exporter, entities, handler_class):
 	global options
-	artist_file = None
-	in_file = first_file_match('_artists.xml')
+	entity_file = None
+	in_file = first_file_match('_%s.xml' % entities)
 	if options.date is not None:
-		artist_file = "discogs_%s_artists.xml" % options.date
+		entity_file = "discogs_%s_%s.xml" % (options.date, entities)
 	elif in_file is not None:
-		artist_file = in_file
+		entity_file = in_file
 
-	if artist_file is None:
-		# print("No artist file specified.")
+	if entity_file is None:
+		# print("No %s file specified." % entities)
 		return
-	elif not path.exists(artist_file):
-		# print("File %s doesn't exist:" % artist_file)
+	elif not path.exists(entity_file):
+		# print("File %s doesn't exist:" % entity_file)
 		return
 
-	from discogsartistparser import ArtistHandler
-	artistHandler = ArtistHandler(exporter, stop_after=options.n, ignore_missing_tags=options.ignore_unknown_tags)
-	parser.setContentHandler(artistHandler)
+	entityHandler = handler_class(exporter, stop_after=options.n, ignore_missing_tags=options.ignore_unknown_tags)
+	parser.setContentHandler(entityHandler)
 	try:
-		if artist_file.endswith(".gz"):
-			with gzip.open(artist_file) as f:
-				parser.parse(f)
+		if entity_file.endswith(".gz"):
+			_open = gzip.open
 		else:
-			parser.parse(artist_file)
+			_open = open
+		with _open(entity_file) as f:
+			parser.parse(f)
 	except ParserStopError as pse:
-		print("Parsed %d artists then stopped as requested." % pse.records_parsed)
-# 	except model.ParserStopError as pse22:
-# 		print("Parsed %d artists then stopped as requested." % pse.records_parsed)
-# 	except Exception as ex:
-# 		print("Raised unknown error")
-# 		print(type(ex))
+		print("Parsed %d %s then stopped as requested." % (pse.records_parsed, entities))
+
+
+def parseArtists(parser, exporter):
+	from discogsartistparser import ArtistHandler
+	parseEntities(parser, exporter, 'artists', ArtistHandler)
 
 
 def parseLabels(parser, exporter):
-	global options
-	label_file = None
-	in_file = first_file_match('_labels.xml')
-	if options.date is not None:
-		label_file = "discogs_%s_labels.xml" % options.date
-	elif in_file is not None:
-		label_file = in_file
-
-	if label_file is None:
-		# print("No label file specified.")
-		return
-	elif not path.exists(label_file):
-		# print("File %s doesn't exist:" % label_file)
-		return
-
 	from discogslabelparser import LabelHandler
-	labelHandler = LabelHandler(exporter, stop_after=options.n, ignore_missing_tags=options.ignore_unknown_tags)
-	parser.setContentHandler(labelHandler)
-	try:
-		if label_file.endswith(".gz"):
-			with gzip.open(label_file) as f:
-				parser.parse(f)
-		else:
-			parser.parse(label_file)
-	except ParserStopError as pse:
-		print("Parsed %d labels then stopped as requested." % pse.records_parsed)
+	parseEntities(parser, exporter, 'labels', LabelHandler)
 
 
 def parseReleases(parser, exporter):
-	global options
-	release_file = None
-	in_file = first_file_match('_releases.xml')
-	if options.date is not None:
-		release_file = "discogs_%s_releases.xml" % options.date
-	elif in_file is not None:
-		release_file = in_file
-
-	if release_file is None:
-		# print("No release file specified.")
-		return
-	elif not path.exists(release_file):
-		# print("File %s doesn't exist:" % release_file)
-		return
-
 	from discogsreleaseparser import ReleaseHandler
-	releaseHandler = ReleaseHandler(exporter, stop_after=options.n, ignore_missing_tags=options.ignore_unknown_tags)
-	parser.setContentHandler(releaseHandler)
-	try:
-		if release_file.endswith(".gz"):
-			with gzip.open(release_file) as f:
-				parser.parse(f)
-		else:
-			parser.parse(release_file)
-	except ParserStopError as pse:
-		print("Parsed %d releases then stopped as requested." % pse.records_parsed)
+	parseEntities(parser, exporter, 'releases', ReleaseHandler)
 
 
 def parseMasters(parser, exporter):
-	global options
-	master_file = None
-	in_file = first_file_match('_masters.xml')
-	if options.date is not None:
-		master_file = "discogs_%s_masters.xml" % options.date
-	elif in_file is not None:
-		master_file = in_file
-
-	if master_file is None:
-		# print("No masters file specified.")
-		return
-	elif not path.exists(master_file):
-		# print("File %s doesn't exist:" % master_file)
-		return
-
 	from discogsmasterparser import MasterHandler
-	masterHandler = MasterHandler(exporter, stop_after=options.n, ignore_missing_tags=options.ignore_unknown_tags)
-	parser.setContentHandler(masterHandler)
-	try:
-		if master_file.endswith(".gz"):
-			with gzip.open(master_file) as f:
-				parser.parse(f)
-		else:
-			parser.parse(master_file)
-	except ParserStopError as pse:
-		print("Parsed %d masters then stopped as requested." % pse.records_parsed)
+	parseEntities(parser, exporter, 'masters', MasterHandler)
 
 
 def select_exporter(options):

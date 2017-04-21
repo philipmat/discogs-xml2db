@@ -71,137 +71,124 @@ class PostgresExporter(object):
 		if completely_done:
 			self.cur.close()
 
-	def storeLabel(self, label):
-		if not self.good_quality(label):
-			return
-		values = []
-		values.append(label.id)
-		values.append(label.name)
-		columns = "id,name"
+	@staticmethod
+	def buildEscapedQuery(table, columns, values):
+		return "INSERT INTO {table}({columns}) VALUES ({escaped});".format(
+			table=table,
+			columns=", ".join(columns),
+			escaped=", ".join(["%s"] * len(values)))
 
-		if len(label.contactinfo) != 0:
-			values.append(label.contactinfo)
-			columns += ",contactinfo"
-		if len(label.profile) != 0:
-			values.append(label.profile)
-			columns += ",profile"
-		if len(label.parentLabel) != 0:
-			values.append(label.parentLabel)
-			columns += ",parent_label"
-		if len(label.urls) != 0:
-			values.append(label.urls)
-			columns += ",urls"
-		if len(label.sublabels) != 0:
-			values.append(label.sublabels)
-			columns += ",sublabels"
-
-		escapeStrings = ''
-		for counter in range(1, len(columns.split(","))):
-			escapeStrings = escapeStrings + ",%s"
-		escapeStrings = '(%s' + escapeStrings + ')'
-		# print(values)
-		query = "INSERT INTO label(" + columns + ") VALUES" + escapeStrings + ";"
-		# print(query)
+	def runQuery(self, table, columns, values):
+		query = self.buildEscapedQuery(table, columns, values)
 		try:
 			self.execute(query, values)
 		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
+			raise
+
+	def storeLabel(self, label):
+		if not self.good_quality(label):
 			return
+		values = []
+		columns = []
+		for attr, column in [
+				('id', 'id'),
+				('name', 'name')]:
+			values.append(getattr(label, attr))
+			columns.append(column)
+
+		for attr, column in [
+				('contactinfo', 'contactinfo'),
+				('profile', 'profile'),
+				('parentLabel', 'parent_label'),
+				('urls', 'urls'),
+				('sublabels', 'sublabels')]:
+			value = getattr(label, attr)
+			if len(value) != 0:
+				values.append(value)
+				columns.append(column)
+
+		try:
+			self.runQuery('label', columns, values)
+		except PostgresExporter.ExecuteError as e:
+			print("%s" % (e.args))
+			return
+
 		for img in label.images:
-			self.execute("INSERT INTO labels_images(type, height, width, label_id) VALUES(%s,%s,%s,%s);", (img.imageType, img.height, img.width, label.id))
+			values = (img.imageType, img.height, img.width, label.id)
+			self.runQuery('labels_images',
+				['type', 'height', 'width', 'label_id'], values)
 
 	def storeArtist(self, artist):
 		if not self.good_quality(artist):
 			return
 		values = []
-		values.append(artist.id)
-		values.append(artist.name)
-		columns = "id,name"
+		columns = []
+		for attr, column in [
+				('id', 'id'),
+				('name', 'name')]:
+			values.append(getattr(artist, attr))
+			columns.append(column)
 
-		if len(artist.realname) != 0:
-			values.append(artist.realname)
-			columns += ",realname"
-		if len(artist.profile) != 0:
-			values.append(artist.profile)
-			columns += ",profile"
-		if len(artist.namevariations) != 0:
-			values.append(artist.namevariations)
-			columns += ",namevariations"
-		if len(artist.urls) != 0:
-			values.append(artist.urls)
-			columns += ",urls"
-		if len(artist.aliases) != 0:
-			values.append(artist.aliases)
-			columns += ",aliases"
-		if len(artist.groups) != 0:
-			values.append(artist.groups)
-			columns += ",groups"
-		if len(artist.members) != 0:
-			values.append(artist.members)
-			columns += ",members"
+		for attr, column in [
+				('realname', 'realname'),
+				('profile', 'profile'),
+				('namevariations', 'namevariations'),
+				('urls', 'urls'),
+				('aliases', 'aliases'),
+				('groups', 'groups'),
+				('members', 'members')]:
+			value = getattr(artist, attr)
+			if len(value) != 0:
+				values.append(value)
+				columns.append(column)
 
-		escapeStrings = ''
-		for counter in range(1, len(columns.split(","))):
-			escapeStrings = escapeStrings + ",%s"
-		escapeStrings = '(%s' + escapeStrings + ')'
-		# print(values)
-		query = "INSERT INTO artist(" + columns + ") VALUES" + escapeStrings + ";"
-		# print(query)
 		try:
-			self.execute(query, values)
+			self.runQuery('artist', columns, values)
 		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
 
 		for img in artist.images:
-			self.execute("INSERT INTO artists_images(type, height, width, artist_id) VALUES(%s,%s,%s,%s);", (img.imageType, img.height, img.width, artist.id))
+			values = (img.imageType, img.height, img.width, artist.id)
+			self.runQuery('artists_images',
+				['type', 'height', 'width', 'artist_id'], values)
 
 	def storeRelease(self, release):
 		if not self.good_quality(release):
 			return
 		values = []
-		values.append(release.id)
-		values.append(release.title)
-		values.append(release.status)
-		columns = "id, title, status"
+		columns = []
+		for attr, column in [
+				('id', 'id'),
+				('title', 'title'),
+				('status', 'status'),
+				('barcode', 'barcode'),]:
+			values.append(getattr(release, attr))
+			columns.append(column)
 
-		values.append(release.barcode)
-		columns += ",barcode"
+		for attr, column in [
+				('master_id', 'master_id'),
+				('country', 'country'),
+				('released', 'released'),
+				('notes', 'notes'),
+				('genres', 'genres'),
+				('styles', 'styles')]:
+			value = getattr(release, attr)
+			if len(value) != 0:
+				values.append(value)
+				columns.append(column)
 
-		if(release.master_id) != 0:
-			values.append(release.master_id)
-			columns += ",master_id"
-		if len(release.country) != 0:
-			values.append(release.country)
-			columns += ",country"
-		if len(release.released) != 0:
-			values.append(release.released)
-			columns += ",released"
-		if len(release.notes) != 0:
-			values.append(release.notes)
-			columns += ",notes"
-		if len(release.genres) != 0:
-			values.append(release.genres)
-			columns += ",genres"
-		if len(release.styles) != 0:
-			values.append(release.styles)
-			columns += ",styles"
-
-		# INSERT INTO DATABASE
-		escapeStrings = ''
-		for counter in range(1, len(columns.split(","))):
-			escapeStrings = escapeStrings + ",%s"
-		escapeStrings = '(%s' + escapeStrings + ')'
-		# print(values)
-		query = "INSERT INTO release(" + columns + ") VALUES" + escapeStrings + ";"
-		# print(query)
 		try:
-			self.execute(query, values)
+			self.runQuery('release', columns, values)
 		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
+
 		for img in release.images:
-			self.execute("INSERT INTO releases_images(type, height, width, release_id) VALUES(%s,%s,%s,%s);", (img.imageType, img.height, img.width, release.id))
+			values = (img.imageType, img.height, img.width, artist.id)
+			self.runQuery('releases_images',
+				['type', 'height', 'width', 'release_id'], values)
 
 		fmt_order = 0
 		for fmt in release.formats:
@@ -210,11 +197,12 @@ class PostgresExporter(object):
 				if fmt.name not in self.formatNames:
 					self.formatNames[fmt.name] = True
 					try:
-						self.execute("INSERT INTO format(name) VALUES(%s);", (fmt.name, ))
+						self.runQuery('format', ['name'], (fmt.name, ))
 					except PostgresExporter.ExecuteError as e:
 						print("%s" % (e.args))
-				query = "INSERT INTO releases_formats(release_id, position, format_name, qty, descriptions) VALUES(%s,%s,%s,%s,%s);"
-				self.execute(query, (release.id, fmt_order, fmt.name, fmt.qty, fmt.descriptions))
+				values = (release.id, fmt_order, fmt.name, fmt.qty, fmt.descriptions)
+				self.runQuery('releases_formats',
+					['release_id', 'position', 'format_name', 'qty', 'descriptions'], values)
 
 		labelQuery = "INSERT INTO releases_labels(release_id, label, catno) VALUES(%s,%s,%s);"
 		for lbl in release.labels:
@@ -326,30 +314,38 @@ class PostgresExporter(object):
 			# (master.id, extr.name, flatten(extr.roles)))
 
 
+from psycopg2.extensions import adapt, register_adapter
+class SQL_LIST(object):
+	"""Adapt any iterable to an SQL quotable object."""
+	def __init__(self, seq):
+		self._seq = seq
+		self._conn = None
+
+	def prepare(self, conn):
+		self._conn = conn
+	def getquoted(self):
+		# this is the important line: note how every object in the
+		# list is adapted and then how getquoted() is called on it
+		pobjs = [adapt(o) for o in self._seq]
+		if self._conn is not None:
+			for obj in pobjs:
+				if hasattr(obj, 'prepare'):
+					obj.prepare(self._conn)
+		qobjs = [o.getquoted() for o in pobjs]
+		return b'{' + b', '.join(qobjs) + b'}'
+
+	def __str__(self):
+		return str(self.getquoted())
+
 class PostgresConsoleDumper(PostgresExporter):
 
 	def __init__(self, connection_string, data_quality=None):
 		super(PostgresConsoleDumper, self).__init__(connection_string, data_quality)
-		self.q = lambda x: "'%s'" % str(x).replace("'", "\\'") if x else "''"
-		self.min_data_quality = data_quality
-
-	def connect(self, connection_string):
-		pass
-
-	def qs(self, what):
-		ret = []
-		for w in what:
-			if type(w) == list:
-				ret.append(self.qs(w))
-			else:
-				# print("q(%s)==%s" % (w, self.q(w)))
-				ret.append(self.q(w))
-
-		return ret
+		register_adapter(list, SQL_LIST)
 
 	def execute(self, query, params):
-		qparams = self.qs(params)
-		print(query % tuple(qparams))
+		print(self.cur.mogrify(query, params).decode())
 
 	def finish(self, completely_done=False):
-		pass
+		from psycopg2._psycopg import List
+		register_adapter(list, List)

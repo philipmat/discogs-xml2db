@@ -18,6 +18,7 @@
 import uuid
 import sys
 
+from psycopg2.extensions import adapt, register_adapter
 
 def untuple(what):
 	if type(what) is tuple:
@@ -71,20 +72,21 @@ class PostgresExporter(object):
 		if completely_done:
 			self.cur.close()
 
-	@staticmethod
-	def buildEscapedQuery(table, columns, values):
-		return "INSERT INTO {table}({columns}) VALUES ({escaped});".format(
-			table=table,
-			columns=", ".join(columns),
-			escaped=", ".join(["%s"] * len(values)))
+	_query_cache = {}
+	def buildEscapedQuery(self, table, columns):
+		qkey = (table, tuple(columns))
+		q = self._query_cache.get(qkey)
+		if q is None:
+			q = "INSERT INTO {table}({columns}) VALUES ({escaped})".format(
+					table=table,
+					columns=", ".join(columns),
+					escaped=", ".join(["%s"] * len(columns)))
+			self._query_cache[qkey] = q
+		return q
 
 	def runQuery(self, table, columns, values):
-		query = self.buildEscapedQuery(table, columns, values)
-		try:
-			self.execute(query, values)
-		except PostgresExporter.ExecuteError as e:
-			print("%s" % (e.args))
-			raise
+		query = self.buildEscapedQuery(table, columns)
+		self.execute(query, values)
 
 	def storeLabel(self, label):
 		if not self.good_quality(label):
@@ -167,8 +169,11 @@ class PostgresExporter(object):
 			values.append(getattr(release, attr))
 			columns.append(column)
 
+		if release.master_id:
+			values.append(release.master_id)
+			columns.append('master_id')
+
 		for attr, column in [
-				('master_id', 'master_id'),
 				('country', 'country'),
 				('released', 'released'),
 				('notes', 'notes'),
@@ -186,13 +191,11 @@ class PostgresExporter(object):
 			return
 
 		for img in release.images:
-			values = (img.imageType, img.height, img.width, artist.id)
+			values = (img.imageType, img.height, img.width, release.id)
 			self.runQuery('releases_images',
 				['type', 'height', 'width', 'release_id'], values)
 
-		fmt_order = 0
-		for fmt in release.formats:
-			fmt_order = fmt_order + 1
+		for fmt_order, fmt in enumerate(release.formats, start=1):
 			if len(release.formats) != 0:
 				if fmt.name not in self.formatNames:
 					self.formatNames[fmt.name] = True
@@ -204,40 +207,37 @@ class PostgresExporter(object):
 				self.runQuery('releases_formats',
 					['release_id', 'position', 'format_name', 'qty', 'descriptions'], values)
 
-		labelQuery = "INSERT INTO releases_labels(release_id, label, catno) VALUES(%s,%s,%s);"
 		for lbl in release.labels:
-			self.execute(labelQuery, (release.id, lbl.name, lbl.catno))
+			self.runQuery('releases_labels',
+				['release_id', 'label', 'catno'],
+				(release.id, lbl.name, lbl.catno))
 
-		release_artist_order = 0
-		for aj in release.artistJoins:
-			release_artist_order = release_artist_order + 1
-			query = "INSERT INTO releases_artists(release_id, position, artist_id, artist_name, join_relation, anv)  VALUES(%s, %s, %s, %s, %s, %s);"
-			self.execute(query, (release.id, release_artist_order, aj.artist_id, aj.artist_name, aj.join_relation, aj.anv))
+		for aj_pos, aj in enumerate(release.artistJoins, start=1):
+			self.runQuery('releases_artists',
+				['release_id', 'position', 'artist_id', 'artist_name', 'join_relation', 'anv'],
+				(release.id, aj_pos, aj.artist_id, aj.artist_name, aj.join_relation, aj.anv))
 
 		for extr in release.extraartists:
 			for role in extr.roles:
-				self.execute(
-					"INSERT INTO releases_extraartists(release_id, artist_id, artist_name, role, anv) VALUES(%s, %s, %s, %s, %s);",
+				self.runQuery('releases_extraartists',
+					['release_id', 'artist_id',     'artist_name',    'role', 'anv'],
 					(release.id, extr.artist_id, extr.artist_name, role, extr.anv))
 
-		trackno = 0
-		for trk in release.tracklist:
+		for trackno, trk in enumerate(release.tracklist, start=1):
 			trackid = str(uuid.uuid4())
-			trackno = trackno + 1
-			self.execute(
-				"INSERT INTO track(release_id, title, duration, position, track_id, trackno) VALUES(%s,%s,%s,%s,%s,%s);",
+			self.runQuery('track',
+				['release_id', 'title', 'duration', 'position', 'track_id', 'trackno'],
 				(release.id, trk.title, trk.duration, trk.position, trackid, trackno))
 
-			track_artist_order = 0
-			for aj in trk.artistJoins:
-				track_artist_order = track_artist_order + 1
-				query = "INSERT INTO tracks_artists(track_id, position, artist_name,artist_id, join_relation, anv) VALUES(%s, %s, %s, %s, %s, %s);"
-				self.execute(query, (trackid, track_artist_order, aj.artist_name, aj.artist_id, aj.join_relation, aj.anv))
+			for track_artist_order, aj in enumerate(trk.artistJoins, start=1):
+				self.runQuery('tracks_artists',
+					['track_id', 'position', 'artist_name', 'artist_id', 'join_relation', 'anv'],
+					(trackid, track_artist_order, aj.artist_name, aj.artist_id, aj.join_relation, aj.anv))
 
 			for extr in trk.extraartists:
 				for role in extr.roles:
-					self.execute(
-						"INSERT INTO tracks_extraartists(track_id, artist_id, artist_name, role, anv) VALUES(%s, %s, %s, %s, %s);",
+					self.runQuery('tracks_extraartists',
+						['track_id', 'artist_id', 'artist_name', 'role', 'anv'],
 						(trackid, extr.artist_id, extr.artist_name, role, extr.anv))
 
 	def storeMaster(self, master):
@@ -245,49 +245,43 @@ class PostgresExporter(object):
 			return
 
 		values = []
-		values.append(master.id)
-		values.append(master.title)
-		values.append(master.main_release)
-		columns = "id, title, main_release"
+		columns = []
+		for attr, column in [
+				('id', 'id'),
+				('title', 'title'),
+				('main_release', 'main_release')]:
+			values.append(getattr(master, attr))
+			columns.append(column)
 
 		if master.year:
 			values.append(master.year)
-			columns += ",year"
-		if len(master.notes) != 0:
-			values.append(master.notes)
-			columns += ",notes"
-		if len(master.genres) != 0:
-			values.append(master.genres)
-			columns += ",genres"
-		if len(master.styles) != 0:
-			values.append(master.styles)
-			columns += ",styles"
+			columns.append('year')
 
-		# INSERT INTO DATABASE
-		escapeStrings = ''
-		for counter in range(1, len(columns.split(","))):
-			escapeStrings = escapeStrings + ",%s"
-		escapeStrings = '(%s' + escapeStrings + ')'
-		# print(values)
-		query = "INSERT INTO master(" + columns + ") VALUES" + escapeStrings + ";"
-		# print(query)
+		for attr, column in [
+				('notes', 'notes'),
+				('genres', 'genres'),
+				('styles', 'styles'),]:
+			value = getattr(master, attr)
+			if len(value) != 0:
+				values.append(value)
+				columns.append(column)
+
 		try:
-			self.execute(query, values)
+			self.runQuery('master', columns, values)
 		except PostgresExporter.ExecuteError as e:
 			print("%s" % (e.args))
 			return
 
 		for img in master.images:
-			self.execute("INSERT INTO masters_images(type, height, width, master_id) VALUES(%s,%s,%s,%s);", (img.imageType, img.height, img.width, master.id))
+			values = (img.imageType, img.height, img.width, master.id)
+			self.runQuery('masters_images',
+				['type', 'height', 'width', 'master_id'], values)
 
 		if len(master.artists) > 1:
 			for artist in master.artists:
-				query = "INSERT INTO masters_artists(master_id, artist_name) VALUES(%s,%s);"
-				self.execute(query, (master.id, artist))
+				self.runQuery('masters_artists',
+					['master_id', 'artist_name'], (master.id, artist))
 			for aj in master.artistJoins:
-				query = """INSERT INTO masters_artists_joins
-												(master_id, join_relation, artist1, artist2)
-												VALUES(%s,%s,%s,%s);"""
 				artistIdx = master.artists.index(aj.artist1) + 1
 				# The last join relation is not between artists but instead
 				# something like "Bob & Alice 'PRESENTS' - Cryptographic Tunes":
@@ -295,26 +289,23 @@ class PostgresExporter(object):
 					values = (master.id, aj.join_relation, '', '')  # join relation is between all artists and the album
 				else:
 					values = (master.id, aj.join_relation, aj.artist1, master.artists[artistIdx])
-				self.execute(query, values)
+				self.runQuery('masters_artists_joins',
+					['master_id', 'join_relation', 'artist1', 'artist2'], values)
 		else:
-			if len(master.artists) == 0:  # use anv if no artist name
-				self.execute(
-					"INSERT INTO masters_artists(master_id, artist_name) VALUES(%s,%s);",
-					(master.id, master.anv))
-			else:
-				self.execute(
-					"INSERT INTO masters_artists(master_id, artist_name) VALUES(%s,%s);",
-					(master.id, master.artists[0]))
+
+			self.runQuery('masters_artists',
+				['master_id', 'artist_name'],
+				# use anv if no artist name
+				(master.id, master.artists[0] if master.artists else master.anv))
 
 		for extr in master.extraartists:
 			# decide whether to insert flattened composite roles or take the first one from the tuple
-			self.execute(
-				"INSERT INTO masters_extraartists(master_id, artist_name, roles) VALUES(%s,%s,%s);",
+			self.runQuery('masters_extraartists',
+				['master_id', 'artist_name', 'roles'],
+				# (master.id, extr.name, flatten(extr.roles)))
 				(master.id, extr.name, map(lambda x: x[0] if type(x) is tuple else x, extr.roles)))
-			# (master.id, extr.name, flatten(extr.roles)))
 
 
-from psycopg2.extensions import adapt, register_adapter
 class SQL_LIST(object):
 	"""Adapt any iterable to an SQL quotable object."""
 	def __init__(self, seq):
@@ -323,6 +314,7 @@ class SQL_LIST(object):
 
 	def prepare(self, conn):
 		self._conn = conn
+
 	def getquoted(self):
 		# this is the important line: note how every object in the
 		# list is adapted and then how getquoted() is called on it
@@ -337,6 +329,7 @@ class SQL_LIST(object):
 	def __str__(self):
 		return str(self.getquoted())
 
+
 class PostgresConsoleDumper(PostgresExporter):
 
 	def __init__(self, connection_string, data_quality=None):
@@ -349,3 +342,5 @@ class PostgresConsoleDumper(PostgresExporter):
 	def finish(self, completely_done=False):
 		from psycopg2._psycopg import List
 		register_adapter(list, List)
+		if completely_done:
+			self.cur.close()

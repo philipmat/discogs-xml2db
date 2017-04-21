@@ -15,6 +15,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 # import psycopg2
+import json
 import uuid
 import sys
 
@@ -77,7 +78,7 @@ class PostgresExporter(object):
 		qkey = (table, tuple(columns))
 		q = self._query_cache.get(qkey)
 		if q is None:
-			q = "INSERT INTO {table}({columns}) VALUES ({escaped})".format(
+			q = "INSERT INTO {table}({columns}) VALUES ({escaped});".format(
 					table=table,
 					columns=", ".join(columns),
 					escaped=", ".join(["%s"] * len(columns)))
@@ -316,15 +317,8 @@ class SQL_LIST(object):
 		self._conn = conn
 
 	def getquoted(self):
-		# this is the important line: note how every object in the
-		# list is adapted and then how getquoted() is called on it
-		pobjs = [adapt(o) for o in self._seq]
-		if self._conn is not None:
-			for obj in pobjs:
-				if hasattr(obj, 'prepare'):
-					obj.prepare(self._conn)
-		qobjs = [o.getquoted() for o in pobjs]
-		return b'{' + b', '.join(qobjs) + b'}'
+		return b"'{" + b', '.join(json.dumps(o, ensure_ascii=False).encode('utf-8')
+			                      for o in self._seq) + b"}'"
 
 	def __str__(self):
 		return str(self.getquoted())

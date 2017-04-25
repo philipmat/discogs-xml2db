@@ -353,9 +353,15 @@ class PostgresConsoleDumper(PostgresExporter):
 	def __init__(self, connection_string, data_quality=None):
 		super(PostgresConsoleDumper, self).__init__(connection_string, data_quality)
 		register_adapter(list, SQL_LIST)
+		try:
+			self.stdoutw = sys.stdout.buffer.write
+		except AttributeError:
+			self.stdoutw = sys.stdout.write
 
 	def execute(self, query, params):
-		print(self.cur.mogrify(query, params).decode())
+		sqlbytes = self.cur.mogrify(query, params)
+		self.stdoutw(sqlbytes)
+		self.stdoutw(b'\n')
 
 	def finish(self, completely_done=False):
 		from psycopg2._psycopg import List

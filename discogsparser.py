@@ -152,7 +152,6 @@ that --params is used, e.g.:
 	opt_parser.add_argument('file', nargs='*', help='Specific file(s) to import. Default is to parse artists, labels, releases matching -d')
 	global options
 	options = opt_parser.parse_args(argv)
-	print(options)
 
 	if options.date is None and len(options.file) == 0:
 		opt_parser.print_help()

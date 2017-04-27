@@ -19,10 +19,6 @@ import xml.sax
 import os
 import sys
 import model
-# import psyco
-# psyco.full()
-
-artistCounter = 0
 
 
 class ArtistHandler(xml.sax.handler.ContentHandler):
@@ -52,6 +48,7 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 		self.exporter = exporter
 		self.stop_after = stop_after
 		self.ignore_missing_tags = ignore_missing_tags
+		self.artistCounter = 0
 
 	def startElement(self, name, attrs):
 		if name not in self.inElement:
@@ -66,11 +63,8 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 			self.artist = model.Artist()
 		elif name == "image":
 			image = model.ImageInfo()
-			image.height = attrs["height"]
-			image.imageType = attrs["type"]
-			image.uri = attrs["uri"]
-			image.uri150 = attrs["uri150"]
-			image.width = attrs["width"]
+			for f in ("height", "type", "uri", "uri150", "width"):
+				setattr(image, f, attrs[f])
 			self.artist.images.append(image)
 			if len(attrs) != 5:
 				print("ATTR ERROR")
@@ -100,29 +94,22 @@ class ArtistHandler(xml.sax.handler.ContentHandler):
 					self.artist.members.append(self.buffer)
 				else:
 					self.artist.name = self.buffer
-		elif name == 'realname':
+		elif name in ('realname', 'profile', 'data_quality'):
 			if len(self.buffer) != 0:
-				self.artist.realname = self.buffer
-		elif name == 'profile':
-			if len(self.buffer) != 0:
-				self.artist.profile = self.buffer
+				setattr(self.artist, name, self.buffer)
 		elif name == 'url':
 			if len(self.buffer) != 0:
 				self.artist.urls.append(self.buffer)
-		elif name == 'data_quality':
-			if len(self.buffer) != 0:
-				self.artist.data_quality = self.buffer
 		elif name == "artist":
 
 			if self.artist.name:
 				self.exporter.storeArtist(self.artist)
-				global artistCounter
-				artistCounter += 1
-				if self.stop_after > 0 and artistCounter >= self.stop_after:
+				self.artistCounter += 1
+				if self.stop_after > 0 and self.artistCounter >= self.stop_after:
 					self.endDocument()
 					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
 						print('Encountered some unknown Artist tags: %s' % (self.unknown_tags))
-					raise model.ParserStopError(artistCounter)
+					raise model.ParserStopError(self.artistCounter)
 			else:
 				sys.stderr.writelines("Ignoring Artist %s with no name. Dictionary: %s\n" % (self.artist.id, self.artist.__dict__))
 

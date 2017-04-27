@@ -9,11 +9,13 @@ before_install:
   - pip install pep8
 
 # command to install dependencies
-install: 
+install:
   - pip install -r requirements.txt
+  - pip install -U pytest
 
 # command to run tests
 # TODO: add flake8, pytest
-script: 
+script:
   - pep8 *.py
   - python -m py_compile *.py
+  - pytest -v

@@ -20,8 +20,6 @@ import model
 import sys
 import os
 
-labelCounter = 0
-
 
 class LabelHandler(xml.sax.handler.ContentHandler):
 	inElement = {
@@ -47,6 +45,7 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 		self.exporter = exporter
 		self.stop_after = stop_after
 		self.ignore_missing_tags = ignore_missing_tags
+		self.labelCounter = 0
 
 	def startElement(self, name, attrs):
 		if name not in self.inElement:
@@ -61,11 +60,8 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 				self.label = model.Label()
 		elif name == "image":
 			newImage = model.ImageInfo()
-			newImage.height = attrs["height"]
-			newImage.imageType = attrs["type"]
-			newImage.uri = attrs["uri"]
-			newImage.uri150 = attrs["uri150"]
-			newImage.width = attrs["width"]
+			for f in ("height", "type", "uri", "uri150", "width"):
+				setattr(newImage, f, attrs[f])
 			self.label.images.append(newImage)
 			if len(attrs) != 5:
 				print("ATTR ERROR")
@@ -82,24 +78,12 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 		self.buffer = self.buffer.strip()
 		if name == 'id':
 			self.label.id = int(self.buffer)
-		if name == 'name':
+		elif name in ('name', 'contactinfo', 'data_quality', 'profile', 'parentLabel'):
 			if len(self.buffer) != 0:
-				self.label.name = self.buffer
-		elif name == 'contactinfo':
-			if len(self.buffer) != 0:
-				self.label.contactinfo = self.buffer
-		elif name == 'data_quality':
-			if len(self.buffer) != 0:
-				self.label.data_quality = self.buffer
-		elif name == 'profile':
-			if len(self.buffer) != 0:
-				self.label.profile = self.buffer
+				setattr(self.label, name, self.buffer)
 		elif name == 'url':
 			if len(self.buffer) != 0:
 				self.label.urls.append(self.buffer)
-		elif name == 'parentLabel':
-			if len(self.buffer) != 0:
-				self.label.parentLabel = self.buffer
 		elif name == "label":
 			if self.inElement['sublabels']:
 				if len(self.buffer) != 0:
@@ -107,16 +91,12 @@ class LabelHandler(xml.sax.handler.ContentHandler):
 			else:
 				self.exporter.storeLabel(self.label)
 
-				global labelCounter
-				labelCounter += 1
-				if self.stop_after > 0 and labelCounter >= self.stop_after:
+				self.labelCounter += 1
+				if self.stop_after > 0 and self.labelCounter >= self.stop_after:
 					self.endDocument()
 					if self.ignore_missing_tags and len(self.unknown_tags) > 0:
 						print('Encountered some unknown Label tags: %s' % (self.unknown_tags))
-					raise model.ParserStopError(labelCounter)
+					raise model.ParserStopError(self.labelCounter)
 
 		self.inElement[name] = False
 		self.buffer = ''
-
-# labels = {}
-# labelCounter = 0

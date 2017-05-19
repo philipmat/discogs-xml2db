@@ -17,7 +17,7 @@
 import xml.sax.handler
 import xml.sax
 import sys
-import jsonexporter
+import exporters.jsonexporter
 import argparse  # in < 2.7 pip install argparse
 import gzip
 
@@ -29,11 +29,11 @@ from collections import deque
 options = None
 
 exporters = {
-	'json': 'jsonexporter.JsonConsoleExporter',
-	'pgsql': 'postgresexporter.PostgresExporter',
-	'pgdump': 'postgresexporter.PostgresConsoleDumper',
-	'couch': 'couchdbexporter.CouchDbExporter',
-	'mongo': 'mongodbexporter.MongoDbExporter',
+	'json': 'exporters.jsonexporter.JsonConsoleExporter',
+	'pgsql': 'exporters.postgresexporter.PostgresExporter',
+	'pgdump': 'exporters.postgresexporter.PostgresConsoleDumper',
+	'couch': 'exporters.couchdbexporter.CouchDbExporter',
+	'mongo': 'exporters.mongodbexporter.MongoDbExporter',
 }
 
 # http://www.discogs.com/help/voting-guidelines.html
@@ -86,22 +86,22 @@ def parseEntities(parser, exporter, entities, handler_class):
 
 
 def parseArtists(parser, exporter):
-	from discogsartistparser import ArtistHandler
+	from parsers.discogsartistparser import ArtistHandler
 	parseEntities(parser, exporter, 'artists', ArtistHandler)
 
 
 def parseLabels(parser, exporter):
-	from discogslabelparser import LabelHandler
+	from parsers.discogslabelparser import LabelHandler
 	parseEntities(parser, exporter, 'labels', LabelHandler)
 
 
 def parseReleases(parser, exporter):
-	from discogsreleaseparser import ReleaseHandler
+	from parsers.discogsreleaseparser import ReleaseHandler
 	parseEntities(parser, exporter, 'releases', ReleaseHandler)
 
 
 def parseMasters(parser, exporter):
-	from discogsmasterparser import MasterHandler
+	from parsers.discogsmasterparser import MasterHandler
 	parseEntities(parser, exporter, 'masters', MasterHandler)
 
 

@@ -5,10 +5,10 @@ from pprint import pprint
 import os
 import xml.sax
 
-from discogsartistparser import ArtistHandler
-from discogslabelparser import LabelHandler
-from discogsmasterparser import MasterHandler
-from discogsreleaseparser import ReleaseHandler
+from parsers.discogsartistparser import ArtistHandler
+from parsers.discogslabelparser import LabelHandler
+from parsers.discogsmasterparser import MasterHandler
+from parsers.discogsreleaseparser import ReleaseHandler
 
 from tests import samplesdir
 

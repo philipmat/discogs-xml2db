@@ -17,34 +17,26 @@
 import xml.sax.handler
 import xml.sax
 import sys
-import jsonexporter
+from exporters import make_exporter
 import argparse  # in < 2.7 pip install argparse
 import gzip
 
 from os import path
 from model import ParserStopError
-from collections import deque
+# from collections import deque
 
 # sys.setdefaultencoding('utf-8')
 options = None
 
-exporters = {
-	'json': 'jsonexporter.JsonConsoleExporter',
-	'pgsql': 'postgresexporter.PostgresExporter',
-	'pgdump': 'postgresexporter.PostgresConsoleDumper',
-	'couch': 'couchdbexporter.CouchDbExporter',
-	'mongo': 'mongodbexporter.MongoDbExporter',
-}
-
 # http://www.discogs.com/help/voting-guidelines.html
 data_quality_values = (
-		'Needs Vote',
-		'Complete And Correct',
-		'Correct',
-		'Needs Minor Changes',
-		'Needs Major Changes',
-		'Entirely Incorrect',
-		'Entirely Incorrect Edit'
+	'Needs Vote',
+	'Complete And Correct',
+	'Correct',
+	'Needs Minor Changes',
+	'Needs Major Changes',
+	'Entirely Incorrect',
+	'Entirely Incorrect Edit'
 )
 
 
@@ -86,53 +78,29 @@ def parseEntities(parser, exporter, entities, handler_class):
 
 
 def parseArtists(parser, exporter):
-	from discogsartistparser import ArtistHandler
+	from parsers.discogsartistparser import ArtistHandler
 	parseEntities(parser, exporter, 'artists', ArtistHandler)
 
 
 def parseLabels(parser, exporter):
-	from discogslabelparser import LabelHandler
+	from parsers.discogslabelparser import LabelHandler
 	parseEntities(parser, exporter, 'labels', LabelHandler)
 
 
 def parseReleases(parser, exporter):
-	from discogsreleaseparser import ReleaseHandler
+	from parsers.discogsreleaseparser import ReleaseHandler
 	parseEntities(parser, exporter, 'releases', ReleaseHandler)
 
 
 def parseMasters(parser, exporter):
-	from discogsmasterparser import MasterHandler
+	from parsers.discogsmasterparser import MasterHandler
 	parseEntities(parser, exporter, 'masters', MasterHandler)
 
 
-def select_exporter(options):
-	global exporters
-	if options.output is None:
-		return exporters['json']
-
-	if options.output in exporters:
-		return exporters[options.output]
-	# should I be throwing an exception here?
-	return exporters['json']
-
-
-def make_exporter(options):
-	exp_module = select_exporter(options)
-
-	parts = exp_module.split('.')
-	m = __import__('.'.join(parts[:-1]))
-	for p in parts[1:]:
-		m = getattr(m, p)
-
-	data_quality = list(x.strip().lower() for x in (options.data_quality or '').split(',') if x)
-	return m(options.params, data_quality=data_quality)
-
-
 def main(argv):
-	global exporters
 	opt_parser = argparse.ArgumentParser(
-			description='Parse discogs release',
-			epilog='''
+		description='Parse discogs release',
+		epilog='''
 You must specify either -d DATE or some files.
 JSON output prints to stdout, any other output requires
 that --params is used, e.g.:
@@ -145,7 +113,7 @@ that --params is used, e.g.:
 	)
 	opt_parser.add_argument('-n', type=int, help='Number of records to parse', default=0)
 	opt_parser.add_argument('-d', '--date', help='Date of release. For example 20110301')
-	opt_parser.add_argument('-o', '--output', choices=exporters.keys(), default='json', help='What to output to')
+	opt_parser.add_argument('-o', '--output', default='json', help='What to output to')
 	opt_parser.add_argument('-p', '--params', help='Parameters for output, e.g. connection string')
 	opt_parser.add_argument('-i', '--ignore-unknown-tags', action='store_true', dest='ignore_unknown_tags', help='Do not error out when encountering unknown tags')
 	opt_parser.add_argument('-q', '--quality', dest='data_quality', help='Comma-separated list of permissable data_quality values.')

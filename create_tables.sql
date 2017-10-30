@@ -105,7 +105,7 @@ CREATE UNLOGGED TABLE releases_formats (
     release_id 		integer,
     "position" 		integer,
     format_name 	text,
-    qty 			integer,
+    qty 			numeric(100, 0),
     descriptions 	text[]
 );
 

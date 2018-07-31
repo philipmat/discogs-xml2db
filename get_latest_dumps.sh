@@ -1,6 +1,7 @@
 #/bin/bash
 #set -xv
 
+USER_AGENT="DiscogsXml2Db/1.0"
 ACCEPT="Accept-Encoding: gzip, deflate"
 D_URL_LIST="http://discogs-data.s3-us-west-2.amazonaws.com/?delimiter=/&prefix=data/"$(date +"%Y")"/"
 D_URL_DIR="http://discogs-data.s3-us-west-2.amazonaws.com/data/"$(date +"%Y")"/"
@@ -12,8 +13,8 @@ TEST=""
 
 echo "" > $D_TMP
 
-for f in `wget -c --header="$ACCEPT" -qO- $D_URL_LIST | grep -Eio "$D_PATTERN" | sort | uniq | tail -n 4` ; do
+for f in `wget -c --user-agent="$USER_AGENT" --header="$ACCEPT" -qO- $D_URL_LIST | grep -Eio "$D_PATTERN" | sort | uniq | tail -n 4` ; do
 	echo $D_URL_DIR$f >> $D_TMP
 done
 
-cat $D_TMP | xargs -n 1 -P 99 wget -c --header="$ACCEPT" --no-clobber $TEST --progress=bar
+cat $D_TMP | xargs -n 1 -P 99 wget -c --user-agent="$USER_AGENT" --header="$ACCEPT" --no-clobber $TEST --progress=bar

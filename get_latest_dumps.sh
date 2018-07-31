@@ -1,7 +1,6 @@
 #/bin/bash
 #set -xv
 
-USER_AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/534.51.22 (KHTML, like Gecko) Version/5.1.1 Safari/534.51.22"
 ACCEPT="Accept-Encoding: gzip, deflate"
 D_URL_LIST="http://discogs-data.s3-us-west-2.amazonaws.com/?delimiter=/&prefix=data/"$(date +"%Y")"/"
 D_URL_DIR="http://discogs-data.s3-us-west-2.amazonaws.com/data/"$(date +"%Y")"/"
@@ -13,8 +12,8 @@ TEST=""
 
 echo "" > $D_TMP
 
-for f in `wget -c --user-agent="$USER_AGENT" --header="$ACCEPT" -qO- $D_URL_LIST | grep -Eio "$D_PATTERN" | sort | uniq | tail -n 4` ; do
+for f in `wget -c --header="$ACCEPT" -qO- $D_URL_LIST | grep -Eio "$D_PATTERN" | sort | uniq | tail -n 4` ; do
 	echo $D_URL_DIR$f >> $D_TMP
 done
 
-wget -c --user-agent="$USER_AGENT" --header="$ACCEPT" --no-clobber --input-file=$D_TMP $TEST --progress=bar
+cat $D_TMP | xargs -n 1 -P 99 wget -c --header="$ACCEPT" --no-clobber $TEST --progress=bar

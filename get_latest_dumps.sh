@@ -8,7 +8,6 @@ D_URL_DIR="http://discogs-data.s3-us-west-2.amazonaws.com/data/"$(date +"%Y")"/"
 D_TMP=/tmp/discogs.urls
 D_PATTERN="discogs_[0-9]{8}_(artists|labels|masters|releases).xml.gz"
 
-
 TEST=""
 [[ "$1" == '--test' ]] && TEST='--spider -S'
 

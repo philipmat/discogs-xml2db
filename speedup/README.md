@@ -13,23 +13,22 @@ we have added support for mongdb etc. It should also be noted that Python 3 is r
 * Install the modules listed in requirements.txt Exactly how you do this depends if you are running Python alongside Python2)
 e.g
 
-`
-sudo apt install python3-docopt
-sudo apt install python3-requests
-sudo apt install python3-lxml
-sudo apt install python3-psycopg2
-sudo apt install python3-pip
-sudo pip3 install tqdm
-python3>
-from python3-psycopg2 import sql
-`
-* Modify *discogs.conf* to set the correct usernmae,password, schema etc
- 
+- sudo apt install python3-docopt
+- sudo apt install python3-requests
+- sudo apt install python3-lxml
+- sudo apt install python3-psycopg2
+- sudo apt install python3-pip
+- sudo pip3 install tqdm
+- python3>
+- from python3-psycopg2 import sql
+
+
+* Modify *discogs.conf* to set the correct username,password, schema etc 
 # How to use
 - cd discogs-xml2db
 - Run the ./get_latest_dumps.sh script to download the latest dump files from discogs (this is not new script)
 - cd speedup
-- ./import.sh to load the Cml into .csv files then create the database tables, load the csv files into databases and create indexes on the tables
+- ./import.sh to load the Xml into .csv files then create the database tables, load the csv files into databases and create indexes on the tables
 
 # More Details
 - import.sh runs a number of commands

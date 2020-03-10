@@ -13,7 +13,7 @@ we have added support for mongdb etc. It should also be noted that Python 3 is r
 * Install the modules listed in requirements.txt Exactly how you do this depends if you are running Python alongside Python2)
 e.g
 
-[code]
+`
 sudo apt install python3-docopt
 sudo apt install python3-requests
 sudo apt install python3-lxml
@@ -22,8 +22,7 @@ sudo apt install python3-pip
 sudo pip3 install tqdm
 python3>
 from python3-psycopg2 import sql
-[/code]
-
+`
 * Modify *discogs.conf* to set the correct usernmae,password, schema etc
  
 # How to use

@@ -6,10 +6,10 @@ This *speedup* subfolder is based on a branch created by RedApple at https://git
 
 Previously discogs-xml2db would attmept to parse the Discogs xml files and load records one by one into database as the parsing of the file progressed. But databases are not designed for loading rows one by one and hence was very slow. This new branch reads the xml files and loads records into csv files, because these are just normal text files without any database overhead in comparison with the old method this is very fast. Then once the csv files are completed another task uses *dbcopy* to load the file contents directly into the corresponding database table and this is also very fast.
 
-So it intended this will be the way we process all files, but currently we only have working for postgres and therefore we have put into old subfolder separate from main project until we have added support for mongdb etc. It should also be noted that Python 3 is required.
+So it intended this will be the way we process all files, but currently we only have working for postgres and therefore we have put into old subfolder separate from main project until we have added support for *mongodb* etc. It should also be noted that Python 3 is required.
 
 # One time configure
-* Install the modules listed in requirements.txt Exactly how you do this depends if you are running Python alongside Python2)
+* Install the modules listed in requirements.txt, exactly how you do this depends if you are running Python alongside Python2)
 e.g because I still require Python 2 for another project I installed as follows
 
 - sudo apt install python3-docopt

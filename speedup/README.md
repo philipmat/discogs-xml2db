@@ -13,6 +13,7 @@ we have added support for mongdb etc. It should also be noted that Python 3 is r
 * Install the modules listed in requirements.txt Exactly how you do this depends if you are running Python alongside Python2)
 e.g
 
+[code]
 sudo apt install python3-docopt
 sudo apt install python3-requests
 sudo apt install python3-lxml
@@ -21,6 +22,7 @@ sudo apt install python3-pip
 sudo pip3 install tqdm
 python3>
 from python3-psycopg2 import sql
+[/code]
 
 * Modify *discogs.conf* to set the correct usernmae,password, schema etc
  
@@ -38,6 +40,6 @@ from python3-psycopg2 import sql
 - Then we create primary keys, constrainst and indexes 
 
 # Code Summary
-exporter.py uses parser.py to parse the xml files and load them into csv files, entities.py define the objects we use to store the attributes as we read from the xml
-discogs-import.py loads the csv files into the database itself, tables defined in dbconfig.py
-discogs-psql.py is a wrapper around psql for running sql and uses the settings in discogs.conf
+- exporter.py uses parser.py to parse the xml files and load them into csv files, entities.py define the objects we use to store the attributes as we read from the xml
+- discogs-import.py loads the csv files into the database itself, tables defined in dbconfig.py
+- discogs-psql.py is a wrapper around psql for running sql and uses the settings in discogs.conf

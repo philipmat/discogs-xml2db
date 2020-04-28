@@ -85,6 +85,7 @@ class Label:
 		self.contactinfo = ''
 		self.profile = ''
 		self.parentLabel = ''
+		self.parentId = 0
 		self.urls = []
 		self.sublabels = []
 

@@ -56,7 +56,7 @@ def connect_db(cfg, set_search_path=False):
 
 
 columns = {table:columns.split() for table, columns in {
-    'label':                'id name contact_info profile parent_name data_quality',
+    'label':                'id name contact_info profile parent_name parent_id data_quality',
     'label_url':            'label_id url',
     'label_image':          'label_id type width height',
 

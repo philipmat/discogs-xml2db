@@ -106,9 +106,12 @@ class DiscogsLabelParser(DiscogsDumpEntityParser):
             if t in ('data_quality',
                      'contactinfo',
                      'name',
-                     'profile',
-                     'parentLabel'):
+                     'profile'):
                 setattr(label, t, gettext_stripped(e))
+
+            elif t in ('parentLabel',):
+                setattr(label, t, gettext_stripped(e))
+                setattr(label, "parentId", e.attrib.get("id"))
 
             elif t in ('sublabels',
                        'urls'):

@@ -5,8 +5,8 @@ import os
 
 from psycopg2 import sql
 
-from dbconfig import connect_db, Config, columns
-
+from dbconfig import connect_db, Config
+from exporter import csv_headers
 
 def load_csv(filename, db):
     print("Importing data from {}".format(filename))
@@ -15,7 +15,7 @@ def load_csv(filename, db):
     if ext.startswith('csv'):
         q = sql.SQL("COPY {} ({}) FROM STDIN WITH CSV HEADER").format(
                 sql.Identifier(table),
-                sql.SQL(', ').join(map(sql.Identifier, columns[table])))
+                sql.SQL(', ').join(map(sql.Identifier, csv_headers[table])))
 
     if ext == 'csv':
         fp = open(filename)

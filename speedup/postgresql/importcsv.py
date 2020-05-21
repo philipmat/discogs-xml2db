@@ -6,6 +6,9 @@ import os
 from psycopg2 import sql
 
 from dbconfig import connect_db, Config
+
+# import headers from exporter.py in parent dir
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from exporter import csv_headers
 
 def load_csv(filename, db):
@@ -27,7 +30,7 @@ def load_csv(filename, db):
     db.commit()
 
 root = os.path.realpath(os.path.dirname(__file__))
-config = Config(os.path.join(root, 'discogs.conf'))
+config = Config(os.path.join(root, 'postgresql.conf'))
 db = connect_db(config)
 
 for filename in sys.argv[1:]:

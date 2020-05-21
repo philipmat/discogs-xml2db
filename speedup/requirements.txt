@@ -1,5 +1,4 @@
 docopt
 lxml
-psycopg2
 requests
 tqdm

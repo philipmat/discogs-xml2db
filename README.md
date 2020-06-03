@@ -1,3 +1,8 @@
+Update: We are currently working on a new implementation of `discogs-xml2db`.
+The new aproach is significantly faster and can be found in the *speedup* directory.
+
+---
+
 # What is it?
 
 This is a python program for importing the discogs data dumps found at

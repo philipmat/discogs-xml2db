@@ -4,6 +4,7 @@ This *speedup* code is a rewrite of the original discogs-xml2db.
 It is several times faster and based on a [branch by RedApple](https://github.com/redapple/discogs-xml2db).
 
 Currently *speedup* supports MySQL and Postgresql as target databases.
+Instructions for importing into MongoDB and CouchDB are provided below, though these are untested. Let us know how it goes!
 
 
 ### Comparison to classic discogs-xml2db
@@ -112,6 +113,17 @@ artist.csv.bz2:  121MiB 0:00:29 [4,09MiB/s] [===================================
 artist_image.csv.bz2:  7,3MiB 0:00:01 [3,72MiB/s] [===================================>] 100%
 artist_namevariation.csv.bz2: 2,84MiB 0:00:01 [2,76MiB/s] [==>                          ] 12% ETA 0:00:07
 ```
+
+#### Importing into MongoDB
+The CSV files can be imported into MongoDB using [mongoimport](https://docs.mongodb.com/manual/reference/program/mongoimport/).
+
+```shell
+$ mongoimport --db=discogs --collection=releases --type=csv --headerline --file=release.csv
+```
+
+#### Importing into CouchDB
+CouchDB only supports importing JSON files. [`couchimport`](https://github.com/glynnbird/couchimport) can be used to convert the CSV files to JSON and import them into CouchDB, as explained in [this tutorial](https://medium.com/codait/simple-csv-import-for-couchdb-71616200b095).
+
 
 ### Database schema changes
 

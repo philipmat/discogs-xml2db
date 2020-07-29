@@ -13,7 +13,7 @@ options, args = parser.parse_args()
 
 if options.cfgfile is None:
     root = os.path.realpath(os.path.dirname(__file__))
-    config = Config(os.path.join(root, 'discogs.conf'))
+    config = Config(os.path.join(root, 'postgresql.conf'))
 else:
     config = Config(options.cfgfile)
 

@@ -65,6 +65,15 @@ Specifying `--apicounts` will provide more accurate predictions by getting the l
 
 ### Importing
 
+If `pv` is available it will be used to display progress during import. To install it run `$ sudo apt-get install pv` on Ubuntu and Debian or check the [installation instructions for other platforms](http://www.ivarch.com/programs/pv.shtml). Example output if using `pv`:
+``` shell
+$ mysql/importcsv.sh 2020-05-01/csv/*
+artist_alias.csv.bz2: 12,5MiB 0:00:03 [3,75MiB/s] [===================================>] 100%
+artist.csv.bz2:  121MiB 0:00:29 [4,09MiB/s] [=========================================>] 100%
+artist_image.csv.bz2:  7,3MiB 0:00:01 [3,72MiB/s] [===================================>] 100%
+artist_namevariation.csv.bz2: 2,84MiB 0:00:01 [2,76MiB/s] [==>                          ] 12% ETA 0:00:07
+```
+
 #### Importing into Postgresql
 
 ```shell
@@ -103,15 +112,6 @@ $ mysql/importcsv.sh /csvdir/*
 
 # Configure primary keys and build indexes
 $ mysql/exec_sql.sh < mysql/AssignPrimaryKeys.sql
-```
-
-If `pv` is available it will be used to display progress during import. To install it run `$ sudo apt-get install pv` on Ubuntu and Debian or check the [installation instructions for other platforms](http://www.ivarch.com/programs/pv.shtml). Example output if using `pv`:
-``` shell
-$ mysql/importcsv.sh 2020-05-01/csv/*
-artist_alias.csv.bz2: 12,5MiB 0:00:03 [3,75MiB/s] [===================================>] 100%
-artist.csv.bz2:  121MiB 0:00:29 [4,09MiB/s] [=========================================>] 100%
-artist_image.csv.bz2:  7,3MiB 0:00:01 [3,72MiB/s] [===================================>] 100%
-artist_namevariation.csv.bz2: 2,84MiB 0:00:01 [2,76MiB/s] [==>                          ] 12% ETA 0:00:07
 ```
 
 #### Importing into MongoDB

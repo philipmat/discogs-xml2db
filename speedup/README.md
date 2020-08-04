@@ -44,7 +44,7 @@ $ sha256sum -c discogs_*_CHECKSUM.txt
 Run `exporter.py` to convert the dump files to csv.
 
 ```shell
-$ python3 speedup/exporter.py --bz2 --apicounts --export label --export artist --export release dump-dir csvdir
+$ python3 speedup/exporter.py --bz2 --apicounts --export artist --export label --export master --export release dump-dir csvdir
 ```
 
 `exporter.py` takes the folowing arguments:

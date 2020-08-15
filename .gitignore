@@ -3,4 +3,12 @@ Session.vim
 discogs_*_*.xml
 COUCH
 tmp
+
+# JetBrains IDE folder
 .idea/
+
+# virtual environment folder
+.venv/
+
+# Visual Studio folder
+.vs/

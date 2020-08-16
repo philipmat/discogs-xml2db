@@ -14,6 +14,9 @@ Let us know how it goes!
 
 ## Running discogs-xml2db
 
+[![Build Status - master](https://travis-ci.org/philipmat/discogs-xml2db.svg?branch=master)](https://travis-ci.org/philipmat/discogs-xml2db)
+[![Build Status - develop](https://travis-ci.org/philipmat/discogs-xml2db.svg?branch=develop)](https://travis-ci.org/philipmat/discogs-xml2db)
+
 ### Requirements
 
 discogs-xml2db *speedup* requires python3 and some python modules.  

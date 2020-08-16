@@ -95,7 +95,9 @@ class EntityCsvExporter(object):
         operations = []
         for table, func, args in self.actions:
             fname = ftemplate.format(table=table)
-            outfp = openf(os.path.join(self.odir, fname), 'wt', encoding='utf-8')
+
+            # opens file with newline='' to keep Windows export happy: https://stackoverflow.com/a/29116560
+            outfp = openf(os.path.join(self.odir, fname), 'wt', newline='', encoding='utf-8')
             writer = csv.writer(outfp)
 
             if self.write_csv_headers:

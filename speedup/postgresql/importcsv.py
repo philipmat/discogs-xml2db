@@ -8,7 +8,13 @@ from psycopg2 import sql
 from dbconfig import connect_db, Config
 
 # import headers from exporter.py in parent dir
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
+# print(os.path.join(sys.path[0], '..'))
+# sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
+import pathlib
+
+parent_path = str(pathlib.Path(__file__).parent.parent.absolute())
+sys.path.insert(1, parent_path)
 from exporter import csv_headers
 
 def load_csv(filename, db):

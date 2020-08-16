@@ -21,7 +21,11 @@ import requests
 from tqdm import tqdm
 
 
-from parser import *
+from discogsparser import (
+    DiscogsArtistParser,
+    DiscogsLabelParser,
+    DiscogsMasterParser,
+    DiscogsReleaseParser)
 
 
 def _write_entity(writer, entity, fields):

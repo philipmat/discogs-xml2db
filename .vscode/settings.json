@@ -1,5 +1,7 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "python.linting.pep8Enabled": true,
-    "python.linting.pylintEnabled": false
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.prospectorEnabled": false,
+    "python.linting.enabled": true
 }

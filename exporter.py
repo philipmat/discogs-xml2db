@@ -20,9 +20,7 @@ from docopt import docopt
 import requests
 from tqdm import tqdm
 
-
-from parser import *
-
+from parsers import DiscogsArtistParser, DiscogsLabelParser, DiscogsMasterParser, DiscogsReleaseParser
 
 def _write_entity(writer, entity, fields):
     writer.writerow([getattr(entity, i, '') for i in fields])

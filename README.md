@@ -1,159 +1,202 @@
-Update: We are currently working on a new implementation of `discogs-xml2db`.
-The new aproach is significantly faster and can be found in the *speedup* directory.
+# discogs-xml2db v2.0
 
----
+discogs-xml2db is a python program for importing [discogs data dumps](https://data.discogs.com/)
+into several databases.
 
-# What is it?
+Version 2.0 is a rewrite of the original *discogs-xml2db*
+(referred in here as the *classic* version).  
+It is based on a [branch by RedApple](https://github.com/redapple/discogs-xml2db)
+and it is several times faster.
 
-This is a python program for importing the discogs data dumps found at
-<http://www.discogs.com/data/> into PostgreSQL, CouchDB, or MongoDB database.
+Currently *speedup* supports MySQL and PostgreSQL as target databases.
+Instructions for importing into MongoDB, though these are untested.  
+Let us know how it goes!
 
-[![Build Status](https://travis-ci.org/philipmat/discogs-xml2db.svg?branch=master)](https://travis-ci.org/philipmat/discogs-xml2db)
+## Running discogs-xml2db
 
-MySQL or other databases are not supported at the moment, but you are welcome
-to submit a patch.
+### Requirements
 
-**discogs-xml2db works with Python 2.7 and 3.6**.  
-It may work with 2.6 or 3.x, but probably not (I don't know, I didn't test).
-It definitely doesn't work with 2.5.
+discogs-xml2db *speedup* requires python3 and some python modules.  
+Additionally, the bash shell is used for automating some tasks.  
 
-discogs-xml2db makes use of the following modules
-(some are standard in 2.7, some you'll need to `pip install`):
+Importing to some databases may require additional dependencies,
+see the documentation for your target database below.
 
-* xml.sax - for handling the source XML files
-* argparse - for parsing the command line arguments
-* json - to save files in JSON format or talk to some back-ends
-* couchdb - if you use the CouchDB back-end (probably not)
-* pymongo - if you use the MongoDB back-end (best option)
-* psycopg2 - for the PostgreSQL back-end (not your best option)
+```shell
+# Install the required python packages using pip.
+$ sudo pip3 install -r requirements.txt
+```
 
-## Options for `discogsparser.py`
+While Python 3.4 and onwards ship with pip by default you may need to install it if using older versions.  
 
-* **Input**: `-d`/`--date` parses all three files
-  (artists, labels, masters, releases) for a given monthly dump:
-  * `discogsparser.py -d 20111101` will look for `discogs_20111101_artists.xml`,
-    `discogs_20111101_labels.xml`, `discogs_20111101_masters.xml`,
-    and `discogs_20111101_releases.xml` in the current directory;
-* **Input**: parse only specific file(s):
-  * `discogsparser.py /tmp/discogs_20111101_artists.xml /tmp/discogs_20111101_releases.xml` - will
-    only parse the artist and release dumps from the `/tmp` directory;
-* **Input**: `-i`/`--ignore-unknown-tags`: ignores new fields that may appear in the XML
-  as the dump format evolves  
-  * `discogsparser.py -i` - will display the unknown tags at the end of parsing each file, e.g.:
-    `Encountered some unknown Release tags: [u'data_quality', u'videos', u'video', u'identifiers', u'identifier']`
-* **Output**: `-o json` dumps records as JSON to the console:
-  * `discogsparser.py -o json discogs_20111101_artists.xml`;
-* **Output**: `-n 20` only process a given number of records
-  * `discogsparser.py -n 20 -o json -d 20111101` will dump 20 records from each
-    of the three monthly dumps as JSON to the console;  
-* **Output**: `-o`/`--output` for output format (aka exporter) and `-p`/`--params` for parameters to the specific exporter
-  * `-o json`, no `-p`: dumps JSON to the console;
-  * `-o pgsql -p "connection string"`: exports into a PostgreSQL database.
-    See [The psycopg2 module content](http://initd.org/psycopg/docs/module.html) for connection string documentation.
-  * `-o couch -p "couch URI"`: exports to a CouchDB server running on localhost
-    on port 5984 into a database named `discogs`;
-  * `-o mongo -p "mongodb://localhost/discogs"`: connects, with `user` and `pass`,
-    to a MongoDB server running on localhost, and into a database named `discogs`.
-    See [Standard Connection String Format](http://www.mongodb.org/display/DOCS/Connections) in the MongoDB docs.
-  * `-o mongo -p "file:///path/to/dir/"`: outputs each of the Artists, Labels, Masters, Releases
-    into a separate JSON file into the specified directory, `/path/to/dir/` in this case,
-    one line for each.
-    Pass `--ignoreblanks` to `mongoimport` in case extra new-lines are added;
-    you probably also want `--upsert --upseftFields id`.
-* **Output**: `-q`/`--quality` - imports only items with the specified data_quality.
-  Takes in a comma-separated list of values for multiple entries.
-  Valid values: 'Needs Vote', 'Complete And Correct', 'Correct', 'Needs Minor Changes',
-  'Needs Major Changes', 'Entirely Incorrect', 'Entirely Incorrect Edit'.
-  * `discogsparser.py -q 'Complete And Correct,Correct,Needs Minor Changes'`
+On Ubuntu or Debian run `$ sudo apt-get install python3-pip`.  
+Installation instruction for other platforms can be found in the [pip documentation](https://pip.pypa.io/en/stable/installing/).
 
-## Examples
+### Downloading discogs dumps
 
-    python discogsparser.py -n 200 -o couch --params http://127.0.0.1:5984/discogs -d 20111101
-    python discogsparser.py -o mongo -p mongodb://localhost,remote1/discogs discogs_20111101_artists.xml discogs_20111101_releases.xml
-    python discogsparser.py -o pgsql -p "host=remote1 dbname=discogs user=postgres password=s3cret" discogs_20111101_artists.xml
-    python discogsparser.py -o pgsql -p "host=remote1 dbname=discogs user=postgres password=s3cret" -d 20140501
+Download the latest dump files from discogs manually from [discogs](https://data.discogs.com/)
+or run `get_latest_dumps.sh`.
 
-## How do I use it?
+To check the files' integrity download the appropriate checksum file from
+[https://data.discogs.com/](https://data.discogs.com/),
+place it in the same directory as the dumps and compare the checksums.
 
-Start by downloading the data dumps (you can use `get_latest_dump.sh` to get the latest dumps).
+```shell
+# run in folder where the data dump files have been downloaded
+$ sha256sum -c discogs_*_CHECKSUM.txt
+```
 
-Steps to import the data-dumps into PostgreSQL:
+### Converting dumps to CSV
 
-1. Unzip the dumps to the source directory: `gunzip discogs_20140501_*.xml.gz`
-2. Login as database administrator user if not already, i.e: `sudo su - postgres`
-3. Create discogs user and empty discogs database `createuser discogs; createdb -U discogs discogs`
-4. Exit from administrator account
-5. Import the database schema: `psql -U discogs -d discogs -f create_tables.sql`
-6. The XML data dumps often contain control characters and do not have root tags.
-   To fix this run `python fix-xml.py release`, where release is the release date of the dump,
-   for example `20100201`.
-7. Import the data with `python discogsparser.py -o pgsql -p "dbname=discogs user=discogs" -d release`,
-   where release is the release date of the dump, for example `20100201`, this will take some time,
-   for example takes 15 hours on my linux server with SSD
-8. Run additional Sql fixes (such as removing duplicate rows): `psql -U discogs discogs -f fix_db.sql`
-9. Create Database indexes: `psql -U discogs discogs -f create_indexes.sql`
+Run `exporter.py` to convert the dump files to csv.
 
-To import data into MongoDB you have two choices: direct import or dumping the records to JSON and then using `mongoimport`.
-The latter is considerably faster, particularly for the initial import.
+```shell
+$ python3 speedup/exporter.py \
+  --bz2 \ # compresses resulting csv files
+  --apicounts \ # provides more accurate progress counts
+  --export artist --export label --export master --export release \
+  dump-dir \ # folder where the data dumps are
+  csv-dir    # folder where to output the csv files
+```
 
-To import directly into MongoDB, specify a `mongodb://` scheme,
-but be aware that the process is not overly quick.  
-You might find yourself running the initial import for days.
+`exporter.py` takes the following arguments:
 
-The JSON dump method is considerably faster, yet in either case you could take advantage
-of an option to import only the records that have changed from the previous import.
+- `--export`: the types of dump files to export: "artist", "label", "master", "release.  
+  It matches the names of the dump files, e.g. "discogs_20200806_*artist*s.xml.gz"
+- `--bz2`: Compresses output csv files using bz2 compression library.
+- `--limit=<lines>`: Limits export to some number of entities
+- `--apicounts`: Makes progress report more accurate by getting total amounts from Discogs API.
 
-The mongo parser will store MD5 hashes of all records it parsed and it can re-use
-these hashes on subsequent imports, provided you keep the `.md5` files.
+The exporter provides progress information in real time:
 
-To perform a direct import:
+```text
+Processing      labels:  99%|█████████████████████████████████████████▊| 1523623/1531339 [01:41<00:00, 14979.04labels/s]
+Processing     artists: 100%|████████████████████████████████████████▊| 6861991/6894139 [09:02<00:02, 12652.23artists/s]
+Processing    releases:  78%|█████████████████████████████▌        | 9757740/12560177 [2:02:15<36:29, 1279.82releases/s]
+```
 
-    discogsparser.py -i -o mongo -p "mongodb://localhost/discogs?uniq=md5" -d 20111101
+The total amount and percentages might be off a bit as the exact amount is not known while reading the file.  
+Specifying `--apicounts` will provide more accurate predictions by getting the latest amounts from the Discogs API.
 
-The JSON dump route requires that you specify a `file://` scheme and a location
-where the intermediate files are to be stored
-(you'll need space - these files are about the same size as the original XMLs):
+### Importing
 
-    $ discogsparser.py -i -o mongo -p "file:///tmp/discogs/?uniq=md5" -d 20111101
-    # this results in 2 files creates for each class, e.g. an artists.json file and an artists.md5 file
+If `pv` is available it will be used to display progress during import.  
+To install it run `$ sudo apt-get install pv` on Ubuntu and Debian or check the
+[installation instructions for other platforms](http://www.ivarch.com/programs/pv.shtml).  
 
-    $ mongoimport -d discogs -c artists --ignoreBlanks artists.json
-    $ mongoimport -d discogs -c labels --ignoreBlanks labels.json
-    $ mongoimport -d discogs -c masters --ignoreBlanks masters.json
-    $ mongoimport -d discogs -c releases --ignoreBlanks releases.json
+Example output if using `pv`:
 
-    # use the mongo command to connect to the database and create the indexes you need, the ids at a minimum
-    # but you'll probably want l_name as well
-    $ mongo discogs
-    > db.artists.ensureIndex({id:1}, {background:true,unique:true})
-    > db.artists.ensureIndex({l_name:1}, {background:true})
-    > db.releases.ensureIndex({id:1}, {background:true,unique:true})
-    > db.releases.ensureIndex({l_title:1, l_artist:1}, {background:true, unique:true})
-    # etc
+``` shell
+$ mysql/importcsv.sh 2020-05-01/csv/*
+artist_alias.csv.bz2: 12,5MiB 0:00:03 [3,75MiB/s] [===================================>] 100%
+artist.csv.bz2:  121MiB 0:00:29 [4,09MiB/s] [=========================================>] 100%
+artist_image.csv.bz2:  7,3MiB 0:00:01 [3,72MiB/s] [===================================>] 100%
+artist_namevariation.csv.bz2: 2,84MiB 0:00:01 [2,76MiB/s] [==>                         ] 12% ETA 0:00:07
+```
 
-    # now import the next month using --upsert:
-    $ mongoimport -d discogs -c artists --ignoreBlanks --upsert --upsertFields 'id' artists.json
+#### Importing into PostgreSQL
 
-To give you an idea of sizes, the November 10th, 2011 file sizes are:
-artists (2,149,473 records) - XML: 417MB, JSON: 554M;
-labels (275,065) - XML: 56MB, JSON: 70M;
-releases (2,779,084) - XML: 7.5GB, JSON: 6.1GB.
+```shell
+# install PostgreSQL libraries (might be required for next step)
+$ sudo apt-get install libpq-dev
 
-The December 1st XMLs are a bit bigger, e.g. 422MB for artists.
-However, if you imported the November XMLs with `?uniq=md5`, the December JSON files are:
-artists - 18MB (48,852 records changed from November),
-labels - 3.2MB (11,997 records),
-releases - 256MB (98,287).
+# install the PostgreSQL package for python
+$ sudo pip3 install -r postgresql/requirements.txt
 
-## Credits
+# Configure PostgreSQL username, password, database, ...
+$ nano postgresql/postgresql.conf
 
-Original project: [discogs-sql-importer](http://code.google.com/p/discogs-sql-importer/)
+# Create database tables
+$ python3 postgresql/psql.py < postgresql/sql/CreateTables.sql
 
-## Some sort of changelog
+# Import CSV files
+$ python3 postgresql/importcsv.py /csvdir/*
 
-* v0.80 - now importing masters
-* v0.70 - Ids as primary identifiers for artists, labels, and releases (not FKs though).
-  MongoDB can now do diff imports when using the `?uniq=md5` option.
-* v0.60 - support for CouchDB and MongoDB
-* v0.50 - command line parameters controlling various import options
-* v0.15 - Original import of discogs-sql-importer
+# Configure primary keys and constraints, build indexes
+python3 postgresql/psql.py < postgresql/sql/CreatePrimaryKeys.sql
+python3 postgresql/psql.py < postgresql/sql/CreateFKConstraints.sql
+python3 postgresql/psql.py < postgresql/sql/CreateIndexes.sql
+```
+
+#### Importing into Mysql
+
+```shell
+# Configure MySQL username, password, database, ...
+$ nano mysql/mysql.conf
+
+# Create database tables
+$ mysql/exec_sql.sh < mysql/CreateTables.sql
+
+# Import CSV files
+$ mysql/importcsv.sh /csvdir/*
+
+# Configure primary keys and build indexes
+$ mysql/exec_sql.sh < mysql/AssignPrimaryKeys.sql
+```
+
+#### Importing into MongoDB
+
+The CSV files can be imported into MongoDB using
+[mongoimport](https://docs.mongodb.com/manual/reference/program/mongoimport/).
+
+```shell
+mongoimport --db=discogs --collection=releases --type=csv --headerline --file=release.csv
+```
+
+#### Importing into CouchDB
+
+CouchDB only supports importing JSON files.  
+[`couchimport`](https://github.com/glynnbird/couchimport) can be used to convert
+the CSV files to JSON and import them into CouchDB,
+as explained in [this tutorial](https://medium.com/codait/simple-csv-import-for-couchdb-71616200b095).
+
+## Comparison to classic discogs-xml2db
+
+*speedup* is many times faster than *classic* because it uses a different approach:
+
+1. The discogs xml dumps are first converted into one csv file per database table.
+2. These csv files are then imported into the different target databases.  
+   This is different from *classic* discogs-xml2db which loads records into the database
+   one by one while parsing the xml file, waiting on the database after every row.
+
+*speedup* requires less disk space than *classic* as it can work while the dump files are still compressed.
+While the uncompressed dumps for May 2020 take up 57GB of space the compressed dumps are only 8.8GB.
+The dumps can be deleted after converting them to compressed CSV files (6.1GB).
+
+As many databases can import CSV files out of the box it should be easy
+to add support for more databases to discogs-xml2db *speedup* in the future.
+
+### Database schema changes
+
+The database schema was changed to be more consistent and normalize some more data.
+The following things changed compared to *classic* `discogs-xml2db`:
+
+- renamed table: `releases_labels` => `release_label`
+- renamed table: `releases_formats` => `release_format`
+- renamed table: `releases_artists` => `release_artist`
+- renamed table: `tracks_artists` => `release_track_artist`
+- renamed table: `track` => `release_track`
+- renamed column: `release_artists.join_relation` => `release_artist.join_string`
+- renamed column: `release_track_artist.join_relation` => `release_track_artist.join_string`
+- renamed column: `release_format.format_name` => `release_format.name`
+- renamed column: `label.contactinfo` => `label.contact_info`
+- renamed column: `label.parent_label` => `label.parent_name`
+- added: `label` has new `parent_id` field
+- added: `release_label` has extra fields
+- moved: `aliases` now in `artist_alias` table
+- moved: `tracks_extra_artists` now in `track_artist` table with extra flag
+- moved: `releases_extra_artists` now in `release_track_artist` table with extra flag
+- moved: `release.genres` now in own `release_genre` table
+- moved: `release.styles` now in own `release_style` table
+- moved: `release.barcode` now in `release_identifier` table
+- moved: `artist.anv` fields now in `artist_namevariation` table
+- moved: `artist.url` fields now in `artist_url` table
+- removed: `release_format.position` no longer exists but can use id field to preserve order when release has multiple formats.
+- `release_track_artist` now use `tmp_track_id` to match to `tmp_track` in `release_track`
+
+### Running discogs-xml2db classic
+
+To run the classic version of discogs-xml2db, check out the v1.99 git tag.  
+It contains both the classic and the speed-up version.
+
+Please be aware that the classic version is no longer maintained.

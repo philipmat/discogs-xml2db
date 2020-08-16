@@ -27,7 +27,7 @@ def load_csv(filename, db):
                 sql.SQL(', ').join(map(sql.Identifier, csv_headers[table])))
 
     if ext == 'csv':
-        fp = open(filename)
+        fp = open(filename, encoding='utf-8')
     elif ext == 'csv.bz2':
         fp = bz2.BZ2File(filename)
 

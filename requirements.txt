@@ -1,2 +1,4 @@
-psycopg2==2.7.*
-pymongo==3.*
+docopt
+lxml
+requests
+tqdm

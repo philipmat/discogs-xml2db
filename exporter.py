@@ -123,7 +123,9 @@ class EntityCsvExporter(object):
         if not self.dry_run:
             operations = self.build_ops()
 
-        with tqdm(total=self.max_hint, ncols=self.progress_bar_width,
+        # ncols=self.progress_bar_width does not seem to work well when the console is not as wide
+        # leaving out ncols allows the tqdm to set out a good width
+        with tqdm(total=self.max_hint, 
                   desc='Processing {:>10}s'.format(self.entity),
                   unit='{}s'.format(self.entity)) as pbar:
 

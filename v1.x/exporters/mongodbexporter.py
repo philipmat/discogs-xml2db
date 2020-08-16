@@ -1,10 +1,14 @@
 from datetime import date
 from hashlib import md5
-from jsonexporter import jsonizer as _jsonizer
+from .jsonexporter import jsonizer as _jsonizer
 import json
 import os
 import pymongo
-import urlparse
+try:
+	from urllib.parse import urlparse, parse_qs
+except ImportError:
+	# python 2
+	from urlparse import urlparse, parse_qs
 
 
 def jsonizer(obj):
@@ -149,10 +153,10 @@ class MongoDbExporter(object):
 
 	def connect(self, mongo_uri):
 		db_name, options = None, {}
-		u = urlparse.urlparse(mongo_uri)
+		u = urlparse(mongo_uri)
 		if u.scheme == 'file':
 			path = u.path
-			self._options = urlparse.parse_qs(u.query) if u.query else {}
+			self._options = parse_qs(u.query) if u.query else {}
 			path = u.netloc + path
 			self.db = _MongoImportFileSet(path)
 			if 'uniq' in self._options and 'md5' in self._options['uniq']:
@@ -161,7 +165,7 @@ class MongoDbExporter(object):
 			if '?' in u.path and u.query == '':
 				# url didn't parse it properly u.path is '/dbname?options
 				db_name, self._options = u.path.split('?', 1)
-				self._options = urlparse.parse_qs(self._options) if self._options else {}
+				self._options = parse_qs(self._options) if self._options else {}
 			else:
 				db_name = u.path
 			if db_name.startswith('/'):

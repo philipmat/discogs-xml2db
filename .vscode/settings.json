@@ -3,5 +3,19 @@
     "python.linting.pycodestyleEnabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.prospectorEnabled": false,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "cSpell.words": [
+        "apicounts",
+        "contactinfo",
+        "couchimport",
+        "csvdir",
+        "discogs",
+        "headerline",
+        "importcsv",
+        "libpq",
+        "mongoimport",
+        "namevariation",
+        "postgresql",
+        "psql"
+    ]
 }

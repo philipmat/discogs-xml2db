@@ -4,6 +4,10 @@
     "python.linting.pylintEnabled": false,
     "python.linting.prospectorEnabled": false,
     "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "[python]": {
+        "editor.formatOnSave": true
+    },
     "cSpell.words": [
         "apicounts",
         "contactinfo",

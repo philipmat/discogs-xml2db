@@ -22,28 +22,30 @@ from tqdm import tqdm
 
 from parsers import DiscogsArtistParser, DiscogsLabelParser, DiscogsMasterParser, DiscogsReleaseParser
 
+
 def _write_entity(writer, entity, fields):
     writer.writerow([getattr(entity, i, '') for i in fields])
 
+
 def _write_fields_rows(writer, entity, name, fields):
     writer.writerows(
-            [entity.id] + [getattr(element, i, '') for i in fields]
-            for element in getattr(entity, name, [])
-        )
+        [entity.id] + [getattr(element, i, '') for i in fields]
+        for element in getattr(entity, name, []))
+
+
 def _write_rows(writer, entity, name):
     writer.writerows(
             [entity.id, element]
             for element in getattr(entity, name, [])
-            if element
-        )
+            if element)
 
 
 _parsers = {
     'artist': DiscogsArtistParser,
     'label': DiscogsLabelParser,
     'master': DiscogsMasterParser,
-    'release': DiscogsReleaseParser,
-}
+    'release': DiscogsReleaseParser, }
+
 
 class EntityCsvExporter(object):
     """Read a Discogs dump XML file and exports SQL table records as CSV.
@@ -149,9 +151,9 @@ class LabelExporter(EntityCsvExporter):
         main_fields = ['id', 'name', 'contactinfo', 'profile', 'parentLabel', 'data_quality']
         image_fields = ['type', 'width', 'height']
         self.actions = (
-            ('label',       _write_entity,  [main_fields]),
-            ('label_url',   _write_rows,    ['urls']),
-            ('label_image', _write_fields_rows, ['images',   image_fields]),
+            ('label', _write_entity, [main_fields]),
+            ('label_url', _write_rows, ['urls']),
+            ('label_image', _write_fields_rows, ['images', image_fields]),
         )
 
     def validate(self, label):
@@ -168,13 +170,12 @@ class ArtistExporter(EntityCsvExporter):
         main_fields = ['id', 'name', 'realname', 'profile', 'data_quality']
         image_fields = ['type', 'width', 'height']
         self.actions = (
-            ('artist',                  _write_entity,  [main_fields]),
-            ('artist_alias',            _write_rows,    ['aliases']),
-            ('artist_namevariation',    _write_rows,    ['namevariations']),
-            ('artist_url',              _write_rows,    ['urls']),
-            ('artist_image',            _write_fields_rows, ['images',   image_fields]),
-            ('group_member',            self.write_group_members,  None),
-        )
+            ('artist', _write_entity, [main_fields]),
+            ('artist_alias', _write_rows, ['aliases']),
+            ('artist_namevariation', _write_rows, ['namevariations']),
+            ('artist_url', _write_rows, ['urls']),
+            ('artist_image', _write_fields_rows, ['images', image_fields]),
+            ('group_member', _group_members, None), )
 
     @staticmethod
     def write_group_members(writer, artist):
@@ -199,12 +200,12 @@ class MasterExporter(EntityCsvExporter):
         video_fields = ['duration', 'title', 'description', 'src']
         image_fields = ['type', 'width', 'height']
         self.actions = (
-            ('master',          _write_entity,      [main_fields]),
-            ('master_artist',   _write_fields_rows, ['artists', artist_fields]),
-            ('master_video',    _write_fields_rows, ['videos',  video_fields]),
-            ('master_genre',    _write_rows,        ['genres']),
-            ('master_style',    _write_rows,        ['styles']),
-            ('master_image',    _write_fields_rows, ['images',   image_fields]),
+            ('master', _write_entity, [main_fields]),
+            ('master_artist', _write_fields_rows, ['artists', artist_fields]),
+            ('master_video', _write_fields_rows, ['videos', video_fields]),
+            ('master_genre', _write_rows, ['genres']),
+            ('master_style', _write_rows, ['styles']),
+            ('master_image', _write_fields_rows, ['images', image_fields]),
 
         )
 
@@ -214,32 +215,32 @@ class ReleaseExporter(EntityCsvExporter):
     def __init__(self, *args, **kwargs):
         super().__init__('release', *args, **kwargs)
 
-        main_fields = ['id', 'title', 'released', 'country', 'notes', 'data_quality', 'master_id','status']
-        label_fields = [ 'name', 'catno']
-        video_fields = [ 'duration', 'title', 'description', 'src']
-        format_fields = [ 'name', 'qty', 'text', 'descriptions']
-        company_fields = [ 'id', 'name', 'entity_type', 'entity_type_name', 'resource_url']
-        identifier_fields = [ 'description', 'type', 'value']
+        main_fields = ['id', 'title', 'released', 'country', 'notes', 'data_quality', 'master_id', 'status']
+        label_fields = ['name', 'catno']
+        video_fields = ['duration', 'title', 'description', 'src']
+        format_fields = ['name', 'qty', 'text', 'descriptions']
+        company_fields = ['id', 'name', 'entity_type', 'entity_type_name', 'resource_url']
+        identifier_fields = ['description', 'type', 'value']
         track_fields = ['sequence', 'position', 'parent', 'title', 'duration', 'track_id']
         image_fields = ['type', 'width', 'height']
 
-        self.artist_fields = [ 'id', 'name', 'extra', 'anv', 'position', 'join', 'role', 'tracks']
+        self.artist_fields = ['id', 'name', 'extra', 'anv', 'position', 'join', 'role', 'tracks']
 
         self.actions = (
-            ('release',             _write_entity,      [main_fields]),
-            ('release_genre',       _write_rows,        ['genres']),
-            ('release_style',       _write_rows,        ['styles']),
-            ('release_label',       _write_fields_rows, ['labels',      label_fields]),
-            ('release_video',       _write_fields_rows, ['videos',      video_fields]),
-            ('release_format',      _write_fields_rows, ['formats',     format_fields]),
-            ('release_company',     _write_fields_rows, ['companies',   company_fields]),
-            ('release_identifier',  _write_fields_rows, ['identifiers', identifier_fields]),
-            ('release_track',       _write_fields_rows, ['tracklist',   track_fields]),
+            ('release', _write_entity, [main_fields]),
+            ('release_genre', _write_rows, ['genres']),
+            ('release_style', _write_rows, ['styles']),
+            ('release_label', _write_fields_rows, ['labels', label_fields]),
+            ('release_video', _write_fields_rows, ['videos', video_fields]),
+            ('release_format', _write_fields_rows, ['formats', format_fields]),
+            ('release_company', _write_fields_rows, ['companies', company_fields]),
+            ('release_identifier', _write_fields_rows, ['identifiers', identifier_fields]),
+            ('release_track', _write_fields_rows, ['tracklist', track_fields]),
 
             # Two special operations
-            ('release_artist',          self.write_artists, None),
-            ('release_track_artist',    self.write_track_artists, None),
-            ('release_image',           _write_fields_rows, ['images',   image_fields]),
+            ('release_artist', self.write_artists, None),
+            ('release_track_artist', self.write_track_artists, None),
+            ('release_image', _write_fields_rows, ['images', image_fields]),
         )
 
     def write_artists(self, writer, release):
@@ -248,12 +249,9 @@ class ReleaseExporter(EntityCsvExporter):
 
     def write_track_artists(self, writer, release):
         writer.writerows(
-            ([release.id, track.sequence, track.track_id] +
-             [getattr(element, i, '') for i in self.artist_fields])
+            ([release.id, track.sequence, track.track_id] + [getattr(element, i, '') for i in self.artist_fields])
             for track in getattr(release, 'tracklist', [])
-                for element in (getattr(track, 'artists', []) +
-                                getattr(track, 'extraartists', []))
-        )
+            for element in (getattr(track, 'artists', []) + getattr(track, 'extraartists', [])))
 
 
 _exporters = {
@@ -264,37 +262,37 @@ _exporters = {
 }
 
 
-csv_headers = {table:columns.split() for table, columns in {
-    'label':                'id name contact_info profile parent_name data_quality',
-    'label_url':            'label_id url',
-    'label_image':          'label_id type width height',
+csv_headers = {table: columns.split() for table, columns in {
+    'label': 'id name contact_info profile parent_name data_quality',
+    'label_url': 'label_id url',
+    'label_image': 'label_id type width height',
 
-    'artist':               'id name realname profile data_quality',
-    'artist_alias':         'artist_id alias_name',
+    'artist': 'id name realname profile data_quality',
+    'artist_alias': 'artist_id alias_name',
     'artist_namevariation': 'artist_id name',
-    'artist_url':           'artist_id url',
-    'group_member':         'group_artist_id member_artist_id member_name',
-    'artist_image':         'artist_id type width height',
+    'artist_url': 'artist_id url',
+    'group_member': 'group_artist_id member_artist_id member_name',
+    'artist_image': 'artist_id type width height',
 
-    'master':               'id title year main_release data_quality',
-    'master_artist':        'master_id artist_id artist_name anv position join_string role',
-    'master_video':         'master_id duration title description uri',
-    'master_genre':         'master_id genre',
-    'master_style':         'master_id style',
-    'master_image':         'master_id type width height',
+    'master': 'id title year main_release data_quality',
+    'master_artist': 'master_id artist_id artist_name anv position join_string role',
+    'master_video': 'master_id duration title description uri',
+    'master_genre': 'master_id genre',
+    'master_style': 'master_id style',
+    'master_image': 'master_id type width height',
 
-    'release':              'id title released country notes data_quality master_id status',
-    'release_artist':       'release_id artist_id artist_name extra anv position join_string role tracks',
-    'release_label':        'release_id label_name catno',
-    'release_genre':        'release_id genre',
-    'release_style':        'release_id style',
-    'release_format':       'release_id name qty text_string descriptions',
-    'release_company':      'release_id company_id company_name entity_type entity_type_name uri',
-    'release_video':        'release_id duration title description uri',
-    'release_identifier':   'release_id description type value',
-    'release_track':        'release_id sequence position parent title duration track_id',
+    'release': 'id title released country notes data_quality master_id status',
+    'release_artist': 'release_id artist_id artist_name extra anv position join_string role tracks',
+    'release_label': 'release_id label_name catno',
+    'release_genre': 'release_id genre',
+    'release_style': 'release_id style',
+    'release_format': 'release_id name qty text_string descriptions',
+    'release_company': 'release_id company_id company_name entity_type entity_type_name uri',
+    'release_video': 'release_id duration title description uri',
+    'release_identifier': 'release_id description type value',
+    'release_track': 'release_id sequence position parent title duration track_id',
     'release_track_artist': 'release_id track_sequence track_id artist_id artist_name extra anv position join_string role tracks',
-    'release_image':        'release_id type width height',
+    'release_image': 'release_id type width height',
 }.items()}
 
 
@@ -312,24 +310,30 @@ def main(args):
     # this is used to get a rough idea of how many items we can expect
     # in each dump file so that we can show the progress bar
     rough_counts = {
-        'artists':  5000000,
-        'labels':   1100000,
-        'masters':  1250000,
+        'artists': 5000000,
+        'labels': 1100000,
+        'masters': 1250000,
         'releases': 8500000,
     }
     if arguments['--apicounts']:
         r = requests.get('https://api.discogs.com/', timeout=5)
         try:
             rough_counts.update(r.json().get('statistics'))
-        except:
+        except Exception:
             pass
 
     for entity in arguments['--export']:
         expected_count = rough_counts['{}s'.format(entity)]
-        exporter = _exporters[entity](inbase, outbase, limit=limit, bz2=bz2_on,
-            debug=debug, max_hint=min(expected_count, limit or expected_count),
+        exporter = _exporters[entity](
+            inbase,
+            outbase,
+            limit=limit,
+            bz2=bz2_on,
+            debug=debug,
+            max_hint=min(expected_count, limit or expected_count),
             dry_run=dry_run)
         exporter.export()
+
 
 if __name__ == '__main__':
     import sys

@@ -7,38 +7,50 @@ import lxml.etree as etree
 class Label(object):
     pass
 
+
 class ReleaseFormat(object):
     pass
+
 
 class ReleaseIdentifier(object):
     pass
 
+
 class ReleaseCompany(object):
     pass
+
 
 class ReleaseTrack(object):
     pass
 
+
 class ReleaseLabel(object):
     pass
+
 
 class ImageInfo(object):
     pass
 
+
 class Artist(object):
     pass
+
 
 class Master(object):
     pass
 
+
 class Video(object):
     pass
+
 
 class MasterArtist(object):
     pass
 
+
 class ReleaseArtist(object):
     pass
+
 
 class Release(object):
     pass
@@ -99,7 +111,7 @@ class DiscogsArtistParser(DiscogsDumpEntityParser):
 
     entity_tag = "artist"
 
-    #<members><id>26</id><name>Alexi Delano</name><id>27</id><name>Cari Lekebusch</name></members>
+    # <members><id>26</id><name>Alexi Delano</name><id>27</id><name>Cari Lekebusch</name></members>
     def element_members(self, element):
         for id, name in grouper([child.text for child in element.iterchildren()], 2):
             yield int(id), name.strip()
@@ -308,10 +320,10 @@ class DiscogsReleaseParser(DiscogsDumpEntityParser):
                 elif t in ('artists', 'extraartists'):
                     setattr(entity, t,
                             list(self.element_artists(e,
-                                                      extra=(t=='extraartists'))))
+                                                      extra=(t == 'extraartists'))))
                 elif t in ('sub_tracks'):
                     subtracks = list(self.element_tracklist(e,
-                        parent=int(self.track_sequence)))
+                                                            parent=int(self.track_sequence)))
             yield entity
             if subtracks:
                 for t in subtracks:
@@ -341,7 +353,7 @@ class DiscogsReleaseParser(DiscogsDumpEntityParser):
     def build_entity(self, entity_id, element):
         release = Release()
         release.id = entity_id
-        setattr(release,'status',element.get('status'))
+        setattr(release, 'status', element.get('status'))
         for e in element.iterchildren():
             t = e.tag
             if t in ('master_id',):
@@ -359,7 +371,7 @@ class DiscogsReleaseParser(DiscogsDumpEntityParser):
             elif t in ('artists', 'extraartists'):
                 setattr(release, t,
                         list(self.element_artists(e,
-                                                  extra=(t=='extraartists'))))
+                                                  extra=(t == 'extraartists'))))
 
             elif t in ('videos'):
                 setattr(release, t, list(self.element_videos(e)))

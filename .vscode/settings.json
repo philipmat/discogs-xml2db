@@ -7,10 +7,10 @@
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": [
         "--line-length",
-        "120"
+        "100"
     ],
     "[python]": {
-        "editor.formatOnSave": true
+        "editor.formatOnSave": false
     },
     "cSpell.words": [
         "apicounts",

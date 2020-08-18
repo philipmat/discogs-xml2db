@@ -16,7 +16,7 @@ install:
 # pycodestyle.exe @(gci -path .\*.py, .\parsers\*.py, .\mysql\*.py, .\postgresql\*.py | select -ExpandProperty fullname )
 script:
   - pycodestyle *.py
-  - pycodestyle parsers/*.py
+  - pycodestyle discogsxml2db/*.py
   - pycodestyle mysql/*.py
   - pycodestyle postgresql/*.py
   - python -m py_compile *.py

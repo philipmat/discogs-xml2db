@@ -301,9 +301,12 @@ def main(arguments):
         'releases': 8500000,
     }
     if arguments['--apicounts']:
-        r = requests.get('https://api.discogs.com/', timeout=5)
+        headers = {
+            'User-Agent': 'discogs-xml2db/1.0 +https://github.com/philipmat/discogs-xml2db/'
+        }
+        response = requests.get('https://api.discogs.com/', timeout=5, headers=headers)
         try:
-            rough_counts.update(r.json().get('statistics'))
+            rough_counts.update(response.json().get('statistics'))
         except Exception:
             pass
 

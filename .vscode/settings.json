@@ -23,6 +23,7 @@
         "libpq",
         "mongoimport",
         "namevariation",
+        "noqa",
         "postgresql",
         "psql"
     ]

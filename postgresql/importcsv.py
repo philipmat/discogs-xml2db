@@ -8,14 +8,11 @@ from psycopg2 import sql
 
 from dbconfig import connect_db, Config
 
-# import headers from exporter.py in parent dir
-# print(os.path.join(sys.path[0], '..'))
-# sys.path.insert(1, os.path.join(sys.path[0], '..'))
-
-
+# since we run this as a script, we need to add the parent folder
+# so we can import discogsxml2db from it
 parent_path = str(pathlib.Path(__file__).parent.parent.absolute())
 sys.path.insert(1, parent_path)
-from exporter import csv_headers  # noqa
+from discogsxml2db.exporter import csv_headers  # noqa
 
 
 def load_csv(filename, db):

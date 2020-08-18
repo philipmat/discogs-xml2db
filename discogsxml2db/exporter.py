@@ -1,27 +1,13 @@
-# -*- coding: utf-8 -*-
-"""Usage:
-  exporter.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] INPUT [OUTPUT] [--export=<entity>]...
-
-Options:
-  --bz2                 Compress output files using bz2 compression library.
-  --limit=<lines>       Limit export to some number of entities
-  --export=<entity>     Limit export to some entities (repeatable)
-  --debug               Turn on debugging prints
-  --apicounts           Check entities counts with Discogs API
-  --dry-run             Do not write
-
-"""
 import bz2
 import csv
 import glob
 import gzip
 import os
 
-from docopt import docopt
 import requests
 from tqdm import tqdm
 
-from parsers import DiscogsArtistParser, DiscogsLabelParser, DiscogsMasterParser, DiscogsReleaseParser
+from .parser import DiscogsArtistParser, DiscogsLabelParser, DiscogsMasterParser, DiscogsReleaseParser
 
 
 def _write_entity(writer, entity, fields):
@@ -298,10 +284,7 @@ csv_headers = {table: columns.split() for table, columns in {
 }.items()}
 
 
-def main(args):
-
-    arguments = docopt(__doc__, version='Discogs-to-SQL exporter')
-
+def main(arguments):
     inbase = arguments['INPUT']
     outbase = arguments['OUTPUT'] or '.'
     limit = int(arguments['--limit']) if arguments['--limit'] else None
@@ -335,8 +318,3 @@ def main(args):
             max_hint=min(expected_count, limit or expected_count),
             dry_run=dry_run)
         exporter.export()
-
-
-if __name__ == '__main__':
-    import sys
-    sys.exit(main(sys.argv))

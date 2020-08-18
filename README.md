@@ -51,10 +51,10 @@ $ sha256sum -c discogs_*_CHECKSUM.txt
 
 ### Converting dumps to CSV
 
-Run `exporter.py` to convert the dump files to csv.
+Run `run.py` to convert the dump files to csv.
 
 ```shell
-$ python3 exporter.py \
+$ python3 run.py \
   --bz2 \ # compresses resulting csv files
   --apicounts \ # provides more accurate progress counts
   --export artist --export label --export master --export release \
@@ -62,7 +62,7 @@ $ python3 exporter.py \
   csv-dir    # folder where to output the csv files
 ```
 
-`exporter.py` takes the following arguments:
+`run.py` takes the following arguments:
 
 - `--export`: the types of dump files to export: "artist", "label", "master", "release.  
   It matches the names of the dump files, e.g. "discogs_20200806_*artist*s.xml.gz"
@@ -171,7 +171,7 @@ to add support for more databases to discogs-xml2db *speedup* in the future.
 
 ### Database schema changes
 
-The database schema was changed to be more consistent and normalize some more data.
+The database schema was changed in v2.0 to be more consistent and normalize some more data.
 The following things changed compared to *classic* `discogs-xml2db`:
 
 - renamed table: `releases_labels` => `release_label`

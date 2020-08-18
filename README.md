@@ -14,8 +14,8 @@ Let us know how it goes!
 
 ## Running discogs-xml2db
 
-![Build Status - develop](https://github.com/philipmat/discogs-xml2db/workflows/Python%20package/badge.svg?branch=develop) 
-[![Build Status - master](https://travis-ci.org/philipmat/discogs-xml2db.svg?branch=master)](https://travis-ci.org/philipmat/discogs-xml2db) 
+![Build Status - develop](https://github.com/philipmat/discogs-xml2db/workflows/Python%20package/badge.svg?branch=develop)
+[![Build Status - master](https://travis-ci.org/philipmat/discogs-xml2db.svg?branch=master)](https://travis-ci.org/philipmat/discogs-xml2db)
 [![Build Status - develop](https://travis-ci.org/philipmat/discogs-xml2db.svg?branch=develop)](https://travis-ci.org/philipmat/discogs-xml2db)
 
 ### Requirements

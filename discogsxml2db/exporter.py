@@ -37,7 +37,8 @@ _parsers = {
 class EntityCsvExporter(object):
     """Read a Discogs dump XML file and exports SQL table records as CSV.
     """
-    def __init__(self, entity, idir, odir, limit=None, bz2=True,
+    def __init__(self, entity, in_dir, out_dir,
+                 limit=None, bz2=True,
                  dry_run=False, debug=False, max_hint=None, verbose=False):
         self.entity = entity
         self.parser = _parsers[entity]()
@@ -45,10 +46,10 @@ class EntityCsvExporter(object):
         self.verbose = verbose
 
         lookup = 'discogs_[0-9]*_{}s.xml*'.format(entity)
-        self.pattern = os.path.join(idir, lookup)
+        self.pattern = os.path.join(in_dir, lookup)
 
         # where and how the exporter will write to
-        self.odir = odir
+        self.out_dir = out_dir
         self.limit = limit
         self.bz2 = bz2
         self.dry_run = dry_run
@@ -75,25 +76,25 @@ class EntityCsvExporter(object):
 
     def build_ops(self):
         if self.bz2:
-            openf = bz2.open
-            ftemplate = '{table}.csv.bz2'
+            open_func = bz2.open
+            fname_template = '{table}.csv.bz2'
         else:
-            openf = open
-            ftemplate = '{table}.csv'
+            open_func = open
+            fname_template = '{table}.csv'
 
         operations = []
         for table, func, args in self.actions:
-            fname = ftemplate.format(table=table)
+            fname = fname_template.format(table=table)
 
             # opens file with newline='' to keep Windows export happy: https://stackoverflow.com/a/29116560
-            outfp = openf(os.path.join(self.odir, fname), 'wt', newline='', encoding='utf-8')
-            writer = csv.writer(outfp)
+            out_file_obj = open_func(os.path.join(self.out_dir, fname), 'wt', newline='', encoding='utf-8')
+            writer = csv.writer(out_file_obj)
 
             if self.write_csv_headers:
                 writer.writerow(csv_headers[table])
 
             operations.append(
-                (writer, func, args, outfp)
+                (writer, func, args, out_file_obj)
             )
         return operations
 
@@ -285,8 +286,8 @@ csv_headers = {table: columns.split() for table, columns in {
 
 
 def main(arguments):
-    inbase = arguments['INPUT']
-    outbase = arguments['OUTPUT'] or '.'
+    in_base = arguments['INPUT']
+    out_base = arguments['OUTPUT'] or '.'
     limit = int(arguments['--limit']) if arguments['--limit'] else None
     bz2_on = arguments['--bz2']
     debug = arguments['--debug']
@@ -313,8 +314,8 @@ def main(arguments):
     for entity in arguments['--export']:
         expected_count = rough_counts['{}s'.format(entity)]
         exporter = _exporters[entity](
-            inbase,
-            outbase,
+            in_base,
+            out_base,
             limit=limit,
             bz2=bz2_on,
             debug=debug,

@@ -13,18 +13,36 @@
         "editor.formatOnSave": false
     },
     "cSpell.words": [
+        "ABCDEFG",
+        "Alexi",
+        "Cari",
+        "Lekebusch",
         "apicounts",
+        "catno",
         "contactinfo",
         "couchimport",
         "csvdir",
         "discogs",
+        "fname",
+        "fobj",
+        "fpath",
         "headerline",
         "importcsv",
+        "iterchildren",
+        "itertools",
         "libpq",
+        "lxml",
         "mongoimport",
         "namevariation",
+        "ncols",
         "noqa",
+        "pbar",
         "postgresql",
-        "psql"
+        "psql",
+        "pycache",
+        "pycodestyle",
+        "pytest",
+        "tqdm",
+        "venv"
     ]
 }

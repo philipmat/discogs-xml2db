@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "pycodestyle",
             "windows": {
-                "command": "pycodestyle @(gci -path .\\*.py, .\\discogsxml2db\\*.py, .\\mysql\\*.py, .\\postgresql\\*.py | select -expand fullname)",
+                "command": "pycodestyle . --exclude=.git,.venv,__pycache__,v1.x --count --statistics"
             },
             "presentation": {
                 "echo": true,

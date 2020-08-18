@@ -6,7 +6,13 @@ from dbconfig import Config
 
 
 parser = OptionParser()
-parser.add_option("-S", "--no-schema", action="store_true", dest="public", default=False, help="don't configure the default schema")
+parser.add_option(
+    "-S",
+    "--no-schema",
+    action="store_true",
+    dest="public",
+    default=False,
+    help="don't configure the default schema")
 parser.add_option("-s", "--schema", dest="schema", default='discogs', help="default schema")
 parser.add_option("-c", "--config", dest="cfgfile", default=None, help="configuration file")
 options, args = parser.parse_args()

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""Usage: exporter.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] INPUT [OUTPUT] [--export=<entity>]...
+"""Usage:
+  exporter.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] INPUT [OUTPUT] [--export=<entity>]...
 
 Options:
   --bz2                 Compress output files using bz2 compression library.
@@ -127,7 +128,7 @@ class EntityCsvExporter(object):
 
         # ncols=self.progress_bar_width does not seem to work well when the console is not as wide
         # leaving out ncols allows the tqdm to set out a good width
-        with tqdm(total=self.max_hint, 
+        with tqdm(total=self.max_hint,
                   desc='Processing {:>10}s'.format(self.entity),
                   unit='{}s'.format(self.entity)) as pbar:
 
@@ -291,7 +292,8 @@ csv_headers = {table: columns.split() for table, columns in {
     'release_video': 'release_id duration title description uri',
     'release_identifier': 'release_id description type value',
     'release_track': 'release_id sequence position parent title duration track_id',
-    'release_track_artist': 'release_id track_sequence track_id artist_id artist_name extra anv position join_string role tracks',
+    'release_track_artist': ('release_id track_sequence track_id artist_id artist_name '
+                             'extra anv position join_string role tracks'),
     'release_image': 'release_id type width height',
 }.items()}
 

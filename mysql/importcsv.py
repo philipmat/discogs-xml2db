@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Usage: 
+"""Usage:
     mysql_loadcsv.py [--config=<config>] PATH ...
 
 Options:
@@ -8,18 +8,18 @@ Options:
 
 """
 
-# This script imports csv files into a mysql database. It is meant as a pure 
+# This script imports csv files into a mysql database. It is meant as a pure
 # python implementation of importcsv.sh for use on systems where the bash shell
-# is not available. 
+# is not available.
 #
 # It lacks two major features that the bash version has:
-# - it can not import compressed csv files 
+# - it can not import compressed csv files
 # - it does not display the importing progress
 #
 # Both features can not be implemented because we need to pass a path to mysql:
 #   sql = 'load data from PATH into table TABLE'
 #   cursor.execute(sql)
-# These features could be implemented for postgresql because psycopg2 allows 
+# These features could be implemented for postgresql because psycopg2 allows
 # for a file object to be passed in addition to a SQL string:
 #    sql = "copy TABLE from stdin"
 #    file = uncompress(monitor_progress(PATH))
@@ -45,9 +45,10 @@ def read_config(path):
     config = config_parser["general"]
     return config
 
+
 def import_csv(path, mysql_config):
     base, filename = os.path.split(path)
-    table, ext  = filename.split('.', 1)
+    table, ext = filename.split('.', 1)
     if ext != 'csv':
         print('%s can not be imported: not a .csv file' % filename)
         return
@@ -71,6 +72,7 @@ def import_csv(path, mysql_config):
     connection.commit()
     cursor.close()
     connection.close()
+
 
 arguments = docopt(__doc__, version='0.1')
 paths = arguments['PATH']

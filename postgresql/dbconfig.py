@@ -54,8 +54,7 @@ def connect_db(cfg, set_search_path=False):
     return db
 
 
-
-columns = {table:columns.split() for table, columns in {
+columns = {table: columns.split() for table, columns in {
     'label':                'id name contact_info profile parent_name data_quality',
     'label_url':            'label_id url',
     'label_image':          'label_id type width height',
@@ -84,10 +83,7 @@ columns = {table:columns.split() for table, columns in {
     'release_video':        'release_id duration title description uri',
     'release_identifier':   'release_id description type value',
     'release_track':        'release_id sequence position parent title duration track_id',
-    'release_track_artist': 'release_id track_sequence track_id artist_id artist_name extra anv position join_string role tracks',
+    'release_track_artist': ('release_id track_sequence track_id artist_id artist_name '
+                             'extra anv position join_string role tracks'),
     'release_image':        'release_id type width height',
 }.items()}
-
-
-
-

@@ -5,16 +5,19 @@ python:
   - "nightly"
 
 before_install:
-  - pip install pep8
+  - pip install -r requirements-dev.txt
 
 # command to install dependencies
 install:
   - pip install -r requirements.txt
-  - pip install -U pytest
 
 # command to run tests
-# TODO: add flake8, pytest
+# Powershell:
+# pycodestyle.exe @(gci -path .\*.py, .\parsers\*.py, .\mysql\*.py, .\postgresql\*.py | select -ExpandProperty fullname )
 script:
-  - pep8 *.py
+  - pycodestyle *.py
+  - pycodestyle parsers/*.py
+  - pycodestyle mysql/*.py
+  - pycodestyle postgresql/*.py
   - python -m py_compile *.py
   - pytest -v

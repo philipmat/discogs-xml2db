@@ -15,6 +15,7 @@ import requests
 import gzip
 import pathlib
 import lxml.etree as etree
+import os
 
 from docopt import docopt
 from tqdm import tqdm
@@ -64,19 +65,19 @@ from discogsxml2db.parser import (
 )  # noqa
 
 _parsers = {
-    "artists": DiscogsArtistParser,
-    "labels": DiscogsLabelParser,
-    "masters": DiscogsMasterParser,
-    "releases": DiscogsReleaseParser,
+    "artists": "artist",
+    "labels": "label",
+    "masters": "master",
+    "releases": "release",
 }
-parser = _parsers[parser_name]()
+parse_tag = _parsers[parser_name]
 
 
 def openfile(fpath: str):
     if fpath.endswith(".gz"):
         return gzip.GzipFile(fpath)
     elif fpath.endswith(".xml"):
-        return open(fpath, mode='rb')
+        return open(fpath, mode="rb")
     else:
         raise RuntimeError("unknown file type: {}".format(fpath))
 
@@ -90,10 +91,28 @@ def in_extraction_window(pos: int) -> bool:
     return False
 
 
-inner_pbar = tqdm(total=extract_count, desc="Extracting records", unit="records", position=1)
-with tqdm(total=max_records, desc="Processing records", unit="records", position=0) as pbar:
-    for cnt, entity in enumerate(parser.parse(openfile(in_file))):
-        if in_extraction_window(cnt):
-            # inner_pbar.write(f"cnt = {cnt}")
-            inner_pbar.update()
-        pbar.update()
+out_file = os.path.splitext(in_file)[0] + f"-sample-{extract_count}.xml"
+in_fp = openfile(in_file)
+with open(out_file, mode="wb") as out_fp:
+    out_fp.write(b"<" + bytearray(parser_name, "utf-8") + b">\n")
+    try:
+        inner_pbar = tqdm(
+            total=extract_count, desc="Extracting records", unit="records", position=1
+        )
+        with tqdm(total=max_records, desc="Processing records", unit="records", position=0) as pbar:
+            i = 0
+            for event, element in etree.iterparse(in_fp, tag=parse_tag):
+                e_id = element.find("id")
+                if e_id is not None:
+                    if in_extraction_window(i):
+                        # inner_pbar.write(f"cnt = {cnt}")
+                        out_fp.write(etree.tostring(element))
+                        inner_pbar.update()
+                    pbar.update()
+                    i += 1
+        inner_pbar.close()
+    finally:
+        in_fp.close()
+        out_fp.write(b"</" + bytearray(parser_name, "utf-8") + b">")
+
+print(f"Wrote {extract_count} {parser_name} to {out_file}.")

@@ -18,7 +18,7 @@ Let us know how it goes!
 
 ### Requirements
 
-discogs-xml2db *speedup* requires python3 and some python modules.  
+discogs-xml2db *speedup* requires python3 (minimum 3.6) and some python modules.  
 Additionally, the bash shell is used for automating some tasks.  
 
 Importing to some databases may require additional dependencies,
@@ -29,9 +29,6 @@ see the documentation for your target database below.
 $ sudo pip3 install -r requirements.txt
 ```
 
-While Python 3.4 and onwards ship with pip by default you may need to install it if using older versions.  
-
-On Ubuntu or Debian run `$ sudo apt-get install python3-pip`.  
 Installation instruction for other platforms can be found in the [pip documentation](https://pip.pypa.io/en/stable/installing/).
 
 ### Downloading discogs dumps

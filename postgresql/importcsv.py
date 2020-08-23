@@ -10,7 +10,7 @@ from dbconfig import connect_db, Config
 
 # since we run this as a script, we need to add the parent folder
 # so we can import discogsxml2db from it
-parent_path = str(pathlib.Path(__file__).parent.parent.absolute())
+parent_path = str(pathlib.Path(__file__).absolute().parent.parent)
 sys.path.insert(1, parent_path)
 from discogsxml2db.exporter import csv_headers  # noqa
 

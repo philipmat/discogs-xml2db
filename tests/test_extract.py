@@ -20,7 +20,7 @@ except ImportError:
 class TestExtraction:
     _samples_folder: str = None
     _resulting_counts: Dict[str, Dict[str, int]] = {
-        "label": {"label.csv": 1000, "label_image.csv": 421, "label_url.csv": 437,},
+        "label": {"label.csv": 1000, "label_image.csv": 421, "label_url.csv": 437},
         "artist": {
             "artist_alias.csv": 548,
             "artist.csv": 1000,

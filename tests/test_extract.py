@@ -18,7 +18,6 @@ except ImportError:
 
 
 class TestExtraction:
-    _temp_folder: str = None
     _samples_folder: str = None
     _resulting_counts: Dict[str, Dict[str, int]] = {
         "label": {"label.csv": 1000, "label_image.csv": 421, "label_url.csv": 437,},
@@ -56,34 +55,21 @@ class TestExtraction:
 
     @classmethod
     def setup_class(cls):
-        # (re-)create temporary folder
-        if cls._temp_folder is not None and os.path.exists(cls._temp_folder):
-            logging.warning("Temp folder exists, removing: %s", cls._temp_folder)
-            shutil.rmtree(cls._temp_folder)
-        cls._temp_folder = tempfile.mkdtemp("discogs_tests")
-        logging.info("Creating labels temp folder: %s", cls._temp_folder)
         cls._samples_folder = os.path.join(pathlib.Path(__file__).absolute().parent, "samples")
 
-    @classmethod
-    def teardown_class(cls):
-        # clean temporary folder
-        if cls._temp_folder is not None and os.path.exists(cls._temp_folder):
-            logging.info("Removing labels temp foldere: %s", cls._temp_folder)
-            shutil.rmtree(cls._temp_folder)
+    def test_artists_counts(self, tmp_path):
+        self._check_counts("artist", tmp_path)
 
-    def test_artists_counts(self):
-        self._check_counts("artist")
+    def test_labels_counts(self, tmp_path):
+        self._check_counts("label", tmp_path)
 
-    def test_labels_counts(self):
-        self._check_counts("label")
+    def test_masters_counts(self, tmp_path):
+        self._check_counts("master", tmp_path)
 
-    def test_masters_counts(self):
-        self._check_counts("master")
+    def test_releases_counts(self, tmp_path):
+        self._check_counts("release", tmp_path)
 
-    def test_releases_counts(self):
-        self._check_counts("release")
-
-    def _check_counts(self, entity):
+    def _check_counts(self, entity, tmp_path):
         # run exporter with arguments:
         # - INPUT=path to samples
         # - OUTPUT=path to temp folder
@@ -91,7 +77,7 @@ class TestExtraction:
 
         arguments = {
             "INPUT": self._samples_folder,
-            "OUTPUT": self._temp_folder,
+            "OUTPUT": tmp_path,
             "--export": [entity],
             "--limit": None,
             "--bz2": False,
@@ -107,7 +93,7 @@ class TestExtraction:
 
         # asserts
         for file_name in self._resulting_counts[entity]:
-            csv_file = os.path.join(self._temp_folder, file_name)
+            csv_file = os.path.join(tmp_path, file_name)
             logging.info("Testing for file %s", csv_file)
             assert(os.path.exists(csv_file), f"Expected {csv_file} to exist.")
             actual_records = self._count_records(csv_file)

@@ -100,17 +100,16 @@ with open(out_file, mode="wb") as out_fp:
             total=extract_count, desc="Extracting records", unit="records", position=1
         )
         with tqdm(total=max_records, desc="Processing records", unit="records", position=0) as pbar:
-            i, extracted = 0, 0
-            for _, element in etree.iterparse(in_fp, tag=parser['tag']):
-                e_id = parser['id_method'](element)
+            parse_count = 0
+            for _, element in etree.iterparse(in_fp, tag=parser["tag"]):
+                e_id = parser["id_method"](element)
                 if e_id is not None:
-                    if in_extraction_window(i):
+                    if in_extraction_window(parse_count):
                         # inner_pbar.write(f"cnt = {cnt}")
                         out_fp.write(etree.tostring(element))
-                        extracted += 1
                         inner_pbar.update()
                     pbar.update()
-                    i += 1
+                    parse_count += 1
                 # clear element to preserve memory
                 element.clear()
         inner_pbar.close()
@@ -120,4 +119,4 @@ with open(out_file, mode="wb") as out_fp:
         in_fp.close()
         out_fp.write(b"</" + bytearray(parser_name, "utf-8") + b">")
 
-print(f"Wrote {extracted}/{i} {parser_name} to {out_file}.")
+print(f"Wrote {extract_count}/{parse_count} {parser_name} to {out_file}.")

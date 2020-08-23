@@ -65,12 +65,12 @@ from discogsxml2db.parser import (
 )  # noqa
 
 _parsers = {
-    "artists": "artist",
-    "labels": "label",
-    "masters": "master",
-    "releases": "release",
+    "artists": {"tag": "artist", "id_method": lambda el: el.find("id")},
+    "labels": {"tag": "label", "id_method": lambda el: el.find("id")},
+    "masters": {"tag": "master", "id_method": lambda el: el.get("id")},
+    "releases": {"tag": "release", "id_method": lambda el: el.get("id")},
 }
-parse_tag = _parsers[parser_name]
+parser = _parsers[parser_name]
 
 
 def openfile(fpath: str):
@@ -100,25 +100,24 @@ with open(out_file, mode="wb") as out_fp:
             total=extract_count, desc="Extracting records", unit="records", position=1
         )
         with tqdm(total=max_records, desc="Processing records", unit="records", position=0) as pbar:
-            i = 0
-            for _, element in etree.iterparse(in_fp, tag=parse_tag):
-                e_id = element.get("id")
-                if e_id is None:
-                    e_id = element.find("id")
+            i, extracted = 0, 0
+            for _, element in etree.iterparse(in_fp, tag=parser['tag']):
+                e_id = parser['id_method'](element)
                 if e_id is not None:
                     if in_extraction_window(i):
                         # inner_pbar.write(f"cnt = {cnt}")
                         out_fp.write(etree.tostring(element))
+                        extracted += 1
                         inner_pbar.update()
                     pbar.update()
                     i += 1
+                # clear element to preserve memory
                 element.clear()
         inner_pbar.close()
     except Exception as ex:
         print(ex)
     finally:
-        print(f"finally at i={i}")
         in_fp.close()
         out_fp.write(b"</" + bytearray(parser_name, "utf-8") + b">")
 
-print(f"Wrote {extract_count} {parser_name} to {out_file}.")
+print(f"Wrote {extracted}/{i} {parser_name} to {out_file}.")

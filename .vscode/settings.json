@@ -1,5 +1,48 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "python.linting.pep8Enabled": true,
-    "python.linting.pylintEnabled": false
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.prospectorEnabled": false,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "100"
+    ],
+    "[python]": {
+        "editor.formatOnSave": false
+    },
+    "cSpell.words": [
+        "ABCDEFG",
+        "Alexi",
+        "Cari",
+        "Lekebusch",
+        "apicounts",
+        "catno",
+        "contactinfo",
+        "couchimport",
+        "csvdir",
+        "discogs",
+        "fname",
+        "fobj",
+        "fpath",
+        "headerline",
+        "importcsv",
+        "iterchildren",
+        "itertools",
+        "libpq",
+        "lxml",
+        "mongoimport",
+        "namevariation",
+        "ncols",
+        "noqa",
+        "pbar",
+        "postgresql",
+        "psql",
+        "pycache",
+        "pycodestyle",
+        "pytest",
+        "tqdm",
+        "venv"
+    ]
 }

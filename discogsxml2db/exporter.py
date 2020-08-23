@@ -87,6 +87,7 @@ class EntityCsvExporter(object):
             fname = fname_template.format(table=table)
 
             # opens file with newline='' to keep Windows export happy: https://stackoverflow.com/a/29116560
+            os.makedirs(self.out_dir, exist_ok=True)
             out_file_obj = open_func(os.path.join(self.out_dir, fname), 'wt', newline='', encoding='utf-8')
             writer = csv.writer(out_file_obj)
 
@@ -163,7 +164,7 @@ class ArtistExporter(EntityCsvExporter):
             ('artist_namevariation', _write_rows, ['namevariations']),
             ('artist_url', _write_rows, ['urls']),
             ('artist_image', _write_fields_rows, ['images', image_fields]),
-            ('group_member', _group_members, None), )
+            ('group_member', self.write_group_members, None), )
 
     @staticmethod
     def write_group_members(writer, artist):

@@ -3,11 +3,11 @@
 
 name: Python build check
 
-on:
-  push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
+on: [ push, pull_request ]
+#  push:
+#    branches: [ develop ]
+#  pull_request:
+#    branches: [ develop ]
 
 jobs:
   build:

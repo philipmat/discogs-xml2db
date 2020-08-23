@@ -102,7 +102,9 @@ with open(out_file, mode="wb") as out_fp:
         with tqdm(total=max_records, desc="Processing records", unit="records", position=0) as pbar:
             i = 0
             for event, element in etree.iterparse(in_fp, tag=parse_tag):
-                e_id = element.find("id") or element.get("id")
+                e_id = element.get("id")
+                if e_id is None:
+                    e_id = element.find("id")
                 if e_id is not None:
                     if in_extraction_window(i):
                         # inner_pbar.write(f"cnt = {cnt}")
@@ -111,7 +113,10 @@ with open(out_file, mode="wb") as out_fp:
                     pbar.update()
                     i += 1
         inner_pbar.close()
+    except Exception as ex:
+        print(ex)
     finally:
+        print(f"finally at i={i}")
         in_fp.close()
         out_fp.write(b"</" + bytearray(parser_name, "utf-8") + b">")
 

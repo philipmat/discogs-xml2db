@@ -163,7 +163,7 @@ class ArtistExporter(EntityCsvExporter):
             ('artist_namevariation', _write_rows, ['namevariations']),
             ('artist_url', _write_rows, ['urls']),
             ('artist_image', _write_fields_rows, ['images', image_fields]),
-            ('group_member', _group_members, None), )
+            ('group_member', self.write_group_members, None), )
 
     @staticmethod
     def write_group_members(writer, artist):

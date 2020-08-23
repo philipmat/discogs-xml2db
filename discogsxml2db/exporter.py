@@ -63,7 +63,7 @@ class EntityCsvExporter(object):
             if fpath.endswith('.gz'):
                 return gzip.GzipFile(fpath)
             elif fpath.endswith('.xml'):
-                return open(fpath)
+                return open(fpath, mode='rb')
             else:
                 raise RuntimeError('unknown file type: {}'.format(fpath))
 

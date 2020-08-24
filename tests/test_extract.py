@@ -102,7 +102,7 @@ class TestExtraction:
 
     @staticmethod
     def _count_records(csv_file_path: str) -> int:
-        with open(csv_file_path, newline="") as csv_file:
+        with open(csv_file_path, newline="", encoding="utf-8") as csv_file:
             csv_reader = csv.reader(csv_file)
             row_count = sum(1 for row in csv_reader)
         return row_count - 1  # first is header

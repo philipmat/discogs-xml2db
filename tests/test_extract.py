@@ -95,7 +95,7 @@ class TestExtraction:
         for file_name in self._resulting_counts[entity]:
             csv_file = os.path.join(tmp_path, file_name)
             logging.info("Testing for file %s", csv_file)
-            assert(os.path.exists(csv_file), f"Expected {csv_file} to exist.")
+            assert os.path.exists(csv_file), f"Expected {csv_file} to exist."
             actual_records = self._count_records(csv_file)
             expected_records = self._resulting_counts[entity][file_name]
             assert expected_records == actual_records

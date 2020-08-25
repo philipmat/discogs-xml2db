@@ -6,16 +6,69 @@ using System.Linq;
 using System.Xml.Linq;
 using System.IO;
 using System.IO.Compression;
+using System.Xml.Serialization;
+using System.Text.Json;
 
 namespace discogs
 {
-    class Program
+    public class Program
     {
         static async Task Main(string[] args)
         {
             Console.WriteLine(string.Join("; ", args.Select((s, i) => $"{i,-2} - {s}")));
-            Console.WriteLine($"Variant2: {args[^1]}");
-            await Variant2(args[^1]);
+            var fileName = args[^1];
+            if (Path.GetFileName(fileName).Contains("discogs")) {
+                Console.WriteLine($"Variant2: {fileName}");
+                await Variant2(fileName);
+            }
+            else if (Path.GetFileName(fileName) == "label.xml") {
+                DeserializeLabel(fileName);
+            }
+            else if (fileName == "serialize-label") {
+                SerializeLabel();
+            }
+        }
+
+        private static void DeserializeLabel(string fileName)
+        {
+            var xml = new XmlSerializer(typeof(discogs.label));
+            using var reader = new StreamReader(fileName);
+            var label = (discogs.label) xml.Deserialize(reader);
+            var jsonOptions = new JsonSerializerOptions {
+                WriteIndented = true,
+            };
+            var labelJson = JsonSerializer.Serialize(label, jsonOptions);
+            Console.WriteLine($@"JSON label:
+ {labelJson}");
+        }
+
+        private static void SerializeLabel() {
+            var label = new discogs.label {
+                images = new [] {
+                    new discogs.image { type = "primary", uri="", uri150="", width=132, height=24}
+                },
+                contactinfo = @"Planet
+                E
+                Communication",
+                data_quality = "Correct",
+                id = 1,
+                name = "Planet E",
+                urls = new[] {
+                    // new discogs.url { TheUrl = "http://planet-e.net" }
+                     "http://planet-e.net"
+                }
+            };
+            var xml = new XmlSerializer(typeof(discogs.label));
+
+            using var writer = new StringWriter();
+            var xmlSettings = new XmlWriterSettings {
+                Indent = true,
+            };
+            using var xmlWriter = XmlWriter.Create(writer);
+            xml.Serialize(writer, label);
+            var labelXml = writer.ToString();
+            Console.WriteLine($@"XML label:
+{labelXml}");
         }
 
         static async Task Variant2(string fileName){
@@ -116,28 +169,5 @@ namespace discogs
             }
         }
 
-        public class DiscogsLabel {
-            public DiscogsImage Images {get;set;}
-            public int Id {get;set;}
-            public string Name { get; set; }
-            public string ContactInfo { get; set; }
-            public string DataQuality {get;set;}
-            public DiscogsUrl[] Urls { get; set; }
-
-        }
-        public class DiscogsImage {
-            public string Type { get; set; }
-            public string Uri { get; set; }
-            public string Uri150 { get; set; }
-            public int Width { get; set; }
-            public int Height { get; set; }
-        }
-        public class DiscogsUrl {
-            public string Url { get; set; }
-        }
-        public class DiscogsSubLabel {
-            public int Id { get; set; }
-            public string Text {get;set;}
-        }
     }
 }

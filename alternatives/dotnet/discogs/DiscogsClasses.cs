@@ -5,12 +5,20 @@ namespace discogs
     public class label
     {
         public image[] images { get; set; }
-        public int id { get; set; }
+        public string id { get; set; }
         public string name { get; set; }
         public string contactinfo { get; set; }
         public string data_quality { get; set; }
         [XmlArrayItem("url")]
         public string[] urls { get; set; }
+
+        [XmlAttribute("id")]
+        public string SubId {get;set;}
+
+        [XmlText]
+        public string SubName {get;set;}
+        
+        public label[] sublabels {get;set;}
     }
 
     public class image
@@ -31,13 +39,5 @@ namespace discogs
     {
         [XmlElement("url")]
         public string TheUrl { get; set; }
-    }
-
-    [XmlRoot("label")]
-    public class sublabel
-    {
-        [XmlAttribute]
-        public int id { get; set; }
-        public string label { get; set; }
     }
 }

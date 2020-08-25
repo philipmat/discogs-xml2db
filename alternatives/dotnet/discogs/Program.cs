@@ -51,11 +51,14 @@ namespace discogs
                 E
                 Communication",
                 data_quality = "Correct",
-                id = 1,
+                id = "1",
                 name = "Planet E",
                 urls = new[] {
                     // new discogs.url { TheUrl = "http://planet-e.net" }
                      "http://planet-e.net"
+                },
+                sublabels = new[] {
+                    new label { SubId = "2", SubName = "Antidote (4)"}
                 }
             };
             var xml = new XmlSerializer(typeof(discogs.label));

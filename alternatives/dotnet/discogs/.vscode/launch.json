@@ -11,7 +11,7 @@
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/discogs.dll",
-            "args": [],
+            "args": ["${input:testFiles}"],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
@@ -22,6 +22,19 @@
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "testFiles",
+            "description": "What file to process?",
+            "type": "pickString",
+            "options": [
+                "serialize-label",
+                "/Users/af59986/Dev/discogs-xml2db/alternatives/dotnet/discogs/label.xml",
+                "~/Dev/discogs-xml2db/tests/samples/discogs_20200806_labels.xml.gz",
+                " ~/Dev/tmp/discogs/discogs_20200806_labels.xml.gz",
+            ]
         }
     ]
 }

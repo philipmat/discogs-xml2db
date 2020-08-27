@@ -58,6 +58,23 @@
             <position>1</position>
             <title>Untitled 8</title>
             <duration>7:00</duration>
+            <sub_tracks>
+                <track>
+                    <position>11.a</position>
+                    <title>909 Shuffle</title>
+                    <duration>3:10</duration>
+                </track>
+                <track>
+                    <position>11.b</position>
+                    <title>Laser 101 Rmx</title>
+                    <duration>4:26</duration>
+                </track>
+                <track>
+                    <position>11.c</position>
+                    <title>Adrenalin (Ciborg Rmx)</title>
+                    <duration>5:38</duration>
+                </track>
+            </sub_tracks>
             <artists>
                 <artist>
                     <id>5</id>

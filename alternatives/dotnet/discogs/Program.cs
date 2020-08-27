@@ -29,9 +29,6 @@ namespace discogs
             else if (fileName == "serialize-label") {
                 SerializeLabel();
             }
-            else if (fileName == "serialize-release") {
-                SerializeLabel();
-            }
             else if (Path.GetFileName(fileName) == "release.xml") {
                 DeserializeReleaseToJson(fileName);
             }

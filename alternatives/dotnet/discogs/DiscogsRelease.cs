@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace discogs.Releases
 {
-    public class release
+    public class release : IExportToCsv
     {
 
         [XmlAttribute]
@@ -30,6 +31,16 @@ namespace discogs.Releases
         public identifier[] identifiers { get; set; }
         public video[] videos { get; set; }
         public company[] companies { get; set; }
+
+        public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IReadOnlyDictionary<string, string[]> GetCsvExportScheme()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class artist

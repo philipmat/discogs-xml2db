@@ -1,7 +1,14 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace discogs
 {
+    public interface IExportToCsv
+    {
+        IReadOnlyDictionary<string, string[]> GetCsvExportScheme();
+        IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv();
+    }
+
     public class image
     {
         [XmlAttribute]

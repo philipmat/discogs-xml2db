@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace discogs.Labels
 {
-    public class label
+    public class label : IExportToCsv
     {
         private static readonly Dictionary<string, string[]> CsvExportHeaders = new Dictionary<string, string[]>
         {
@@ -34,7 +34,7 @@ namespace discogs.Labels
         /// Gets the possible export schemes for the class
         /// </summary>
         /// <returns>A read-only dictionary where the key is the type of export stream and the values are the headers/columns/fields exported.</returns>
-        public static IReadOnlyDictionary<string, string[]> GetCsvExportScheme() => CsvExportHeaders;
+        public IReadOnlyDictionary<string, string[]> GetCsvExportScheme() => CsvExportHeaders;
 
         /// <summary>
         /// Exports instance to CSV.

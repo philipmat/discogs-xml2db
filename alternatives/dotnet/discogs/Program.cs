@@ -21,7 +21,11 @@ namespace discogs
             if (Path.GetFileName(fileName).Contains("discogs")) {
                 fileName = Path.GetFullPath(fileName);
                 Console.WriteLine($"Variant2: {fileName}");
-                await Variant2(fileName);
+                if (fileName.Contains("_labels")) {
+                    await Variant2<discogs.Labels.label>(fileName);
+                } else if (fileName.Contains("_releases")) {
+                    await Variant2<discogs.Releases.release>(fileName);
+                }
             }
             else if (Path.GetFileName(fileName) == "label.xml") {
                 DeserializeLabelToJson(fileName);
@@ -61,10 +65,11 @@ namespace discogs
  {labelJson}");
         }
 
-        private static discogs.Labels.label DeserializeLabel(string content){
+        private static T Deserialize<T>(string content)
+        {
             using var reader = new StringReader(content);
-            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(discogs.Labels.label));
-            var label = (discogs.Labels.label) _labelXmlSerializer.Deserialize(reader);
+            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
+            var label = (T) _labelXmlSerializer.Deserialize(reader);
             return label;
         }
 
@@ -101,32 +106,43 @@ namespace discogs
 {labelXml}");
         }
 
-        private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesForLabel(string xmlFile) {
+        private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesFor<T>(string xmlFile)
+            where T: IExportToCsv, new()
+        {
+            var obj = new T();
             var dir = Path.GetDirectoryName(xmlFile);
-            IReadOnlyDictionary<string, string[]> files = discogs.Labels.label.GetCsvExportScheme();
+            IReadOnlyDictionary<string, string[]> files = obj.GetCsvExportScheme();
             Dictionary<string, (string FilePath, StreamWriter FileStream)> csvFiles = files.ToDictionary(
-                kvp => kvp.Key, 
-                kvp => {
+                kvp => kvp.Key,
+                kvp =>
+                {
                     var csvFile = Path.Combine(dir, $"{kvp.Key}.csv");
                     var stream = new StreamWriter(csvFile);
                     stream.WriteLine(CsvExtensions.ToCsv(kvp.Value));
                     return (csvFile, stream);
-            });
+                });
 
             return csvFiles;
         }
 
-        private static async Task WriteCsvAsync(string labelString, Dictionary<string, (string FilePath, StreamWriter FileStream)> streams) {
-            discogs.Labels.label labelObj = DeserializeLabel(labelString);
-            IEnumerable<(string StreamName, string[] Row)> csvExports = labelObj.ExportToCsv();
+        private static async Task WriteCsvAsync<T>(
+            string objectString,
+            Dictionary<string, (string FilePath, StreamWriter FileStream)> streams)
+            where T : IExportToCsv
+        {
+            var obj = Deserialize<T>(objectString);
+            IEnumerable<(string StreamName, string[] Row)> csvExports = obj.ExportToCsv();
             foreach(var (streamName, row) in csvExports) {
                 await streams[streamName].FileStream.WriteLineAsync(CsvExtensions.ToCsv(row));
             }
         }
 
-        static async Task Variant2(string fileName){
-            Dictionary<string, (string FilePath, StreamWriter FileStream)> csvStreams = GetCsvFilesForLabel(fileName);
-            int labelCount = 0;
+        static async Task Variant2<T>(string fileName)
+            where T: IExportToCsv, new()
+        {
+            var typeName = typeof(T).Name.Split('.')[^1];
+            Dictionary<string, (string FilePath, StreamWriter FileStream)> csvStreams = GetCsvFilesFor<T>(fileName);
+            int objectCount = 0;
             using FileStream fileStream = new FileStream(fileName, FileMode.Open);
             Stream readingStream = fileStream;
             if (System.IO.Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase)) {
@@ -140,15 +156,15 @@ namespace discogs
 
             while (reader.Read())
             {
-                if (reader.Name == "label")
+                if (reader.Name == typeName)
                 {
-                    var labelString = await reader.ReadOuterXmlAsync();
-                    await WriteCsvAsync(labelString, csvStreams);
+                    var objectString = await reader.ReadOuterXmlAsync();
+                    await WriteCsvAsync<T>(objectString, csvStreams);
                     // var labelId = DeserializeLabel(labelString);
                     // Console.WriteLine($"label: {labelId}");
                     // Console.Write('.');
                     // _ = reader.ReadOuterXml();
-                    labelCount++;
+                    objectCount++;
                     // await reader.SkipAsync();
                     continue;
                 }
@@ -159,79 +175,7 @@ namespace discogs
                 kvp.Value.FileStream.Close();
                 await kvp.Value.FileStream.DisposeAsync();
             }
-            Console.WriteLine($"Found {labelCount:n0} label. Wrote them to {csvFileNames}.");
+            Console.WriteLine($"Found {objectCount:n0} {typeName}s. Wrote them to {csvFileNames}.");
         }
-
-        static XStreamingElement Variant1(string fileName)
-            => new XStreamingElement("Root",
-                from el in StreamCustomerItem(fileName)
-                select new XElement("Item",
-                    new XElement("Customer", (string) el.Parent.Element("Name")),
-                    new XElement(el.Element("Key"))
-                )
-            );
-        static XElement Variant0(string fileName)
-            => new XElement("Root",  
-                    from el in StreamCustomerItem(fileName)  
-                    where (int)el.Element("Key") >= 3 && (int)el.Element("Key") <= 7  
-                    select new XElement("Item",  
-                        new XElement("Customer", (string)el.Parent.Element("Name")),  
-                        new XElement(el.Element("Key"))  
-                    )  
-                );  
-
-        static IEnumerable<XElement> StreamCustomerItem(string uri)
-        {
-            using (XmlReader reader = XmlReader.Create(uri))
-            {
-                XElement name = null;
-                XElement item = null;
-
-                reader.MoveToContent();
-
-                // Parse the file, save header information when encountered, and yield the  
-                // Item XElement objects as they are created.  
-
-                // loop through Customer elements  
-                while (reader.Read())
-                {
-                    if (reader.NodeType == XmlNodeType.Element
-                        && reader.Name == "label")
-                    {
-                        // move to Name element  
-                        while (reader.Read())
-                        {
-                            if (reader.NodeType == XmlNodeType.Element &&
-                                reader.Name == "id")
-                            {
-                                name = XElement.ReadFrom(reader) as XElement;
-                                break;
-                            }
-                        }
-
-                        // loop through Item elements  
-                        while (reader.Read())
-                        {
-                            if (reader.NodeType == XmlNodeType.EndElement)
-                                break;
-                            if (reader.NodeType == XmlNodeType.Element
-                                && reader.Name == "id")
-                            {
-                                item = XElement.ReadFrom(reader) as XElement;
-                                if (item != null)
-                                {
-                                    XElement tempRoot = new XElement("Root",
-                                        new XElement(name)
-                                    );
-                                    tempRoot.Add(item);
-                                    yield return item;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
     }
 }

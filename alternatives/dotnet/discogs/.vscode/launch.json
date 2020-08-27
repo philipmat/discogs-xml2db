@@ -31,7 +31,9 @@
             "type": "pickString",
             "options": [
                 "serialize-label",
+                "serialize-release",
                 "/Users/af59986/Dev/discogs-xml2db/alternatives/dotnet/discogs/label.xml",
+                "/Users/af59986/Dev/discogs-xml2db/alternatives/dotnet/discogs/release.xml",
                 "/Users/af59986/Dev/discogs-xml2db/tests/samples/discogs_20200806_labels.xml.gz",
                 "/Users/af59986/Dev/tmp/discogs/discogs_20200806_labels.xml.gz",
             ]

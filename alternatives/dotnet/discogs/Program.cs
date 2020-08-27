@@ -14,8 +14,6 @@ namespace discogs
 {
     public class Program
     {
-        private static readonly XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(discogs.label));
-
         static async Task Main(string[] args)
         {
             Console.WriteLine(string.Join("; ", args.Select((s, i) => $"{i,-2} - {s}")));
@@ -31,12 +29,20 @@ namespace discogs
             else if (fileName == "serialize-label") {
                 SerializeLabel();
             }
+            else if (fileName == "serialize-release") {
+                SerializeLabel();
+            }
+            else if (Path.GetFileName(fileName) == "release.xml") {
+                DeserializeReleaseToJson(fileName);
+            }
         }
 
         private static void DeserializeLabelToJson(string fileName)
         {
             using var reader = new StreamReader(fileName);
-            var label = (discogs.label) _labelXmlSerializer.Deserialize(reader);
+
+            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(discogs.Labels.label));
+            var label = (discogs.Labels.label) _labelXmlSerializer.Deserialize(reader);
             var jsonOptions = new JsonSerializerOptions {
                 WriteIndented = true,
             };
@@ -45,21 +51,35 @@ namespace discogs
  {labelJson}");
         }
 
-        private static discogs.label DeserializeLabel(string content){
+        private static void DeserializeReleaseToJson(string fileName)
+        {
+            using var reader = new StreamReader(fileName);
+            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(discogs.Releases.release));
+            var obj = (discogs.Releases.release) _labelXmlSerializer.Deserialize(reader);
+            var jsonOptions = new JsonSerializerOptions {
+                WriteIndented = true,
+            };
+            var labelJson = JsonSerializer.Serialize(obj, jsonOptions);
+            Console.WriteLine($@"JSON {obj.GetType().Name}:
+ {labelJson}");
+        }
+
+        private static discogs.Labels.label DeserializeLabel(string content){
             using var reader = new StringReader(content);
-            var label = (discogs.label) _labelXmlSerializer.Deserialize(reader);
+            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(discogs.Labels.label));
+            var label = (discogs.Labels.label) _labelXmlSerializer.Deserialize(reader);
             return label;
         }
 
         private static void SerializeLabel() {
-            var label = new discogs.label {
+            var label = new discogs.Labels.label {
                 images = new [] {
                     new discogs.image { type = "primary", uri="", uri150="", width="132", height="24"}
                 },
                 contactinfo = @"Planet
                 E
                 Communication",
-                parentLabel = new parentLabel { id = "123", name = "The Parent Label" },
+                parentLabel = new Labels.parentLabel { id = "123", name = "The Parent Label" },
                 data_quality = "Correct",
                 id = "1",
                 name = "Planet E",
@@ -68,10 +88,10 @@ namespace discogs
                      "http://planet-e.net"
                 },
                 sublabels = new[] {
-                    new label { SubId = "2", SubName = "Antidote (4)"}
+                    new Labels.label { SubId = "2", SubName = "Antidote (4)"}
                 }
             };
-            var xml = new XmlSerializer(typeof(discogs.label));
+            var xml = new XmlSerializer(typeof(Labels.label));
 
             using var writer = new StringWriter();
             var xmlSettings = new XmlWriterSettings {
@@ -86,7 +106,7 @@ namespace discogs
 
         private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesForLabel(string xmlFile) {
             var dir = Path.GetDirectoryName(xmlFile);
-            IReadOnlyDictionary<string, string[]> files = discogs.label.GetCsvExportScheme();
+            IReadOnlyDictionary<string, string[]> files = discogs.Labels.label.GetCsvExportScheme();
             Dictionary<string, (string FilePath, StreamWriter FileStream)> csvFiles = files.ToDictionary(
                 kvp => kvp.Key, 
                 kvp => {
@@ -100,7 +120,7 @@ namespace discogs
         }
 
         private static async Task WriteCsvAsync(string labelString, Dictionary<string, (string FilePath, StreamWriter FileStream)> streams) {
-            discogs.label labelObj = DeserializeLabel(labelString);
+            discogs.Labels.label labelObj = DeserializeLabel(labelString);
             IEnumerable<(string StreamName, string[] Row)> csvExports = labelObj.ExportToCsv();
             foreach(var (streamName, row) in csvExports) {
                 await streams[streamName].FileStream.WriteLineAsync(CsvExtensions.ToCsv(row));

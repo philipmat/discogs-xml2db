@@ -14,26 +14,36 @@ namespace discogs
 {
     public class Program
     {
+        private static readonly Dictionary<string, int> Statistics = new Dictionary<string, int> {
+            {"release", 12945920}, { "artist", 7075521}, { "label", 1579404}, {"master", 1250000}
+        };
         static async Task Main(string[] args)
         {
             Console.WriteLine(string.Join("; ", args.Select((s, i) => $"{i,-2} - {s}")));
             var fileName = args[^1];
-            if (Path.GetFileName(fileName).Contains("discogs")) {
+            if (Path.GetFileName(fileName).Contains("discogs"))
+            {
                 fileName = Path.GetFullPath(fileName);
                 Console.WriteLine($"Variant2: {fileName}");
-                if (fileName.Contains("_labels")) {
+                if (fileName.Contains("_labels"))
+                {
                     await Variant2<discogs.Labels.label>(fileName);
-                } else if (fileName.Contains("_releases")) {
+                }
+                else if (fileName.Contains("_releases"))
+                {
                     await Variant2<discogs.Releases.release>(fileName);
                 }
             }
-            else if (Path.GetFileName(fileName) == "label.xml") {
+            else if (Path.GetFileName(fileName) == "label.xml")
+            {
                 DeserializeLabelToJson(fileName);
             }
-            else if (fileName == "serialize-label") {
+            else if (fileName == "serialize-label")
+            {
                 SerializeLabel();
             }
-            else if (Path.GetFileName(fileName) == "release.xml") {
+            else if (Path.GetFileName(fileName) == "release.xml")
+            {
                 DeserializeReleaseToJson(fileName);
             }
         }
@@ -43,8 +53,9 @@ namespace discogs
             using var reader = new StreamReader(fileName);
 
             XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(discogs.Labels.label));
-            var label = (discogs.Labels.label) _labelXmlSerializer.Deserialize(reader);
-            var jsonOptions = new JsonSerializerOptions {
+            var label = (discogs.Labels.label)_labelXmlSerializer.Deserialize(reader);
+            var jsonOptions = new JsonSerializerOptions
+            {
                 WriteIndented = true,
             };
             var labelJson = JsonSerializer.Serialize(label, jsonOptions);
@@ -56,8 +67,9 @@ namespace discogs
         {
             using var reader = new StreamReader(fileName);
             XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(discogs.Releases.release));
-            var obj = (discogs.Releases.release) _labelXmlSerializer.Deserialize(reader);
-            var jsonOptions = new JsonSerializerOptions {
+            var obj = (discogs.Releases.release)_labelXmlSerializer.Deserialize(reader);
+            var jsonOptions = new JsonSerializerOptions
+            {
                 WriteIndented = true,
             };
             var labelJson = JsonSerializer.Serialize(obj, jsonOptions);
@@ -69,13 +81,15 @@ namespace discogs
         {
             using var reader = new StringReader(content);
             XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
-            var label = (T) _labelXmlSerializer.Deserialize(reader);
+            var label = (T)_labelXmlSerializer.Deserialize(reader);
             return label;
         }
 
-        private static void SerializeLabel() {
-            var label = new discogs.Labels.label {
-                images = new [] {
+        private static void SerializeLabel()
+        {
+            var label = new discogs.Labels.label
+            {
+                images = new[] {
                     new discogs.image { type = "primary", uri="", uri150="", width="132", height="24"}
                 },
                 contactinfo = @"Planet
@@ -96,7 +110,8 @@ namespace discogs
             var xml = new XmlSerializer(typeof(Labels.label));
 
             using var writer = new StringWriter();
-            var xmlSettings = new XmlWriterSettings {
+            var xmlSettings = new XmlWriterSettings
+            {
                 Indent = true,
             };
             using var xmlWriter = XmlWriter.Create(writer);
@@ -107,7 +122,7 @@ namespace discogs
         }
 
         private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesFor<T>(string xmlFile)
-            where T: IExportToCsv, new()
+            where T : IExportToCsv, new()
         {
             var obj = new T();
             var dir = Path.GetDirectoryName(xmlFile);
@@ -132,26 +147,36 @@ namespace discogs
         {
             var obj = Deserialize<T>(objectString);
             IEnumerable<(string StreamName, string[] Row)> csvExports = obj.ExportToCsv();
-            foreach(var (streamName, row) in csvExports) {
+            foreach (var (streamName, row) in csvExports)
+            {
                 await streams[streamName].FileStream.WriteLineAsync(CsvExtensions.ToCsv(row));
             }
         }
 
         static async Task Variant2<T>(string fileName)
-            where T: IExportToCsv, new()
+            where T : IExportToCsv, new()
         {
             var typeName = typeof(T).Name.Split('.')[^1];
             Dictionary<string, (string FilePath, StreamWriter FileStream)> csvStreams = GetCsvFilesFor<T>(fileName);
             int objectCount = 0;
             using FileStream fileStream = new FileStream(fileName, FileMode.Open);
             Stream readingStream = fileStream;
-            if (System.IO.Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase)) {
+            if (System.IO.Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase))
+            {
                 readingStream = new GZipStream(fileStream, CompressionMode.Decompress);
             }
-            var settings = new XmlReaderSettings {
+            var settings = new XmlReaderSettings
+            {
                 ConformanceLevel = ConformanceLevel.Fragment,
                 Async = true,
             };
+            var ticks = Statistics[typeName] / 1000;
+            var pbarOptions = new ShellProgressBar.ProgressBarOptions {
+                DisplayTimeInRealTime = false,
+                ShowEstimatedDuration = true,
+                CollapseWhenFinished = true,
+            };
+            using var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s");
             using XmlReader reader = XmlReader.Create(readingStream, settings);
 
             while (reader.Read())
@@ -166,15 +191,19 @@ namespace discogs
                     // _ = reader.ReadOuterXml();
                     objectCount++;
                     // await reader.SkipAsync();
+                    if (objectCount % 1_000 == 0) pbar.Tick();
                     continue;
                 }
             }
             var csvFileNames = string.Join("; ", csvStreams.Select(kvp => kvp.Value.FilePath));
-            foreach(var kvp in csvStreams) {
+            pbar.WriteLine("Parsing done. Writing streams.");
+            foreach (var kvp in csvStreams)
+            {
                 await kvp.Value.FileStream.FlushAsync();
                 kvp.Value.FileStream.Close();
                 await kvp.Value.FileStream.DisposeAsync();
             }
+            pbar.Dispose();
             Console.WriteLine($"Found {objectCount:n0} {typeName}s. Wrote them to {csvFileNames}.");
         }
     }

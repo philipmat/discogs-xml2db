@@ -234,17 +234,6 @@ namespace discogs.Releases
         [XmlAttribute]
         public string description { get; set; }
     }
-    public class video
-    {
-        [XmlAttribute]
-        public string src { get; set; }
-        [XmlAttribute]
-        public string duration { get; set; }
-        [XmlAttribute]
-        public string embed { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-    }
     public class company
     {
         public string id { get; set; }

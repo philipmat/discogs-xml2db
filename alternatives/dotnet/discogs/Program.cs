@@ -37,6 +37,10 @@ namespace discogs
                 {
                     await Variant2<discogs.Artists.artist>(fileName);
                 }
+                else if (fileName.Contains("_masters"))
+                {
+                    await Variant2<discogs.Masters.master>(fileName);
+                }
             }
             else if (Path.GetFileName(fileName) == "label.xml")
             {
@@ -45,6 +49,10 @@ namespace discogs
             else if (Path.GetFileName(fileName) == "release.xml")
             {
                 DeserializeOneToJson<discogs.Releases.release>(fileName);
+            }
+            else if (Path.GetFileName(fileName) == "master.xml")
+            {
+                DeserializeOneToJson<discogs.Masters.master>(fileName);
             }
             else if (Path.GetFileName(fileName) == "artist.xml")
             {

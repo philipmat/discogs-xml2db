@@ -43,7 +43,7 @@ namespace discogs.Labels
         public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
         {
             yield return ("label", new[] { this.id, this.name, this.contactinfo, this.profile, this.parentLabel?.name, this.data_quality });
-            if (urls?.Length > 0)
+            if ((urls?.Length ?? 0) > 0)
             {
                 foreach (var url in urls)
                 {
@@ -51,7 +51,7 @@ namespace discogs.Labels
                     yield return ("label_url", new[] { this.id, url });
                 }
             }
-            if (images?.Length > 0)
+            if ((images?.Length ?? 0) > 0)
             {
                 foreach (var image in this.images)
                 {

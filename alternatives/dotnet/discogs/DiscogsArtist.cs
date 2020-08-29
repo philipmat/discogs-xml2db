@@ -39,7 +39,7 @@ namespace discogs.Artists
                 yield return ("artist_alias", new[] { id, a.value });
             }
             foreach(var nv in (namevariations ?? System.Array.Empty<string>())) {
-                yield return ("artist_alias", new[] { id, nv });
+                yield return ("artist_namevariation", new[] { id, nv });
             }
             foreach(var u in (urls ?? System.Array.Empty<string>())) {
                 yield return ("artist_url", new[] { id, u });

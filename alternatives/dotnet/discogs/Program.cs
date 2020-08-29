@@ -17,6 +17,7 @@ namespace discogs
         private static readonly Dictionary<string, int> Statistics = new Dictionary<string, int> {
             {"release", 12945920}, { "artist", 7075521}, { "label", 1579404}, {"master", 1250000}
         };
+
         static async Task Main(string[] args)
         {
             Console.WriteLine(string.Join("; ", args.Select((s, i) => $"{i,-2} - {s}")));
@@ -27,19 +28,19 @@ namespace discogs
                 Console.WriteLine($"Variant2: {fileName}");
                 if (fileName.Contains("_labels"))
                 {
-                    await Variant2<discogs.Labels.label>(fileName);
+                    await ParseAsync<discogs.Labels.label>(fileName);
                 }
                 else if (fileName.Contains("_releases"))
                 {
-                    await Variant2<discogs.Releases.release>(fileName);
+                    await ParseAsync<discogs.Releases.release>(fileName);
                 }
                 else if (fileName.Contains("_artists"))
                 {
-                    await Variant2<discogs.Artists.artist>(fileName);
+                    await ParseAsync<discogs.Artists.artist>(fileName);
                 }
                 else if (fileName.Contains("_masters"))
                 {
-                    await Variant2<discogs.Masters.master>(fileName);
+                    await ParseAsync<discogs.Masters.master>(fileName);
                 }
             }
             else if (Path.GetFileName(fileName) == "label.xml")
@@ -80,14 +81,6 @@ namespace discogs
  {objJson}");
         }
 
-        private static T Deserialize<T>(string content)
-        {
-            using var reader = new StringReader(content);
-            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
-            var obj = (T)_labelXmlSerializer.Deserialize(reader);
-            return obj;
-        }
-
         private static void SerializeLabel()
         {
             var label = new discogs.Labels.label
@@ -124,55 +117,11 @@ namespace discogs
 {labelXml}");
         }
 
-        private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesFor<T>(string xmlFile)
-            where T : IExportToCsv, new()
-        {
-            var obj = new T();
-            var dir = Path.GetDirectoryName(xmlFile);
-            IReadOnlyDictionary<string, string[]> files = obj.GetCsvExportScheme();
-            Dictionary<string, (string FilePath, StreamWriter FileStream)> csvFiles = files.ToDictionary(
-                kvp => kvp.Key,
-                kvp =>
-                {
-                    var csvFile = Path.Combine(dir, $"{kvp.Key}.csv");
-                    var stream = new StreamWriter(csvFile);
-                    stream.WriteLine(CsvExtensions.ToCsv(kvp.Value));
-                    return (csvFile, stream);
-                });
-
-            return csvFiles;
-        }
-
-        private static async Task WriteCsvAsync<T>(
-            string objectString,
-            Dictionary<string, (string FilePath, StreamWriter FileStream)> streams)
-            where T : IExportToCsv
-        {
-            var obj = Deserialize<T>(objectString);
-            IEnumerable<(string StreamName, string[] Row)> csvExports = obj.ExportToCsv();
-            foreach (var (streamName, row) in csvExports)
-            {
-                await streams[streamName].FileStream.WriteLineAsync(CsvExtensions.ToCsv(row));
-            }
-        }
-
-        static async Task Variant2<T>(string fileName)
+        private static async Task ParseAsync<T>(string fileName) 
             where T : IExportToCsv, new()
         {
             var typeName = typeof(T).Name.Split('.')[^1];
-            Dictionary<string, (string FilePath, StreamWriter FileStream)> csvStreams = GetCsvFilesFor<T>(fileName);
-            int objectCount = 0;
-            using FileStream fileStream = new FileStream(fileName, FileMode.Open);
-            Stream readingStream = fileStream;
-            if (System.IO.Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase))
-            {
-                readingStream = new GZipStream(fileStream, CompressionMode.Decompress);
-            }
-            var settings = new XmlReaderSettings
-            {
-                ConformanceLevel = ConformanceLevel.Fragment,
-                Async = true,
-            };
+            const int throttle = 1_000;
             var ticks = Statistics[typeName] / 1000;
             var pbarOptions = new ShellProgressBar.ProgressBarOptions
             {
@@ -181,56 +130,9 @@ namespace discogs
                 CollapseWhenFinished = true,
             };
             using var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s");
-            using XmlReader reader = XmlReader.Create(readingStream, settings);
-
-            await reader.MoveToContentAsync();
-            await reader.ReadAsync();
-            while (!reader.EOF)
-            {
-                if (reader.Name == typeName)
-                {
-                    var objectString = await reader.ReadOuterXmlAsync();
-                    // var objectString = await reader.ReadInnerXmlAsync();
-                    try
-                    {
-                        if (!string.IsNullOrEmpty(objectString))
-                        {
-                            // await WriteCsvAsync<T>($"<artist>{objectString}</artist>", csvStreams);
-                            await WriteCsvAsync<T>(objectString, csvStreams);
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error {ex} parsing node {objectString}");
-                    }
-                    // var labelId = DeserializeLabel(labelString);
-                    // Console.WriteLine($"label: {labelId}");
-                    // Console.Write('.');
-                    // _ = reader.ReadOuterXml();
-                    objectCount++;
-                    // await reader.SkipAsync();
-                    if (objectCount % 1_000 == 0) pbar.Tick();
-                    continue;
-                }
-                else
-                {
-                    await reader.ReadAsync();
-                }
-            }
-            var csvFileNames = string.Join("; ", csvStreams.Select(kvp => kvp.Value.FilePath));
-            pbar.WriteLine("Parsing done. Writing streams.");
-            foreach (var kvp in csvStreams)
-            {
-                await kvp.Value.FileStream.FlushAsync();
-                kvp.Value.FileStream.Close();
-                await kvp.Value.FileStream.DisposeAsync();
-            }
-            pbar.Dispose();
-            Console.WriteLine($"Found {objectCount:n0} {typeName}s. Wrote them to {csvFileNames}.");
+            var parser = new Parser<T>(throttle);
+            parser.OnSucessfulParse += (o, e) => pbar.Tick();
+            await parser.ParseFileAsync(fileName);
         }
     }
 }

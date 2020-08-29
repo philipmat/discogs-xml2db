@@ -33,56 +33,51 @@ namespace discogs
                 {
                     await Variant2<discogs.Releases.release>(fileName);
                 }
+                else if (fileName.Contains("_artists"))
+                {
+                    await Variant2<discogs.Artists.artist>(fileName);
+                }
             }
             else if (Path.GetFileName(fileName) == "label.xml")
             {
-                DeserializeLabelToJson(fileName);
+                DeserializeOneToJson<discogs.Labels.label>(fileName);
+            }
+            else if (Path.GetFileName(fileName) == "release.xml")
+            {
+                DeserializeOneToJson<discogs.Releases.release>(fileName);
+            }
+            else if (Path.GetFileName(fileName) == "artist.xml")
+            {
+                DeserializeOneToJson<discogs.Artists.artist>(fileName);
             }
             else if (fileName == "serialize-label")
             {
                 SerializeLabel();
             }
-            else if (Path.GetFileName(fileName) == "release.xml")
-            {
-                DeserializeReleaseToJson(fileName);
-            }
         }
 
-        private static void DeserializeLabelToJson(string fileName)
+        private static void DeserializeOneToJson<T>(string fileName)
+            where T : IExportToCsv, new()
         {
             using var reader = new StreamReader(fileName);
 
-            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(discogs.Labels.label));
-            var label = (discogs.Labels.label)_labelXmlSerializer.Deserialize(reader);
+            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
+            var obj = (T)_labelXmlSerializer.Deserialize(reader);
             var jsonOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
             };
-            var labelJson = JsonSerializer.Serialize(label, jsonOptions);
-            Console.WriteLine($@"JSON label:
- {labelJson}");
-        }
-
-        private static void DeserializeReleaseToJson(string fileName)
-        {
-            using var reader = new StreamReader(fileName);
-            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(discogs.Releases.release));
-            var obj = (discogs.Releases.release)_labelXmlSerializer.Deserialize(reader);
-            var jsonOptions = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
-            var labelJson = JsonSerializer.Serialize(obj, jsonOptions);
-            Console.WriteLine($@"JSON {obj.GetType().Name}:
- {labelJson}");
+            var objJson = JsonSerializer.Serialize(obj, jsonOptions);
+            Console.WriteLine($@"JSON {typeof(T).Name}:
+ {objJson}");
         }
 
         private static T Deserialize<T>(string content)
         {
             using var reader = new StringReader(content);
             XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
-            var label = (T)_labelXmlSerializer.Deserialize(reader);
-            return label;
+            var obj = (T)_labelXmlSerializer.Deserialize(reader);
+            return obj;
         }
 
         private static void SerializeLabel()
@@ -171,7 +166,8 @@ namespace discogs
                 Async = true,
             };
             var ticks = Statistics[typeName] / 1000;
-            var pbarOptions = new ShellProgressBar.ProgressBarOptions {
+            var pbarOptions = new ShellProgressBar.ProgressBarOptions
+            {
                 DisplayTimeInRealTime = false,
                 ShowEstimatedDuration = true,
                 CollapseWhenFinished = true,
@@ -184,7 +180,17 @@ namespace discogs
                 if (reader.Name == typeName)
                 {
                     var objectString = await reader.ReadOuterXmlAsync();
-                    await WriteCsvAsync<T>(objectString, csvStreams);
+                    try
+                    {
+                        if (!string.IsNullOrEmpty(objectString))
+                        {
+                            await WriteCsvAsync<T>(objectString, csvStreams);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error {ex} parsing node {objectString}");
+                    }
                     // var labelId = DeserializeLabel(labelString);
                     // Console.WriteLine($"label: {labelId}");
                     // Console.Write('.');

@@ -48,6 +48,24 @@ namespace discogs.Releases
         public video[] videos { get; set; }
         public company[] companies { get; set; }
 
+        public IEnumerable<track> GetTracks() {
+            if ((tracklist?.Length ?? 0) == 0) {
+                yield break;
+            }
+            for (int i = 0; i < tracklist.Length; i++)
+            {
+                tracklist[i].SetTrackId(this.id, i + 1);
+                yield return tracklist[i];
+                if ((tracklist[i].sub_tracks?.Length ?? 0) > 0) {
+                    for (int j = 0; j < tracklist[i].sub_tracks.Length; j++)
+                    {
+                        tracklist[i].sub_tracks[j].SetTrackId(this.id, i + 1, j + 1);
+                        yield return tracklist[i].sub_tracks[j];
+                    }
+                }
+            }
+        }
+
         public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
         {
             yield return ("release", new[] { id, title, released, country, notes, data_quality, master_id, status });
@@ -132,37 +150,28 @@ namespace discogs.Releases
                     yield return ("release_artist", new[] { id, a.id, a.name, "1", a.anv, (position++).ToString(), a.join, a.role, a.tracks });
                 }
             }
-            if (tracklist?.Length > 0)
+            int seq = 0;
+            foreach (var t in this.GetTracks())
             {
-                // TODO: this is more complex - sub-stracts, ect
-                int seq = 1;
-                foreach (var t in tracklist)
-                {
-                    if (t == null) continue;
-                    yield return ("release_track", new[] { id, (seq++).ToString(), t.position, "TODO: parent track for subtrack", t.title, t.duration, "track_id" });
+                seq += 1;
+                yield return ("release_track", new[] { id, seq.ToString(), t.position, t.parent_track_id, t.title, t.duration, t.track_id });
+                int artistSeq = 0;
+                foreach (var a in (t.artists ?? System.Array.Empty<artist>())) {
+                    if (a == null) continue;
+                    artistSeq += 1;
+                    yield return ("release_track_artist", new[] { id, t.position, t.track_id, a.id, a.name, "0", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
+                }
+                artistSeq = 0;
+                foreach (var a in (t.extraartists ?? System.Array.Empty<artist>())) {
+                    if (a == null) continue;
+                    artistSeq += 1;
+                    yield return ("release_track_artist", new[] { id, t.position, t.track_id, a.id, a.name, "1", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
                 }
             }
-            /*
-            if (tracklist?.Any(t => (t.artists?.Length ?? 0) > 0) == true)
-            {
-                foreach (var t in tracklist)
-                {
-                    if (t == null || (t?.artists?.Length ?? 0) == 0) continue;
-                    int artistPosition = 1;
-                    foreach (var a in t.artists)
-                    {
-                        if (a == null) continue;
-                        yield return ("release_track_artist", new[] { id, t.position, "track_id", a.id, a.name, "0", a.anv, (artistPosition++).ToString(), a.join, a.role, a.tracks });
-                    }
-                    // TODO: extra artists
-                }
-            }
-            */
         }
 
         public IReadOnlyDictionary<string, string[]> GetCsvExportScheme()
             => CsvExportHeaders;
-
     }
 
     public class artist
@@ -200,10 +209,21 @@ namespace discogs.Releases
 
     public class track
     {
+        private const string TrackIdFormat = "{0}.{1}";
+        private const string SubTrackIdFormat = "{0}.{1}.{2}";
         public string position { get; set; }
         public string title { get; set; }
         public string duration { get; set; }
         public artist[] artists { get; set; }
+        public artist[] extraartists { get; set; }
+        public track[] sub_tracks { get; set; }
+        internal string track_id {get; private set;} = "";
+        internal string parent_track_id {get; private set;} = "";
+        public void SetTrackId(string releaseId, int trackSeq) => this.track_id = string.Format(TrackIdFormat, releaseId, trackSeq);
+        public void SetTrackId(string releaseId, int trackSeq, int subTrackSeq) {
+            this.parent_track_id = string.Format(TrackIdFormat, releaseId, trackSeq);
+            this.track_id = string.Format(SubTrackIdFormat, releaseId, trackSeq, subTrackSeq);
+        }
     }
     public class identifier
     {

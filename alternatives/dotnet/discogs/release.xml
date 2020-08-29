@@ -93,6 +93,16 @@
                     <tracks></tracks>
                 </artist>
             </artists>
+            <extraartists>
+                <artist>
+                    <id>11233</id>
+                    <name>Chris Lum</name>
+                    <anv></anv>
+                    <join></join>
+                    <role>Producer</role>
+                    <tracks></tracks>
+                </artist>
+            </extraartists>
         </track>
         <track>
             <position>2</position>

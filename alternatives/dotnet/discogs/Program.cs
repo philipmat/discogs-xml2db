@@ -175,16 +175,24 @@ namespace discogs
             using var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s");
             using XmlReader reader = XmlReader.Create(readingStream, settings);
 
-            while (reader.Read())
+            await reader.MoveToContentAsync();
+            await reader.ReadAsync();
+            while (!reader.EOF)
             {
                 if (reader.Name == typeName)
                 {
                     var objectString = await reader.ReadOuterXmlAsync();
+                    // var objectString = await reader.ReadInnerXmlAsync();
                     try
                     {
                         if (!string.IsNullOrEmpty(objectString))
                         {
+                            // await WriteCsvAsync<T>($"<artist>{objectString}</artist>", csvStreams);
                             await WriteCsvAsync<T>(objectString, csvStreams);
+                        }
+                        else
+                        {
+                            continue;
                         }
                     }
                     catch (Exception ex)
@@ -199,6 +207,10 @@ namespace discogs
                     // await reader.SkipAsync();
                     if (objectCount % 1_000 == 0) pbar.Tick();
                     continue;
+                }
+                else
+                {
+                    await reader.ReadAsync();
                 }
             }
             var csvFileNames = string.Join("; ", csvStreams.Select(kvp => kvp.Value.FilePath));

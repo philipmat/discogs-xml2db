@@ -14,8 +14,10 @@ namespace discogs
     {
         private readonly int _throttle = 1;
         private readonly string _typeName;
-        public Parser(int throttle = 1)
+        private readonly IExporter<T> _exporter;
+        public Parser(IExporter<T> exporter, int throttle = 1)
         {
+            _exporter = exporter;
             _throttle = throttle;
             _typeName = typeof(T).Name.Split('.')[^1];
         }
@@ -24,7 +26,6 @@ namespace discogs
 
         public async Task ParseFileAsync(string fileName)
         {
-            Dictionary<string, (string FilePath, StreamWriter FileStream)> csvStreams = GetCsvFilesFor(fileName);
             int objectCount = 0;
             using FileStream fileStream = new FileStream(fileName, FileMode.Open);
             Stream readingStream = fileStream;
@@ -51,8 +52,7 @@ namespace discogs
                     {
                         if (!string.IsNullOrEmpty(objectString))
                         {
-                            // await WriteCsvAsync<T>($"<artist>{objectString}</artist>", csvStreams);
-                            await WriteCsvAsync(objectString, csvStreams);
+                            await ExportRecord(objectString);
                         }
                         else
                         {
@@ -63,10 +63,6 @@ namespace discogs
                     {
                         Console.WriteLine($"Error {ex} parsing node {objectString}");
                     }
-                    // var labelId = DeserializeLabel(labelString);
-                    // Console.WriteLine($"label: {labelId}");
-                    // Console.Write('.');
-                    // _ = reader.ReadOuterXml();
                     objectCount++;
                     // await reader.SkipAsync();
                     if (objectCount % _throttle == 0) OnSucessfulParse(null, new ParseEventArgs { ParseCount = objectCount });
@@ -77,46 +73,13 @@ namespace discogs
                     await reader.ReadAsync();
                 }
             }
-            var csvFileNames = string.Join("; ", csvStreams.Select(kvp => kvp.Value.FilePath));
-            // pbar.WriteLine("Parsing done. Writing streams.");
-            foreach (var kvp in csvStreams)
-            {
-                await kvp.Value.FileStream.FlushAsync();
-                kvp.Value.FileStream.Close();
-                await kvp.Value.FileStream.DisposeAsync();
-            }
-            // pbar.Dispose();
-            Console.WriteLine($"Found {objectCount:n0} {_typeName}s. Wrote them to {csvFileNames}.");
+            await _exporter.CompleteExportAsync(objectCount);
         }
 
-        private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesFor(string xmlFile)
-        {
-            var obj = new T();
-            var dir = Path.GetDirectoryName(xmlFile);
-            IReadOnlyDictionary<string, string[]> files = obj.GetCsvExportScheme();
-            Dictionary<string, (string FilePath, StreamWriter FileStream)> csvFiles = files.ToDictionary(
-                kvp => kvp.Key,
-                kvp =>
-                {
-                    var csvFile = Path.Combine(dir, $"{kvp.Key}.csv");
-                    var stream = new StreamWriter(csvFile);
-                    stream.WriteLine(CsvExtensions.ToCsv(kvp.Value));
-                    return (csvFile, stream);
-                });
-
-            return csvFiles;
-        }
-
-        private static async Task WriteCsvAsync(
-            string objectString,
-            Dictionary<string, (string FilePath, StreamWriter FileStream)> streams)
+        private async Task ExportRecord(string objectString)
         {
             var obj = Deserialize(objectString);
-            IEnumerable<(string StreamName, string[] Row)> csvExports = obj.ExportToCsv();
-            foreach (var (streamName, row) in csvExports)
-            {
-                await streams[streamName].FileStream.WriteLineAsync(CsvExtensions.ToCsv(row));
-            }
+            await _exporter.ExportAsync(obj);
         }
 
         private static T Deserialize(string content)
@@ -128,7 +91,8 @@ namespace discogs
         }
     }
 
-    public class ParseEventArgs : EventArgs {
-        public int ParseCount {get;set;}
+    public class ParseEventArgs : EventArgs
+    {
+        public int ParseCount { get; set; }
     }
 }

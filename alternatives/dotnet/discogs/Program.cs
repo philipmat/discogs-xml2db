@@ -130,7 +130,8 @@ namespace discogs
                 CollapseWhenFinished = true,
             };
             using var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s");
-            var parser = new Parser<T>(throttle);
+            using var exporter = new CsvExporter<T>(Path.GetDirectoryName(fileName));
+            var parser = new Parser<T>(exporter, throttle);
             parser.OnSucessfulParse += (o, e) => pbar.Tick();
             await parser.ParseFileAsync(fileName);
         }

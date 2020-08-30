@@ -21,6 +21,9 @@
     <EmbeddedResource Include="Resources\master.xml" />
     <EmbeddedResource Include="Resources\release.xml" />
     <EmbeddedResource Include="Resources\discogs_20200806_artists.xml.gz" />
+    <EmbeddedResource Include="Resources\discogs_20200806_labels.xml.gz" />
+    <EmbeddedResource Include="Resources\discogs_20200806_masters.xml.gz" />
+    <EmbeddedResource Include="Resources\discogs_20200806_releases.xml.gz" />
   </ItemGroup>
 
   <ItemGroup>

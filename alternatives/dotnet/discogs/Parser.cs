@@ -22,7 +22,7 @@ namespace discogs
             _typeName = typeof(T).Name.Split('.')[^1];
         }
 
-        public event EventHandler<ParseEventArgs> OnSucessfulParse;
+        public event EventHandler<ParseEventArgs> OnSucessfulParse = delegate {};
 
         public async Task ParseFileAsync(string fileName) {
             using FileStream fileStream = new FileStream(fileName, FileMode.Open);

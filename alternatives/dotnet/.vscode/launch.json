@@ -10,7 +10,8 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/discogs.dll",
+            // "program": "${workspaceFolder}/dotnet.sln",
+            "program": "${workspaceFolder}/discogs/bin/Debug/netcoreapp3.1/discogs.dll",
             "args": ["${input:testFiles}"],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

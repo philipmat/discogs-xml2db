@@ -14,6 +14,7 @@ namespace discogs
 {
     public class Program
     {
+        private const int ProgressDisplayThrottle = 1_000; // display only once every ProgressDisplayThrottle
         private static readonly Dictionary<string, int> Statistics = new Dictionary<string, int> {
             {"release", 12945920}, { "artist", 7075521}, { "label", 1579404}, {"master", 1250000}
         };
@@ -25,7 +26,6 @@ namespace discogs
             if (Path.GetFileName(fileName).Contains("discogs"))
             {
                 fileName = Path.GetFullPath(fileName);
-                Console.WriteLine($"Variant2: {fileName}");
                 if (fileName.Contains("_labels"))
                 {
                     await ParseAsync<discogs.Labels.label>(fileName);
@@ -49,7 +49,6 @@ namespace discogs
             where T : IExportToCsv, new()
         {
             var typeName = typeof(T).Name.Split('.')[^1];
-            const int throttle = 1_000;
             var ticks = Statistics[typeName] / 1000;
             var pbarOptions = new ShellProgressBar.ProgressBarOptions
             {
@@ -59,7 +58,7 @@ namespace discogs
             };
             using var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s");
             using var exporter = new CsvExporter<T>(Path.GetDirectoryName(fileName));
-            var parser = new Parser<T>(exporter, throttle);
+            var parser = new Parser<T>(exporter, ProgressDisplayThrottle);
             parser.OnSucessfulParse += (o, e) => pbar.Tick();
             await parser.ParseFileAsync(fileName);
         }

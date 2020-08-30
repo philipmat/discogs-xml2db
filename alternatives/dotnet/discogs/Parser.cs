@@ -15,6 +15,7 @@ namespace discogs
         private readonly int _throttle = 1;
         private readonly string _typeName;
         private readonly IExporter<T> _exporter;
+        
         public Parser(IExporter<T> exporter, int throttle = 1)
         {
             _exporter = exporter;
@@ -24,21 +25,25 @@ namespace discogs
 
         public event EventHandler<ParseEventArgs> OnSucessfulParse;
 
-        public async Task ParseFileAsync(string fileName)
-        {
-            int objectCount = 0;
+        public async Task ParseFileAsync(string fileName) {
             using FileStream fileStream = new FileStream(fileName, FileMode.Open);
             Stream readingStream = fileStream;
             if (System.IO.Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase))
             {
                 readingStream = new GZipStream(fileStream, CompressionMode.Decompress);
             }
+            await ParseStreamAsync(readingStream);
+        }
+
+        public async Task ParseStreamAsync(Stream stream)
+        {
+            int objectCount = 0;
             var settings = new XmlReaderSettings
             {
                 ConformanceLevel = ConformanceLevel.Fragment,
                 Async = true,
             };
-            using XmlReader reader = XmlReader.Create(readingStream, settings);
+            using XmlReader reader = XmlReader.Create(stream, settings);
 
             await reader.MoveToContentAsync();
             await reader.ReadAsync();

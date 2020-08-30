@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using discogs;
 using FluentAssertions;
@@ -13,9 +14,9 @@ namespace tests
     public class ObjectDeserializationTests
     {
         [Fact]
-        public void Artist_DeserializesAllProperties()
+        public async Task Artist_DeserializesAllPropertiesAsync()
         {
-            var artist = Deserialize<discogs.Artists.artist>("artist.xml");
+            var artist = await DeserializeAsync<discogs.Artists.artist>("artist.xml");
 
             // Assert
             artist.id.Should().Be("27");
@@ -39,23 +40,21 @@ namespace tests
             artist.groups[1].value.Should().Be("Puente Latino");
             */
         }
-
-        private static T Deserialize<T>(string resourceFileName)
+        
+        private static async Task<T> DeserializeAsync<T>(string resourceFileName)
             where T : IExportToCsv, new()
         {
-            using var stream = TestCommons.GetResourceStream(resourceFileName);
-            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
-            var obj = (T)_labelXmlSerializer.Deserialize(stream);
-            /*
-            var jsonOptions = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
-            var objJson = JsonSerializer.Serialize(obj, jsonOptions);
-            Console.WriteLine($@"JSON {typeof(T).Name}:
- {objJson}");
-            */
-            return obj;
+            var xml = await TestCommons.GetResourceAsync(resourceFileName);
+            return new ParserProxy<T>().DeserializeProxy(xml);
+        }
+
+        public class ParserProxy<T> : Parser<T>
+                where T : IExportToCsv, new()
+        {
+            public ParserProxy() : base (null) { }
+
+            public T DeserializeProxy(string content)
+                => Deserialize(content);
         }
     }
 }

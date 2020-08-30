@@ -15,7 +15,6 @@ namespace discogs
         private readonly int _throttle = 1;
         private readonly string _typeName;
         private readonly IExporter<T> _exporter;
-        
         public Parser(IExporter<T> exporter, int throttle = 1)
         {
             _exporter = exporter;
@@ -81,18 +80,18 @@ namespace discogs
             await _exporter.CompleteExportAsync(objectCount);
         }
 
-        private async Task ExportRecord(string objectString)
-        {
-            var obj = Deserialize(objectString);
-            await _exporter.ExportAsync(obj);
-        }
-
-        private static T Deserialize(string content)
+        protected static T Deserialize(string content)
         {
             using var reader = new StringReader(content);
             XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
             var obj = (T)_labelXmlSerializer.Deserialize(reader);
             return obj;
+        }
+
+        private async Task ExportRecord(string objectString)
+        {
+            var obj = Deserialize(objectString);
+            await _exporter.ExportAsync(obj);
         }
     }
 

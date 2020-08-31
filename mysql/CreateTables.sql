@@ -178,12 +178,12 @@ CREATE TABLE `release_track` (
     parent          integer,
     title           text,
     duration        text,
-    track_id        integer
+    track_id        text
 ) ENGINE=MyISAM;
 
 CREATE TABLE `release_track_artist` (
     id              SERIAL,
-    track_id        integer,
+    track_id        text,
     release_id      integer NOT NULL,
     track_sequence  integer NOT NULL,
     artist_id       integer NOT NULL,

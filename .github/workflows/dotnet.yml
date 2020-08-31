@@ -32,9 +32,22 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
 
     - name: Publish
-      run: dotnet publish discogs/discogs.csproj -o ./artifacts -r linux-x64 --self-contained true
-    - name: Upload build artifacts
+      run: |
+        dotnet publish discogs/discogs.csproj -o ./artifacts/discogs-linux -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+        dotnet publish discogs/discogs.csproj -o ./artifacts/discogs-osx -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+        dotnet publish discogs/discogs.csproj -o ./artifacts/discogs-win -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+    - name: Upload build artifacts - linux
       uses: actions/upload-artifact@v2
       with:
         name: discogsxml2db-linux-x64
-        path: /home/runner/work/discogs-xml2db/discogs-xml2db/alternatives/dotnet/artifacts/
+        path: /home/runner/work/discogs-xml2db/discogs-xml2db/alternatives/dotnet/artifacts/discogs-linux
+    - name: Upload build artifacts - macOS
+      uses: actions/upload-artifact@v2
+      with:
+        name: discogsxml2db-osx-x64
+        path: /home/runner/work/discogs-xml2db/discogs-xml2db/alternatives/dotnet/artifacts/discogs-osx
+    - name: Upload build artifacts - Win
+      uses: actions/upload-artifact@v2
+      with:
+        name: discogsxml2db-win-x64
+        path: /home/runner/work/discogs-xml2db/discogs-xml2db/alternatives/dotnet/artifacts/discogs-win

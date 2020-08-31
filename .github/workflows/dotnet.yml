@@ -37,4 +37,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: discogsxml2db-linux-x64
-        path: ./artifacts
+        path: /home/runner/work/discogs-xml2db/discogs-xml2db/alternatives/dotnet/artifacts/

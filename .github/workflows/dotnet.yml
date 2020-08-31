@@ -36,5 +36,5 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: WebApp1
+        name: discogsxml2db-linux-x64
         path: ./artifacts

@@ -30,3 +30,11 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+
+    - name: Publish
+      run: dotnet publish discogs/discogs.csproj -o ./artifacts -r linux-x64 --self-contained true
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: WebApp1
+        path: ./artifacts

@@ -12,3 +12,4 @@ tmp
 
 # Visual Studio folder
 .vs/
+alternatives/dotnet/artifacts/

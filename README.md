@@ -8,7 +8,7 @@ Version 2.0 is a rewrite of the original *discogs-xml2db*
 It is based on a [branch by RedApple](https://github.com/redapple/discogs-xml2db)
 and it is several times faster.
 
-Currently *speedup* supports MySQL and PostgreSQL as target databases.
+Currently supports MySQL and PostgreSQL as target databases.
 Instructions for importing into MongoDB, though these are untested.  
 Let us know how it goes!
 
@@ -18,7 +18,7 @@ Let us know how it goes!
 
 ### Requirements
 
-discogs-xml2db *speedup* requires python3 (minimum 3.6) and some python modules.  
+discogs-xml2db requires python3 (minimum 3.6) and some python modules.  
 Additionally, the bash shell is used for automating some tasks.  
 
 Importing to some databases may require additional dependencies,

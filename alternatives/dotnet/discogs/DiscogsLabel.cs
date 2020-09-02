@@ -17,17 +17,8 @@ namespace discogs.Labels
         public string id { get; set; }
         public string name { get; set; }
 
-        private string contactinfo1;
+        private string contactinfo;
 
-        public string Getcontactinfo()
-        {
-            return contactinfo1;
-        }
-
-        public void Setcontactinfo(string value)
-        {
-            contactinfo1 = value;
-        }
 
         public string profile { get; set; }
         public string data_quality { get; set; }
@@ -56,7 +47,7 @@ namespace discogs.Labels
         /// <returns>Tuples where the StreamName matches a key from <see ref="GetCsvExportScheme"> </returns>
         public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
-            yield return ("label", new[] { this.id, this.name, this.Getcontactinfo(), this.profile, this.parentLabel?.name, this.data_quality });
+            yield return ("label", new[] { this.id, this.name, this.contactinfo, this.profile, this.parentLabel?.name, this.data_quality });
             if ((urls?.Length ?? 0) > 0)
             {
                 foreach (var url in urls)
@@ -92,7 +83,7 @@ namespace discogs.Labels
                 }
                 if (reader.IsStartElement("contactinfo"))
                 {
-                    this.Setcontactinfo(reader.ReadElementContentAsString());
+                    this.contactinfo = reader.ReadElementContentAsString();
                 }
                 if (reader.IsStartElement("profile"))
                 {

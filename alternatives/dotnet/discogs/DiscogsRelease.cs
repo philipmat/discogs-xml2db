@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace discogs.Releases
 {
-    public class release : IExportToCsv
+    public class release : IExportable
     {
         private static readonly Dictionary<string, string[]> CsvExportHeaders = new Dictionary<string, string[]>
         {
@@ -66,7 +66,7 @@ namespace discogs.Releases
             }
         }
 
-        public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
+        public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
             yield return ("release", new[] { id, title, released, country, notes, data_quality, master_id, status });
             if (genres?.Length > 0)
@@ -170,7 +170,7 @@ namespace discogs.Releases
             }
         }
 
-        public IReadOnlyDictionary<string, string[]> GetCsvExportScheme()
+        public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields()
             => CsvExportHeaders;
     }
 

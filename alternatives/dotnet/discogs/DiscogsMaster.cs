@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace discogs.Masters
 {
-    public class master : IExportToCsv
+    public class master : IExportable
     {
         private static readonly Dictionary<string, string[]> CsvExportHeaders = new Dictionary<string, string[]>
         {
@@ -31,7 +31,7 @@ namespace discogs.Masters
         public string[] styles { get; set; }
         public video[] videos { get; set; }
 
-        public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
+        public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
             yield return ("master", new [] { id, title, year, main_release, data_quality });
             if (artists?.Length > 0)
@@ -76,7 +76,7 @@ namespace discogs.Masters
             }
         }
 
-        public IReadOnlyDictionary<string, string[]> GetCsvExportScheme() => CsvExportHeaders;
+        public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields() => CsvExportHeaders;
     }
 
     public class artist

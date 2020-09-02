@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace discogs
 {
     public class Parser<T>
-            where T : IExportToCsv, new()
+            where T : IExportable, new()
     {
         private const int BufferSize = 1024 * 1024;
         private static readonly XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));

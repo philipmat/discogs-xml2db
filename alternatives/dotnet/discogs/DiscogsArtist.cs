@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace discogs.Artists
 {
-    public class artist : IExportToCsv
+    public class artist : IExportable
     {
 
         private static readonly Dictionary<string, string[]> CsvExportHeaders = new Dictionary<string, string[]>
@@ -32,7 +32,7 @@ namespace discogs.Artists
         // groups is not parsed in the python version
         // public name[] groups {get;set;}
 
-        public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
+        public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
             yield return ("artist", new[] { id, this.name, realname, profile, data_quality });
             foreach(var a in (aliases ?? System.Array.Empty<name>())) {
@@ -56,7 +56,7 @@ namespace discogs.Artists
             }
         }
 
-        public IReadOnlyDictionary<string, string[]> GetCsvExportScheme()
+        public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields()
             => CsvExportHeaders;
     }
 

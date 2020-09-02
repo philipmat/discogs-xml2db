@@ -42,14 +42,14 @@ namespace tests
         }
         
         private static async Task<T> DeserializeAsync<T>(string resourceFileName)
-            where T : IExportToCsv, new()
+            where T : IExportable, new()
         {
             var xml = await TestCommons.GetResourceAsync(resourceFileName);
             return new ParserProxy<T>().DeserializeProxy(xml);
         }
 
         public class ParserProxy<T> : Parser<T>
-                where T : IExportToCsv, new()
+                where T : IExportable, new()
         {
             public ParserProxy() : base (null) { }
 

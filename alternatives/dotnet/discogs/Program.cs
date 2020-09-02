@@ -46,7 +46,7 @@ namespace discogs
         }
 
         private static async Task ParseAsync<T>(string fileName) 
-            where T : IExportToCsv, new()
+            where T : IExportable, new()
         {
             var typeName = typeof(T).Name.Split('.')[^1];
             var ticks = Statistics[typeName] / 1000;

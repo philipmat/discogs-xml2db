@@ -3,10 +3,10 @@ using System.Xml.Serialization;
 
 namespace discogs
 {
-    public interface IExportToCsv
+    public interface IExportable
     {
-        IReadOnlyDictionary<string, string[]> GetCsvExportScheme();
-        IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv();
+        IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields();
+        IEnumerable<(string StreamName, string[] RowValues)> Export();
     }
 
     public class image

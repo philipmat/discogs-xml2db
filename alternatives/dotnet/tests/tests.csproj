@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

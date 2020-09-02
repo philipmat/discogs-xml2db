@@ -101,6 +101,21 @@ namespace discogs.Labels
                         name = reader.ReadElementContentAsString()
                     };
                 }
+                if (reader.IsStartElement("sublabels"))
+                {
+                    reader.Read();
+                    var sublabelList = new List<label>();
+                    while (reader.IsStartElement("label"))
+                    {
+                        var label = new label
+                        {
+                            id = reader.GetAttribute("id"),
+                            name = reader.ReadElementContentAsString()
+                        };
+                        sublabelList.Add(label);
+                    }
+                    sublabels = sublabelList.ToArray();
+                }
                 if (reader.IsStartElement("images"))
                 {
                     var images = new List<image>();

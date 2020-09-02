@@ -12,6 +12,7 @@ namespace discogs
     public class Parser<T>
             where T : IExportToCsv, new()
     {
+        private const int BufferSize = 1024 * 1024;
         private readonly int _throttle = 1;
         private readonly string _typeName;
         private readonly IExporter<T> _exporter;
@@ -25,13 +26,14 @@ namespace discogs
         public event EventHandler<ParseEventArgs> OnSucessfulParse = delegate {};
 
         public async Task ParseFileAsync(string fileName) {
-            using FileStream fileStream = new FileStream(fileName, FileMode.Open);
+            using FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: BufferSize, useAsync: true);
             Stream readingStream = fileStream;
             if (System.IO.Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase))
             {
                 readingStream = new GZipStream(fileStream, CompressionMode.Decompress);
             }
             await ParseStreamAsync(readingStream);
+            await readingStream.DisposeAsync();
         }
 
         public async Task ParseStreamAsync(Stream stream)

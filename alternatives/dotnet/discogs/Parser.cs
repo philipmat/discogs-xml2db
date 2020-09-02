@@ -13,6 +13,7 @@ namespace discogs
             where T : IExportToCsv, new()
     {
         private const int BufferSize = 1024 * 1024;
+        private static readonly XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
         private readonly int _throttle = 1;
         private readonly string _typeName;
         private readonly IExporter<T> _exporter;
@@ -88,8 +89,8 @@ namespace discogs
 
         protected static T Deserialize(string content)
         {
+            // TODO: would MemoryStream be faster?
             using var reader = new StringReader(content);
-            XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
             var obj = (T)_labelXmlSerializer.Deserialize(reader);
             return obj;
         }

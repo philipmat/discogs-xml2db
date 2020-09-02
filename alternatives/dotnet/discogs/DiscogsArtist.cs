@@ -32,7 +32,7 @@ namespace discogs.Artists
         public name[] members { get; set; }
         public name[] aliases { get; set; }
         // groups is not parsed in the python version
-        // public name[] groups {get;set;}
+        public name[] groups {get;set;}
 
         public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
@@ -141,6 +141,21 @@ namespace discogs.Artists
                         aliases.Add(n);
                     }
                     this.aliases = aliases.ToArray();
+                }
+                if (reader.IsStartElement("groups"))
+                {
+                    reader.Read();
+                    var names = new List<name>();
+                    while (reader.IsStartElement("name"))
+                    {
+                        var n = new name
+                        {
+                            id = reader.GetAttribute("id"),
+                            value = reader.ReadElementContentAsString(),
+                        };
+                        names.Add(n);
+                    }
+                    this.groups = names.ToArray();
                 }
 
                 if (reader.IsStartElement("images"))

@@ -16,7 +16,7 @@ namespace tests
 {
     public class ObjectDeserializationTests
     {
-        [Fact(Skip = "Resource changed to include top node; need to re-work")]
+        [Fact]
         public async Task Artist_DeserializesAllPropertiesAsync()
         {
             var artist = await DeserializeAsync<discogs.Artists.artist>("artist.xml");
@@ -48,36 +48,10 @@ namespace tests
         public void Artist_Populate()
         {
             // Arrange
-            var settings = new XmlReaderSettings
-            {
-                ConformanceLevel = ConformanceLevel.Fragment,
-                Async = true,
-                DtdProcessing = DtdProcessing.Prohibit,
-                // TODO: perf IgnoreComments = true,
-                IgnoreProcessingInstructions = true,
-                XmlResolver = null,
-            };
             var artist = new discogs.Artists.artist();
-            var exporter = NSubstitute.Substitute.For<IExporter<discogs.Artists.artist>>();
-            using (Stream artistRes = TestCommons.GetResourceStream("artist.xml"))
-            {
-                //*
-                using (XmlReader reader = XmlReader.Create(artistRes, settings))
-                {
-                    reader.MoveToContent();  // on artists
-                    reader.Read(); // on text between <artists> and <artist>
-                    reader.Read(); // on artist, but the first thing in Populate is Read, which takes it to first node within artist
-                    // Act
-                    artist.Populate(reader);
 
-                }
-                //*/
-                /*
-                var parser = new Parser<discogs.Artists.artist>(exporter);
-                parser.ParseStreamAsync2(artistRes);
-                /*/
-
-            }
+            // Act
+            Populate(artist, "artist.xml");
 
             // assert
             artist.id.Should().Be("27");
@@ -95,9 +69,40 @@ namespace tests
             artist.aliases.Should().HaveCount(2);
             artist.aliases[0].id.Should().Be("89");
             artist.aliases[1].value.Should().Be("Braincell");
+            /*
             artist.groups.Should().HaveCount(2);
             artist.groups[0].id.Should().Be("2");
             artist.groups[1].value.Should().Be("Puente Latino");
+            */
+        }
+
+        private static void Populate<T>(T obj, string resourceName)
+            where T : IExportable
+        {
+            /*
+            var exporter = NSubstitute.Substitute.For<IExporter<discogs.Artists.artist>>();
+            var parser = new Parser<discogs.Artists.artist>(exporter);
+            parser.ParseStreamAsync2(artistRes);
+            /*/
+            var settings = new XmlReaderSettings
+            {
+                ConformanceLevel = ConformanceLevel.Fragment,
+                Async = true,
+                DtdProcessing = DtdProcessing.Prohibit,
+                // TODO: perf IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                XmlResolver = null,
+            };
+            using (Stream artistRes = TestCommons.GetResourceStream(resourceName))
+            {
+                using (XmlReader reader = XmlReader.Create(artistRes, settings))
+                {
+                    reader.MoveToContent();  // on root - artist
+                    // reader.Read(); // on text between <artist> and first node; the first thing in Populate is Read, which takes it to first node within artist
+                    obj.Populate(reader);
+
+                }
+            }
         }
         
         private static async Task<T> DeserializeAsync<T>(string resourceFileName)

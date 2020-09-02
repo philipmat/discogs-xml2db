@@ -1,13 +1,6 @@
-using System;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Resources;
-using System.Security.Cryptography;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Serialization;
 using discogs;
 using FluentAssertions;
 using Xunit;

@@ -67,12 +67,17 @@ namespace discogs.Artists
 
         public bool IsValid() => !string.IsNullOrEmpty(id);
 
+        /// <summary>
+        /// Populates the current object from an XMl reader.
+        /// </summary>
+        /// <param name="reader">An XML reader positioned right after the <![CDATA[<artist>]]> node.</param>
         public void Populate(XmlReader reader)
         {
             while (reader.Read())
             {
                 if (reader.IsStartElement("artist"))
                 {
+                    // that means we encountered the next node
                     return;
                 }
                 if (reader.IsStartElement("id"))

@@ -99,8 +99,8 @@ namespace discogs
             };
             using XmlReader reader = XmlReader.Create(stream, settings);
 
-            await reader.MoveToContentAsync();
-            await reader.ReadAsync();
+            await reader.MoveToContentAsync(); // moves to first element in XML
+            await reader.ReadAsync(); // moves to the first element after, so the text between <artists> and <artist>
             while (!reader.EOF)
             {
                 if (reader.Name == _typeName)

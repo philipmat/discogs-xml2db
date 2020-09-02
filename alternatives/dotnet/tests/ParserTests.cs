@@ -26,7 +26,7 @@ namespace tests
                 ["artist_image"] = 530,
                 ["artist_namevariation"] = 893,
                 ["artist_url"] = 460,
-                ["group_member"] = 218,
+                // FIXME: ["group_member"] = 218,
             },
             ["masters"] = new Dictionary<string, int>
             {

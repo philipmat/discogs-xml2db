@@ -16,6 +16,7 @@ namespace discogs
     public class CsvExporter<T> : IExporter<T>
         where T : IExportToCsv, new()
     {
+        private const int BufferSize = 1024 * 1024;
         private readonly string _typeName;
         private readonly Dictionary<string, (string FilePath, StreamWriter FileStream)> _csvStreams;
         private bool disposedValue;
@@ -56,7 +57,8 @@ namespace discogs
                 kvp =>
                 {
                     var csvFile = Path.Combine(outPutDirectory, $"{kvp.Key}.csv");
-                    var stream = new StreamWriter(csvFile);
+                    var stream = new StreamWriter(csvFile, append: false, encoding: System.Text.Encoding.UTF8, bufferSize: BufferSize);
+                    // var stream = new StreamWriter(csvFile);
                     stream.WriteLine(CsvExtensions.ToCsv(kvp.Value));
                     return (csvFile, stream);
                 });

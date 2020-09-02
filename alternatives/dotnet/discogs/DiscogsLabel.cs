@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace discogs.Labels
@@ -11,14 +12,27 @@ namespace discogs.Labels
             ["label_url"] = new[] { "label_id", "url" },
             ["label_image"] = new[] { "label_id", "type", "width", "height" },
         };
-        
+
         public image[] images { get; set; }
         public string id { get; set; }
         public string name { get; set; }
-        public string contactinfo { get; set; }
+
+        private string contactinfo1;
+
+        public string Getcontactinfo()
+        {
+            return contactinfo1;
+        }
+
+        public void Setcontactinfo(string value)
+        {
+            contactinfo1 = value;
+        }
+
         public string profile { get; set; }
         public string data_quality { get; set; }
         public parentLabel parentLabel { get; set; }
+
         [XmlArrayItem("url")]
         public string[] urls { get; set; }
 
@@ -42,7 +56,7 @@ namespace discogs.Labels
         /// <returns>Tuples where the StreamName matches a key from <see ref="GetCsvExportScheme"> </returns>
         public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
-            yield return ("label", new[] { this.id, this.name, this.contactinfo, this.profile, this.parentLabel?.name, this.data_quality });
+            yield return ("label", new[] { this.id, this.name, this.Getcontactinfo(), this.profile, this.parentLabel?.name, this.data_quality });
             if ((urls?.Length ?? 0) > 0)
             {
                 foreach (var url in urls)
@@ -59,7 +73,71 @@ namespace discogs.Labels
                 }
             }
         }
+
+        public void Populate(XmlReader reader)
+        {
+            while (reader.Read())
+            {
+                if (reader.IsStartElement("label"))
+                {
+                    return;
+                }
+                if (reader.IsStartElement("id"))
+                {
+                    this.id = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("name"))
+                {
+                    this.name = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("contactinfo"))
+                {
+                    this.Setcontactinfo(reader.ReadElementContentAsString());
+                }
+                if (reader.IsStartElement("profile"))
+                {
+                    this.profile = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("data_quality"))
+                {
+                    this.data_quality = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("parentLabel"))
+                {
+                    this.parentLabel = new discogs.Labels.parentLabel
+                    {
+                        id = reader.GetAttribute("id"),
+                        name = reader.ReadElementContentAsString()
+                    };
+                }
+                if (reader.IsStartElement("images"))
+                {
+                    var images = new List<image>();
+                    while (reader.Read() && reader.IsStartElement("image"))
+                    {
+                        var image = new image { type = reader.GetAttribute("type"), width = reader.GetAttribute("width"), height = reader.GetAttribute("height") };
+                        images.Add(image);
+                    }
+                    this.images = images.ToArray();
+                }
+                if (reader.IsStartElement("urls"))
+                {
+                    reader.Read();
+                    var urls = new List<string>();
+                    while (reader.IsStartElement("url"))
+                    {
+                        var url = reader.ReadElementContentAsString();
+                        if (!string.IsNullOrWhiteSpace(url))
+                            urls.Add(url);
+                    }
+                    this.urls = urls.ToArray();
+                }
+            }
+        }
+
+        public bool IsValid() => !string.IsNullOrEmpty(id);
     }
+
 
     public class parentLabel
     {

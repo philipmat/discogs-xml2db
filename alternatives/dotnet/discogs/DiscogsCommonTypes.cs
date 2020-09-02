@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace discogs
@@ -7,6 +8,8 @@ namespace discogs
     {
         IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields();
         IEnumerable<(string StreamName, string[] RowValues)> Export();
+        public bool IsValid();
+        void Populate(XmlReader reader);
     }
 
     public class image

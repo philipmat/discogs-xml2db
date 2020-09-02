@@ -105,50 +105,13 @@ namespace discogs
             {
                 if (reader.Name == _typeName)
                 {
-                    var lbl = new discogs.Labels.label();
-                    while (reader.Read())
+                    var lbl = new T();
+                    lbl.Populate(reader);
+                    if (!lbl.IsValid())
                     {
-                        if (reader.IsStartElement(_typeName))
-                            break;
-                        if (reader.IsStartElement("id"))
-                            lbl.id = reader.ReadElementContentAsString();
-                        if (reader.IsStartElement("name"))
-                            lbl.name = reader.ReadElementContentAsString();
-                        if (reader.IsStartElement("contactinfo"))
-                            lbl.contactinfo = reader.ReadElementContentAsString();
-                        if (reader.IsStartElement("profile"))
-                            lbl.profile = reader.ReadElementContentAsString();
-                        if (reader.IsStartElement("data_quality"))
-                            lbl.data_quality = reader.ReadElementContentAsString();
-                        if (reader.IsStartElement("parentLabel"))
-                            lbl.parentLabel = new discogs.Labels.parentLabel { id = reader.GetAttribute("id"), name = reader.ReadElementContentAsString() };
-                        if (reader.IsStartElement("images"))
-                        {
-                            var images = new List<image>();
-                            while (reader.Read() && reader.IsStartElement("image"))
-                            {
-                                var image = new image { type = reader.GetAttribute("type"), width = reader.GetAttribute("width"), height = reader.GetAttribute("height") };
-                                images.Add(image);
-                            }
-                            lbl.images = images.ToArray();
-                        }
-                        if (reader.IsStartElement("urls"))
-                        {
-                            reader.Read();
-                            var urls = new List<string>();
-                            while (reader.IsStartElement("url"))
-                            {
-                                var url = reader.ReadElementContentAsString();
-                                if (!string.IsNullOrWhiteSpace(url))
-                                    urls.Add(url);
-                            }
-                            lbl.urls = urls.ToArray();
-                        }
-                    }
-                    if (lbl.id is null)
                         continue;
-                    var obj = (T)(object)lbl;
-                    await _exporter.ExportAsync(obj);
+                    }
+                    await _exporter.ExportAsync(lbl);
 
                     objectCount++;
                     if (objectCount % _throttle == 0) OnSucessfulParse(null, new ParseEventArgs { ParseCount = objectCount });

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace discogs.Releases
@@ -172,6 +173,16 @@ namespace discogs.Releases
 
         public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields()
             => CsvExportHeaders;
+
+        public void Populate(XmlReader reader)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool IsValid()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class artist

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace discogs.Artists
@@ -58,6 +60,13 @@ namespace discogs.Artists
 
         public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields()
             => CsvExportHeaders;
+
+        public bool IsValid()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Populate(XmlReader reader) => throw new System.NotImplementedException();
     }
 
     public class name

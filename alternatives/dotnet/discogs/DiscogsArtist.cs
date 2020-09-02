@@ -107,7 +107,6 @@ namespace discogs.Artists
                     }
                     this.namevariations = nvs.ToArray();
                 }
-                /* FIXME:
                 if (reader.IsStartElement("members"))
                 {
                     reader.Read(); // move inside members
@@ -116,7 +115,7 @@ namespace discogs.Artists
                     {
                         if (reader.IsStartElement("id"))
                         {
-                            reader.Read();
+                            reader.Skip();
                             continue;
                         }
                         var n = new name
@@ -128,7 +127,6 @@ namespace discogs.Artists
                     }
                     this.members = members.ToArray();
                 }
-                */
                 if (reader.IsStartElement("aliases"))
                 {
                     reader.Read();

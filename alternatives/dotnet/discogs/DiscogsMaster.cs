@@ -18,8 +18,8 @@ namespace discogs.Masters
         };
 
         [XmlAttribute]
-        public string id { get; set; }  
-        public string main_release {get; set;}
+        public string id { get; set; }
+        public string main_release { get; set; }
         public string year { get; set; }
         public string title { get; set; }
         public string data_quality { get; set; }
@@ -33,7 +33,7 @@ namespace discogs.Masters
 
         public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
-            yield return ("master", new [] { id, title, year, main_release, data_quality });
+            yield return ("master", new[] { id, title, year, main_release, data_quality });
             if (artists?.Length > 0)
             {
                 int position = 1;
@@ -102,7 +102,7 @@ namespace discogs.Masters
                 if (reader.IsStartElement("main_release"))
                 {
                     this.main_release = reader.ReadElementContentAsString();
-                    continue; 
+                    continue;
                 }
                 if (reader.IsStartElement("title"))
                 {
@@ -116,7 +116,7 @@ namespace discogs.Masters
                 if (reader.IsStartElement("data_quality"))
                 {
                     this.data_quality = reader.ReadElementContentAsString();
-                    continue; 
+                    continue;
                 }
                 if (reader.IsStartElement("genres"))
                 {
@@ -129,7 +129,7 @@ namespace discogs.Masters
                             list.Add(e);
                     }
                     this.genres = list.ToArray();
-                    continue; 
+                    continue;
                 }
                 if (reader.IsStartElement("styles"))
                 {
@@ -142,13 +142,12 @@ namespace discogs.Masters
                             list.Add(e);
                     }
                     this.styles = list.ToArray();
-                    continue; 
+                    continue;
                 }
                 if (reader.IsStartElement("artists"))
                 {
-                    reader.Read(); // move inside artists
                     var list = new List<artist>();
-                    while (reader.IsStartElement("artist"))
+                    while (reader.Read() && reader.IsStartElement("artist"))
                     {
                         var artist = new artist();
                         while (reader.Read() &&
@@ -188,32 +187,34 @@ namespace discogs.Masters
                         list.Add(artist);
                     }
                     this.artists = list.ToArray();
-                    continue; 
+                    continue;
                 }
                 if (reader.IsStartElement("videos"))
                 {
-                    reader.Read();
                     var list = new List<video>();
-                    while (reader.IsStartElement("video"))
+                    while (reader.Read() && reader.IsStartElement("video"))
                     {
-                        _ = reader.ReadOuterXml();
-                        /*
-                        while(reader.)
-                        if (reader.IsStartElement("id"))
+                        var video = new video
                         {
-                            reader.Skip();
-                            continue;
-                        }
-                        var n = new name
-                        {
-                            id = reader.GetAttribute("id"),
-                            value = reader.ReadElementContentAsString(),
+                            src = reader.GetAttribute("src"),
+                            duration = reader.GetAttribute("duration"),
+                            embed = reader.GetAttribute("embed"),
                         };
-                        members.Add(n);
-                        */
+                        while (reader.Read()
+                            && (reader.IsStartElement("title") || reader.IsStartElement("description"))) {
+                            if (reader.Name == "title")
+                            {
+                                video.title = reader.ReadElementContentAsString();
+                            }
+                            else if (reader.Name == "description")
+                            {
+                                video.description = reader.ReadElementContentAsString();
+                            }
+                        }
+                        list.Add(video);
                     }
                     this.videos = list.ToArray();
-                    continue; 
+                    continue;
                 }
 
                 if (reader.IsStartElement("images"))
@@ -225,7 +226,7 @@ namespace discogs.Masters
                         images.Add(image);
                     }
                     this.images = images.ToArray();
-                    continue; 
+                    continue;
                 }
             }
         }

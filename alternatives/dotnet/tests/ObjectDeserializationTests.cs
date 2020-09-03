@@ -154,14 +154,12 @@ namespace tests
             master.styles[1].Should().Be("Hardcore");
             master.styles[2].Should().Be("Jungle");
 
-            /*
             master.videos.Should().HaveCount(2);
             master.videos[0].src.Should().Be("https://www.youtube.com/watch?v=mksCnb_USuc");
             master.videos[0].duration.Should().Be("364");
             master.videos[0].embed.Should().Be("true");
             master.videos[0].title.Should().Be("Mix Race - Mixrace Outta Hand");
             master.videos[0].description.Should().Be("[SHADOW 28] Mixrace - Organized Chaos EP (1992)");
-            */
         }
 
         private static void Populate<T>(T obj, string resourceName)

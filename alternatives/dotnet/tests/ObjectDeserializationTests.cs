@@ -69,6 +69,32 @@ namespace tests
             */
         }
 
+        [Fact]
+        public void Label_Populate()
+        {
+            var label = new discogs.Labels.label();
+
+            // Act
+            Populate(label, "label.xml");
+
+            // Assert
+            label.id.Should().Be("1");
+            label.name.Should().Be("Planet E");
+            label.profile.Should().StartWith("[a=Carl Craig]'s");
+            label.profile.Should().EndWith("as publisher.");
+            label.data_quality.Should().Be("Correct");
+            label.urls.Should().HaveCount(5);
+            /*
+            label.sublabels.Should().HaveCount(2);
+            label.sublabels[0].SubId.Should().Be("86537");
+            label.sublabels[0].SubName.Should().Be("Antidote (4)");
+            label.sublabels[1].SubId.Should().Be("488315");
+            label.sublabels[1].SubName.Should().Be("TWPENTY");
+            */
+            label.parentLabel.id.Should().Be("4711");
+            label.parentLabel.name.Should().Be("Goldhead Music");
+        }
+
         private static void Populate<T>(T obj, string resourceName)
             where T : IExportable
         {

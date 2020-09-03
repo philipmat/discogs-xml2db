@@ -30,23 +30,9 @@ On at least 1 release, Planet E is listed as publisher.</profile>
         <url>http://www.facebook.com/planetedetroit</url>
         <url>http://www.flickr.com/photos/planetedetroit</url>
         <url>http://plus.google.com/100841702106447505236</url>
-        <url>http://www.instagram.com/carlcraignet</url>
-        <url>http://myspace.com/planetecom</url>
-        <url>http://myspace.com/planetedetroit</url>
-        <url>http://soundcloud.com/planetedetroit</url>
-        <url>http://twitter.com/planetedetroit</url>
-        <url>http://vimeo.com/user1265384</url>
-        <url>http://en.wikipedia.org/wiki/Planet_E_Communications</url>
-        <url>http://www.youtube.com/user/planetedetroit</url>
     </urls>
-    <sublabels>
+    <parentLabel id="4711">Goldhead Music</parentLabel><sublabels>
         <label id="86537">Antidote (4)</label>
-        <label id="41841">Community Projects</label>
-        <label id="153760">Guilty Pleasures</label>
-        <label id="31405">I Ner Zon Sounds</label>
-        <label id="277579">Planet E Communications</label>
-        <label id="294738">Planet E Communications, Inc.</label>
-        <label id="1560615">Planet E Productions</label>
         <label id="488315">TWPENTY</label>
     </sublabels>
 </label>

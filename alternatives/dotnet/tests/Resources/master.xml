@@ -13,6 +13,14 @@
             <role/>
             <tracks/>
         </artist>
+        <artist>
+            <id>123</id>
+            <name>Second Artist</name>
+            <anv>Artist Name Variation</anv>
+            <join/>
+            <role/>
+            <tracks/>
+        </artist>
     </artists>
     <genres>
         <genre>Electronic</genre>

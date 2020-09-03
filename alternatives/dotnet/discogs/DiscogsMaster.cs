@@ -99,62 +99,34 @@ namespace discogs.Masters
                 if (reader.IsStartElement("main_release"))
                 {
                     this.main_release = reader.ReadElementContentAsString();
-                    continue;
                 }
-                if (reader.IsStartElement("title"))
+                if (reader.IsStartElement("images"))
                 {
-                    this.title = reader.ReadElementContentAsString();
-                }
-                if (reader.IsStartElement("year"))
-                {
-                    this.year = reader.ReadElementContentAsString();
-                    continue;
-                }
-                if (reader.IsStartElement("data_quality"))
-                {
-                    this.data_quality = reader.ReadElementContentAsString();
-                    continue;
-                }
-                if (reader.IsStartElement("genres"))
-                {
-                    reader.Read();
-                    var list = new List<string>();
-                    while (reader.IsStartElement("genre"))
+                    var images = new List<image>();
+                    while (reader.Read() && reader.IsStartElement("image"))
                     {
-                        var e = reader.ReadElementContentAsString();
-                        if (!string.IsNullOrWhiteSpace(e))
-                            list.Add(e);
+                        var image = new image { type = reader.GetAttribute("type"), width = reader.GetAttribute("width"), height = reader.GetAttribute("height") };
+                        images.Add(image);
                     }
-                    this.genres = list.ToArray();
-                    continue;
-                }
-                if (reader.IsStartElement("styles"))
-                {
-                    reader.Read();
-                    var list = new List<string>();
-                    while (reader.IsStartElement("style"))
-                    {
-                        var e = reader.ReadElementContentAsString();
-                        if (!string.IsNullOrWhiteSpace(e))
-                            list.Add(e);
-                    }
-                    this.styles = list.ToArray();
-                    continue;
+                    this.images = images.ToArray();
                 }
                 if (reader.IsStartElement("artists"))
                 {
                     var list = new List<artist>();
-                    while (reader.Read() && reader.IsStartElement("artist"))
+                    reader.Read();
+                    while (reader.IsStartElement("artist"))
                     {
                         var artist = new artist();
                         while (reader.Read() &&
-                            (reader.IsStartElement("id") ||
+                            (
+                            reader.IsStartElement("id") ||
                             reader.IsStartElement("name") ||
                             reader.IsStartElement("anv") ||
                             reader.IsStartElement("join") ||
                             reader.IsStartElement("role") ||
                             reader.IsStartElement("tracks")))
                         {
+                            /*
                             var tagName = reader.Name;
                             var value = reader.ReadElementContentAsString();
                             switch (tagName)
@@ -180,16 +152,71 @@ namespace discogs.Masters
                                 default:
                                     break;
                             }
+                            */
+                            {
+                                if (reader.IsStartElement("id"))
+                                    artist.id = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("name"))
+                                    artist.name = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("anv"))
+                                    artist.anv = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("join"))
+                                    artist.join = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("role"))
+                                    artist.role = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("tracks"))
+                                    artist.tracks = reader.ReadElementContentAsString();
+                            }
                         }
                         list.Add(artist);
+                        if (!reader.IsStartElement("artist"))
+                        {
+                            reader.ReadEndElement();
+                        }
                     }
                     this.artists = list.ToArray();
-                    continue;
+                }
+                if (reader.IsStartElement("genres"))
+                {
+                    reader.Read();
+                    var list = new List<string>();
+                    while (reader.IsStartElement("genre"))
+                    {
+                        var e = reader.ReadElementContentAsString();
+                        if (!string.IsNullOrWhiteSpace(e))
+                            list.Add(e);
+                    }
+                    this.genres = list.ToArray();
+                }
+                if (reader.IsStartElement("styles"))
+                {
+                    reader.Read();
+                    var list = new List<string>();
+                    while (reader.IsStartElement("style"))
+                    {
+                        var e = reader.ReadElementContentAsString();
+                        if (!string.IsNullOrWhiteSpace(e))
+                            list.Add(e);
+                    }
+                    this.styles = list.ToArray();
+                }
+                if (reader.IsStartElement("year"))
+                {
+                    this.year = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("title"))
+                {
+                    this.title = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("data_quality"))
+                {
+                    this.data_quality = reader.ReadElementContentAsString();
                 }
                 if (reader.IsStartElement("videos"))
                 {
                     var list = new List<video>();
-                    while (reader.Read() && reader.IsStartElement("video"))
+                    reader.Read();
+                    while (reader.IsStartElement("video"))
                     {
                         var video = new video
                         {
@@ -199,32 +226,24 @@ namespace discogs.Masters
                         };
                         while (reader.Read()
                             && (reader.IsStartElement("title") || reader.IsStartElement("description"))) {
-                            if (reader.Name == "title")
+                            if (reader.IsStartElement("title"))
                             {
                                 video.title = reader.ReadElementContentAsString();
                             }
-                            else if (reader.Name == "description")
+                            if (reader.IsStartElement("description"))
                             {
                                 video.description = reader.ReadElementContentAsString();
                             }
                         }
                         list.Add(video);
+                        if (!reader.IsStartElement("video"))
+                        {
+                            reader.ReadEndElement();
+                        }
                     }
                     this.videos = list.ToArray();
-                    continue;
                 }
 
-                if (reader.IsStartElement("images"))
-                {
-                    var images = new List<image>();
-                    while (reader.Read() && reader.IsStartElement("image"))
-                    {
-                        var image = new image { type = reader.GetAttribute("type"), width = reader.GetAttribute("width"), height = reader.GetAttribute("height") };
-                        images.Add(image);
-                    }
-                    this.images = images.ToArray();
-                    continue;
-                }
             }
         }
     }

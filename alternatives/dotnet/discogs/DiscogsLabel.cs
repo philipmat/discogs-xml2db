@@ -103,8 +103,6 @@ namespace discogs.Labels
                 }
                 if (reader.IsStartElement("sublabels"))
                 {
-                    reader.Skip();
-                    /*
                     reader.Read();
                     var sublabelList = new List<label>();
                     while (reader.IsStartElement("label"))
@@ -117,7 +115,6 @@ namespace discogs.Labels
                         sublabelList.Add(label);
                     }
                     sublabels = sublabelList.ToArray();
-                    */
                 }
                 if (reader.IsStartElement("images"))
                 {

@@ -3,8 +3,6 @@
     <images>
         <image type="primary" uri="" uri150="" width="600" height="604"/>
         <image type="secondary" uri="" uri150="" width="600" height="604"/>
-        <image type="secondary" uri="" uri150="" width="600" height="600"/>
-        <image type="secondary" uri="" uri150="" width="600" height="600"/>
     </images>
     <artists>
         <artist>
@@ -34,14 +32,6 @@
         </video>
         <video src="https://www.youtube.com/watch?v=UNxtcvAoP_0" duration="320" embed="true">
             <title>Mix Race - Dance with the Devil</title>
-            <description>[SHADOW 28] Mixrace - Organized Chaos EP (1992)</description>
-        </video>
-        <video src="https://www.youtube.com/watch?v=m15ezeS2YdU" duration="331" embed="true">
-            <title>Mix Race - The Don Of Babylon</title>
-            <description>[SHADOW 28] Mixrace - Organized Chaos EP (1992)</description>
-        </video>
-        <video src="https://www.youtube.com/watch?v=G8w-holcY2E" duration="320" embed="true">
-            <title>Mix Race - 5 Minute Mission</title>
             <description>[SHADOW 28] Mixrace - Organized Chaos EP (1992)</description>
         </video>
     </videos>

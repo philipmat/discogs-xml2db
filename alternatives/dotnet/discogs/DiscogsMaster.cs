@@ -85,7 +85,128 @@ namespace discogs.Masters
 
         public void Populate(XmlReader reader)
         {
-            throw new System.NotImplementedException();
+            if (reader.Name != "master")
+            {
+                return;
+            }
+
+            // <master id="123"> unlike all others
+            this.id = reader.GetAttribute("id");
+            while (reader.Read())
+            {
+                if (reader.IsStartElement("master"))
+                {
+                    // that means we encountered the next node
+                    return;
+                }
+                if (reader.IsStartElement("main_release"))
+                {
+                    this.main_release = reader.ReadElementContentAsString();
+                    continue; 
+                }
+                if (reader.IsStartElement("title"))
+                {
+                    this.title = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("year"))
+                {
+                    this.year = reader.ReadElementContentAsString();
+                    continue;
+                }
+                if (reader.IsStartElement("data_quality"))
+                {
+                    this.data_quality = reader.ReadElementContentAsString();
+                    continue; 
+                }
+                if (reader.IsStartElement("genres"))
+                {
+                    reader.Read();
+                    var list = new List<string>();
+                    while (reader.IsStartElement("genre"))
+                    {
+                        var e = reader.ReadElementContentAsString();
+                        if (!string.IsNullOrWhiteSpace(e))
+                            list.Add(e);
+                    }
+                    this.genres = list.ToArray();
+                    continue; 
+                }
+                if (reader.IsStartElement("styles"))
+                {
+                    reader.Read();
+                    var list = new List<string>();
+                    while (reader.IsStartElement("style"))
+                    {
+                        var e = reader.ReadElementContentAsString();
+                        if (!string.IsNullOrWhiteSpace(e))
+                            list.Add(e);
+                    }
+                    this.styles = list.ToArray();
+                    continue; 
+                }
+                if (reader.IsStartElement("artists"))
+                {
+                    reader.Read(); // move inside artists
+                    var list = new List<artist>();
+                    while (reader.IsStartElement("artist"))
+                    {
+                        _ = reader.ReadOuterXml();
+                        /*
+                        while(reader.)
+                        if (reader.IsStartElement("id"))
+                        {
+                            reader.Skip();
+                            continue;
+                        }
+                        var n = new name
+                        {
+                            id = reader.GetAttribute("id"),
+                            value = reader.ReadElementContentAsString(),
+                        };
+                        members.Add(n);
+                        */
+                    }
+                    this.artists = list.ToArray();
+                    continue; 
+                }
+                if (reader.IsStartElement("videos"))
+                {
+                    reader.Read();
+                    var list = new List<video>();
+                    while (reader.IsStartElement("video"))
+                    {
+                        _ = reader.ReadOuterXml();
+                        /*
+                        while(reader.)
+                        if (reader.IsStartElement("id"))
+                        {
+                            reader.Skip();
+                            continue;
+                        }
+                        var n = new name
+                        {
+                            id = reader.GetAttribute("id"),
+                            value = reader.ReadElementContentAsString(),
+                        };
+                        members.Add(n);
+                        */
+                    }
+                    this.videos = list.ToArray();
+                    continue; 
+                }
+
+                if (reader.IsStartElement("images"))
+                {
+                    var images = new List<image>();
+                    while (reader.Read() && reader.IsStartElement("image"))
+                    {
+                        var image = new image { type = reader.GetAttribute("type"), width = reader.GetAttribute("width"), height = reader.GetAttribute("height") };
+                        images.Add(image);
+                    }
+                    this.images = images.ToArray();
+                    continue; 
+                }
+            }
         }
     }
 

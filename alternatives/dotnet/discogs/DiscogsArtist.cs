@@ -147,8 +147,6 @@ namespace discogs.Artists
                 }
                 if (reader.IsStartElement("groups"))
                 {
-                    reader.Skip();
-                    /*
                     reader.Read();
                     var names = new List<name>();
                     while (reader.IsStartElement("name"))
@@ -161,7 +159,6 @@ namespace discogs.Artists
                         names.Add(n);
                     }
                     this.groups = names.ToArray();
-                    */
                 }
 
                 if (reader.IsStartElement("images"))

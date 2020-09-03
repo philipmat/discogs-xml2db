@@ -139,7 +139,6 @@ namespace tests
             master.images[1].width.Should().Be("600");
             master.images[1].height.Should().Be("604");
 
-            /*
             master.artists.Should().HaveCount(1);
             master.artists[0].id.Should().Be("69209");
             master.artists[0].name.Should().Be("Mixrace");
@@ -147,7 +146,6 @@ namespace tests
             master.artists[0].join.Should().BeNullOrEmpty();
             master.artists[0].role.Should().BeNullOrEmpty();
             master.artists[0].tracks.Should().BeNullOrEmpty();
-            */
 
             master.genres.Should().HaveCount(1);
             master.genres[0].Should().Be("Electronic");

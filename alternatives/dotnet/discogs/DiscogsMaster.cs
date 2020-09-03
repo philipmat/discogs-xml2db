@@ -150,21 +150,42 @@ namespace discogs.Masters
                     var list = new List<artist>();
                     while (reader.IsStartElement("artist"))
                     {
-                        _ = reader.ReadOuterXml();
-                        /*
-                        while(reader.)
-                        if (reader.IsStartElement("id"))
+                        var artist = new artist();
+                        while (reader.Read() &&
+                            (reader.IsStartElement("id") ||
+                            reader.IsStartElement("name") ||
+                            reader.IsStartElement("anv") ||
+                            reader.IsStartElement("join") ||
+                            reader.IsStartElement("role") ||
+                            reader.IsStartElement("tracks")))
                         {
-                            reader.Skip();
-                            continue;
+                            var tagName = reader.Name;
+                            var value = reader.ReadElementContentAsString();
+                            switch (tagName)
+                            {
+                                case "id":
+                                    artist.id = value;
+                                    break;
+                                case "name":
+                                    artist.name = value;
+                                    break;
+                                case "anv":
+                                    artist.anv = value;
+                                    break;
+                                case "join":
+                                    artist.join = value;
+                                    break;
+                                case "role":
+                                    artist.role = value;
+                                    break;
+                                case "tracks":
+                                    artist.tracks = value;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                        var n = new name
-                        {
-                            id = reader.GetAttribute("id"),
-                            value = reader.ReadElementContentAsString(),
-                        };
-                        members.Add(n);
-                        */
+                        list.Add(artist);
                     }
                     this.artists = list.ToArray();
                     continue; 

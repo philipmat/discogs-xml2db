@@ -67,6 +67,14 @@ namespace tests
             artist.groups[0].id.Should().Be("2");
             artist.groups[1].value.Should().Be("Puente Latino");
             */
+            artist.images.Should().HaveCount(5);
+            artist.images[0].type.Should().Be("primary");
+            artist.images[0].uri.Should().BeNullOrEmpty();
+            artist.images[0].uri150.Should().BeNullOrEmpty();
+            artist.images[0].width.Should().Be("333");
+            artist.images[0].height.Should().Be("500");
+            artist.images[1].type.Should().Be("secondary");
+            artist.images[^1].type.Should().Be("secondary");
         }
 
         [Fact]
@@ -93,6 +101,14 @@ namespace tests
             */
             label.parentLabel.id.Should().Be("4711");
             label.parentLabel.name.Should().Be("Goldhead Music");
+            label.images.Should().HaveCount(3);
+            label.images[0].type.Should().Be("primary");
+            label.images[0].uri.Should().BeNullOrEmpty();
+            label.images[0].uri150.Should().BeNullOrEmpty();
+            label.images[0].width.Should().Be("132");
+            label.images[0].height.Should().Be("24");
+            label.images[1].type.Should().Be("secondary");
+            label.images[^1].type.Should().Be("secondary");
         }
 
         private static void Populate<T>(T obj, string resourceName)

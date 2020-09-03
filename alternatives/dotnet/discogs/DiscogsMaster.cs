@@ -78,10 +78,7 @@ namespace discogs.Masters
 
         public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields() => CsvExportHeaders;
 
-        public bool IsValid()
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool IsValid() => !string.IsNullOrEmpty(id);
 
         public void Populate(XmlReader reader)
         {

@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 
 
 namespace discogs
@@ -19,11 +14,13 @@ namespace discogs
         private const int ExitParamIssue = 2;
         private const int ProgressDisplayThrottle = 1_000; // display only once every ProgressDisplayThrottle
         private const string Usage = @"Converts discogs XML files for database import.
- Usage: discogs [options] [files...]
+Usage: discogs [options] [files...]
  
- Options:
- --dry-run  Parse the files, output counts, but don't write any actual files
+Options:
+ 
+--dry-run   Parse the files, output counts, but don't write any actual files
 --verbose   More verbose output
+--gz        Compress output files (gzip)
 files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             Can specify multiple files.
  ";
@@ -39,19 +36,22 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
                 return ExitHelp;
             }
 
-            bool dryRun = false;
-            bool verbose = false;
+            var options = new RunOptions();
             var files = new List<string>();
             for (int i = 0; i < args.Length; i++)
             {
                 var arg = args[i];
                 if (string.Equals(arg, "--dry-run", StringComparison.OrdinalIgnoreCase))
                 {
-                    dryRun = true;
+                    options.DryRun = true;
                 }
                 else if (string.Equals(arg, "--verbose", StringComparison.OrdinalIgnoreCase))
                 {
-                    verbose = true;
+                    options.Verbose = true;
+                }
+                else if (string.Equals(arg, "--gz", StringComparison.OrdinalIgnoreCase))
+                {
+                    options.CompressOutput = true;
                 }
                 else if (File.Exists(arg))
                 {
@@ -75,34 +75,34 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             // TODO: Parallel.ForEach ?
             foreach (var f in files)
             {
-                await ParseFile(f, dryRun, verbose);
+                await ParseFile(f, options);
             }
             return ExitOk;
         }
 
 
-        private static async Task ParseFile(string fileName, bool dryRun, bool verbose)
+        private static async Task ParseFile(string fileName, RunOptions options)
         {
             fileName = Path.GetFullPath(fileName);
             if (fileName.Contains("_labels"))
             {
-                await ParseAsync<discogs.Labels.label>(fileName, dryRun, verbose);
+                await ParseAsync<discogs.Labels.label>(fileName, options);
             }
             else if (fileName.Contains("_releases"))
             {
-                await ParseAsync<discogs.Releases.release>(fileName, dryRun, verbose);
+                await ParseAsync<discogs.Releases.release>(fileName, options);
             }
             else if (fileName.Contains("_artists"))
             {
-                await ParseAsync<discogs.Artists.artist>(fileName, dryRun, verbose);
+                await ParseAsync<discogs.Artists.artist>(fileName, options);
             }
             else if (fileName.Contains("_masters"))
             {
-                await ParseAsync<discogs.Masters.master>(fileName, dryRun, verbose);
+                await ParseAsync<discogs.Masters.master>(fileName, options);
             }
         }
 
-        private static async Task ParseAsync<T>(string fileName, bool dryRun, bool verbose)
+        private static async Task ParseAsync<T>(string fileName, RunOptions options)
             where T : IExportToCsv, new()
         {
             var typeName = typeof(T).Name.Split('.')[^1];
@@ -115,9 +115,9 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             };
             using var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s");
             IExporter<T> exporter;
-            if (dryRun)
+            if (options.DryRun)
             {
-                exporter = new RecordCounter<T>(verbose);
+                exporter = new RecordCounter<T>(options.Verbose);
             }
             else
             {
@@ -127,6 +127,13 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             parser.OnSucessfulParse += (o, e) => pbar.Tick();
             await parser.ParseFileAsync(fileName);
             exporter.Dispose();
+        }
+
+        private class RunOptions
+        {
+            public bool Verbose = false;
+            public bool DryRun = false;
+            public bool CompressOutput = false;
         }
     }
 }

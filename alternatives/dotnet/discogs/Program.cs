@@ -121,7 +121,10 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             }
             else
             {
-                exporter = new CsvExporter<T>(Path.GetDirectoryName(fileName));
+                exporter = new CsvExporter<T>(
+                    Path.GetDirectoryName(fileName),
+                    compress: options.CompressOutput,
+                    verbose: options.Verbose);
             }
             var parser = new Parser<T>(exporter, ProgressDisplayThrottle);
             parser.OnSucessfulParse += (o, e) => pbar.Tick();

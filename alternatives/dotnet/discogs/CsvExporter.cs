@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,10 +22,10 @@ namespace discogs
         private readonly Dictionary<string, (string FilePath, StreamWriter FileStream)> _csvStreams;
         private bool disposedValue;
 
-        public CsvExporter(string outPutDirectory)
+        public CsvExporter(string outPutDirectory, bool compress = false, bool verbose = false)
         {
             _typeName = typeof(T).Name.Split('.')[^1];
-            _csvStreams = GetCsvFilesFor(outPutDirectory);
+            _csvStreams = GetCsvFilesFor(outPutDirectory, compress);
         } 
         public async Task CompleteExportAsync(int finalCount)
         {
@@ -48,7 +49,7 @@ namespace discogs
             }
         }
 
-        private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesFor(string outPutDirectory)
+        private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesFor(string outPutDirectory, bool compress)
         {
             var obj = new T();
             IReadOnlyDictionary<string, string[]> files = obj.GetCsvExportScheme();
@@ -56,9 +57,19 @@ namespace discogs
                 kvp => kvp.Key,
                 kvp =>
                 {
-                    var csvFile = Path.Combine(outPutDirectory, $"{kvp.Key}.csv");
-                    var stream = new StreamWriter(csvFile, append: false, encoding: System.Text.Encoding.UTF8, bufferSize: BufferSize);
-                    // var stream = new StreamWriter(csvFile);
+                    var extension = compress ? "csv.gz" : "csv";
+                    var csvFile = Path.Combine(outPutDirectory, $"{kvp.Key}.{extension}");
+                    StreamWriter stream;
+                    if (compress)
+                    {
+                        var fs = File.Create(csvFile, bufferSize: BufferSize);
+                        var gzStream = new GZipStream(fs, CompressionMode.Compress, leaveOpen: false);
+                        stream = new StreamWriter(gzStream, encoding: System.Text.Encoding.UTF8);
+                    }
+                    else
+                    {
+                        stream = new StreamWriter(csvFile, append: false, encoding: System.Text.Encoding.UTF8, bufferSize: BufferSize);
+                    }
                     stream.WriteLine(CsvExtensions.ToCsv(kvp.Value));
                     return (csvFile, stream);
                 });

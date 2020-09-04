@@ -12,7 +12,7 @@
             // If you have changed target frameworks, make sure to update the program path.
             // "program": "${workspaceFolder}/dotnet.sln",
             "program": "${workspaceFolder}/discogs/bin/Debug/netcoreapp3.1/discogs.dll",
-            "args": ["${input:testFiles}"],
+            "args": ["--verbose", "${input:runOptions}", "${input:testFiles}"],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
@@ -26,6 +26,15 @@
         }
     ],
     "inputs": [
+        {
+            "id": "runOptions",
+            "description": "What options",
+            "type": "pickString",
+            "options": [
+                "",
+                "--dry-run",
+            ]
+        },
         {
             "id": "testFiles",
             "description": "What file to process?",

@@ -73,7 +73,7 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             }
 
             // TODO: Parallel.ForEach ?
-            foreach(var f in files)
+            foreach (var f in files)
             {
                 await ParseFile(f, dryRun, verbose);
             }
@@ -114,10 +114,19 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
                 CollapseWhenFinished = true,
             };
             using var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s");
-            using var exporter = new CsvExporter<T>(Path.GetDirectoryName(fileName));
+            IExporter<T> exporter;
+            if (dryRun)
+            {
+                exporter = new RecordCounter<T>(verbose);
+            }
+            else
+            {
+                exporter = new CsvExporter<T>(Path.GetDirectoryName(fileName));
+            }
             var parser = new Parser<T>(exporter, ProgressDisplayThrottle);
             parser.OnSucessfulParse += (o, e) => pbar.Tick();
             await parser.ParseFileAsync(fileName);
+            exporter.Dispose();
         }
     }
 }

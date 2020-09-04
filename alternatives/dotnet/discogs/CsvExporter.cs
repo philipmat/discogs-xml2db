@@ -26,7 +26,7 @@ namespace discogs
         {
             _typeName = typeof(T).Name.Split('.')[^1];
             _csvStreams = GetCsvFilesFor(outPutDirectory, compress);
-        } 
+        }
         public async Task CompleteExportAsync(int finalCount)
         {
             var csvFileNames = string.Join("; ", _csvStreams.Select(kvp => kvp.Value.FilePath));
@@ -98,7 +98,8 @@ namespace discogs
                 if (disposing)
                 {
                     // dispose managed state (managed objects)
-                    foreach( var kvp in _csvStreams) {
+                    foreach (var kvp in _csvStreams)
+                    {
                         var (_, stream) = kvp.Value;
                         stream.Dispose();
                     }

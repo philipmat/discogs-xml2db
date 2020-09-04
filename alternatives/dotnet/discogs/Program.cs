@@ -14,38 +14,95 @@ namespace discogs
 {
     public class Program
     {
+        private const int ExitOk = 0;
+        private const int ExitHelp = 1;
+        private const int ExitParamIssue = 2;
         private const int ProgressDisplayThrottle = 1_000; // display only once every ProgressDisplayThrottle
+        private const string Usage = @"Converts discogs XML files for database import.
+ Usage: discogs [options] [files...]
+ 
+ Options:
+ --dry-run  Parse the files, output counts, but don't write any actual files
+--verbose   More verbose output
+files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
+            Can specify multiple files.
+ ";
         private static readonly Dictionary<string, int> Statistics = new Dictionary<string, int> {
             {"release", 12945920}, { "artist", 7075521}, { "label", 1579404}, {"master", 1250000}
         };
 
-        static async Task Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
-            Console.WriteLine(string.Join("; ", args.Select((s, i) => $"{i,-2} - {s}")));
-            var fileName = args[^1];
-            if (Path.GetFileName(fileName).Contains("discogs"))
+            if (args.Length == 0 || args.Contains("-h") || args.Contains("--help"))
             {
-                fileName = Path.GetFullPath(fileName);
-                if (fileName.Contains("_labels"))
+                Console.WriteLine(Usage);
+                return ExitHelp;
+            }
+
+            bool dryRun = false;
+            bool verbose = false;
+            var files = new List<string>();
+            for (int i = 0; i < args.Length; i++)
+            {
+                var arg = args[i];
+                if (string.Equals(arg, "--dry-run", StringComparison.OrdinalIgnoreCase))
                 {
-                    await ParseAsync<discogs.Labels.label>(fileName);
+                    dryRun = true;
                 }
-                else if (fileName.Contains("_releases"))
+                else if (string.Equals(arg, "--verbose", StringComparison.OrdinalIgnoreCase))
                 {
-                    await ParseAsync<discogs.Releases.release>(fileName);
+                    verbose = true;
                 }
-                else if (fileName.Contains("_artists"))
+                else if (File.Exists(arg))
                 {
-                    await ParseAsync<discogs.Artists.artist>(fileName);
+                    files.Add(arg);
                 }
-                else if (fileName.Contains("_masters"))
+                else
                 {
-                    await ParseAsync<discogs.Masters.master>(fileName);
+                    Console.Error.WriteLine($"Error: Unknown argument or file {arg}.");
+                    Console.WriteLine(Usage);
+                    return ExitParamIssue;
                 }
+            }
+
+            if (files.Count == 0)
+            {
+                Console.Error.WriteLine("Error: no file names passed as arguments.");
+                Console.WriteLine(Usage);
+                return ExitParamIssue;
+            }
+
+            // TODO: Parallel.ForEach ?
+            foreach(var f in files)
+            {
+                await ParseFile(f, dryRun, verbose);
+            }
+            return ExitOk;
+        }
+
+
+        private static async Task ParseFile(string fileName, bool dryRun, bool verbose)
+        {
+            fileName = Path.GetFullPath(fileName);
+            if (fileName.Contains("_labels"))
+            {
+                await ParseAsync<discogs.Labels.label>(fileName, dryRun, verbose);
+            }
+            else if (fileName.Contains("_releases"))
+            {
+                await ParseAsync<discogs.Releases.release>(fileName, dryRun, verbose);
+            }
+            else if (fileName.Contains("_artists"))
+            {
+                await ParseAsync<discogs.Artists.artist>(fileName, dryRun, verbose);
+            }
+            else if (fileName.Contains("_masters"))
+            {
+                await ParseAsync<discogs.Masters.master>(fileName, dryRun, verbose);
             }
         }
 
-        private static async Task ParseAsync<T>(string fileName) 
+        private static async Task ParseAsync<T>(string fileName, bool dryRun, bool verbose)
             where T : IExportToCsv, new()
         {
             var typeName = typeof(T).Name.Split('.')[^1];

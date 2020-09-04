@@ -34,6 +34,8 @@ While this version does not have yet complete feature-parity with the Python
 version, the core export-to-csv is there and it's likely it will
 eventually replace it.
 
+![DotNet Build](https://github.com/philipmat/discogs-xml2db/workflows/DotNet%20Build/badge.svg)
+
 ## Running discogs-xml2db
 
 ![Build Status - develop](https://github.com/philipmat/discogs-xml2db/workflows/Python%20build%20check/badge.svg?branch=develop)

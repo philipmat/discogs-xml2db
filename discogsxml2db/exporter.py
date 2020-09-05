@@ -37,7 +37,7 @@ _parsers = {
 class EntityCsvExporter(object):
     """Read a Discogs dump XML file and exports SQL table records as CSV.
     """
-    def __init__(self, entity, in_dir, out_dir,
+    def __init__(self, entity, in_file_or_dir, out_dir,
                  limit=None, bz2=True,
                  dry_run=False, debug=False, max_hint=None, verbose=False):
         self.entity = entity
@@ -45,8 +45,11 @@ class EntityCsvExporter(object):
         self.max_hint = max_hint
         self.verbose = verbose
 
-        lookup = 'discogs_[0-9]*_{}s.xml*'.format(entity)
-        self.pattern = os.path.join(in_dir, lookup)
+        if os.path.isfile(in_file_or_dir):
+            self.pattern = in_file_or_dir
+        else:
+            lookup = 'discogs_[0-9]*_{}s.xml*'.format(entity)
+            self.pattern = os.path.join(in_file_or_dir, lookup)
 
         # where and how the exporter will write to
         self.out_dir = out_dir
@@ -287,8 +290,7 @@ csv_headers = {table: columns.split() for table, columns in {
 
 
 def main(arguments):
-    in_base = arguments['INPUT']
-    out_base = arguments['OUTPUT'] or '.'
+    out_base = arguments['--output'] or '.'
     limit = int(arguments['--limit']) if arguments['--limit'] else None
     bz2_on = arguments['--bz2']
     debug = arguments['--debug']
@@ -312,14 +314,33 @@ def main(arguments):
         except Exception:
             pass
 
-    for entity in arguments['--export']:
-        expected_count = rough_counts['{}s'.format(entity)]
-        exporter = _exporters[entity](
-            in_base,
-            out_base,
-            limit=limit,
-            bz2=bz2_on,
-            debug=debug,
-            max_hint=min(expected_count, limit or expected_count),
-            dry_run=dry_run)
-        exporter.export()
+    if arguments['INPUT_DIR']:
+        # use --export to select the entities
+        in_base = arguments['INPUT_DIR']
+        for entity in arguments['--export']:
+            expected_count = rough_counts['{}s'.format(entity)]
+            exporter = _exporters[entity](
+                in_base,
+                out_base,
+                limit=limit,
+                bz2=bz2_on,
+                debug=debug,
+                max_hint=min(expected_count, limit or expected_count),
+                dry_run=dry_run)
+            exporter.export()
+    elif arguments["<INPUT_FILE>"]:
+        for in_file in arguments["<INPUT_FILE>"]:
+            for entity in _exporters:
+                # discogs files are named discogs_{date}_{entity}s.xml
+                if f"_{entity}" in in_file:
+                    expected_count = rough_counts['{}s'.format(entity)]
+                    exporter = _exporters[entity](
+                        in_file,
+                        out_base,
+                        limit=limit,
+                        bz2=bz2_on,
+                        debug=debug,
+                        max_hint=min(expected_count, limit or expected_count),
+                        dry_run=dry_run)
+                    exporter.export()
+                    break

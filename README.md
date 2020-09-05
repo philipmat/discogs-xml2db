@@ -62,23 +62,41 @@ $ sha256sum -c discogs_*_CHECKSUM.txt
 
 Run `run.py` to convert the dump files to csv.
 
+There are two run modes:
+
+1. You can point it to a directory where the discogs dump files are
+   and use one or multiple `--export` options to indicate which files to process:
+
 ```sh
 # ensure the virtual environment is active
 (.discogsenv) $ python3 run.py \
   --bz2 \ # compresses resulting csv files
   --apicounts \ # provides more accurate progress counts
   --export artist --export label --export master --export release \
+  --output csv-dir    # folder where to output the csv files
   dump-dir \ # folder where the data dumps are
-  csv-dir    # folder where to output the csv files
+```
+
+2. You can specify the individual files instead:
+
+```sh
+# ensure the virtual environment is active
+(.discogsenv) $ python3 run.py \
+  --bz2 \ # compresses resulting csv files
+  --apicounts \ # provides more accurate progress counts
+  --output csv-dir    # folder where to output the csv files
+  path/to/discogs_20200806_artist.xml.gz path/to/discogs_20200806_labels.xml.gz
 ```
 
 `run.py` takes the following arguments:
 
 - `--export`: the types of dump files to export: "artist", "label", "master", "release.  
   It matches the names of the dump files, e.g. "discogs_20200806_*artist*s.xml.gz"
+  Not needed if the individual files are specified.
 - `--bz2`: Compresses output csv files using bz2 compression library.
 - `--limit=<lines>`: Limits export to some number of entities
 - `--apicounts`: Makes progress report more accurate by getting total amounts from Discogs API.
+- `--output` : the folder where to store the csv files; default it current directory
 
 The exporter provides progress information in real time:
 

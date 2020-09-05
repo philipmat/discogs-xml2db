@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Usage:
-  run.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] [--output=<output>] INPUT_DIR [--export=<entity>]...
-  run.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] [--output=<output>] <INPUT_FILE> <INPUT_FILE>...
+  run.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] [--output=<dir>] <INPUT_FILE> <INPUT_FILE>...
+  run.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] [--output=<dir>] INPUT_DIR [--export=<entity>]...
 
 Options:
   --bz2                 Compress output files using bz2 compression library.
@@ -12,7 +12,7 @@ Options:
   --debug               Turn on debugging prints
   --apicounts           Check entities counts with Discogs API
   --dry-run             Do not write csv files.
-  --output              Where to write the csv files. Defaults to current dir.
+  --output=<dir> Where to write the csv files. Defaults to current dir.
 
 """
 import sys

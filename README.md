@@ -18,15 +18,28 @@ Let us know how it goes!
 
 ### Requirements
 
-discogs-xml2db requires python3 (minimum 3.6) and some python modules.  
+**discogs-xml2db requires python3 (minimum 3.6)** and some python modules.  
 Additionally, the bash shell is used for automating some tasks.  
 
 Importing to some databases may require additional dependencies,
 see the documentation for your target database below.
 
-```shell
-# Install the required python packages using pip.
-$ sudo pip3 install -r requirements.txt
+It's best that a [Python virtual environment](https://docs.python.org/3/library/venv.html)
+is created in order to install the required modules in a safe
+location, which does not require elevated security permissions:
+
+```sh
+# Create a virtual environment and activate it
+$ python3 -m venv .discogsenv
+
+# Activate virtual environment
+# On Linux/macOS:
+$ source .discogsenv/bin/activate
+# on Windows, in Powershell
+$ .discogsenv\Scripts\Activate.ps1
+
+# Install requirements:
+(.discogsenv) $ pip3 install -r requirements.txt
 ```
 
 Installation instruction for other platforms can be found in the [pip documentation](https://pip.pypa.io/en/stable/installing/).
@@ -40,7 +53,7 @@ To check the files' integrity download the appropriate checksum file from
 [https://data.discogs.com/](https://data.discogs.com/),
 place it in the same directory as the dumps and compare the checksums.
 
-```shell
+```sh
 # run in folder where the data dump files have been downloaded
 $ sha256sum -c discogs_*_CHECKSUM.txt
 ```
@@ -49,8 +62,9 @@ $ sha256sum -c discogs_*_CHECKSUM.txt
 
 Run `run.py` to convert the dump files to csv.
 
-```shell
-$ python3 run.py \
+```sh
+# ensure the virtual environment is active
+(.discogsenv) $ python3 run.py \
   --bz2 \ # compresses resulting csv files
   --apicounts \ # provides more accurate progress counts
   --export artist --export label --export master --export release \
@@ -85,7 +99,7 @@ To install it run `$ sudo apt-get install pv` on Ubuntu and Debian or check the
 
 Example output if using `pv`:
 
-``` shell
+```sh
 $ mysql/importcsv.sh 2020-05-01/csv/*
 artist_alias.csv.bz2: 12,5MiB 0:00:03 [3,75MiB/s] [===================================>] 100%
 artist.csv.bz2:  121MiB 0:00:29 [4,09MiB/s] [=========================================>] 100%
@@ -95,31 +109,32 @@ artist_namevariation.csv.bz2: 2,84MiB 0:00:01 [2,76MiB/s] [==>                  
 
 #### Importing into PostgreSQL
 
-```shell
+```sh
 # install PostgreSQL libraries (might be required for next step)
 $ sudo apt-get install libpq-dev
 
 # install the PostgreSQL package for python
-$ sudo pip3 install -r postgresql/requirements.txt
+# ensure the virtual environment has been activated
+(.discogsenv) $ pip3 install -r postgresql/requirements.txt
 
 # Configure PostgreSQL username, password, database, ...
 $ nano postgresql/postgresql.conf
 
 # Create database tables
-$ python3 postgresql/psql.py < postgresql/sql/CreateTables.sql
+(.discogsenv) $ python3 postgresql/psql.py < postgresql/sql/CreateTables.sql
 
 # Import CSV files
-$ python3 postgresql/importcsv.py /csvdir/*
+(.discogsenv) $ python3 postgresql/importcsv.py /csvdir/*
 
 # Configure primary keys and constraints, build indexes
-python3 postgresql/psql.py < postgresql/sql/CreatePrimaryKeys.sql
-python3 postgresql/psql.py < postgresql/sql/CreateFKConstraints.sql
-python3 postgresql/psql.py < postgresql/sql/CreateIndexes.sql
+(.discogsenv) $ python3 postgresql/psql.py < postgresql/sql/CreatePrimaryKeys.sql
+(.discogsenv) $python3 postgresql/psql.py < postgresql/sql/CreateFKConstraints.sql
+(.discogsenv) $ python3 postgresql/psql.py < postgresql/sql/CreateIndexes.sql
 ```
 
 #### Importing into Mysql
 
-```shell
+```sh
 # Configure MySQL username, password, database, ...
 $ nano mysql/mysql.conf
 
@@ -138,7 +153,7 @@ $ mysql/exec_sql.sh < mysql/AssignPrimaryKeys.sql
 The CSV files can be imported into MongoDB using
 [mongoimport](https://docs.mongodb.com/manual/reference/program/mongoimport/).
 
-```shell
+```sh
 mongoimport --db=discogs --collection=releases --type=csv --headerline --file=release.csv
 ```
 
@@ -154,7 +169,7 @@ as explained in [this tutorial](https://medium.com/codait/simple-csv-import-for-
 *speedup* is many times faster than *classic* because it uses a different approach:
 
 1. The discogs xml dumps are first converted into one csv file per database table.
-2. These csv files are then imported into the different target databases.  
+2. These csv files are then imported into the different target databases (bulk load).  
    This is different from *classic* discogs-xml2db which loads records into the database
    one by one while parsing the xml file, waiting on the database after every row.
 

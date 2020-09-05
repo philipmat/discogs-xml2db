@@ -314,7 +314,7 @@ def main(arguments):
         except Exception:
             pass
 
-    if arguments['INPUT_DIR']:
+    if arguments["INPUT_DIR"] and os.path.isdir(arguments["INPUT_DIR"]):
         # use --export to select the entities
         in_base = arguments['INPUT_DIR']
         for entity in arguments['--export']:
@@ -328,8 +328,13 @@ def main(arguments):
                 max_hint=min(expected_count, limit or expected_count),
                 dry_run=dry_run)
             exporter.export()
-    elif arguments["<INPUT_FILE>"]:
-        for in_file in arguments["<INPUT_FILE>"]:
+    elif arguments["<INPUT_FILE>"] or os.path.isfile(arguments["INPUT_DIR"]):
+        files = []
+        if arguments["<INPUT_FILE>"]:
+            files = arguments["<INPUT_FILE>"]
+        else:
+            files = [ arguments["INPUT_DIR"] ]
+        for in_file in files:
             for entity in _exporters:
                 # discogs files are named discogs_{date}_{entity}s.xml
                 if f"_{entity}" in in_file:

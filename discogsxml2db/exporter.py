@@ -333,7 +333,7 @@ def main(arguments):
         if arguments["<INPUT_FILE>"]:
             files = arguments["<INPUT_FILE>"]
         else:
-            files = [ arguments["INPUT_DIR"] ]
+            files = [arguments["INPUT_DIR"]]
         for in_file in files:
             for entity in _exporters:
                 # discogs files are named discogs_{date}_{entity}s.xml

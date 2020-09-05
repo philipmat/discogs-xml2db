@@ -6,12 +6,13 @@
 
 Options:
   --bz2                 Compress output files using bz2 compression library.
-  --limit=<lines>       Limit export to some number of entities
+  --limit=<lines>       Limit export to some number of entities (all otherwise)
   --export=<entity>     Limit export to some entities (repeatable).
                         Entity is one of: artist, label, master, release.
   --debug               Turn on debugging prints
   --apicounts           Check entities counts with Discogs API
   --dry-run             Do not write csv files.
+  --output              Where to write the csv files. Defaults to current dir.
 
 """
 import sys

@@ -4,7 +4,7 @@
 name: Python build check
 
 # on: [ push, pull_request ]
-on
+on:
   push:
     branches: [ master, develop ]
   pull_request:

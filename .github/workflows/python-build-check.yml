@@ -3,11 +3,16 @@
 
 name: Python build check
 
-on: [ push, pull_request ]
-#  push:
-#    branches: [ develop ]
-#  pull_request:
-#    branches: [ develop ]
+# on: [ push, pull_request ]
+on
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ develop ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Test run'
 
 jobs:
   build:

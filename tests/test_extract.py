@@ -76,8 +76,8 @@ class TestExtraction:
         # - export=label
 
         arguments = {
-            "INPUT": self._samples_folder,
-            "OUTPUT": tmp_path,
+            "INPUT_DIR": self._samples_folder,
+            "--output": tmp_path,
             "--export": [entity],
             "--limit": None,
             "--bz2": False,

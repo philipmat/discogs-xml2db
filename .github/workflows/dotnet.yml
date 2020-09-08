@@ -1,0 +1,53 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: DotNet Build
+
+on: [ push, pull_request ]
+#  push:
+#    branches: [ develop ]
+#  pull_request:
+#    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./alternatives/dotnet
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - name: Install dependencies
+      run: |
+        pwd
+        dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+
+    - name: Publish
+      run: |
+        dotnet publish discogs/discogs.csproj -o ./artifacts/discogs-linux -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+        dotnet publish discogs/discogs.csproj -o ./artifacts/discogs-osx -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+        dotnet publish discogs/discogs.csproj -o ./artifacts/discogs-win -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+    - name: Upload build artifacts - linux
+      uses: actions/upload-artifact@v2
+      with:
+        name: discogsxml2db-linux-x64
+        path: /home/runner/work/discogs-xml2db/discogs-xml2db/alternatives/dotnet/artifacts/discogs-linux
+    - name: Upload build artifacts - macOS
+      uses: actions/upload-artifact@v2
+      with:
+        name: discogsxml2db-osx-x64
+        path: /home/runner/work/discogs-xml2db/discogs-xml2db/alternatives/dotnet/artifacts/discogs-osx
+    - name: Upload build artifacts - Win
+      uses: actions/upload-artifact@v2
+      with:
+        name: discogsxml2db-win-x64
+        path: /home/runner/work/discogs-xml2db/discogs-xml2db/alternatives/dotnet/artifacts/discogs-win

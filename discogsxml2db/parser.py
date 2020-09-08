@@ -262,7 +262,8 @@ class DiscogsReleaseParser(DiscogsDumpEntityParser):
                 elif t in ('name',
                            'anv',
                            'join',
-                           'role'):
+                           'role',
+                           'tracks'):
                     setattr(artist, t, gettext_stripped(e))
             yield artist
 

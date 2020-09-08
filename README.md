@@ -1,9 +1,9 @@
-# discogs-xml2db v2.0
+# discogs-xml2db v2
 
 discogs-xml2db is a python program for importing [discogs data dumps](https://data.discogs.com/)
 into several databases.
 
-Version 2.0 is a rewrite of the original *discogs-xml2db*
+Version 2 is a rewrite of the original *discogs-xml2db*
 (referred in here as the *classic* version).  
 It is based on a [branch by RedApple](https://github.com/redapple/discogs-xml2db)
 and it is several times faster.
@@ -11,6 +11,30 @@ and it is several times faster.
 Currently supports MySQL and PostgreSQL as target databases.
 Instructions for importing into MongoDB, though these are untested.  
 Let us know how it goes!
+
+## Experimental version
+
+In parallel to the original Python codebase, we're working on a parser/exporter
+that's even faster. This is a complete rewrite in C# and initial results are highly
+promising:
+
+| File | Record Count | Python | C# |
+| --- | ---: | :---: | :---: |
+| discogs_20200806_artists.xml.gz  |  7,046,615 | 6:22    | 2:35 |
+| discogs_20200806_labels.xml.gz   |  1,571,873 | 1:15    | 0:22 |
+| discogs_20200806_masters.xml.gz  |  1,734,371 | 3:56    | 1:57 |
+| discogs_20200806_releases.xml.gz | 12,867,980 | 1:45:16 | 42:38 |
+
+If you're interested in testing one of this versions, read more about it
+in the [.NET Parser README](./alternatives/dotnet/README.md) or grab
+the appropriate binaries from the
+[Releases page](https://github.com/philipmat/discogs-xml2db/releases).
+
+While this version does not have yet complete feature-parity with the Python
+version, the core export-to-csv is there and it's likely it will
+eventually replace it.
+
+![DotNet Build](https://github.com/philipmat/discogs-xml2db/workflows/DotNet%20Build/badge.svg)
 
 ## Running discogs-xml2db
 

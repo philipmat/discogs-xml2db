@@ -45,10 +45,8 @@ CREATE TABLE label (
     name            text NOT NULL,
     contact_info    text,
     profile         text,
-
     parent_id       integer,
     parent_name     text,
-
     data_quality    text
 );
 
@@ -180,7 +178,7 @@ CREATE TABLE release_track (
 
 CREATE TABLE release_track_artist (
     id              SERIAL,
-    track_id        text,,
+    track_id        text,
     release_id      integer NOT NULL,
     track_sequence  integer NOT NULL,
     artist_id       integer NOT NULL,

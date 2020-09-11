@@ -94,6 +94,11 @@ namespace discogs
             {
                 ConformanceLevel = ConformanceLevel.Fragment,
                 Async = true,
+                DtdProcessing = DtdProcessing.Prohibit,
+                // TODO: perf IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = true,
+                XmlResolver = null,
             };
             using XmlReader reader = XmlReader.Create(stream, settings);
 

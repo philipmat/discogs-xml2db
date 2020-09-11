@@ -183,6 +183,7 @@ namespace tests
             release.notes.Should().NotBeNullOrEmpty();
             release.data_quality.Should().Be("Correct");
             release.master_id.Should().Be("66526");
+
             release.videos.Should().HaveCount(3);
             release.videos[0].src.Should().Be("https://www.youtube.com/watch?v=bqUfNGJEKlo");
             release.videos[0].duration.Should().Be("4074");
@@ -194,6 +195,12 @@ namespace tests
             release.videos[^1].embed.Should().Be("true");
             release.videos[^1].title.Should().Be("Profound Sounds Track 1....");
             release.videos[^1].description.Should().Be("How it SHOULD sound......");
+
+            release.genres.Should().HaveCount(1);
+            release.genres[0].Should().Be("Electronic");
+            release.styles.Should().HaveCount(2);
+            release.styles[0].Should().Be("Techno");
+            release.styles[1].Should().Be("Tech House");
         }
 
         private static void Populate<T>(T obj, string resourceName)

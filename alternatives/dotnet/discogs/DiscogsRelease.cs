@@ -220,6 +220,20 @@ namespace discogs.Releases
                             reader.Skip();
                         }
                         break;
+                    case "genres":
+                        this.genres = ReadChildren(reader, "genre");
+                        if (reader.NodeType == XmlNodeType.EndElement)
+                        {
+                            reader.Skip();
+                        }
+                        break;
+                    case "styles":
+                        this.styles = ReadChildren(reader, "style");
+                        if (reader.NodeType == XmlNodeType.EndElement)
+                        {
+                            reader.Skip();
+                        }
+                        break;
                     case "videos":
                         this.videos = video.Parse(reader);
                         if (reader.NodeType == XmlNodeType.EndElement)
@@ -231,8 +245,6 @@ namespace discogs.Releases
                     case "labels":
                     case "extraartists":
                     case "formats":
-                    case "genres":
-                    case "styles":
                     case "tracklist":
                     case "identifiers":
                     case "companies":
@@ -246,6 +258,22 @@ namespace discogs.Releases
         }
 
         public bool IsValid() => !string.IsNullOrEmpty(this.id);
+        
+        private static string[] ReadChildren(XmlReader reader, string childName)
+        {
+            // expects reader to be positions on parent node
+            reader.Read();
+
+            var list = new List<string>();
+            while(reader.IsStartElement(childName))
+            {
+                var e = reader.ReadElementContentAsString();
+                if (!string.IsNullOrWhiteSpace(e))
+                    list.Add(e);
+            }
+
+            return list.ToArray();
+        }
     }
 
     public class artist

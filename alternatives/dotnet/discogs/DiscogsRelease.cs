@@ -48,15 +48,18 @@ namespace discogs.Releases
         public video[] videos { get; set; }
         public company[] companies { get; set; }
 
-        public IEnumerable<track> GetTracks() {
-            if ((tracklist?.Length ?? 0) == 0) {
+        public IEnumerable<track> GetTracks()
+        {
+            if ((tracklist?.Length ?? 0) == 0)
+            {
                 yield break;
             }
             for (int i = 0; i < tracklist.Length; i++)
             {
                 tracklist[i].SetTrackId(this.id, i + 1);
                 yield return tracklist[i];
-                if ((tracklist[i].sub_tracks?.Length ?? 0) > 0) {
+                if ((tracklist[i].sub_tracks?.Length ?? 0) > 0)
+                {
                     for (int j = 0; j < tracklist[i].sub_tracks.Length; j++)
                     {
                         tracklist[i].sub_tracks[j].SetTrackId(this.id, i + 1, j + 1);
@@ -156,13 +159,15 @@ namespace discogs.Releases
                 seq += 1;
                 yield return ("release_track", new[] { id, seq.ToString(), t.position, t.parent_track_id, t.title, t.duration, t.track_id });
                 int artistSeq = 0;
-                foreach (var a in (t.artists ?? System.Array.Empty<artist>())) {
+                foreach (var a in (t.artists ?? System.Array.Empty<artist>()))
+                {
                     if (a == null) continue;
                     artistSeq += 1;
                     yield return ("release_track_artist", new[] { id, t.position, t.track_id, a.id, a.name, "0", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
                 }
                 artistSeq = 0;
-                foreach (var a in (t.extraartists ?? System.Array.Empty<artist>())) {
+                foreach (var a in (t.extraartists ?? System.Array.Empty<artist>()))
+                {
                     if (a == null) continue;
                     artistSeq += 1;
                     yield return ("release_track_artist", new[] { id, t.position, t.track_id, a.id, a.name, "1", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
@@ -175,13 +180,66 @@ namespace discogs.Releases
 
         public void Populate(XmlReader reader)
         {
-            throw new System.NotImplementedException();
+            if (reader.Name != "release")
+            {
+                return;
+            }
+
+            // <master id="123"> unlike all others
+            this.id = reader.GetAttribute("id");
+            reader.Read();
+            while (!reader.EOF)
+            {
+                switch (reader.Name)
+                {
+                    case "release":
+                        // it's back on a release node (EndElement); release control
+                        return;
+                    case "title":
+                        this.title = reader.ReadElementContentAsString();
+                        break;
+                    case "country":
+                        this.country = reader.ReadElementContentAsString();
+                        break;
+                    case "released":
+                        this.released = reader.ReadElementContentAsString();
+                        break;
+                    case "notes":
+                        this.notes = reader.ReadElementContentAsString();
+                        break;
+                    case "data_quality":
+                        this.data_quality = reader.ReadElementContentAsString();
+                        break;
+                    case "master_id":
+                        this.master_id = reader.ReadElementContentAsString();
+                        break;
+                    case "images":
+                        this.images = image.ParseImages(reader);
+                        if (reader.NodeType == XmlNodeType.EndElement)
+                        {
+                            reader.Skip();
+                        }
+                        break;
+                    case "artists":
+                    case "labels":
+                    case "extraartists":
+                    case "formats":
+                    case "genres":
+                    case "styles":
+                    case "tracklist":
+                    case "identifiers":
+                    case "videos":
+                    case "companies":
+                        reader.Skip();
+                        break;
+                    default:
+                        reader.Read();
+                        break;
+                }
+            }
         }
 
-        public bool IsValid()
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool IsValid() => !string.IsNullOrEmpty(this.id);
     }
 
     public class artist
@@ -227,10 +285,11 @@ namespace discogs.Releases
         public artist[] artists { get; set; }
         public artist[] extraartists { get; set; }
         public track[] sub_tracks { get; set; }
-        internal string track_id {get; private set;} = "";
-        internal string parent_track_id {get; private set;} = "";
+        internal string track_id { get; private set; } = "";
+        internal string parent_track_id { get; private set; } = "";
         public void SetTrackId(string releaseId, int trackSeq) => this.track_id = string.Format(TrackIdFormat, releaseId, trackSeq);
-        public void SetTrackId(string releaseId, int trackSeq, int subTrackSeq) {
+        public void SetTrackId(string releaseId, int trackSeq, int subTrackSeq)
+        {
             this.parent_track_id = string.Format(TrackIdFormat, releaseId, trackSeq);
             this.track_id = string.Format(SubTrackIdFormat, releaseId, trackSeq, subTrackSeq);
         }

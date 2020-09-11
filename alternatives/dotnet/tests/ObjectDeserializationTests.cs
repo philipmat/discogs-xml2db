@@ -168,6 +168,23 @@ namespace tests
             master.videos[0].description.Should().Be("[SHADOW 28] Mixrace - Organized Chaos EP (1992)");
         }
 
+        [Fact]
+        public void Release_Populate()
+        {
+            var release = new discogs.Releases.release();
+
+            // Act
+            Populate(release, "release.xml");
+
+            // Assert
+            release.title.Should().Be("Profound Sounds Vol. 1");
+            release.country.Should().Be("US");
+            release.released.Should().Be("1999-07-13");
+            release.notes.Should().NotBeNullOrEmpty();
+            release.data_quality.Should().Be("Correct");
+            release.master_id.Should().Be("66526");
+        }
+
         private static void Populate<T>(T obj, string resourceName)
             where T : IExportable, new()
         {

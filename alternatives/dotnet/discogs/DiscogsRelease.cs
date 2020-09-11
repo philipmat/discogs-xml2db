@@ -241,8 +241,12 @@ namespace discogs.Releases
                         break;
                 }
 
-                if (reader.NodeType == XmlNodeType.EndElement && reader.Name != "release")
+                if (reader.NodeType == XmlNodeType.EndElement)
                 {
+                    if (reader.Name == "release")
+                    {
+                        return;
+                    }
                     reader.Skip();
                 }
             }

@@ -214,7 +214,14 @@ namespace discogs.Releases
                         this.master_id = reader.ReadElementContentAsString();
                         break;
                     case "images":
-                        this.images = image.ParseImages(reader);
+                        this.images = image.Parse(reader);
+                        if (reader.NodeType == XmlNodeType.EndElement)
+                        {
+                            reader.Skip();
+                        }
+                        break;
+                    case "videos":
+                        this.videos = video.Parse(reader);
                         if (reader.NodeType == XmlNodeType.EndElement)
                         {
                             reader.Skip();
@@ -228,7 +235,6 @@ namespace discogs.Releases
                     case "styles":
                     case "tracklist":
                     case "identifiers":
-                    case "videos":
                     case "companies":
                         reader.Skip();
                         break;

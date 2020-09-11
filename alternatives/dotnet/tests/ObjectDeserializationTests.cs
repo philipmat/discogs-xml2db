@@ -183,6 +183,17 @@ namespace tests
             release.notes.Should().NotBeNullOrEmpty();
             release.data_quality.Should().Be("Correct");
             release.master_id.Should().Be("66526");
+            release.videos.Should().HaveCount(3);
+            release.videos[0].src.Should().Be("https://www.youtube.com/watch?v=bqUfNGJEKlo");
+            release.videos[0].duration.Should().Be("4074");
+            release.videos[0].embed.Should().Be("true");
+            release.videos[0].title.Should().Be("Profound Sounds Vol. 1 - Josh Wink");
+            release.videos[0].description.Should().Be("mix 1999");
+            release.videos[^1].src.Should().Be("https://www.youtube.com/watch?v=cpQWEQjunF4");
+            release.videos[^1].duration.Should().Be("421");
+            release.videos[^1].embed.Should().Be("true");
+            release.videos[^1].title.Should().Be("Profound Sounds Track 1....");
+            release.videos[^1].description.Should().Be("How it SHOULD sound......");
         }
 
         private static void Populate<T>(T obj, string resourceName)
@@ -203,6 +214,7 @@ namespace tests
                 DtdProcessing = DtdProcessing.Prohibit,
                 // TODO: perf IgnoreComments = true,
                 IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = true,
                 XmlResolver = null,
             };
             using (Stream artistRes = TestCommons.GetResourceStream(resourceName))

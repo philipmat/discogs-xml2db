@@ -228,8 +228,10 @@ namespace discogs.Releases
                     case "identifiers":
                         this.identifiers = identifier.Parse(reader);
                         break;
-                    case "artists":
                     case "labels":
+                        this.labels = label.Parse(reader);
+                        break;
+                    case "artists":
                     case "extraartists":
                     case "formats":
                     case "tracklist":
@@ -290,6 +292,22 @@ namespace discogs.Releases
         public string catno { get; set; }
         [XmlAttribute]
         public string id { get; set; }
+
+        public static label[] Parse(XmlReader reader)
+        {
+            // expects to be on <identifiers> node
+            var list = new List<label>();
+            while (reader.Read() && reader.IsStartElement("label"))
+            {
+                var obj = new label {
+                    name = reader.GetAttribute("name"),
+                    catno = reader.GetAttribute("catno"),
+                    id = reader.GetAttribute("id"),
+                };
+                list.Add(obj);
+            }
+            return list.ToArray();
+        }
     }
 
     public class format

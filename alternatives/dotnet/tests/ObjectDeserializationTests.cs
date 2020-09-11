@@ -209,6 +209,11 @@ namespace tests
             release.identifiers[1].type.Should().Be("Matrix / Runout");
             release.identifiers[1].value.Should().Be("G PHRUPMASTERGENERAL T27 LONDON");
             release.identifiers[1].description.Should().Be("Only On A-Side Runout");
+
+            release.labels.Should().HaveCount(1);
+            release.labels[0].id.Should().Be("6");
+            release.labels[0].name.Should().Be("Ruffhouse Records");
+            release.labels[0].catno.Should().Be("CK 63628");
         }
 
         private static void Populate<T>(T obj, string resourceName)

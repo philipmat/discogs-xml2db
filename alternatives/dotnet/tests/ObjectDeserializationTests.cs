@@ -201,6 +201,14 @@ namespace tests
             release.styles.Should().HaveCount(2);
             release.styles[0].Should().Be("Techno");
             release.styles[1].Should().Be("Tech House");
+
+            release.identifiers.Should().HaveCount(2);
+            release.identifiers[0].type.Should().Be("Barcode");
+            release.identifiers[0].value.Should().Be("074646362822");
+            release.identifiers[0].description.Should().BeNullOrEmpty();
+            release.identifiers[1].type.Should().Be("Matrix / Runout");
+            release.identifiers[1].value.Should().Be("G PHRUPMASTERGENERAL T27 LONDON");
+            release.identifiers[1].description.Should().Be("Only On A-Side Runout");
         }
 
         private static void Populate<T>(T obj, string resourceName)
@@ -231,7 +239,6 @@ namespace tests
                     reader.MoveToContent();  // on root - artist
                     // reader.Read(); // on text between <artist> and first node; the first thing in Populate is Read, which takes it to first node within artist
                     obj.Populate(reader);
-
                 }
             }
             //*/

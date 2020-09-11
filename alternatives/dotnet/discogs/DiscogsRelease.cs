@@ -215,44 +215,35 @@ namespace discogs.Releases
                         break;
                     case "images":
                         this.images = image.Parse(reader);
-                        if (reader.NodeType == XmlNodeType.EndElement)
-                        {
-                            reader.Skip();
-                        }
                         break;
                     case "genres":
                         this.genres = ReadChildren(reader, "genre");
-                        if (reader.NodeType == XmlNodeType.EndElement)
-                        {
-                            reader.Skip();
-                        }
                         break;
                     case "styles":
                         this.styles = ReadChildren(reader, "style");
-                        if (reader.NodeType == XmlNodeType.EndElement)
-                        {
-                            reader.Skip();
-                        }
                         break;
                     case "videos":
                         this.videos = video.Parse(reader);
-                        if (reader.NodeType == XmlNodeType.EndElement)
-                        {
-                            reader.Skip();
-                        }
+                        break;
+                    case "identifiers":
+                        this.identifiers = identifier.Parse(reader);
                         break;
                     case "artists":
                     case "labels":
                     case "extraartists":
                     case "formats":
                     case "tracklist":
-                    case "identifiers":
                     case "companies":
                         reader.Skip();
                         break;
                     default:
                         reader.Read();
                         break;
+                }
+
+                if (reader.NodeType == XmlNodeType.EndElement && reader.Name != "release")
+                {
+                    reader.Skip();
                 }
             }
         }
@@ -336,6 +327,22 @@ namespace discogs.Releases
         public string value { get; set; }
         [XmlAttribute]
         public string description { get; set; }
+
+        public static identifier[] Parse(XmlReader reader)
+        {
+            // expects to be on <identifiers> node
+            var list = new List<identifier>();
+            while (reader.Read() && reader.IsStartElement("identifier"))
+            {
+                var obj = new identifier {
+                    type = reader.GetAttribute("type"),
+                    value = reader.GetAttribute("value"),
+                    description = reader.GetAttribute("description"),
+                };
+                list.Add(obj);
+            }
+            return list.ToArray();
+        }
     }
     public class company
     {

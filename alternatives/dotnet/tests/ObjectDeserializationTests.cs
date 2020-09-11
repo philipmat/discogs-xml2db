@@ -214,6 +214,83 @@ namespace tests
             release.labels[0].id.Should().Be("6");
             release.labels[0].name.Should().Be("Ruffhouse Records");
             release.labels[0].catno.Should().Be("CK 63628");
+
+            /*
+            release.formats.Should().HaveCount(1);
+            release.formats[0].name.Should().Be("CD");
+            release.formats[0].qty.Should().Be("1");
+            release.formats[0].text.Should().Be("cd text");
+            release.formats[0].descriptions.Should().BeEquivalentTo(new string[] { "Compilation", "Mixed" });
+            */
+
+            /*
+            release.artists.Should().HaveCount(1);
+            release.artists[0].id.Should().Be("3");
+            release.artists[0].name.Should().Be("Josh Wind");
+            release.artists[0].anv.Should().BeNullOrEmpty();
+            release.artists[0].join.Should().BeNullOrEmpty();
+            release.artists[0].role.Should().BeNullOrEmpty();
+            release.artists[0].tracks.Should().BeNullOrEmpty();
+            
+            release.extraartists.Should().HaveCount(1);
+            release.extraartists[0].id.Should().Be("3");
+            release.extraartists[0].name.Should().Be("Josh Wind");
+            release.extraartists[0].anv.Should().BeNullOrEmpty();
+            release.extraartists[0].join.Should().BeNullOrEmpty();
+            release.extraartists[0].role.Should().Be("DJ Mix");
+            release.extraartists[0].tracks.Should().BeNullOrEmpty();
+            */
+
+            /*
+            release.companies.Should().HaveCount(2);
+            release.companies[0].id.Should().Be("93330");
+            release.companies[0].name.Should().Be("Columbia Records");
+            release.companies[0].catno.Should().Be("1");
+            release.companies[0].entity_type.Should().Be("10");
+            release.companies[0].entity_type_name.Should().Be("Manufactured By");
+            release.companies[0].resource_url.Should().Be("https://api.discogs.com/labels/93330");
+            release.companies[1].id.Should().Be("93330");
+            release.companies[1].name.Should().Be("Columbia Records");
+            release.companies[1].catno.Should().BeNullOrEmpty();
+            release.companies[1].entity_type.Should().Be("9");
+            release.companies[1].entity_type_name.Should().Be("Distributed By");
+            release.companies[1].resource_url.Should().Be("https://api.discogs.com/labels/93330");
+            */
+
+            /*
+            release.tracklist.Should().HaveCount(3);
+            release.tracklist[0].position.Should().Be("1");
+            release.tracklist[0].title.Should().Be("Untitled 8");
+            release.tracklist[0].duration.Should().Be("7:00");
+            release.tracklist[0].sub_tracks.Should().HaveCount(3);
+            release.tracklist[0].sub_tracks[0].position.Should().Be("11.a");
+            release.tracklist[0].sub_tracks[0].title.Should().Be("909 Shuffle");
+            release.tracklist[0].sub_tracks[0].duration.Should().Be("3:10");
+            release.tracklist[0].sub_tracks[1].position.Should().Be("11.b");
+            release.tracklist[0].sub_tracks[1].title.Should().Be("Laser 1010 Rmx");
+            release.tracklist[0].sub_tracks[2].position.Should().Be("11.c");
+            release.tracklist[0].sub_tracks[2].duration.Should().Be("5:38");
+            release.tracklist[0].artists.Should().HaveCount(2);
+            release.tracklist[0].artists[0].id.Should().Be("5");
+            release.tracklist[0].artists[0].name.Should().Be("Heiko Laux");
+            release.tracklist[0].artists[0].join.Should().Be("&");
+            release.tracklist[0].artists[1].id.Should().Be("4");
+            release.tracklist[0].artists[1].name.Should().Be("Johannes Heil");
+            release.tracklist[0].artists[1].join.Should().BeNullOrEmpty();
+            release.tracklist[0].extraartists.Should().HaveCount(1);
+            release.tracklist[0].extraartists[0].id.Should().Be("11233");
+            release.tracklist[0].extraartists[0].name.Should().Be("Chris Lum");
+            release.tracklist[0].extraartists[0].role.Should().Be("Producer");
+
+            release.tracklist[1].position.Should().Be("2");
+            release.tracklist[1].sub_tracks.Should().HaveCount(0);
+            release.tracklist[1].artists.Should().HaveCount(1);
+            release.tracklist[1].extraartists.Should().HaveCount(0);
+            release.tracklist[2].position.Should().Be("3");
+            release.tracklist[2].sub_tracks.Should().HaveCount(0);
+            release.tracklist[2].artists.Should().HaveCount(1);
+            release.tracklist[2].extraartists.Should().HaveCount(1);
+            */
         }
 
         private static void Populate<T>(T obj, string resourceName)

@@ -24,6 +24,24 @@ namespace discogs
         public string width { get; set; }
         [XmlAttribute]
         public string height { get; set; }
+
+        internal static image[] ParseImages(XmlReader reader)
+        {
+            var images = new List<image>();
+            while (reader.Read() && reader.IsStartElement("image"))
+            {
+                var image = ParseImage(reader);
+                images.Add(image);
+            }
+            return images.ToArray();
+        }
+
+        internal static image ParseImage(XmlReader reader)
+            => new image {
+                type = reader.GetAttribute("type"),
+                width = reader.GetAttribute("width"),
+                height = reader.GetAttribute("height")
+            };
     }
 
     public class url

@@ -217,10 +217,10 @@ namespace discogs.Releases
                         this.images = image.Parse(reader);
                         break;
                     case "genres":
-                        this.genres = ReadChildren(reader, "genre");
+                        this.genres = reader.ReadChildren("genre");
                         break;
                     case "styles":
-                        this.styles = ReadChildren(reader, "style");
+                        this.styles = reader.ReadChildren("style");
                         break;
                     case "videos":
                         this.videos = video.Parse(reader);
@@ -231,9 +231,11 @@ namespace discogs.Releases
                     case "labels":
                         this.labels = label.Parse(reader);
                         break;
+                    case "formats":
+                        this.formats = format.Parse(reader);
+                        break;
                     case "artists":
                     case "extraartists":
-                    case "formats":
                     case "tracklist":
                     case "companies":
                         reader.Skip();
@@ -255,22 +257,6 @@ namespace discogs.Releases
         }
 
         public bool IsValid() => !string.IsNullOrEmpty(this.id);
-        
-        private static string[] ReadChildren(XmlReader reader, string childName)
-        {
-            // expects reader to be positions on parent node
-            reader.Read();
-
-            var list = new List<string>();
-            while(reader.IsStartElement(childName))
-            {
-                var e = reader.ReadElementContentAsString();
-                if (!string.IsNullOrWhiteSpace(e))
-                    list.Add(e);
-            }
-
-            return list.ToArray();
-        }
     }
 
     public class artist
@@ -320,6 +306,29 @@ namespace discogs.Releases
         public string text { get; set; }
         [XmlArrayItem("description")]
         public string[] descriptions { get; set; }
+
+        public static format[] Parse(XmlReader reader)
+        {
+            // expects to be on <identifiers> node
+            // reader.Read();
+            var list = new List<format>();
+            while (reader.Read() && reader.IsStartElement("format"))
+            {
+                var obj = new format {
+                    name = reader.GetAttribute("name"),
+                    qty = reader.GetAttribute("qty"),
+                    text = reader.GetAttribute("text"),
+                };
+                // read descriptions
+                reader.Read();
+                obj.descriptions = reader.ReadChildren("description");
+                if (reader.NodeType == XmlNodeType.EndElement) {
+                    reader.Skip();
+                }
+                list.Add(obj);
+            }
+            return list.ToArray();
+        }
     }
 
     public class track

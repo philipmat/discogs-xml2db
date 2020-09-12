@@ -215,13 +215,11 @@ namespace tests
             release.labels[0].name.Should().Be("Ruffhouse Records");
             release.labels[0].catno.Should().Be("CK 63628");
 
-            /*
             release.formats.Should().HaveCount(1);
             release.formats[0].name.Should().Be("CD");
             release.formats[0].qty.Should().Be("1");
             release.formats[0].text.Should().Be("cd text");
             release.formats[0].descriptions.Should().BeEquivalentTo(new string[] { "Compilation", "Mixed" });
-            */
 
             /*
             release.artists.Should().HaveCount(1);

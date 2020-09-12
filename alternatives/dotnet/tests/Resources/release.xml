@@ -30,6 +30,7 @@
         </artist>
     </extraartists>
     <formats>
+        <format name="Cassette" qty="15" text=""/>
         <format name="CD" qty="1" text="cd text">
             <descriptions>
                 <description>Compilation</description>

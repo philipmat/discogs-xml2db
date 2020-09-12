@@ -320,6 +320,11 @@ namespace discogs.Releases
                     text = reader.GetAttribute("text"),
                 };
                 // read descriptions
+                if (reader.IsEmptyElement) {
+                    // does not have descriptions
+                    list.Add(obj);
+                    continue;
+                }
                 reader.Read();
                 obj.descriptions = reader.ReadChildren("description");
                 if (reader.NodeType == XmlNodeType.EndElement) {

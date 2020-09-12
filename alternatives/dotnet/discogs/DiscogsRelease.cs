@@ -240,8 +240,10 @@ namespace discogs.Releases
                     case "extraartists":
                         this.extraartists = artist.Parse(reader);
                         break;
-                    case "tracklist":
                     case "companies":
+                        this.companies = company.Parse(reader);
+                        break;
+                    case "tracklist":
                         reader.Skip();
                         break;
                     default:
@@ -432,5 +434,47 @@ namespace discogs.Releases
         public string entity_type { get; set; }
         public string entity_type_name { get; set; }
         public string resource_url { get; set; }
+
+        public static company[] Parse(XmlReader reader)
+        {
+            var list = new List<company>();
+            while(reader.Read() && reader.IsStartElement("company")) {
+                var obj = new company();
+                reader.Read();
+                while(!reader.EOF) {
+                    if (reader.Name == "company") {
+                        break;
+                    }
+                    switch(reader.Name)
+                    {
+                        case "id":
+                            obj.id = reader.ReadElementContentAsString();
+                            break;
+                        case "name":
+                            obj.name = reader.ReadElementContentAsString();
+                            break;
+                        case "catno":
+                            obj.catno = reader.ReadElementContentAsString();
+                            break;
+                        case "entity_type":
+                            obj.entity_type = reader.ReadElementContentAsString();
+                            break;
+                        case "entity_type_name":
+                            obj.entity_type_name = reader.ReadElementContentAsString();
+                            break;
+                        case "resource_url":
+                            obj.resource_url = reader.ReadElementContentAsString();
+                            break;
+                        default:
+                            reader.Skip();
+                            break;
+                    }
+                }
+                list.Add(obj);
+            }
+
+            return list.ToArray();
+        }
+
     }
 }

@@ -241,7 +241,6 @@ namespace tests
             release.extraartists[0].role.Should().Be("DJ Mix");
             release.extraartists[0].tracks.Should().BeNullOrEmpty();
 
-            /*
             release.companies.Should().HaveCount(2);
             release.companies[0].id.Should().Be("93330");
             release.companies[0].name.Should().Be("Columbia Records");
@@ -255,7 +254,6 @@ namespace tests
             release.companies[1].entity_type.Should().Be("9");
             release.companies[1].entity_type_name.Should().Be("Distributed By");
             release.companies[1].resource_url.Should().Be("https://api.discogs.com/labels/93330");
-            */
 
             /*
             release.tracklist.Should().HaveCount(3);

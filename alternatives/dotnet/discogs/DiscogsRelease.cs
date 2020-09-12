@@ -235,7 +235,11 @@ namespace discogs.Releases
                         this.formats = format.Parse(reader);
                         break;
                     case "artists":
+                        this.artists = artist.Parse(reader);
+                        break;
                     case "extraartists":
+                        this.extraartists = artist.Parse(reader);
+                        break;
                     case "tracklist":
                     case "companies":
                         reader.Skip();
@@ -268,6 +272,46 @@ namespace discogs.Releases
         public string join { get; set; }
         public string role { get; set; }
         public string tracks { get; set; }
+        public static artist[] Parse(XmlReader reader)
+        {
+            var list = new List<artist>();
+            while(reader.Read() && reader.IsStartElement("artist")) {
+                var obj = new artist();
+                reader.Read();
+                while(!reader.EOF) {
+                    if (reader.Name == "artist") {
+                        break;
+                    }
+                    switch(reader.Name)
+                    {
+                        case "id":
+                            obj.id = reader.ReadElementContentAsString();
+                            break;
+                        case "name":
+                            obj.name = reader.ReadElementContentAsString();
+                            break;
+                        case "anv":
+                            obj.anv = reader.ReadElementContentAsString();
+                            break;
+                        case "join":
+                            obj.join = reader.ReadElementContentAsString();
+                            break;
+                        case "role":
+                            obj.role = reader.ReadElementContentAsString();
+                            break;
+                        case "tracks":
+                            obj.tracks = reader.ReadElementContentAsString();
+                            break;
+                        default:
+                            reader.Skip();
+                            break;
+                    }
+                }
+                list.Add(obj);
+            }
+
+            return list.ToArray();
+        }
     }
 
     public class label

@@ -225,23 +225,21 @@ namespace tests
             release.formats[1].text.Should().Be("cd text");
             release.formats[1].descriptions.Should().BeEquivalentTo(new string[] { "Compilation", "Mixed" });
 
-            /*
             release.artists.Should().HaveCount(1);
             release.artists[0].id.Should().Be("3");
-            release.artists[0].name.Should().Be("Josh Wind");
+            release.artists[0].name.Should().Be("Josh Wink");
             release.artists[0].anv.Should().BeNullOrEmpty();
             release.artists[0].join.Should().BeNullOrEmpty();
             release.artists[0].role.Should().BeNullOrEmpty();
             release.artists[0].tracks.Should().BeNullOrEmpty();
-            
+
             release.extraartists.Should().HaveCount(1);
             release.extraartists[0].id.Should().Be("3");
-            release.extraartists[0].name.Should().Be("Josh Wind");
+            release.extraartists[0].name.Should().Be("Josh Wink");
             release.extraartists[0].anv.Should().BeNullOrEmpty();
             release.extraartists[0].join.Should().BeNullOrEmpty();
             release.extraartists[0].role.Should().Be("DJ Mix");
             release.extraartists[0].tracks.Should().BeNullOrEmpty();
-            */
 
             /*
             release.companies.Should().HaveCount(2);

@@ -32,6 +32,8 @@ namespace discogs.Artists
         // groups is not parsed in the python version
         public name[] groups {get;set;}
 
+        public override string ToString() => this.id;
+
         public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
             yield return ("artist", new[] { id, this.name, realname, profile, data_quality });
@@ -69,7 +71,74 @@ namespace discogs.Artists
         /// Populates the current object from an XMl reader.
         /// </summary>
         /// <param name="reader">An XML reader positioned right after the <![CDATA[<artist>]]> node.</param>
-        public void Populate(XmlReader reader)
+        public void Populate(XmlReader reader) => Populate2(reader);
+
+        public void Populate2(XmlReader reader)
+        {
+            if (reader.Name != "artist")
+            {
+                return;
+            }
+
+            // <master id="123"> unlike all others
+            reader.Read();
+            while (!reader.EOF)
+            {
+                switch (reader.Name)
+                {
+                    case "artist":
+                        // it's back on a release node (EndElement); release control
+                        return;
+                    case "images":
+                        this.images = image.Parse(reader);
+                        break;
+                    case "id":
+                        this.id = reader.ReadElementContentAsString();
+                        break;
+                    case "name":
+                        this.name = reader.ReadElementContentAsString();
+                        break;
+                    case "realname":
+                        this.realname = reader.ReadElementContentAsString();
+                        break;
+                    case "profile":
+                        this.profile = reader.ReadElementContentAsString();
+                        break;
+                    case "data_quality":
+                        this.data_quality = reader.ReadElementContentAsString();
+                        break;
+                    case "urls":
+                        this.urls = reader.ReadChildren("url");
+                        break;
+                    case "namevariations":
+                        this.namevariations = reader.ReadChildren("name");
+                        break;
+                    case "members":
+                        this.members = discogs.Artists.name.Parse(reader, "members");
+                        break;
+                    case "aliases":
+                        this.aliases = discogs.Artists.name.Parse(reader, "aliases");
+                        break;
+                    case "groups":
+                        this.groups = discogs.Artists.name.Parse(reader, "groups");
+                        break;
+                    default:
+                        reader.Read();
+                        break;
+                }
+
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    if (reader.Name == "artist")
+                    {
+                        return;
+                    }
+                    reader.Skip();
+                }
+            }
+        }
+
+        public void Populate1(XmlReader reader)
         {
             while (reader.Read())
             {
@@ -193,5 +262,37 @@ namespace discogs.Artists
         public string id { get; set; }
         [XmlText]
         public string value { get; set; }
+
+        public static name[] Parse(XmlReader reader, string parentName)
+        {
+            if (reader.IsEmptyElement) {
+                reader.Skip();
+                return System.Array.Empty<name>();
+            }
+            // expects to be on <parentName> node
+            reader.Read();
+            var list = new List<name>();
+            while (!reader.EOF)
+            {
+                if (reader.Name == parentName) {
+                    break;
+                }
+                if (reader.Name == "name") {
+                    var obj = new name {
+                        id = reader.GetAttribute("id"),
+                        value = reader.ReadElementContentAsString(),
+                    };
+                    list.Add(obj);
+                }
+                else {
+                    reader.Skip();
+                }
+            }
+            if (reader.NodeType == XmlNodeType.EndElement)
+            {
+                reader.Skip();
+            }
+            return list.ToArray();
+        }
     }
 }

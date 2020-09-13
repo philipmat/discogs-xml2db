@@ -244,7 +244,7 @@ namespace discogs.Releases
                         this.companies = company.Parse(reader);
                         break;
                     case "tracklist":
-                        reader.Skip();
+                        this.tracklist = track.Parse(reader);
                         break;
                     default:
                         reader.Read();
@@ -399,6 +399,56 @@ namespace discogs.Releases
         {
             this.parent_track_id = string.Format(TrackIdFormat, releaseId, trackSeq);
             this.track_id = string.Format(SubTrackIdFormat, releaseId, trackSeq, subTrackSeq);
+        }
+
+        public static track[] Parse(XmlReader reader)
+        {
+            var list = new List<track>();
+            while(reader.Read() && reader.IsStartElement("track")) {
+                var obj = new track();
+                reader.Read(); // mode into sub-nodes
+                while(!reader.EOF) {
+                    if (reader.Name == "track") {
+                        break;
+                    }
+                    switch(reader.Name)
+                    {
+                        case "position":
+                            obj.position = reader.ReadElementContentAsString();
+                            break;
+                        case "title":
+                            obj.title = reader.ReadElementContentAsString();
+                            break;
+                        case "duration":
+                            obj.duration = reader.ReadElementContentAsString();
+                            break;
+                        case "artists":
+                            obj.artists = artist.Parse(reader);
+                            if (reader.NodeType == XmlNodeType.EndElement) {
+                                reader.Skip();
+                            }
+                            break;
+                        case "extraartists":
+                            obj.extraartists = artist.Parse(reader);
+                            if (reader.NodeType == XmlNodeType.EndElement) {
+                                reader.Skip();
+                            }
+                            break;
+                        case "sub_tracks":
+                            obj.sub_tracks = track.Parse(reader);
+                            if (reader.NodeType == XmlNodeType.EndElement) {
+                                reader.Skip();
+                            }
+                            break;
+                        default:
+                            reader.Skip();
+                            break;
+                    }
+                }
+                list.Add(obj);
+            }
+
+            return list.ToArray();
         }
     }
     public class identifier

@@ -255,19 +255,11 @@ namespace tests
             release.companies[1].entity_type_name.Should().Be("Distributed By");
             release.companies[1].resource_url.Should().Be("https://api.discogs.com/labels/93330");
 
-            /*
             release.tracklist.Should().HaveCount(3);
             release.tracklist[0].position.Should().Be("1");
             release.tracklist[0].title.Should().Be("Untitled 8");
             release.tracklist[0].duration.Should().Be("7:00");
-            release.tracklist[0].sub_tracks.Should().HaveCount(3);
-            release.tracklist[0].sub_tracks[0].position.Should().Be("11.a");
-            release.tracklist[0].sub_tracks[0].title.Should().Be("909 Shuffle");
-            release.tracklist[0].sub_tracks[0].duration.Should().Be("3:10");
-            release.tracklist[0].sub_tracks[1].position.Should().Be("11.b");
-            release.tracklist[0].sub_tracks[1].title.Should().Be("Laser 1010 Rmx");
-            release.tracklist[0].sub_tracks[2].position.Should().Be("11.c");
-            release.tracklist[0].sub_tracks[2].duration.Should().Be("5:38");
+
             release.tracklist[0].artists.Should().HaveCount(2);
             release.tracklist[0].artists[0].id.Should().Be("5");
             release.tracklist[0].artists[0].name.Should().Be("Heiko Laux");
@@ -281,14 +273,64 @@ namespace tests
             release.tracklist[0].extraartists[0].role.Should().Be("Producer");
 
             release.tracklist[1].position.Should().Be("2");
-            release.tracklist[1].sub_tracks.Should().HaveCount(0);
+            release.tracklist[1].sub_tracks.Should().BeNullOrEmpty();
             release.tracklist[1].artists.Should().HaveCount(1);
-            release.tracklist[1].extraartists.Should().HaveCount(0);
+            release.tracklist[1].extraartists.Should().BeNullOrEmpty();
             release.tracklist[2].position.Should().Be("3");
-            release.tracklist[2].sub_tracks.Should().HaveCount(0);
+            release.tracklist[2].sub_tracks.Should().BeNullOrEmpty();
             release.tracklist[2].artists.Should().HaveCount(1);
             release.tracklist[2].extraartists.Should().HaveCount(1);
-            */
+
+            release.tracklist[0].sub_tracks.Should().HaveCount(3);
+            release.tracklist[0].sub_tracks[0].position.Should().Be("11.a");
+            release.tracklist[0].sub_tracks[0].title.Should().Be("909 Shuffle");
+            release.tracklist[0].sub_tracks[0].duration.Should().Be("3:10");
+            release.tracklist[0].sub_tracks[1].position.Should().Be("11.b");
+            release.tracklist[0].sub_tracks[1].title.Should().Be("Laser 101 Rmx");
+            release.tracklist[0].sub_tracks[2].position.Should().Be("11.c");
+            release.tracklist[0].sub_tracks[2].duration.Should().Be("5:38");
+        }
+
+        [Fact]
+        public void Release_Populate_TrackArtistsIn4497890()
+        {
+            var release = new discogs.Releases.release();
+
+            // Act
+            Populate(release, "release_4497890.xml");
+
+            var t1 = release.tracklist[0];
+            t1.position.Should().Be("1-1");
+            t1.artists.Should().BeNullOrEmpty();
+            t1.extraartists.Should().HaveCount(1);
+            t1.extraartists[0].name.Should().Be("Emerson, Lake & Palmer");
+
+            var t2 = release.tracklist[1];
+            t2.position.Should().BeNullOrEmpty();
+            t2.title.Should().Be("Piano Concerto No. 1");
+            t2.artists.Should().BeNullOrEmpty();
+            t2.extraartists.Should().HaveCount(2);
+            t2.sub_tracks.Should().HaveCount(1);
+            t2.sub_tracks[0].position.Should().Be("1-2");
+
+
+            var t3 = release.tracklist[2];
+            t3.position.Should().Be("1-3");
+            t3.artists.Should().BeNullOrEmpty();
+            t3.extraartists.Should().HaveCount(1);
+            t3.extraartists[0].name.Should().Be("Greg Lake");
+
+            var t4 = release.tracklist[3];
+            t4.position.Should().BeNullOrEmpty();
+            t4.title.Should().Be("Karn Evil 9");
+            t4.artists.Should().BeNullOrEmpty();
+            t4.extraartists.Should().BeNullOrEmpty();
+            t4.sub_tracks.Should().HaveCount(1);
+            t4.sub_tracks[0].position.Should().Be("1-4");
+            t4.sub_tracks[0].artists.Should().BeNullOrEmpty();
+            t4.sub_tracks[0].extraartists.Should().HaveCount(2);
+            t4.sub_tracks[0].extraartists[0].name.Should().Be("Greg Lake");
+            t4.sub_tracks[0].extraartists[1].name.Should().Be("Keith Emerson");
         }
 
         private static void Populate<T>(T obj, string resourceName)

@@ -25,6 +25,7 @@
     <EmbeddedResource Include="Resources\discogs_20200806_labels.xml.gz" />
     <EmbeddedResource Include="Resources\discogs_20200806_masters.xml.gz" />
     <EmbeddedResource Include="Resources\discogs_20200806_releases.xml.gz" />
+    <EmbeddedResource Include="Resources\release_4497890.xml" />
   </ItemGroup>
 
   <ItemGroup>

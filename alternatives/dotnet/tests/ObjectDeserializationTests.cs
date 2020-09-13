@@ -1,5 +1,6 @@
-using System.Collections.Immutable;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using discogs;
@@ -333,6 +334,26 @@ namespace tests
             t4.sub_tracks[0].extraartists[1].name.Should().Be("Keith Emerson");
         }
 
+
+        [DebugOnly]
+        public async Task Artist_11037_DeserializationMatchesBothApproaches()
+        {
+            var artist = await DeserializeAsync<discogs.Artists.artist>("artist_11037.xml");
+
+            // Assert
+            artist.id.Should().Be("11037");
+            artist.name.Should().Be("Soul Boy");
+            artist.realname.Should().Be("M. Marsico, L. Macchiaizzano\rif  M. Marsico & L. M");
+
+            var artists = RetrieveObjects<discogs.Artists.artist>("artist_problems.xml")
+                            .ToList();
+            
+            artists.Should().HaveCount(1);
+            artists[0].id.Should().Be(artist.id);
+            artists[0].name.Should().Be(artist.name);
+            artists[0].realname.Should().Be(artist.realname);
+        }
+
         private static void Populate<T>(T obj, string resourceName)
             where T : IExportable, new()
         {
@@ -355,13 +376,28 @@ namespace tests
             }
             //*/
         }
-        
+
+        private static IEnumerable<T> RetrieveObjects<T>(string resourceName)
+            where T : IExportable, new()
+        {
+            var objs = new List<T>();
+            var exporter = Substitute.For<IExporter<T>>();
+            exporter.WhenForAnyArgs(x => x.ExportAsync(Arg.Any<T>()))
+                .Do(ci => objs.Add(ci.Arg<T>()));
+            using Stream resStream = TestCommons.GetResourceStream(resourceName);
+            var parser = new Parser<T>(exporter);
+            parser.ParseStreamAsync(resStream).Wait();
+
+            return objs;
+        }
+            
         private static async Task<T> DeserializeAsync<T>(string resourceFileName)
             where T : IExportable, new()
         {
             var xml = await TestCommons.GetResourceAsync(resourceFileName);
             return new ParserProxy<T>().DeserializeProxy(xml);
         }
+
 
         public class ParserProxy<T> : SerializerParser<T>
                 where T : IExportable, new()

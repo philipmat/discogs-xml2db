@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\artist.xml" />
+    <EmbeddedResource Include="Resources\artist_11037.xml" />
+    <EmbeddedResource Include="Resources\artist_problems.xml" />
     <EmbeddedResource Include="Resources\label.xml" />
     <EmbeddedResource Include="Resources\master.xml" />
     <EmbeddedResource Include="Resources\release.xml" />

@@ -80,7 +80,71 @@ namespace discogs.Masters
 
         public bool IsValid() => !string.IsNullOrEmpty(id);
 
-        public void Populate(XmlReader reader)
+        public void Populate(XmlReader reader) => Populate2(reader);
+
+
+        public void Populate2(XmlReader reader)
+        {
+            if (reader.Name != "master")
+            {
+                return;
+            }
+
+            // <master id="123"> unlike all others
+            this.id = reader.GetAttribute("id");
+            reader.Read();
+            while (!reader.EOF)
+            {
+                switch (reader.Name)
+                {
+                    case "master":
+                        // it's back on a master node (EndElement); release control
+                        return;
+                    case "main_release":
+                        this.main_release = reader.ReadElementContentAsString();
+                        break;
+                    case "year":
+                        this.year = reader.ReadElementContentAsString();
+                        break;
+                    case "title":
+                        this.title = reader.ReadElementContentAsString();
+                        break;
+                    case "data_quality":
+                        this.data_quality = reader.ReadElementContentAsString();
+                        break;
+                    case "images":
+                        this.images = image.Parse(reader);
+                        break;
+                    case "genres":
+                        this.genres = reader.ReadChildren("genre");
+                        break;
+                    case "styles":
+                        this.styles = reader.ReadChildren("style");
+                        break;
+                    case "videos":
+                        this.videos = video.Parse(reader);
+                        break;
+                    case "artists":
+                        this.artists = artist.Parse(reader);
+                        break;
+                    default:
+                        reader.Read();
+                        break;
+                }
+
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    if (reader.Name == "master")
+                    {
+                        return;
+                    }
+                    reader.Skip();
+                }
+            }
+        }
+
+
+        public void Populate1(XmlReader reader)
         {
             if (reader.Name != "master")
             {
@@ -257,5 +321,45 @@ namespace discogs.Masters
         public string join { get; set; }
         public string role { get; set; }
         public string tracks { get; set; }
+        public static artist[] Parse(XmlReader reader)
+        {
+            var list = new List<artist>();
+            while(reader.Read() && reader.IsStartElement("artist")) {
+                var obj = new artist();
+                reader.Read();
+                while(!reader.EOF) {
+                    if (reader.Name == "artist") {
+                        break;
+                    }
+                    switch(reader.Name)
+                    {
+                        case "id":
+                            obj.id = reader.ReadElementContentAsString();
+                            break;
+                        case "name":
+                            obj.name = reader.ReadElementContentAsString();
+                            break;
+                        case "anv":
+                            obj.anv = reader.ReadElementContentAsString();
+                            break;
+                        case "join":
+                            obj.join = reader.ReadElementContentAsString();
+                            break;
+                        case "role":
+                            obj.role = reader.ReadElementContentAsString();
+                            break;
+                        case "tracks":
+                            obj.tracks = reader.ReadElementContentAsString();
+                            break;
+                        default:
+                            reader.Skip();
+                            break;
+                    }
+                }
+                list.Add(obj);
+            }
+
+            return list.ToArray();
+        }
     }
 }

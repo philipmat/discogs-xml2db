@@ -154,23 +154,25 @@ namespace discogs.Releases
                 }
             }
             int seq = 0;
+            string seqs = "";
             foreach (var t in this.GetTracks())
             {
                 seq += 1;
-                yield return ("release_track", new[] { id, seq.ToString(), t.position, t.parent_track_id, t.title, t.duration, t.track_id });
+                seqs = seq.ToString();
+                yield return ("release_track", new[] { id, seqs, t.position, t.parent_track_id, t.title, t.duration, t.track_id });
                 int artistSeq = 0;
                 foreach (var a in (t.artists ?? System.Array.Empty<artist>()))
                 {
                     if (a == null) continue;
                     artistSeq += 1;
-                    yield return ("release_track_artist", new[] { id, t.position, t.track_id, a.id, a.name, "0", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
+                    yield return ("release_track_artist", new[] { id, seqs, t.track_id, a.id, a.name, "0", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
                 }
                 artistSeq = 0;
                 foreach (var a in (t.extraartists ?? System.Array.Empty<artist>()))
                 {
                     if (a == null) continue;
                     artistSeq += 1;
-                    yield return ("release_track_artist", new[] { id, t.position, t.track_id, a.id, a.name, "1", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
+                    yield return ("release_track_artist", new[] { id, seqs, t.track_id, a.id, a.name, "1", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
                 }
             }
         }

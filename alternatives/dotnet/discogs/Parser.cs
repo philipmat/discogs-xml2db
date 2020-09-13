@@ -108,6 +108,11 @@ namespace discogs
             {
                 if (reader.Name == _typeName)
                 {
+                    if (reader.NodeType == XmlNodeType.EndElement) {
+                        await reader.SkipAsync();
+                        continue;
+                    }
+
                     var lbl = new T();
                     lbl.Populate(reader);
                     if (!lbl.IsValid())

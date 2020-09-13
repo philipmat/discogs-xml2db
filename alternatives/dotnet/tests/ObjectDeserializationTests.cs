@@ -363,13 +363,13 @@ namespace tests
             return new ParserProxy<T>().DeserializeProxy(xml);
         }
 
-        public class ParserProxy<T> : Parser<T>
+        public class ParserProxy<T> : SerializerParser<T>
                 where T : IExportable, new()
         {
             public ParserProxy() : base (null) { }
 
             public T DeserializeProxy(string content)
-                => Deserialize(content);
+                => base.Deserialize(content);
         }
     }
 }

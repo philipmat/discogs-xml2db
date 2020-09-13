@@ -50,49 +50,7 @@ namespace discogs
             await readingStream.DisposeAsync();
         }
 
-        public Task ParseStreamAsync(Stream stream) => ParseStreamAsync2(stream);
-
-        public async Task ParseStreamAsync1(Stream stream)
-        {
-            int objectCount = 0;
-            using XmlReader reader = XmlReader.Create(stream, ReaderSettings);
-
-            await reader.MoveToContentAsync();
-            await reader.ReadAsync();
-            while (!reader.EOF)
-            {
-                if (reader.Name == _typeName)
-                {
-                    var objectString = await reader.ReadOuterXmlAsync();
-                    // var objectString = await reader.ReadInnerXmlAsync();
-                    try
-                    {
-                        if (!string.IsNullOrEmpty(objectString))
-                        {
-                            await ExportRecord(objectString);
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error {ex} parsing node {objectString}");
-                    }
-                    objectCount++;
-                    // await reader.SkipAsync();
-                    if (objectCount % _throttle == 0) OnSucessfulParse(null, new ParseEventArgs { ParseCount = objectCount });
-                    continue;
-                }
-                else
-                {
-                    await reader.ReadAsync();
-                }
-            }
-            await _exporter.CompleteExportAsync(objectCount);
-        }
-        public async Task ParseStreamAsync2(Stream stream)
+        public async Task ParseStreamAsync(Stream stream)
         {
             int objectCount = 0;
             using XmlReader reader = XmlReader.Create(stream, ReaderSettings);
@@ -107,10 +65,8 @@ namespace discogs
                         await reader.SkipAsync();
                         continue;
                     }
-
-                    var obj = new T();
-                    obj.Populate(reader);
-                    if (!obj.IsValid())
+                    T obj = await ReadObject(reader);
+                    if (obj?.IsValid() == false)
                     {
                         continue;
                     }
@@ -127,18 +83,11 @@ namespace discogs
             await _exporter.CompleteExportAsync(objectCount);
         }
 
-        protected static T Deserialize(string content)
+        protected virtual Task<T> ReadObject(XmlReader positionedReader)
         {
-            // TODO: would MemoryStream be faster?
-            using var reader = new StringReader(content);
-            var obj = (T)_labelXmlSerializer.Deserialize(reader);
-            return obj;
-        }
-
-        private async Task ExportRecord(string objectString)
-        {
-            var obj = Deserialize(objectString);
-            await _exporter.ExportAsync(obj);
+            var obj = new T();
+            obj.Populate(positionedReader);
+            return Task.FromResult(obj);
         }
     }
 

@@ -53,6 +53,10 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
                 {
                     options.CompressOutput = true;
                 }
+                else if (string.Equals(arg, "--v1", StringComparison.OrdinalIgnoreCase))
+                {
+                    options.UseVersion1 = true;
+                }
                 else if (File.Exists(arg))
                 {
                     files.Add(arg);
@@ -118,7 +122,10 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
                     verbose: options.Verbose);
             }
             var pbar = options.GetProgress(typeName, ticks);
-            var parser = new Parser<T>(exporter, ProgressDisplayThrottle);
+
+            Parser<T> parser = options.UseVersion1 
+                ? new SerializerParser<T>(exporter, ProgressDisplayThrottle)
+                : new Parser<T>(exporter, ProgressDisplayThrottle);
             parser.OnSucessfulParse += (o, e) => pbar.Tick();
             await parser.ParseFileAsync(fileName);
             exporter.Dispose();
@@ -130,6 +137,8 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             public bool Verbose = false;
             public bool DryRun = false;
             public bool CompressOutput = false;
+
+            public bool UseVersion1 = false;
 
             public int FileCount = 0;
 

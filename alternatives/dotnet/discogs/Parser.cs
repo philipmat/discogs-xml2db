@@ -113,13 +113,13 @@ namespace discogs
                         continue;
                     }
 
-                    var lbl = new T();
-                    lbl.Populate(reader);
-                    if (!lbl.IsValid())
+                    var obj = new T();
+                    obj.Populate(reader);
+                    if (!obj.IsValid())
                     {
                         continue;
                     }
-                    await _exporter.ExportAsync(lbl);
+                    await _exporter.ExportAsync(obj);
 
                     objectCount++;
                     if (objectCount % _throttle == 0) OnSucessfulParse(null, new ParseEventArgs { ParseCount = objectCount });

@@ -292,7 +292,7 @@ namespace tests
         }
 
         [Fact]
-        public void Release_Populate_TrackArtistsIn4497890()
+        public void Release_4497890_Populate_TrackArtists()
         {
             var release = new discogs.Releases.release();
 

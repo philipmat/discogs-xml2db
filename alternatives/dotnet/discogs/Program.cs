@@ -36,7 +36,7 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
                 return ExitHelp;
             }
 
-            var options = new RunOptions();
+            using var options = new RunOptions();
             var files = new List<string>();
             for (int i = 0; i < args.Length; i++)
             {
@@ -72,11 +72,9 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
                 return ExitParamIssue;
             }
 
-            // TODO: Parallel.ForEach ?
-            foreach (var f in files)
-            {
-                await ParseFile(f, options);
-            }
+            options.FileCount = files.Count;
+            var tasks = files.Select(f => ParseFile(f, options));
+            await Task.WhenAll(tasks);
             return ExitOk;
         }
 
@@ -107,13 +105,6 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
         {
             var typeName = typeof(T).Name.Split('.')[^1];
             var ticks = Statistics[typeName] / 1000;
-            var pbarOptions = new ShellProgressBar.ProgressBarOptions
-            {
-                DisplayTimeInRealTime = false,
-                ShowEstimatedDuration = true,
-                CollapseWhenFinished = true,
-            };
-            using var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s");
             IExporter<T> exporter;
             if (options.DryRun)
             {
@@ -126,17 +117,86 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
                     compress: options.CompressOutput,
                     verbose: options.Verbose);
             }
+            var pbar = options.GetProgress(typeName, ticks);
             var parser = new Parser<T>(exporter, ProgressDisplayThrottle);
             parser.OnSucessfulParse += (o, e) => pbar.Tick();
             await parser.ParseFileAsync(fileName);
             exporter.Dispose();
+            options.Finished(pbar);
         }
 
-        private class RunOptions
+        private class RunOptions : IDisposable
         {
             public bool Verbose = false;
             public bool DryRun = false;
             public bool CompressOutput = false;
+
+            public int FileCount = 0;
+
+            private List<ShellProgressBar.ProgressBarBase> _progressBars = new List<ShellProgressBar.ProgressBarBase>();
+            private readonly object _lock = new object();
+
+            public void Dispose()
+            {
+                Parallel.ForEach(_progressBars, p => { if (p is IDisposable pd) pd.Dispose(); });
+            }
+
+            public ShellProgressBar.ProgressBarBase GetProgress(string typeName, int ticks) {
+                if (FileCount <= 1) {
+                    var pbarOptions = new ShellProgressBar.ProgressBarOptions
+                    {
+                        DisplayTimeInRealTime = false,
+                        ShowEstimatedDuration = true,
+                        CollapseWhenFinished = true,
+                    };
+                    var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s", pbarOptions);
+                    _progressBars.Add(pbar);
+                    return pbar;
+                }
+                else {
+                    lock (_lock)
+                    {
+                        ShellProgressBar.ProgressBar mainBar;
+                        if (_progressBars.Count == 0)
+                        {
+                            var mainPbarOptions = new ShellProgressBar.ProgressBarOptions
+                            {
+                                DisplayTimeInRealTime = false,
+                                ShowEstimatedDuration = true,
+                                CollapseWhenFinished = true,
+                            };
+                            mainBar = new ShellProgressBar.ProgressBar(FileCount, $"Parsing {FileCount} files", mainPbarOptions);
+                            _progressBars.Add(mainBar);
+                        }
+                        else
+                        {
+                            mainBar = (ShellProgressBar.ProgressBar)_progressBars[0];
+                        }
+
+                        var childPbarOptions = new ShellProgressBar.ProgressBarOptions
+                        {
+                            DisplayTimeInRealTime = false,
+                            ShowEstimatedDuration = true,
+                            CollapseWhenFinished = false,
+                            ForegroundColor = ConsoleColor.Cyan,
+                        };
+                        var childPbar = mainBar.Spawn(ticks, $"Parsing {typeName}s", childPbarOptions);
+                        _progressBars.Add(childPbar);
+                        return childPbar;
+                    }
+                }
+            }
+
+            public void Finished(ShellProgressBar.ProgressBarBase pbar) {
+                if (pbar is ShellProgressBar.ChildProgressBar childBar) {
+                    childBar.Dispose();
+                    _progressBars[0].Tick();
+                }
+                else if (pbar is ShellProgressBar.ProgressBar mainBar) {
+                    mainBar.Dispose();
+                }
+                _progressBars.Remove(pbar);
+            }
         }
     }
 }

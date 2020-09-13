@@ -65,7 +65,73 @@ namespace discogs.Labels
             }
         }
 
-        public void Populate(XmlReader reader)
+        public void Populate(XmlReader reader) => Populate2(reader);
+
+       
+        public void Populate2(XmlReader reader)
+        {
+            if (reader.Name != "label")
+            {
+                return;
+            }
+
+            // <master id="123"> unlike all others
+            reader.Read();
+            while (!reader.EOF)
+            {
+                switch (reader.Name)
+                {
+                    case "label":
+                        // it's back on a release node (EndElement); release control
+                        return;
+                    case "images":
+                        this.images = image.Parse(reader);
+                        break;
+                    case "id":
+                        this.id = reader.ReadElementContentAsString();
+                        break;
+                    case "name":
+                        this.name = reader.ReadElementContentAsString();
+                        break;
+                    case "contactinfo":
+                        this.contactinfo = reader.ReadElementContentAsString();
+                        break;
+                    case "profile":
+                        this.profile = reader.ReadElementContentAsString();
+                        break;
+                    case "data_quality":
+                        this.data_quality = reader.ReadElementContentAsString();
+                        break;
+                    case "urls":
+                        this.urls = reader.ReadChildren("url");
+                        break;
+                    case "parentLabel":
+                        this.parentLabel = new discogs.Labels.parentLabel
+                        {
+                            id = reader.GetAttribute("id"),
+                            name = reader.ReadElementContentAsString()
+                        };
+                        break;
+                    case "sublabels":
+                        this.sublabels = ParseSublabels(reader);
+                        break;
+                    default:
+                        reader.Read();
+                        break;
+                }
+
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    if (reader.Name == "label")
+                    {
+                        return;
+                    }
+                    reader.Skip();
+                }
+            }
+        }
+ 
+        public void Populate1(XmlReader reader)
         {
             while (reader.Read())
             {
@@ -142,6 +208,26 @@ namespace discogs.Labels
         }
 
         public bool IsValid() => !string.IsNullOrEmpty(id);
+
+        private static label[] ParseSublabels(XmlReader reader) {
+
+            reader.Read();
+            var sublabelList = new List<label>();
+            while (reader.IsStartElement("label"))
+            {
+                if (reader.IsEmptyElement) {
+                    reader.Skip();
+                    continue;
+                }
+                var label = new label
+                {
+                    id = reader.GetAttribute("id"),
+                    name = reader.ReadElementContentAsString()
+                };
+                sublabelList.Add(label);
+            }
+            return sublabelList.ToArray();
+        }
     }
 
 

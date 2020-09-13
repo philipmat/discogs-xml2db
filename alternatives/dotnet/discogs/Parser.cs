@@ -12,6 +12,18 @@ namespace discogs
     {
         private const int BufferSize = 1024 * 1024;
         private static readonly XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
+
+        private static readonly XmlReaderSettings ReaderSettings = new XmlReaderSettings
+        {
+            ConformanceLevel = ConformanceLevel.Fragment,
+            Async = true,
+            DtdProcessing = DtdProcessing.Prohibit,
+            // TODO: perf IgnoreComments = true,
+            IgnoreProcessingInstructions = true,
+            IgnoreWhitespace = true,
+            XmlResolver = null,
+        };
+
         private readonly int _throttle = 1;
         private readonly string _typeName;
         private readonly IExporter<T> _exporter;
@@ -21,6 +33,8 @@ namespace discogs
             _throttle = throttle;
             _typeName = typeof(T).Name.Split('.')[^1];
         }
+
+        public static XmlReaderSettings DefaultReaderSettings => ReaderSettings;
 
         public event EventHandler<ParseEventArgs> OnSucessfulParse = delegate { };
 
@@ -41,16 +55,7 @@ namespace discogs
         public async Task ParseStreamAsync1(Stream stream)
         {
             int objectCount = 0;
-            var settings = new XmlReaderSettings
-            {
-                ConformanceLevel = ConformanceLevel.Fragment,
-                Async = true,
-                DtdProcessing = DtdProcessing.Prohibit,
-                // TODO: perf IgnoreComments = true,
-                IgnoreProcessingInstructions = true,
-                XmlResolver = null,
-            };
-            using XmlReader reader = XmlReader.Create(stream, settings);
+            using XmlReader reader = XmlReader.Create(stream, ReaderSettings);
 
             await reader.MoveToContentAsync();
             await reader.ReadAsync();
@@ -90,17 +95,7 @@ namespace discogs
         public async Task ParseStreamAsync2(Stream stream)
         {
             int objectCount = 0;
-            var settings = new XmlReaderSettings
-            {
-                ConformanceLevel = ConformanceLevel.Fragment,
-                Async = true,
-                DtdProcessing = DtdProcessing.Prohibit,
-                // TODO: perf IgnoreComments = true,
-                IgnoreProcessingInstructions = true,
-                IgnoreWhitespace = true,
-                XmlResolver = null,
-            };
-            using XmlReader reader = XmlReader.Create(stream, settings);
+            using XmlReader reader = XmlReader.Create(stream, ReaderSettings);
 
             await reader.MoveToContentAsync(); // moves to first element in XML
             await reader.ReadAsync(); // moves to the first element after, so the text between <artists> and <artist>

@@ -344,19 +344,9 @@ namespace tests
             return;
             //*/
             //*
-            var settings = new XmlReaderSettings
-            {
-                ConformanceLevel = ConformanceLevel.Fragment,
-                Async = true,
-                DtdProcessing = DtdProcessing.Prohibit,
-                // TODO: perf IgnoreComments = true,
-                IgnoreProcessingInstructions = true,
-                IgnoreWhitespace = true,
-                XmlResolver = null,
-            };
             using (Stream artistRes = TestCommons.GetResourceStream(resourceName))
             {
-                using (XmlReader reader = XmlReader.Create(artistRes, settings))
+                using (XmlReader reader = XmlReader.Create(artistRes, Parser<T>.DefaultReaderSettings))
                 {
                     reader.MoveToContent();  // on root - artist
                     // reader.Read(); // on text between <artist> and first node; the first thing in Populate is Read, which takes it to first node within artist

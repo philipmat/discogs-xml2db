@@ -173,7 +173,7 @@ CREATE TABLE release_track (
     parent          integer,
     title           text,
     duration        text,
-    track_id        text,
+    track_id        text
 );
 
 CREATE TABLE release_track_artist (

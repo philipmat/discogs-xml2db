@@ -273,6 +273,8 @@ class DiscogsReleaseParser(DiscogsDumpEntityParser):
             for k, v in child.attrib.items():
                 if k in ('catno', 'name'):
                     setattr(entity, k, v.strip())
+                elif k in ('id'):
+                    setattr(entity, k, int(v))
             yield entity
 
     def element_videos(self, element):

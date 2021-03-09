@@ -208,7 +208,7 @@ class ReleaseExporter(EntityCsvExporter):
         super().__init__('release', *args, **kwargs)
 
         main_fields = ['id', 'title', 'released', 'country', 'notes', 'data_quality', 'master_id', 'status']
-        label_fields = ['name', 'catno']
+        label_fields = ['id', 'name', 'catno']
         video_fields = ['duration', 'title', 'description', 'src']
         format_fields = ['name', 'qty', 'text', 'descriptions']
         company_fields = ['id', 'name', 'entity_type', 'entity_type_name', 'resource_url']
@@ -275,7 +275,7 @@ csv_headers = {table: columns.split() for table, columns in {
 
     'release': 'id title released country notes data_quality master_id status',
     'release_artist': 'release_id artist_id artist_name extra anv position join_string role tracks',
-    'release_label': 'release_id label_name catno',
+    'release_label': 'release_id label_id label_name catno',
     'release_genre': 'release_id genre',
     'release_style': 'release_id style',
     'release_format': 'release_id name qty text_string descriptions',

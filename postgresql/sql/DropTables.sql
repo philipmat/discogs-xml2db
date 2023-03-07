@@ -1,34 +1,34 @@
 --- artist
-DROP TABLE artist_url;
-DROP TABLE artist_namevariation;
-DROP TABLE artist_alias;
-DROP TABLE artist_image;
-DROP TABLE group_member;
-DROP TABLE artist;
+DROP TABLE IF EXISTS artist;
+DROP TABLE IF EXISTS artist_alias;
+DROP TABLE IF EXISTS artist_image;
+DROP TABLE IF EXISTS artist_namevariation;
+DROP TABLE IF EXISTS group_member;
+DROP TABLE IF EXISTS artist_url;
 
 --- labels
-DROP TABLE label_url;
-DROP TABLE label_image;
-DROP TABLE label;
+DROP TABLE IF EXISTS label;
+DROP TABLE IF EXISTS label_image;
+DROP TABLE IF EXISTS label_url;
 
 --- masters
-DROP TABLE master_artist;
-DROP TABLE master_video;
-DROP TABLE master_genre;
-DROP TABLE master_style;
-DROP TABLE master_image;
-DROP TABLE master;
+DROP TABLE IF EXISTS master;
+DROP TABLE IF EXISTS master_artist;
+DROP TABLE IF EXISTS master_genre;
+DROP TABLE IF EXISTS master_image;
+DROP TABLE IF EXISTS master_style;
+DROP TABLE IF EXISTS master_video;
 
 --- releases
-DROP TABLE release_artist;
-DROP TABLE release_label;
-DROP TABLE release_genre;
-DROP TABLE release_style;
-DROP TABLE release_format;
-DROP TABLE release_track;
-DROP TABLE release_track_artist;
-DROP TABLE release_identifier;
-DROP TABLE release_video;
-DROP TABLE release_company;
-DROP TABLE release_image;
-DROP TABLE release;
+DROP TABLE IF EXISTS release;
+DROP TABLE IF EXISTS release_artist;
+DROP TABLE IF EXISTS release_company;
+DROP TABLE IF EXISTS release_format;
+DROP TABLE IF EXISTS release_genre;
+DROP TABLE IF EXISTS release_identifier;
+DROP TABLE IF EXISTS release_image;
+DROP TABLE IF EXISTS release_label;
+DROP TABLE IF EXISTS release_style;
+DROP TABLE IF EXISTS release_track;
+DROP TABLE IF EXISTS release_track_artist;
+DROP TABLE IF EXISTS release_video;

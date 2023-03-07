@@ -1,6 +1,6 @@
 *.pyc
 Session.vim
-discogs_*_*.xml
+discogs_*_*.xml.*
 COUCH
 tmp
 

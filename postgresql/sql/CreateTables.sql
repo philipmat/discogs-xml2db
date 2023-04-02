@@ -1,7 +1,7 @@
 --- artists
 CREATE TABLE artist (
     id              integer NOT NULL,
-    name            text NOT NULL,
+    name            text,
     realname        text,
     profile         text,
 
@@ -11,7 +11,7 @@ CREATE TABLE artist (
 CREATE TABLE artist_url (
     id              SERIAL,
     artist_id       integer NOT NULL,
-    url             text NOT NULL
+    url             text
 );
 
 CREATE TABLE artist_namevariation (
@@ -170,7 +170,7 @@ CREATE TABLE release_track (
     release_id      integer NOT NULL,
     sequence        integer NOT NULL,
     position        text,
-    parent          integer,
+    parent          text,
     title           text,
     duration        text,
     track_id        text
@@ -180,7 +180,7 @@ CREATE TABLE release_track_artist (
     id              SERIAL,
     track_id        text,
     release_id      integer NOT NULL,
-    track_sequence  integer NOT NULL,
+    track_sequence  text,
     artist_id       integer NOT NULL,
     artist_name     text,
     extra           boolean NOT NULL,

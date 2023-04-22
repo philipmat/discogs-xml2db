@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace discogs
 {
     public interface IExporter<T> : IDisposable
-        where T : IExportToCsv, new()
+        where T : IExportable, new()
     {
         Task ExportAsync(T value);
         Task CompleteExportAsync(int finalCount);
     }
 
     public class CsvExporter<T> : IExporter<T>
-        where T : IExportToCsv, new()
+        where T : IExportable, new()
     {
         private const int BufferSize = 1024 * 1024;
         private readonly string _typeName;
@@ -42,7 +42,7 @@ namespace discogs
 
         public async Task ExportAsync(T value)
         {
-            IEnumerable<(string StreamName, string[] Row)> csvExports = value.ExportToCsv();
+            IEnumerable<(string StreamName, string[] Row)> csvExports = value.Export();
             foreach (var (streamName, row) in csvExports)
             {
                 await _csvStreams[streamName].FileStream.WriteLineAsync(CsvExtensions.ToCsv(row));
@@ -52,7 +52,7 @@ namespace discogs
         private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesFor(string outPutDirectory, bool compress)
         {
             var obj = new T();
-            IReadOnlyDictionary<string, string[]> files = obj.GetCsvExportScheme();
+            IReadOnlyDictionary<string, string[]> files = obj.GetExportStreamsAndFields();
             Dictionary<string, (string FilePath, StreamWriter FileStream)> csvFiles = files.ToDictionary(
                 kvp => kvp.Key,
                 kvp =>

@@ -7,7 +7,7 @@ namespace discogs
 {
 
     internal class RecordCounter<T> : IExporter<T>
-        where T : IExportToCsv, new()
+        where T : IExportable, new()
     {
         private readonly bool _verbose;
         private readonly Dictionary<string, int> _counter;
@@ -39,7 +39,7 @@ namespace discogs
 
         public Task ExportAsync(T value)
         {
-            foreach (var (stream, _) in value.ExportToCsv())
+            foreach (var (stream, _) in value.Export())
             {
                 _counter[stream] += 1;
             }
@@ -48,7 +48,7 @@ namespace discogs
         private static Dictionary<string, int> GetSchemeCounts()
         {
             var obj = new T();
-            IReadOnlyDictionary<string, string[]> files = obj.GetCsvExportScheme();
+            IReadOnlyDictionary<string, string[]> files = obj.GetExportStreamsAndFields();
             return files.ToDictionary(kvp => kvp.Key, kvp => 0);
         }
 

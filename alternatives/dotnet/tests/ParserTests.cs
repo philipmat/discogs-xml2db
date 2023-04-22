@@ -83,7 +83,7 @@ namespace tests
         public async Task ParseStream_Release_KnownCounts() => await ParseStream_Type_TotalCounts<discogs.Releases.release>("releases");
 
         private static async Task ParseStream_Type_CallsExporterForEveryTopNodeAsync<T>(string file, int exportCallsCount)
-            where T : IExportToCsv, new()
+            where T : IExportable, new()
         {
             // Given
             int counter = 0;
@@ -103,14 +103,14 @@ namespace tests
             counter.Should().Be(exportCallsCount, because: $"there are {exportCallsCount:n0} records in the {file} xml file");
         }
         private static async Task ParseStream_Type_TotalCounts<T>(string file)
-            where T : IExportToCsv, new()
+            where T : IExportable, new()
         {
             // Given
             var knownFileCountsByScheme = KnownCountsByFile[file];
             Dictionary<string, int> countsByScheme = knownFileCountsByScheme.ToDictionary(kvp => kvp.Key, kvp => 0);
             void AddCounts(T obj)
             {
-                foreach (var (scheme, _) in obj.ExportToCsv())
+                foreach (var (scheme, _) in obj.Export())
                 {
                     countsByScheme[scheme] += 1;
                 }

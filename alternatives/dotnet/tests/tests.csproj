@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -17,6 +18,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\artist.xml" />
+    <EmbeddedResource Include="Resources\artist_11037.xml" />
+    <EmbeddedResource Include="Resources\artist_problems.xml" />
     <EmbeddedResource Include="Resources\label.xml" />
     <EmbeddedResource Include="Resources\master.xml" />
     <EmbeddedResource Include="Resources\release.xml" />
@@ -24,6 +27,7 @@
     <EmbeddedResource Include="Resources\discogs_20200806_labels.xml.gz" />
     <EmbeddedResource Include="Resources\discogs_20200806_masters.xml.gz" />
     <EmbeddedResource Include="Resources\discogs_20200806_releases.xml.gz" />
+    <EmbeddedResource Include="Resources\release_4497890.xml" />
   </ItemGroup>
 
   <ItemGroup>

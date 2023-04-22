@@ -1,11 +1,11 @@
 
 using System.Collections.Generic;
-using System.Linq;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace discogs.Masters
 {
-    public class master : IExportToCsv
+    public class master : IExportable
     {
         private static readonly Dictionary<string, string[]> CsvExportHeaders = new Dictionary<string, string[]>
         {
@@ -18,8 +18,8 @@ namespace discogs.Masters
         };
 
         [XmlAttribute]
-        public string id { get; set; }  
-        public string main_release {get; set;}
+        public string id { get; set; }
+        public string main_release { get; set; }
         public string year { get; set; }
         public string title { get; set; }
         public string data_quality { get; set; }
@@ -31,9 +31,9 @@ namespace discogs.Masters
         public string[] styles { get; set; }
         public video[] videos { get; set; }
 
-        public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
+        public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
-            yield return ("master", new [] { id, title, year, main_release, data_quality });
+            yield return ("master", new[] { id, title, year, main_release, data_quality });
             if (artists?.Length > 0)
             {
                 int position = 1;
@@ -76,7 +76,240 @@ namespace discogs.Masters
             }
         }
 
-        public IReadOnlyDictionary<string, string[]> GetCsvExportScheme() => CsvExportHeaders;
+        public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields() => CsvExportHeaders;
+
+        public bool IsValid() => !string.IsNullOrEmpty(id);
+
+        public void Populate(XmlReader reader) => Populate2(reader);
+
+
+        public void Populate2(XmlReader reader)
+        {
+            if (reader.Name != "master")
+            {
+                return;
+            }
+
+            // <master id="123"> unlike all others
+            this.id = reader.GetAttribute("id");
+            reader.Read();
+            while (!reader.EOF)
+            {
+                switch (reader.Name)
+                {
+                    case "master":
+                        // it's back on a master node (EndElement); release control
+                        return;
+                    case "main_release":
+                        this.main_release = reader.ReadElementContentAsString();
+                        break;
+                    case "year":
+                        this.year = reader.ReadElementContentAsString();
+                        break;
+                    case "title":
+                        this.title = reader.ReadElementContentAsString();
+                        break;
+                    case "data_quality":
+                        this.data_quality = reader.ReadElementContentAsString();
+                        break;
+                    case "images":
+                        this.images = image.Parse(reader);
+                        break;
+                    case "genres":
+                        this.genres = reader.ReadChildren("genre");
+                        break;
+                    case "styles":
+                        this.styles = reader.ReadChildren("style");
+                        break;
+                    case "videos":
+                        this.videos = video.Parse(reader);
+                        break;
+                    case "artists":
+                        this.artists = artist.Parse(reader);
+                        break;
+                    default:
+                        reader.Read();
+                        break;
+                }
+
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    if (reader.Name == "master")
+                    {
+                        return;
+                    }
+                    reader.Skip();
+                }
+            }
+        }
+
+
+        public void Populate1(XmlReader reader)
+        {
+            if (reader.Name != "master")
+            {
+                return;
+            }
+
+            // <master id="123"> unlike all others
+            this.id = reader.GetAttribute("id");
+            while (reader.Read())
+            {
+                if (reader.IsStartElement("master"))
+                {
+                    // that means we encountered the next node
+                    return;
+                }
+                if (reader.IsStartElement("main_release"))
+                {
+                    this.main_release = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("images"))
+                {
+                    var images = new List<image>();
+                    while (reader.Read() && reader.IsStartElement("image"))
+                    {
+                        var image = new image { type = reader.GetAttribute("type"), width = reader.GetAttribute("width"), height = reader.GetAttribute("height") };
+                        images.Add(image);
+                    }
+                    this.images = images.ToArray();
+                }
+                if (reader.IsStartElement("artists"))
+                {
+                    var list = new List<artist>();
+                    reader.Read();
+                    while (reader.IsStartElement("artist"))
+                    {
+                        var artist = new artist();
+                        while (reader.Read() &&
+                            (
+                            reader.IsStartElement("id") ||
+                            reader.IsStartElement("name") ||
+                            reader.IsStartElement("anv") ||
+                            reader.IsStartElement("join") ||
+                            reader.IsStartElement("role") ||
+                            reader.IsStartElement("tracks")))
+                        {
+                            /*
+                            var tagName = reader.Name;
+                            var value = reader.ReadElementContentAsString();
+                            switch (tagName)
+                            {
+                                case "id":
+                                    artist.id = value;
+                                    break;
+                                case "name":
+                                    artist.name = value;
+                                    break;
+                                case "anv":
+                                    artist.anv = value;
+                                    break;
+                                case "join":
+                                    artist.join = value;
+                                    break;
+                                case "role":
+                                    artist.role = value;
+                                    break;
+                                case "tracks":
+                                    artist.tracks = value;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            */
+                            {
+                                if (reader.IsStartElement("id"))
+                                    artist.id = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("name"))
+                                    artist.name = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("anv"))
+                                    artist.anv = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("join"))
+                                    artist.join = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("role"))
+                                    artist.role = reader.ReadElementContentAsString();
+                                if (reader.IsStartElement("tracks"))
+                                    artist.tracks = reader.ReadElementContentAsString();
+                            }
+                        }
+                        list.Add(artist);
+                        if (!reader.IsStartElement("artist"))
+                        {
+                            reader.ReadEndElement();
+                        }
+                    }
+                    this.artists = list.ToArray();
+                }
+                if (reader.IsStartElement("genres"))
+                {
+                    reader.Read();
+                    var list = new List<string>();
+                    while (reader.IsStartElement("genre"))
+                    {
+                        var e = reader.ReadElementContentAsString();
+                        if (!string.IsNullOrWhiteSpace(e))
+                            list.Add(e);
+                    }
+                    this.genres = list.ToArray();
+                }
+                if (reader.IsStartElement("styles"))
+                {
+                    reader.Read();
+                    var list = new List<string>();
+                    while (reader.IsStartElement("style"))
+                    {
+                        var e = reader.ReadElementContentAsString();
+                        if (!string.IsNullOrWhiteSpace(e))
+                            list.Add(e);
+                    }
+                    this.styles = list.ToArray();
+                }
+                if (reader.IsStartElement("year"))
+                {
+                    this.year = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("title"))
+                {
+                    this.title = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("data_quality"))
+                {
+                    this.data_quality = reader.ReadElementContentAsString();
+                }
+                if (reader.IsStartElement("videos"))
+                {
+                    var list = new List<video>();
+                    reader.Read();
+                    while (reader.IsStartElement("video"))
+                    {
+                        var video = new video
+                        {
+                            src = reader.GetAttribute("src"),
+                            duration = reader.GetAttribute("duration"),
+                            embed = reader.GetAttribute("embed"),
+                        };
+                        while (reader.Read()
+                            && (reader.IsStartElement("title") || reader.IsStartElement("description"))) {
+                            if (reader.IsStartElement("title"))
+                            {
+                                video.title = reader.ReadElementContentAsString();
+                            }
+                            if (reader.IsStartElement("description"))
+                            {
+                                video.description = reader.ReadElementContentAsString();
+                            }
+                        }
+                        list.Add(video);
+                        if (!reader.IsStartElement("video"))
+                        {
+                            reader.ReadEndElement();
+                        }
+                    }
+                    this.videos = list.ToArray();
+                }
+
+            }
+        }
     }
 
     public class artist
@@ -88,5 +321,45 @@ namespace discogs.Masters
         public string join { get; set; }
         public string role { get; set; }
         public string tracks { get; set; }
+        public static artist[] Parse(XmlReader reader)
+        {
+            var list = new List<artist>();
+            while(reader.Read() && reader.IsStartElement("artist")) {
+                var obj = new artist();
+                reader.Read();
+                while(!reader.EOF) {
+                    if (reader.Name == "artist") {
+                        break;
+                    }
+                    switch(reader.Name)
+                    {
+                        case "id":
+                            obj.id = reader.ReadElementContentAsString();
+                            break;
+                        case "name":
+                            obj.name = reader.ReadElementContentAsString();
+                            break;
+                        case "anv":
+                            obj.anv = reader.ReadElementContentAsString();
+                            break;
+                        case "join":
+                            obj.join = reader.ReadElementContentAsString();
+                            break;
+                        case "role":
+                            obj.role = reader.ReadElementContentAsString();
+                            break;
+                        case "tracks":
+                            obj.tracks = reader.ReadElementContentAsString();
+                            break;
+                        default:
+                            reader.Skip();
+                            break;
+                    }
+                }
+                list.Add(obj);
+            }
+
+            return list.ToArray();
+        }
     }
 }

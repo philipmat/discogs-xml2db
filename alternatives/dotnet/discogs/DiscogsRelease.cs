@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace discogs.Releases
 {
-    public class release : IExportToCsv
+    public class release : IExportable
     {
         private static readonly Dictionary<string, string[]> CsvExportHeaders = new Dictionary<string, string[]>
         {
@@ -48,15 +48,18 @@ namespace discogs.Releases
         public video[] videos { get; set; }
         public company[] companies { get; set; }
 
-        public IEnumerable<track> GetTracks() {
-            if ((tracklist?.Length ?? 0) == 0) {
+        public IEnumerable<track> GetTracks()
+        {
+            if ((tracklist?.Length ?? 0) == 0)
+            {
                 yield break;
             }
             for (int i = 0; i < tracklist.Length; i++)
             {
                 tracklist[i].SetTrackId(this.id, i + 1);
                 yield return tracklist[i];
-                if ((tracklist[i].sub_tracks?.Length ?? 0) > 0) {
+                if ((tracklist[i].sub_tracks?.Length ?? 0) > 0)
+                {
                     for (int j = 0; j < tracklist[i].sub_tracks.Length; j++)
                     {
                         tracklist[i].sub_tracks[j].SetTrackId(this.id, i + 1, j + 1);
@@ -66,7 +69,7 @@ namespace discogs.Releases
             }
         }
 
-        public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
+        public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
             yield return ("release", new[] { id, title, released, country, notes, data_quality, master_id, status });
             if (genres?.Length > 0)
@@ -151,27 +154,117 @@ namespace discogs.Releases
                 }
             }
             int seq = 0;
+            string seqs = "";
             foreach (var t in this.GetTracks())
             {
                 seq += 1;
-                yield return ("release_track", new[] { id, seq.ToString(), t.position, t.parent_track_id, t.title, t.duration, t.track_id });
+                seqs = seq.ToString();
+                yield return ("release_track", new[] { id, seqs, t.position, t.parent_track_id, t.title, t.duration, t.track_id });
                 int artistSeq = 0;
-                foreach (var a in (t.artists ?? System.Array.Empty<artist>())) {
+                foreach (var a in (t.artists ?? System.Array.Empty<artist>()))
+                {
                     if (a == null) continue;
                     artistSeq += 1;
-                    yield return ("release_track_artist", new[] { id, t.position, t.track_id, a.id, a.name, "0", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
+                    yield return ("release_track_artist", new[] { id, seqs, t.track_id, a.id, a.name, "0", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
                 }
                 artistSeq = 0;
-                foreach (var a in (t.extraartists ?? System.Array.Empty<artist>())) {
+                foreach (var a in (t.extraartists ?? System.Array.Empty<artist>()))
+                {
                     if (a == null) continue;
                     artistSeq += 1;
-                    yield return ("release_track_artist", new[] { id, t.position, t.track_id, a.id, a.name, "1", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
+                    yield return ("release_track_artist", new[] { id, seqs, t.track_id, a.id, a.name, "1", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks });
                 }
             }
         }
 
-        public IReadOnlyDictionary<string, string[]> GetCsvExportScheme()
+        public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields()
             => CsvExportHeaders;
+
+        public void Populate(XmlReader reader)
+        {
+            if (reader.Name != "release")
+            {
+                return;
+            }
+
+            // <master id="123"> unlike all others
+            this.id = reader.GetAttribute("id");
+            reader.Read();
+            while (!reader.EOF)
+            {
+                switch (reader.Name)
+                {
+                    case "release":
+                        // it's back on a release node (EndElement); release control
+                        return;
+                    case "title":
+                        this.title = reader.ReadElementContentAsString();
+                        break;
+                    case "country":
+                        this.country = reader.ReadElementContentAsString();
+                        break;
+                    case "released":
+                        this.released = reader.ReadElementContentAsString();
+                        break;
+                    case "notes":
+                        this.notes = reader.ReadElementContentAsString();
+                        break;
+                    case "data_quality":
+                        this.data_quality = reader.ReadElementContentAsString();
+                        break;
+                    case "master_id":
+                        this.master_id = reader.ReadElementContentAsString();
+                        break;
+                    case "images":
+                        this.images = image.Parse(reader);
+                        break;
+                    case "genres":
+                        this.genres = reader.ReadChildren("genre");
+                        break;
+                    case "styles":
+                        this.styles = reader.ReadChildren("style");
+                        break;
+                    case "videos":
+                        this.videos = video.Parse(reader);
+                        break;
+                    case "identifiers":
+                        this.identifiers = identifier.Parse(reader);
+                        break;
+                    case "labels":
+                        this.labels = label.Parse(reader);
+                        break;
+                    case "formats":
+                        this.formats = format.Parse(reader);
+                        break;
+                    case "artists":
+                        this.artists = artist.Parse(reader);
+                        break;
+                    case "extraartists":
+                        this.extraartists = artist.Parse(reader);
+                        break;
+                    case "companies":
+                        this.companies = company.Parse(reader);
+                        break;
+                    case "tracklist":
+                        this.tracklist = track.Parse(reader);
+                        break;
+                    default:
+                        reader.Read();
+                        break;
+                }
+
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    if (reader.Name == "release")
+                    {
+                        return;
+                    }
+                    reader.Skip();
+                }
+            }
+        }
+
+        public bool IsValid() => !string.IsNullOrEmpty(this.id);
     }
 
     public class artist
@@ -183,6 +276,46 @@ namespace discogs.Releases
         public string join { get; set; }
         public string role { get; set; }
         public string tracks { get; set; }
+        public static artist[] Parse(XmlReader reader)
+        {
+            var list = new List<artist>();
+            while(reader.Read() && reader.IsStartElement("artist")) {
+                var obj = new artist();
+                reader.Read();
+                while(!reader.EOF) {
+                    if (reader.Name == "artist") {
+                        break;
+                    }
+                    switch(reader.Name)
+                    {
+                        case "id":
+                            obj.id = reader.ReadElementContentAsString();
+                            break;
+                        case "name":
+                            obj.name = reader.ReadElementContentAsString();
+                            break;
+                        case "anv":
+                            obj.anv = reader.ReadElementContentAsString();
+                            break;
+                        case "join":
+                            obj.join = reader.ReadElementContentAsString();
+                            break;
+                        case "role":
+                            obj.role = reader.ReadElementContentAsString();
+                            break;
+                        case "tracks":
+                            obj.tracks = reader.ReadElementContentAsString();
+                            break;
+                        default:
+                            reader.Skip();
+                            break;
+                    }
+                }
+                list.Add(obj);
+            }
+
+            return list.ToArray();
+        }
     }
 
     public class label
@@ -193,6 +326,22 @@ namespace discogs.Releases
         public string catno { get; set; }
         [XmlAttribute]
         public string id { get; set; }
+
+        public static label[] Parse(XmlReader reader)
+        {
+            // expects to be on <identifiers> node
+            var list = new List<label>();
+            while (reader.Read() && reader.IsStartElement("label"))
+            {
+                var obj = new label {
+                    name = reader.GetAttribute("name"),
+                    catno = reader.GetAttribute("catno"),
+                    id = reader.GetAttribute("id"),
+                };
+                list.Add(obj);
+            }
+            return list.ToArray();
+        }
     }
 
     public class format
@@ -205,6 +354,34 @@ namespace discogs.Releases
         public string text { get; set; }
         [XmlArrayItem("description")]
         public string[] descriptions { get; set; }
+
+        public static format[] Parse(XmlReader reader)
+        {
+            // expects to be on <identifiers> node
+            // reader.Read();
+            var list = new List<format>();
+            while (reader.Read() && reader.IsStartElement("format"))
+            {
+                var obj = new format {
+                    name = reader.GetAttribute("name"),
+                    qty = reader.GetAttribute("qty"),
+                    text = reader.GetAttribute("text"),
+                };
+                // read descriptions
+                if (reader.IsEmptyElement) {
+                    // does not have descriptions
+                    list.Add(obj);
+                    continue;
+                }
+                reader.Read();
+                obj.descriptions = reader.ReadChildren("description");
+                if (reader.NodeType == XmlNodeType.EndElement) {
+                    reader.Skip();
+                }
+                list.Add(obj);
+            }
+            return list.ToArray();
+        }
     }
 
     public class track
@@ -217,12 +394,63 @@ namespace discogs.Releases
         public artist[] artists { get; set; }
         public artist[] extraartists { get; set; }
         public track[] sub_tracks { get; set; }
-        internal string track_id {get; private set;} = "";
-        internal string parent_track_id {get; private set;} = "";
+        internal string track_id { get; private set; } = "";
+        internal string parent_track_id { get; private set; } = "";
         public void SetTrackId(string releaseId, int trackSeq) => this.track_id = string.Format(TrackIdFormat, releaseId, trackSeq);
-        public void SetTrackId(string releaseId, int trackSeq, int subTrackSeq) {
+        public void SetTrackId(string releaseId, int trackSeq, int subTrackSeq)
+        {
             this.parent_track_id = string.Format(TrackIdFormat, releaseId, trackSeq);
             this.track_id = string.Format(SubTrackIdFormat, releaseId, trackSeq, subTrackSeq);
+        }
+
+        public static track[] Parse(XmlReader reader)
+        {
+            var list = new List<track>();
+            while(reader.Read() && reader.IsStartElement("track")) {
+                var obj = new track();
+                reader.Read(); // mode into sub-nodes
+                while(!reader.EOF) {
+                    if (reader.Name == "track") {
+                        break;
+                    }
+                    switch(reader.Name)
+                    {
+                        case "position":
+                            obj.position = reader.ReadElementContentAsString();
+                            break;
+                        case "title":
+                            obj.title = reader.ReadElementContentAsString();
+                            break;
+                        case "duration":
+                            obj.duration = reader.ReadElementContentAsString();
+                            break;
+                        case "artists":
+                            obj.artists = artist.Parse(reader);
+                            if (reader.NodeType == XmlNodeType.EndElement) {
+                                reader.Skip();
+                            }
+                            break;
+                        case "extraartists":
+                            obj.extraartists = artist.Parse(reader);
+                            if (reader.NodeType == XmlNodeType.EndElement) {
+                                reader.Skip();
+                            }
+                            break;
+                        case "sub_tracks":
+                            obj.sub_tracks = track.Parse(reader);
+                            if (reader.NodeType == XmlNodeType.EndElement) {
+                                reader.Skip();
+                            }
+                            break;
+                        default:
+                            reader.Skip();
+                            break;
+                    }
+                }
+                list.Add(obj);
+            }
+
+            return list.ToArray();
         }
     }
     public class identifier
@@ -233,6 +461,22 @@ namespace discogs.Releases
         public string value { get; set; }
         [XmlAttribute]
         public string description { get; set; }
+
+        public static identifier[] Parse(XmlReader reader)
+        {
+            // expects to be on <identifiers> node
+            var list = new List<identifier>();
+            while (reader.Read() && reader.IsStartElement("identifier"))
+            {
+                var obj = new identifier {
+                    type = reader.GetAttribute("type"),
+                    value = reader.GetAttribute("value"),
+                    description = reader.GetAttribute("description"),
+                };
+                list.Add(obj);
+            }
+            return list.ToArray();
+        }
     }
     public class company
     {
@@ -242,5 +486,47 @@ namespace discogs.Releases
         public string entity_type { get; set; }
         public string entity_type_name { get; set; }
         public string resource_url { get; set; }
+
+        public static company[] Parse(XmlReader reader)
+        {
+            var list = new List<company>();
+            while(reader.Read() && reader.IsStartElement("company")) {
+                var obj = new company();
+                reader.Read();
+                while(!reader.EOF) {
+                    if (reader.Name == "company") {
+                        break;
+                    }
+                    switch(reader.Name)
+                    {
+                        case "id":
+                            obj.id = reader.ReadElementContentAsString();
+                            break;
+                        case "name":
+                            obj.name = reader.ReadElementContentAsString();
+                            break;
+                        case "catno":
+                            obj.catno = reader.ReadElementContentAsString();
+                            break;
+                        case "entity_type":
+                            obj.entity_type = reader.ReadElementContentAsString();
+                            break;
+                        case "entity_type_name":
+                            obj.entity_type_name = reader.ReadElementContentAsString();
+                            break;
+                        case "resource_url":
+                            obj.resource_url = reader.ReadElementContentAsString();
+                            break;
+                        default:
+                            reader.Skip();
+                            break;
+                    }
+                }
+                list.Add(obj);
+            }
+
+            return list.ToArray();
+        }
+
     }
 }

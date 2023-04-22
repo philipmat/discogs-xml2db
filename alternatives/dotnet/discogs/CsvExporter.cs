@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace discogs
@@ -64,11 +65,11 @@ namespace discogs
                     {
                         var fs = File.Create(csvFile, bufferSize: BufferSize);
                         var gzStream = new GZipStream(fs, CompressionMode.Compress, leaveOpen: false);
-                        stream = new StreamWriter(gzStream, encoding: System.Text.Encoding.UTF8);
+                        stream = new StreamWriter(gzStream, encoding: new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
                     }
                     else
                     {
-                        stream = new StreamWriter(csvFile, append: false, encoding: System.Text.Encoding.UTF8, bufferSize: BufferSize);
+                        stream = new StreamWriter(csvFile, append: false, encoding: new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), bufferSize: BufferSize);
                     }
                     stream.WriteLine(CsvExtensions.ToCsv(kvp.Value));
                     return (csvFile, stream);

@@ -70,8 +70,13 @@ Installation instruction for other platforms can be found in the [pip documentat
 
 ### Downloading discogs dumps
 
-Download the latest dump files from discogs manually from [discogs](https://data.discogs.com/)
-or run `get_latest_dumps.sh`.
+Download the latest dump files using one of the methods below:
+
+1. manually from [discogs dumps](https://data.discogs.com/);
+2. running `python3 get_latest_dumps.py [/path/where/to/save/them]`;
+3. running `python3 get_latest_dumps.py --save-urls=/tmp/discogs.urls --url-only`
+   and then use "wget" or "aria2c" to download the dumps using
+   urls file.
 
 To check the files' integrity download the appropriate checksum file from
 [https://data.discogs.com/](https://data.discogs.com/),

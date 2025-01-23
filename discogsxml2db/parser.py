@@ -111,11 +111,11 @@ class DiscogsArtistParser(DiscogsDumpEntityParser):
 
     entity_tag = "artist"
 
-    # <members><id>26</id><name>Alexi Delano</name><id>27</id><name>Cari Lekebusch</name></members>
+    # <members><name id="26">Alexi Delano</name><name id="27">Cari Lekebusch</name></members>
     def element_members(self, element):
-        for id, name in grouper([child.text for child in element.iterchildren()], 2):
-            yield int(id), name.strip()
-
+        for child in element.iterchildren():
+            yield int(child.get('id')), child.text.strip()
+    
     def build_entity(self, entity_id, element):
         artist = Artist()
         artist.id = entity_id

@@ -52,11 +52,11 @@ def import_csv(path, mysql_config):
     if ext != 'csv':
         print('%s can not be imported: not a .csv file' % filename)
         return
-    fp = open(path)
+    fp = open(path, encoding="utf8")
     print("importing %s" % filename)
     cols = fp.readline()[:-1]
     sql = """load data local infile '%s'
-           into table %s
+           into table `%s`
            fields terminated by ',' ESCAPED BY '' OPTIONALLY ENCLOSED BY '\\"'
            lines terminated by '\\n'
            IGNORE 1 LINES

@@ -5,7 +5,19 @@ namespace discogs
 {
     public interface IExportToCsv
     {
+        /// <summary>
+        /// Returns the names of all files an implementation would produce and their headers.
+        /// </summary>
+        /// <returns>A dictionary where the key is the file name (e.g. "artist_url") and the
+        /// value is an array of headers (e.g. [ "url_id", "url", "artist_id" ].</returns>
         IReadOnlyDictionary<string, string[]> GetCsvExportScheme();
+
+        /// <summary>
+        /// Produces list of tuples where the StreamName is the kind of record, matching
+        /// the key from <see cref="GetCsvExportScheme"/>, and the RowValues contains
+        /// one entry for each of the columns the csv file has.
+        /// </summary>
+        /// <returns>Ex: <code>[ (StreamName: "artist_url", RowValues: ["1", "1", "http://example.com"]), ...]</code></returns>
         IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv();
     }
 

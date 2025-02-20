@@ -38,7 +38,7 @@ eventually replace it.
 
 ## Running discogs-xml2db
 
-![Build Status - develop](https://github.com/philipmat/discogs-xml2db/workflows/Python%20build%20check/badge.svg?branch=develop)
+![Build Status - develop](https://github.com/philipmat/discogs-xml2db/workflows/Python%20build%20check/badge.svg)
 
 ### Requirements
 

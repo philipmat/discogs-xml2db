@@ -114,7 +114,8 @@ class DiscogsArtistParser(DiscogsDumpEntityParser):
     # <members><name id="26">Alexi Delano</name><name id="27">Cari Lekebusch</name></members>
     def element_members(self, element):
         for child in element.iterchildren():
-            yield int(child.get('id')), child.text.strip()
+            if child.tag == "name":
+                yield int(child.get('id')), child.text.strip()
 
     def build_entity(self, entity_id, element):
         artist = Artist()
@@ -140,7 +141,6 @@ class DiscogsArtistParser(DiscogsDumpEntityParser):
                 setattr(artist, t, list(self.element_attributes(e, ImageInfo)))
             elif t == 'members':
                 setattr(artist, t, list(self.element_members(e)))
-
         return artist
 
 

@@ -115,7 +115,7 @@ class DiscogsArtistParser(DiscogsDumpEntityParser):
     def element_members(self, element):
         for child in element.iterchildren():
             yield int(child.get('id')), child.text.strip()
-    
+
     def build_entity(self, entity_id, element):
         artist = Artist()
         artist.id = entity_id

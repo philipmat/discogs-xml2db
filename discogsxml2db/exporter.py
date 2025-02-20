@@ -177,7 +177,7 @@ class ArtistExporter(EntityCsvExporter):
         ])
 
     def validate(self, artist):
-        if not artist.name:
+        if not getattr(artist, 'name', None):
             artist.name = '[artist #%d]' % artist.id
         return True
 

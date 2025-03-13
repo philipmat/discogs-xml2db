@@ -149,7 +149,7 @@ class LabelExporter(EntityCsvExporter):
         )
 
     def validate(self, label):
-        if not label.name:
+        if not getattr(label, 'name', None):
             return False
         return True
 

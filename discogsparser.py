@@ -19,10 +19,10 @@ import xml.sax
 import sys
 from exporters import make_exporter
 import argparse  # in < 2.7 pip install argparse
-import gzip
 
 from os import path
 from model import ParserStopError
+from xml_utils import DumpEntity, ensure_root_wrapper
 # from collections import deque
 
 # sys.setdefaultencoding('utf-8')
@@ -67,12 +67,9 @@ def parseEntities(parser, exporter, entities, handler_class):
 	entityHandler = handler_class(exporter, stop_after=options.n, ignore_missing_tags=options.ignore_unknown_tags)
 	parser.setContentHandler(entityHandler)
 	try:
-		if entity_file.endswith(".gz"):
-			_open = gzip.open
-		else:
-			_open = open
-		with _open(entity_file) as f:
-			parser.parse(f)
+		entity = DumpEntity.from_key(entities)
+		with ensure_root_wrapper(entity_file, entity) as wrapped:
+			parser.parse(wrapped.stream)
 	except ParserStopError as pse:
 		print("Parsed %d %s then stopped as requested." % (pse.records_parsed, entities))
 

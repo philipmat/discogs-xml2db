@@ -1,2 +1,4 @@
-psycopg2==2.7.*
+# psycopg2>=2.7,<2.8
 pymongo==3.*
+pytest>=6
+lxml>=4.9

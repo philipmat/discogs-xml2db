@@ -1,0 +1,11 @@
+[project]
+name = "discogs-xml2db"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pymongo==3.*",
+    "pytest>=6",
+    "lxml>=4.9",
+]

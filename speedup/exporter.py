@@ -1,28 +1,15 @@
 # -*- coding: utf-8 -*-
-"""Usage: exporter.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] INPUT [OUTPUT] [--export=<entity>]...
-
-Options:
-  --bz2                 Compress output files using bz2 compression library.
-  --limit=<lines>       Limit export to some number of entities
-  --export=<entity>     Limit export to some entities (repeatable)
-  --debug               Turn on debugging prints
-  --apicounts           Check entities counts with Discogs API
-  --dry-run             Do not write
-
-"""
+"""Command-line entry point for the speedup CSV exporter."""
 import bz2
 import csv
 import glob
 import os
+import argparse
 
-from docopt import docopt
-import requests
 from tqdm import tqdm
 
 
-from parser import *
-
-from itertools import chain
+from .parser import *
 
 from xml_utils import DumpEntity, ensure_root_wrapper
 
@@ -84,11 +71,13 @@ class EntityCsvExporter(object):
         debug=False,
         max_hint=None,
         verbose=False,
+        show_progress=True,
     ):
         self.entity = entity
         self.parser = _parsers[entity]()
         self.max_hint = max_hint
         self.verbose = verbose
+        self.show_progress = show_progress
 
         lookup = "discogs_[0-9]*_{}s.xml*".format(entity)
         self.pattern = os.path.join(idir, lookup)
@@ -168,19 +157,27 @@ class EntityCsvExporter(object):
         if not self.dry_run:
             operations = self.build_ops()
 
-        with tqdm(
-            total=self.max_hint,
-            ncols=self.progress_bar_width,
-            desc="Processing {:>10}s".format(self.entity),
-            unit="{}s".format(self.entity),
-        ) as pbar:
+        iterator = enumerate(filter(self.validate, self.parser.parse(fp)), start=1)
+        cnt = 0
 
-            for cnt, entity in enumerate(
-                filter(self.validate, self.parser.parse(fp)), start=1
-            ):
+        if self.show_progress:
+            with tqdm(
+                total=self.max_hint,
+                ncols=self.progress_bar_width,
+                desc="Processing {:>10}s".format(self.entity),
+                unit="{}s".format(self.entity),
+            ) as pbar:
+
+                for cnt, entity in iterator:
+                    if not self.dry_run:
+                        self.run_ops(entity, operations)
+                    pbar.update()
+                    if self.limit is not None and cnt >= self.limit:
+                        break
+        else:
+            for cnt, entity in iterator:
                 if not self.dry_run:
                     self.run_ops(entity, operations)
-                pbar.update()
                 if self.limit is not None and cnt >= self.limit:
                     break
 
@@ -357,6 +354,17 @@ _exporters = {
 }
 
 
+DEFAULT_ROUGH_COUNTS = {
+    "artists": 5000000,
+    "labels": 1100000,
+    "masters": 1250000,
+    "releases": 8500000,
+}
+
+
+DEFAULT_EXPORT_ENTITIES = tuple(_exporters.keys())
+
+
 csv_headers = {
     table: columns.split()
     for table, columns in {
@@ -391,47 +399,148 @@ csv_headers = {
 }
 
 
-def main(args):
+def _fetch_rough_counts(use_api_counts=False, request_session=None):
+    counts = DEFAULT_ROUGH_COUNTS.copy()
+    if not use_api_counts:
+        return counts
 
-    arguments = docopt(__doc__, version="Discogs-to-SQL exporter")
-
-    inbase = arguments["INPUT"]
-    outbase = arguments["OUTPUT"] or "."
-    limit = int(arguments["--limit"]) if arguments["--limit"] else None
-    bz2_on = arguments["--bz2"]
-    debug = arguments["--debug"]
-    dry_run = arguments["--dry-run"]
-
-    # this is used to get a rough idea of how many items we can expect
-    # in each dump file so that we can show the progress bar
-    rough_counts = {
-        "artists": 5000000,
-        "labels": 1100000,
-        "masters": 1250000,
-        "releases": 8500000,
-    }
-    if arguments["--apicounts"]:
-        r = requests.get("https://api.discogs.com/", timeout=5)
+    if request_session is not None:
+        session = request_session
+    else:
         try:
-            rough_counts.update(r.json().get("statistics"))
-        except:
-            pass
+            import requests as requests_module
+        except ImportError:
+            return counts
+        session = requests_module
 
-    for entity in arguments["--export"]:
-        expected_count = rough_counts["{}s".format(entity)]
-        exporter = _exporters[entity](
-            inbase,
-            outbase,
+    try:
+        response = session.get("https://api.discogs.com/", timeout=5)
+        payload = response.json()
+        statistics = payload.get("statistics", {}) if isinstance(payload, dict) else {}
+        for key, value in statistics.items():
+            if isinstance(value, int):
+                counts[key] = value
+    except Exception:
+        # Swallow any network/JSON issues and fall back to built-in guesses.
+        pass
+
+    return counts
+
+
+def export_entities(
+    input_dir,
+    output_dir,
+    entities,
+    *,
+    limit=None,
+    bz2_on=False,
+    debug=False,
+    dry_run=False,
+    use_api_counts=False,
+    show_progress=True,
+    request_session=None,
+):
+    if not entities:
+        entities = DEFAULT_EXPORT_ENTITIES
+
+    counts = _fetch_rough_counts(use_api_counts=use_api_counts, request_session=request_session)
+
+    for entity in entities:
+        exporter_cls = _exporters[entity]
+        expected_key = f"{entity}s"
+        expected_count = counts.get(expected_key)
+
+        max_hint = None
+        if show_progress:
+            max_hint = expected_count
+            if limit is not None and expected_count is not None:
+                max_hint = min(expected_count, limit)
+
+        exporter = exporter_cls(
+            input_dir,
+            output_dir,
             limit=limit,
             bz2=bz2_on,
             debug=debug,
-            max_hint=min(expected_count, limit or expected_count),
+            max_hint=max_hint,
             dry_run=dry_run,
+            show_progress=show_progress,
         )
         exporter.export()
 
 
-if __name__ == "__main__":
-    import sys
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        prog="discogs-speedup-exporter",
+        description="Export Discogs XML dumps to relational CSV tables.",
+    )
+    parser.add_argument(
+        "input_dir",
+        help="Directory containing Discogs XML dumps.",
+    )
+    parser.add_argument(
+        "output_dir",
+        nargs="?",
+        default=".",
+        help="Directory where CSV files will be written (default: current directory).",
+    )
+    parser.add_argument(
+        "--bz2",
+        dest="bz2_on",
+        action="store_true",
+        help="Compress generated CSV files using bz2.",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Limit export to at most this many entities per file.",
+    )
+    parser.add_argument(
+        "--export",
+        dest="entities",
+        action="append",
+        choices=DEFAULT_EXPORT_ENTITIES,
+        help="Restrict export to the selected entity (repeatable).",
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable verbose debugging output from the exporter.",
+    )
+    parser.add_argument(
+        "--apicounts",
+        action="store_true",
+        help="Fetch expected entity counts from the Discogs API to improve progress bars.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Parse the dumps without writing any files.",
+    )
+    parser.add_argument(
+        "--no-progress",
+        dest="show_progress",
+        action="store_false",
+        help="Disable the progress bar output.",
+    )
+    parser.set_defaults(show_progress=True)
 
-    sys.exit(main(sys.argv))
+    args = parser.parse_args(argv)
+
+    export_entities(
+        args.input_dir,
+        args.output_dir,
+        entities=args.entities or DEFAULT_EXPORT_ENTITIES,
+        limit=args.limit,
+        bz2_on=args.bz2_on,
+        debug=args.debug,
+        dry_run=args.dry_run,
+        use_api_counts=args.apicounts,
+        show_progress=args.show_progress,
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

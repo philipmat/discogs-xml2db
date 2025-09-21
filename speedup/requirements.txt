@@ -1,4 +1,0 @@
-docopt
-lxml
-requests
-tqdm

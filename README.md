@@ -1,5 +1,6 @@
 Update: We are currently working on a new implementation of `discogs-xml2db`.
 The new aproach is significantly faster and can be found in the *speedup* directory.
+Use the Click-powered CLI via `uv run discogs-export export ...` for the fastest CSV workflow, or invoke the legacy script with `python3 speedup/exporter.py` while we transition.
 
 ---
 

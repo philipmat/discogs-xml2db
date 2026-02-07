@@ -1,6 +1,8 @@
 # Discogs .NET Parser
 
-This alternative `discogsxml2db` is written in C# and run on Microsoft .NET Core.
+This alternative `discogsxml2db` is written in C# and runs on Microsoft .NET Core,
+although the latter is required only for development; builds that require
+no installation are provided with each release.
 
 It provides a significant speedup over the python version:
 
@@ -35,7 +37,8 @@ It provides a significant speedup over the python version:
 
 Unlike the Python version, this version requires no installation.
 
-Simply download the archive appropriate for your platform. Unzip,
+Simply download [from the release page](https://github.com/philipmat/discogs-xml2db/releases)
+the archive appropriate for your platform. Unzip,
 and you should have 2 files: a `discogs` executable (or `discogs.exe` on
 Windows) and a "discogs.pdb" support file.
 

@@ -1,15 +1,14 @@
 using Xunit;
 
-namespace tests
+namespace tests;
+
+public class DebugOnlyAttribute : FactAttribute
 {
-    public class DebugOnlyAttribute : FactAttribute
+    public DebugOnlyAttribute()
     {
-        public DebugOnlyAttribute()
+        if (!System.Diagnostics.Debugger.IsAttached)
         {
-            if (!System.Diagnostics.Debugger.IsAttached)
-            {
-                Skip = "Only running in interactive mode.";
-            }
+            Skip = "Only running in interactive mode.";
         }
     }
 }

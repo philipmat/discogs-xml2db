@@ -156,15 +156,18 @@ class DiscogsLabelParser(DiscogsDumpEntityParser):
             if t in ('data_quality',
                      'contactinfo',
                      'name',
-                     'profile',
-                     'parentLabel'):
+                     'profile'):
                 setattr(label, t, gettext_stripped(e))
+
+            elif t in ('parentLabel',):
+                setattr(label, t, gettext_stripped(e))
+                setattr(label, "parentLabelId", e.attrib.get("id"))
 
             elif t in ('sublabels',
                        'urls'):
                 setattr(label, t, list(self.children_text(e)))
 
-            elif t in ('images'):
+            elif t in ('images',):
                 setattr(label, t, list(self.element_attributes(e, ImageInfo)))
         return label
 

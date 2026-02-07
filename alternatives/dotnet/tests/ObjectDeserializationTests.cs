@@ -259,166 +259,257 @@ public class ObjectDeserializationTests
     [Fact]
     public void Release_Populate()
     {
-        var release = new discogs.Releases.release();
+        Release release = new();
 
         // Act
         Populate(release, "release.xml");
 
         // Assert
-        release.title.Should().Be("Profound Sounds Vol. 1");
-        release.country.Should().Be("US");
-        release.released.Should().Be("1999-07-13");
-        release.notes.Should().NotBeNullOrEmpty();
-        release.data_quality.Should().Be("Correct");
-        release.master_id.Should().Be("66526");
+        release.Title.Should().Be("Profound Sounds Vol. 1");
+        release.Country.Should().Be("US");
+        release.Released.Should().Be("1999-07-13");
+        release.Notes.Should().NotBeNullOrEmpty();
+        release.DataQuality.Should().Be("Correct");
+        release.MasterId.Should().Be("66526");
 
-        release.videos.Should().HaveCount(3);
-        release.videos[0].Src.Should().Be("https://www.youtube.com/watch?v=bqUfNGJEKlo");
-        release.videos[0].Duration.Should().Be("4074");
-        release.videos[0].Embed.Should().Be("true");
-        release.videos[0].Title.Should().Be("Profound Sounds Vol. 1 - Josh Wink");
-        release.videos[0].Description.Should().Be("mix 1999");
-        release.videos[^1].Src.Should().Be("https://www.youtube.com/watch?v=cpQWEQjunF4");
-        release.videos[^1].Duration.Should().Be("421");
-        release.videos[^1].Embed.Should().Be("true");
-        release.videos[^1].Title.Should().Be("Profound Sounds Track 1....");
-        release.videos[^1].Description.Should().Be("How it SHOULD sound......");
+        release.Images.Should()
+            .HaveCount(4)
+            .And
+            .AllSatisfy(i =>
+            {
+                i.Type.Should().BeOneOf("primary", "secondary");
+                i.Uri.Should().BeNullOrEmpty();
+                i.Uri150.Should().BeNullOrEmpty();
+                i.Width.Should().HaveLength(3);
+                i.Height.Should().HaveLength(3);
+            });
 
-        release.genres.Should().HaveCount(1);
-        release.genres[0].Should().Be("Electronic");
-        release.styles.Should().HaveCount(2);
-        release.styles[0].Should().Be("Techno");
-        release.styles[1].Should().Be("Tech House");
+        release.Videos.Should()
+            .HaveCount(3)
+            .And
+            .SatisfyRespectively(
+                r =>
+                {
+                    r.Src.Should().Be("https://www.youtube.com/watch?v=bqUfNGJEKlo");
+                    r.Duration.Should().Be("4074");
+                    r.Embed.Should().Be("true");
+                    r.Title.Should().Be("Profound Sounds Vol. 1 - Josh Wink");
+                    r.Description.Should().Be("mix 1999");
+                },
+                r =>
+                {
+                    r.Src.Should().NotBeNullOrWhiteSpace();
+                    r.Duration.Should().NotBeNullOrWhiteSpace();
+                    r.Embed.Should().Be("true");
+                    r.Title.Should().NotBeNullOrWhiteSpace();
+                    r.Description.Should().BeNullOrEmpty();
+                },
+                r =>
+                {
+                    r.Src.Should().Be("https://www.youtube.com/watch?v=cpQWEQjunF4");
+                    r.Duration.Should().Be("421");
+                    r.Embed.Should().Be("true");
+                    r.Title.Should().Be("Profound Sounds Track 1....");
+                    r.Description.Should().Be("How it SHOULD sound......");
+                }
+            );
 
-        release.identifiers.Should().HaveCount(2);
-        release.identifiers[0].type.Should().Be("Barcode");
-        release.identifiers[0].value.Should().Be("074646362822");
-        release.identifiers[0].description.Should().BeNullOrEmpty();
-        release.identifiers[1].type.Should().Be("Matrix / Runout");
-        release.identifiers[1].value.Should().Be("G PHRUPMASTERGENERAL T27 LONDON");
-        release.identifiers[1].description.Should().Be("Only On A-Side Runout");
+        release.Genres.Should()
+            .HaveCount(1)
+            .And.BeEquivalentTo("Electronic");
+        release.Styles.Should()
+            .HaveCount(2)
+            .And.BeEquivalentTo("Tech House", "Techno");
 
-        release.labels.Should().HaveCount(1);
-        release.labels[0].id.Should().Be("6");
-        release.labels[0].name.Should().Be("Ruffhouse Records");
-        release.labels[0].catno.Should().Be("CK 63628");
+        release.Identifiers.Should()
+            .HaveCount(2)
+            .And.SatisfyRespectively(
+                i =>
+                {
+                    i.Type.Should().Be("Barcode");
+                    i.Value.Should().Be("074646362822");
+                    i.Description.Should().BeNullOrEmpty();
+                },
+                i =>
+                {
+                    i.Type.Should().Be("Matrix / Runout");
+                    i.Value.Should().Be("G PHRUPMASTERGENERAL T27 LONDON");
+                    i.Description.Should().Be("Only On A-Side Runout");
+                }
+            );
 
-        release.formats.Should().HaveCount(2);
-        release.formats[0].name.Should().Be("Cassette");
-        release.formats[0].qty.Should().Be("15");
-        release.formats[0].text.Should().BeNullOrEmpty();
-        release.formats[0].descriptions.Should().BeNullOrEmpty();
-        release.formats[1].name.Should().Be("CD");
-        release.formats[1].qty.Should().Be("1");
-        release.formats[1].text.Should().Be("cd text");
-        release.formats[1].descriptions.Should().BeEquivalentTo(["Compilation", "Mixed"]);
+        release.Labels.Should()
+            .HaveCount(1)
+            .And
+            .SatisfyRespectively(l =>
+            {
+                l.Id.Should().Be("6");
+                l.Name.Should().Be("Ruffhouse Records");
+                l.CatalogNumber.Should().Be("CK 63628");
+            });
 
-        release.artists.Should().HaveCount(1);
-        release.artists[0].id.Should().Be("3");
-        release.artists[0].name.Should().Be("Josh Wink");
-        release.artists[0].anv.Should().BeNullOrEmpty();
-        release.artists[0].join.Should().BeNullOrEmpty();
-        release.artists[0].role.Should().BeNullOrEmpty();
-        release.artists[0].tracks.Should().BeNullOrEmpty();
+        release.Formats.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                f =>
+                {
+                    f.Name.Should().Be("Cassette");
+                    f.Quantity.Should().Be("15");
+                    f.Text.Should().BeNullOrEmpty();
+                    f.Descriptions.Should().BeNullOrEmpty();
+                },
+                f =>
+                {
+                    f.Name.Should().Be("CD");
+                    f.Quantity.Should().Be("1");
+                    f.Text.Should().Be("cd text");
+                    f.Descriptions.Should().BeEquivalentTo(["Compilation", "Mixed"]);
+                });
 
-        release.extraartists.Should().HaveCount(1);
-        release.extraartists[0].id.Should().Be("3");
-        release.extraartists[0].name.Should().Be("Josh Wink");
-        release.extraartists[0].anv.Should().BeNullOrEmpty();
-        release.extraartists[0].join.Should().BeNullOrEmpty();
-        release.extraartists[0].role.Should().Be("DJ Mix");
-        release.extraartists[0].tracks.Should().BeNullOrEmpty();
+        release.Artists.Should()
+            .HaveCount(1)
+            .And
+            .SatisfyRespectively(a =>
+            {
+                a.Id.Should().Be("3");
+                a.Name.Should().Be("Josh Wink");
+                a.ArtistNameVariation.Should().BeNullOrEmpty();
+                a.Join.Should().BeNullOrEmpty();
+                a.Role.Should().BeNullOrEmpty();
+                a.Tracks.Should().BeNullOrEmpty();
+            });
 
-        release.companies.Should().HaveCount(2);
-        release.companies[0].id.Should().Be("93330");
-        release.companies[0].name.Should().Be("Columbia Records");
-        release.companies[0].catno.Should().Be("1");
-        release.companies[0].entity_type.Should().Be("10");
-        release.companies[0].entity_type_name.Should().Be("Manufactured By");
-        release.companies[0].resource_url.Should().Be("https://api.discogs.com/labels/93330");
-        release.companies[1].id.Should().Be("93330");
-        release.companies[1].name.Should().Be("Columbia Records");
-        release.companies[1].catno.Should().BeNullOrEmpty();
-        release.companies[1].entity_type.Should().Be("9");
-        release.companies[1].entity_type_name.Should().Be("Distributed By");
-        release.companies[1].resource_url.Should().Be("https://api.discogs.com/labels/93330");
+        release.ExtraArtists.Should()
+            .HaveCount(1)
+            .And.SatisfyRespectively(e =>
+            {
+                e.Id.Should().Be("3");
+                e.Name.Should().Be("Josh Wink");
+                e.ArtistNameVariation.Should().BeNullOrEmpty();
+                e.Join.Should().BeNullOrEmpty();
+                e.Role.Should().Be("DJ Mix");
+                e.Tracks.Should().BeNullOrEmpty();
+            });
 
-        release.tracklist.Should().HaveCount(3);
-        release.tracklist[0].position.Should().Be("1");
-        release.tracklist[0].title.Should().Be("Untitled 8");
-        release.tracklist[0].duration.Should().Be("7:00");
+        release.Companies.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                c =>
+                {
+                    c.Id.Should().Be("93330");
+                    c.Name.Should().Be("Columbia Records");
+                    c.CatalogNumber.Should().Be("1");
+                    c.EntityType.Should().Be("10");
+                    c.EntityTypeName.Should().Be("Manufactured By");
+                    c.ResourceUrl.Should().Be("https://api.discogs.com/labels/93330");
+                },
+                c =>
+                {
+                    c.Id.Should().Be("93330");
+                    c.Name.Should().Be("Columbia Records");
+                    c.CatalogNumber.Should().BeNullOrEmpty();
+                    c.EntityType.Should().Be("9");
+                    c.EntityTypeName.Should().Be("Distributed By");
+                    c.ResourceUrl.Should().Be("https://api.discogs.com/labels/93330");
+                });
 
-        release.tracklist[0].artists.Should().HaveCount(2);
-        release.tracklist[0].artists[0].id.Should().Be("5");
-        release.tracklist[0].artists[0].name.Should().Be("Heiko Laux");
-        release.tracklist[0].artists[0].join.Should().Be("&");
-        release.tracklist[0].artists[1].id.Should().Be("4");
-        release.tracklist[0].artists[1].name.Should().Be("Johannes Heil");
-        release.tracklist[0].artists[1].join.Should().BeNullOrEmpty();
-        release.tracklist[0].extraartists.Should().HaveCount(1);
-        release.tracklist[0].extraartists[0].id.Should().Be("11233");
-        release.tracklist[0].extraartists[0].name.Should().Be("Chris Lum");
-        release.tracklist[0].extraartists[0].role.Should().Be("Producer");
+        release.TrackList.Should()
+            .HaveCount(3)
+            .And.SatisfyRespectively(
+                t =>
+                {
+                    t.Position.Should().Be("1");
+                    t.Title.Should().Be("Untitled 8");
+                    t.Duration.Should().Be("7:00");
 
-        release.tracklist[1].position.Should().Be("2");
-        release.tracklist[1].sub_tracks.Should().BeNullOrEmpty();
-        release.tracklist[1].artists.Should().HaveCount(1);
-        release.tracklist[1].extraartists.Should().BeNullOrEmpty();
-        release.tracklist[2].position.Should().Be("3");
-        release.tracklist[2].sub_tracks.Should().BeNullOrEmpty();
-        release.tracklist[2].artists.Should().HaveCount(1);
-        release.tracklist[2].extraartists.Should().HaveCount(1);
+                    t.Artists.Should().HaveCount(2);
+                    t.Artists[0].Id.Should().Be("5");
+                    t.Artists[0].Name.Should().Be("Heiko Laux");
+                    t.Artists[0].Join.Should().Be("&");
+                    t.Artists[1].Id.Should().Be("4");
+                    t.Artists[1].Name.Should().Be("Johannes Heil");
+                    t.Artists[1].Join.Should().BeNullOrEmpty();
 
-        release.tracklist[0].sub_tracks.Should().HaveCount(3);
-        release.tracklist[0].sub_tracks[0].position.Should().Be("11.a");
-        release.tracklist[0].sub_tracks[0].title.Should().Be("909 Shuffle");
-        release.tracklist[0].sub_tracks[0].duration.Should().Be("3:10");
-        release.tracklist[0].sub_tracks[1].position.Should().Be("11.b");
-        release.tracklist[0].sub_tracks[1].title.Should().Be("Laser 101 Rmx");
-        release.tracklist[0].sub_tracks[2].position.Should().Be("11.c");
-        release.tracklist[0].sub_tracks[2].duration.Should().Be("5:38");
+                    t.ExtraArtists.Should().ContainSingle();
+                    t.ExtraArtists[0].Id.Should().Be("11233");
+                    t.ExtraArtists[0].Name.Should().Be("Chris Lum");
+                    t.ExtraArtists[0].Role.Should().Be("Producer");
+
+                    t.SubTracks.Should().HaveCount(3);
+                    t.SubTracks[0].Position.Should().Be("11.a");
+                    t.SubTracks[0].Title.Should().Be("909 Shuffle");
+                    t.SubTracks[0].Duration.Should().Be("3:10");
+                    t.SubTracks[1].Position.Should().Be("11.b");
+                    t.SubTracks[1].Title.Should().Be("Laser 101 Rmx");
+                    t.SubTracks[2].Position.Should().Be("11.c");
+                    t.SubTracks[2].Duration.Should().Be("5:38");
+                },
+                t =>
+                {
+                    t.Position.Should().Be("2");
+                    t.Title.Should().Be("Anjua (Sneaky 3)");
+                    t.Duration.Should().Be("5:28");
+
+                    t.SubTracks.Should().BeNullOrEmpty();
+                    t.Artists.Should().ContainSingle();
+                    t.ExtraArtists.Should().BeNullOrEmpty();
+                    t.SubTracks.Should().BeNullOrEmpty();
+                    t.Artists.Should().ContainSingle();
+                    t.ExtraArtists.Should().BeEmpty();
+                },
+                t =>
+                {
+                    t.Position.Should().Be("3");
+                    t.Title.Should().Be("When The Funk Hits The Fan (Mood II Swing When The Dub Hits The Fan)");
+                    t.Duration.Should().Be("5:25");
+                    t.Artists.Should().ContainSingle();
+                    t.ExtraArtists.Should().ContainSingle();
+                    t.SubTracks.Should().BeEmpty();
+                });
     }
 
     [Fact]
     public void Release_4497890_Populate_TrackArtists()
     {
-        var release = new discogs.Releases.release();
+        var release = new Release();
 
         // Act
         Populate(release, "release_4497890.xml");
 
-        var t1 = release.tracklist[0];
-        t1.position.Should().Be("1-1");
-        t1.artists.Should().BeNullOrEmpty();
-        t1.extraartists.Should().HaveCount(1);
-        t1.extraartists[0].name.Should().Be("Emerson, Lake & Palmer");
+        var t1 = release.TrackList[0];
+        t1.Position.Should().Be("1-1");
+        t1.Artists.Should().BeNullOrEmpty();
+        t1.ExtraArtists.Should().HaveCount(1);
+        t1.ExtraArtists[0].Name.Should().Be("Emerson, Lake & Palmer");
 
-        var t2 = release.tracklist[1];
-        t2.position.Should().BeNullOrEmpty();
-        t2.title.Should().Be("Piano Concerto No. 1");
-        t2.artists.Should().BeNullOrEmpty();
-        t2.extraartists.Should().HaveCount(2);
-        t2.sub_tracks.Should().HaveCount(1);
-        t2.sub_tracks[0].position.Should().Be("1-2");
+        var t2 = release.TrackList[1];
+        t2.Position.Should().BeNullOrEmpty();
+        t2.Title.Should().Be("Piano Concerto No. 1");
+        t2.Artists.Should().BeNullOrEmpty();
+        t2.ExtraArtists.Should().HaveCount(2);
+        t2.SubTracks.Should().HaveCount(1);
+        t2.SubTracks[0].Position.Should().Be("1-2");
 
 
-        var t3 = release.tracklist[2];
-        t3.position.Should().Be("1-3");
-        t3.artists.Should().BeNullOrEmpty();
-        t3.extraartists.Should().HaveCount(1);
-        t3.extraartists[0].name.Should().Be("Greg Lake");
+        var t3 = release.TrackList[2];
+        t3.Position.Should().Be("1-3");
+        t3.Artists.Should().BeNullOrEmpty();
+        t3.ExtraArtists.Should().HaveCount(1);
+        t3.ExtraArtists[0].Name.Should().Be("Greg Lake");
 
-        var t4 = release.tracklist[3];
-        t4.position.Should().BeNullOrEmpty();
-        t4.title.Should().Be("Karn Evil 9");
-        t4.artists.Should().BeNullOrEmpty();
-        t4.extraartists.Should().BeNullOrEmpty();
-        t4.sub_tracks.Should().HaveCount(1);
-        t4.sub_tracks[0].position.Should().Be("1-4");
-        t4.sub_tracks[0].artists.Should().BeNullOrEmpty();
-        t4.sub_tracks[0].extraartists.Should().HaveCount(2);
-        t4.sub_tracks[0].extraartists[0].name.Should().Be("Greg Lake");
-        t4.sub_tracks[0].extraartists[1].name.Should().Be("Keith Emerson");
+        var t4 = release.TrackList[3];
+        t4.Position.Should().BeNullOrEmpty();
+        t4.Title.Should().Be("Karn Evil 9");
+        t4.Artists.Should().BeNullOrEmpty();
+        t4.ExtraArtists.Should().BeNullOrEmpty();
+        t4.SubTracks.Should().HaveCount(1);
+        t4.SubTracks[0].Position.Should().Be("1-4");
+        t4.SubTracks[0].Artists.Should().BeNullOrEmpty();
+        t4.SubTracks[0].ExtraArtists.Should().HaveCount(2);
+        t4.SubTracks[0].ExtraArtists[0].Name.Should().Be("Greg Lake");
+        t4.SubTracks[0].ExtraArtists[1].Name.Should().Be("Keith Emerson");
     }
 
 

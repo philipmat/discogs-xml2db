@@ -1,6 +1,7 @@
-namespace discogs.Releases;
+namespace discogs;
 
-public class release : IExportable
+[XmlType("release")]
+public class Release : IExportable
 {
     private static readonly Dictionary<string, string[]> _csvExportHeaders = new()
     {
@@ -22,55 +23,74 @@ public class release : IExportable
         },
     };
 
-    [XmlAttribute]
-    public string id { get; set; }
+    [XmlAttribute("id")]
+    public string Id { get; set; }
 
-    [XmlAttribute]
-    public string status { get; set; }
+    [XmlAttribute("status")]
+    public string Status { get; set; }
 
-    public Image[] images { get; set; }
-    public artist[] artists { get; set; }
-    public string title { get; set; }
-    public label[] labels { get; set; }
-    public artist[] extraartists { get; set; }
-    public format[] formats { get; set; }
+    [XmlArrayItem("images")]
+    public Image[] Images { get; set; }
 
+    [XmlArray("artists")]
+    public Artist[] Artists { get; set; }
+
+    [XmlElement("title")]
+    public string Title { get; set; }
+    [XmlArray("labels")]
+    public Label[] Labels { get; set; }
+    [XmlArray("extraartists")]
+    public Artist[] ExtraArtists { get; set; }
+    [XmlArray("formats")]
+    public Format[] Formats { get; set; }
+
+    [XmlArray( "genres")]
     [XmlArrayItem("genre")]
-    public string[] genres { get; set; }
+    public string[] Genres { get; set; }
 
+    [XmlArray( "styles")]
     [XmlArrayItem("style")]
-    public string[] styles { get; set; }
+    public string[] Styles { get; set; }
 
-    public string country { get; set; }
-    public string released { get; set; }
-    public string notes { get; set; }
+    [XmlElement( "country")]
+    public string Country { get; set; }
+    [XmlElement( "released")]
+    public string Released { get; set; }
+    [XmlElement( "notes")]
+    public string Notes { get; set; }
 
-    public string data_quality { get; set; }
+    [XmlElement( "data_quality")]
+    public string DataQuality { get; set; }
 
     // has is_main_release="true,false" attribute
-    public string master_id { get; set; }
-    public track[] tracklist { get; set; }
-    public identifier[] identifiers { get; set; }
-    public Video[] videos { get; set; }
-    public company[] companies { get; set; }
+    [XmlElement( "master_id" )]
+    public string MasterId { get; set; }
+    [XmlArray( "tracklist")]
+    public Track[] TrackList { get; set; }
+    [XmlArray( "identifiers")]
+    public Identifier[] Identifiers { get; set; }
+    [XmlArray( "videos")]
+    public Video[] Videos { get; set; }
+    [XmlArray( "companies")]
+    public Company[] Companies { get; set; }
 
-    public IEnumerable<track> GetTracks()
+    private IEnumerable<Track> GetTracks()
     {
-        if ((tracklist?.Length ?? 0) == 0)
+        if ((TrackList?.Length ?? 0) == 0)
         {
             yield break;
         }
 
-        for (int i = 0; i < tracklist.Length; i++)
+        for (int i = 0; i < TrackList.Length; i++)
         {
-            tracklist[i].SetTrackId(id, i + 1);
-            yield return tracklist[i];
-            if ((tracklist[i].sub_tracks?.Length ?? 0) > 0)
+            TrackList[i].SetTrackId(Id, i + 1);
+            yield return TrackList[i];
+            if ((TrackList[i].SubTracks?.Length ?? 0) > 0)
             {
-                for (int j = 0; j < tracklist[i].sub_tracks.Length; j++)
+                for (int j = 0; j < TrackList[i].SubTracks.Length; j++)
                 {
-                    tracklist[i].sub_tracks[j].SetTrackId(id, i + 1, j + 1);
-                    yield return tracklist[i].sub_tracks[j];
+                    TrackList[i].SubTracks[j].SetTrackId(Id, i + 1, j + 1);
+                    yield return TrackList[i].SubTracks[j];
                 }
             }
         }
@@ -78,131 +98,133 @@ public class release : IExportable
 
     public IEnumerable<(string StreamName, string[] RowValues)> Export()
     {
-        yield return ("release", [id, title, released, country, notes, data_quality, master_id, status]);
-        if (genres?.Length > 0)
+        yield return ("release", [Id, Title, Released, Country, Notes, DataQuality, MasterId, Status]);
+        if (Genres?.Length > 0)
         {
-            foreach (var g in genres)
+            foreach (string g in Genres)
             {
                 if (string.IsNullOrEmpty(g)) continue;
-                yield return ("release_genre", [id, g]);
+                yield return ("release_genre", [Id, g]);
             }
         }
 
-        if (labels?.Length > 0)
+        if (Labels?.Length > 0)
         {
-            foreach (var l in labels)
+            foreach (Label l in Labels)
             {
                 if (l == null) continue;
-                yield return ("release_label", [id, l.name, l.catno]);
+                yield return ("release_label", [Id, l.Name, l.CatalogNumber]);
             }
         }
 
-        if (styles?.Length > 0)
+        if (Styles?.Length > 0)
         {
-            foreach (var s in styles)
+            foreach (string s in Styles)
             {
                 if (string.IsNullOrEmpty(s)) continue;
-                yield return ("release_style", [id, s]);
+                yield return ("release_style", [Id, s]);
             }
         }
 
-        if (images?.Length > 0)
+        if (Images?.Length > 0)
         {
-            foreach (var image in images)
+            foreach (Image image in Images)
             {
-                yield return ("release_image", [id, image.Type, image.Width, image.Height]);
+                yield return ("release_image", [Id, image.Type, image.Width, image.Height]);
             }
         }
 
-        if (formats?.Length > 0)
+        if (Formats?.Length > 0)
         {
-            foreach (var f in formats)
+            foreach (Format f in Formats)
             {
                 if (f == null) continue;
                 yield return ("release_format",
                 [
-                    id, f.name, f.qty, f.text, string.Join("; ", f.descriptions ?? [])
+                    Id, f.Name, f.Quantity, f.Text, string.Join("; ", f.Descriptions ?? [])
                 ]);
             }
         }
 
-        if (identifiers?.Length > 0)
+        if (Identifiers?.Length > 0)
         {
-            foreach (var i in identifiers)
+            foreach (Identifier i in Identifiers)
             {
                 if (i == null) continue;
-                yield return ("release_identifier", [id, i.description, i.type, i.value]);
+                yield return ("release_identifier", [Id, i.Description, i.Type, i.Value]);
             }
         }
 
-        if (companies?.Length > 0)
+        if (Companies?.Length > 0)
         {
-            foreach (var c in companies)
+            foreach (Company c in Companies)
             {
                 if (c == null) continue;
                 yield return ("release_company",
-                    [id, c.id, c.name, c.entity_type, c.entity_type_name, c.resource_url]);
+                    [Id, c.Id, c.Name, c.EntityType, c.EntityTypeName, c.ResourceUrl]);
             }
         }
 
-        if (videos?.Length > 0)
+        if (Videos?.Length > 0)
         {
-            foreach (var v in videos)
+            foreach (Video v in Videos)
             {
                 if (v == null) continue;
-                yield return ("release_video", [id, v.Duration, v.Title, v.Description, v.Src]);
+                yield return ("release_video", [Id, v.Duration, v.Title, v.Description, v.Src]);
             }
         }
 
-        if (artists?.Length > 0)
+        if (Artists?.Length > 0)
         {
             int position = 1;
-            foreach (var a in artists)
+            foreach (Artist a in Artists)
             {
                 if (a == null) continue;
                 yield return ("release_artist",
-                    [id, a.id, a.name, "0", a.anv, (position++).ToString(), a.join, a.role, a.tracks]);
+                    [Id, a.Id, a.Name, "0", a.ArtistNameVariation, (position++).ToString(), a.Join, a.Role, a.Tracks]);
             }
         }
 
-        if (extraartists?.Length > 0)
+        if (ExtraArtists?.Length > 0)
         {
             int position = 1;
-            foreach (var a in extraartists)
+            foreach (Artist a in ExtraArtists)
             {
                 if (a == null) continue;
                 yield return ("release_artist",
-                    [id, a.id, a.name, "1", a.anv, (position++).ToString(), a.join, a.role, a.tracks]);
+                    [Id, a.Id, a.Name, "1", a.ArtistNameVariation, (position++).ToString(), a.Join, a.Role, a.Tracks]);
             }
         }
 
         int seq = 0;
         string seqs = "";
-        foreach (var t in GetTracks())
+        foreach (Track t in GetTracks())
         {
             seq += 1;
             seqs = seq.ToString();
             yield return ("release_track",
-                [id, seqs, t.position, t.parent_track_id, t.title, t.duration, t.track_id]);
+                [Id, seqs, t.Position, t.ParentTrackId, t.Title, t.Duration, t.TrackId]);
             int artistSeq = 0;
-            foreach (var a in (t.artists ?? []))
+            foreach (Artist a in (t.Artists ?? []))
             {
                 if (a == null) continue;
                 artistSeq += 1;
                 yield return ("release_track_artist",
                 [
-                    id, seqs, t.track_id, a.id, a.name, "0", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks
+                    Id, seqs, t.TrackId, a.Id, a.Name, "0", a.ArtistNameVariation, artistSeq.ToString(), a.Join, a.Role,
+                    a.Tracks
                 ]);
             }
 
             artistSeq = 0;
-            foreach (var a in (t.extraartists ?? []))
+            foreach (Artist a in (t.ExtraArtists ?? []))
             {
                 if (a == null) continue;
                 artistSeq += 1;
                 yield return ("release_track_artist",
                 [
-                    id, seqs, t.track_id, a.id, a.name, "1", a.anv, artistSeq.ToString(), a.join, a.role, a.tracks
+                    Id, seqs, t.TrackId, a.Id, a.Name, "1", a.ArtistNameVariation, artistSeq.ToString(), a.Join, a.Role,
+                    a.Tracks
                 ]);
             }
         }
@@ -219,7 +241,7 @@ public class release : IExportable
         }
 
         // <master id="123"> unlike all others
-        id = reader.GetAttribute("id");
+        Id = reader.GetAttribute("id");
         reader.Read();
         while (!reader.EOF)
         {
@@ -229,55 +251,55 @@ public class release : IExportable
                     // it's back on a release node (EndElement); release control
                     return;
                 case "title":
-                    title = reader.ReadElementContentAsString();
+                    Title = reader.ReadElementContentAsString();
                     break;
                 case "country":
-                    country = reader.ReadElementContentAsString();
+                    Country = reader.ReadElementContentAsString();
                     break;
                 case "released":
-                    released = reader.ReadElementContentAsString();
+                    Released = reader.ReadElementContentAsString();
                     break;
                 case "notes":
-                    notes = reader.ReadElementContentAsString();
+                    Notes = reader.ReadElementContentAsString();
                     break;
                 case "data_quality":
-                    data_quality = reader.ReadElementContentAsString();
+                    DataQuality = reader.ReadElementContentAsString();
                     break;
                 case "master_id":
-                    master_id = reader.ReadElementContentAsString();
+                    MasterId = reader.ReadElementContentAsString();
                     break;
                 case "images":
-                    images = Image.Parse(reader);
+                    Images = Image.Parse(reader);
                     break;
                 case "genres":
-                    genres = reader.ReadChildren("genre");
+                    Genres = reader.ReadChildren("genre");
                     break;
                 case "styles":
-                    styles = reader.ReadChildren("style");
+                    Styles = reader.ReadChildren("style");
                     break;
                 case "videos":
-                    videos = Video.Parse(reader);
+                    Videos = Video.Parse(reader);
                     break;
                 case "identifiers":
-                    identifiers = identifier.Parse(reader);
+                    Identifiers = Identifier.Parse(reader);
                     break;
                 case "labels":
-                    labels = label.Parse(reader);
+                    Labels = Label.Parse(reader);
                     break;
                 case "formats":
-                    formats = format.Parse(reader);
+                    Formats = Format.Parse(reader);
                     break;
                 case "artists":
-                    artists = artist.Parse(reader);
+                    Artists = Artist.Parse(reader);
                     break;
                 case "extraartists":
-                    extraartists = artist.Parse(reader);
+                    ExtraArtists = Artist.Parse(reader);
                     break;
                 case "companies":
-                    companies = company.Parse(reader);
+                    Companies = Company.Parse(reader);
                     break;
                 case "tracklist":
-                    tracklist = track.Parse(reader);
+                    TrackList = Track.Parse(reader);
                     break;
                 default:
                     reader.Read();
@@ -296,27 +318,37 @@ public class release : IExportable
         }
     }
 
-    public bool IsValid() => !string.IsNullOrEmpty(id);
+    public bool IsValid() => !string.IsNullOrEmpty(Id);
 
 
-    public class artist
+    [XmlRoot("artist")]
+    public class Artist
     {
-        public string id { get; set; }
-        public string name { get; set; }
+        [XmlAttribute("id")]
+        public string Id { get; set; }
+
+        [XmlAttribute("name")]
+        public string Name { get; set; }
 
         /// <summary>Artist name variation</summary>
-        public string anv { get; set; }
+        [XmlAttribute("anv")]
+        public string ArtistNameVariation { get; set; }
 
-        public string join { get; set; }
-        public string role { get; set; }
-        public string tracks { get; set; }
+        [XmlAttribute("join")]
+        public string Join { get; set; }
 
-        public static artist[] Parse(XmlReader reader)
+        [XmlAttribute("role")]
+        public string Role { get; set; }
+
+        [XmlAttribute("tracks")]
+        public string Tracks { get; set; }
+
+        public static Artist[] Parse(XmlReader reader)
         {
-            List<artist> list = [];
+            List<Artist> list = [];
             while (reader.Read() && reader.IsStartElement("artist"))
             {
-                var obj = new artist();
+                Artist obj = new();
                 reader.Read();
                 while (!reader.EOF)
                 {
@@ -328,22 +360,22 @@ public class release : IExportable
                     switch (reader.Name)
                     {
                         case "id":
-                            obj.id = reader.ReadElementContentAsString();
+                            obj.Id = reader.ReadElementContentAsString();
                             break;
                         case "name":
-                            obj.name = reader.ReadElementContentAsString();
+                            obj.Name = reader.ReadElementContentAsString();
                             break;
                         case "anv":
-                            obj.anv = reader.ReadElementContentAsString();
+                            obj.ArtistNameVariation = reader.ReadElementContentAsString();
                             break;
                         case "join":
-                            obj.join = reader.ReadElementContentAsString();
+                            obj.Join = reader.ReadElementContentAsString();
                             break;
                         case "role":
-                            obj.role = reader.ReadElementContentAsString();
+                            obj.Role = reader.ReadElementContentAsString();
                             break;
                         case "tracks":
-                            obj.tracks = reader.ReadElementContentAsString();
+                            obj.Tracks = reader.ReadElementContentAsString();
                             break;
                         default:
                             reader.Skip();
@@ -358,28 +390,29 @@ public class release : IExportable
         }
     }
 
-    public class label
+    [XmlRoot("label")]
+    public class Label
     {
-        [XmlAttribute]
-        public string name { get; set; }
+        [XmlAttribute("id")]
+        public string Id { get; set; }
 
-        [XmlAttribute]
-        public string catno { get; set; }
+        [XmlAttribute("name")]
+        public string Name { get; set; }
 
-        [XmlAttribute]
-        public string id { get; set; }
+        [XmlAttribute("catno")]
+        public string CatalogNumber { get; set; }
 
-        public static label[] Parse(XmlReader reader)
+        public static Label[] Parse(XmlReader reader)
         {
-            // expects to be on <identifiers> node
-            List<label> list = [];
+            // expects to be on the <identifiers> node
+            List<Label> list = [];
             while (reader.Read() && reader.IsStartElement("label"))
             {
-                var obj = new label
+                Label obj = new()
                 {
-                    name = reader.GetAttribute("name"),
-                    catno = reader.GetAttribute("catno"),
-                    id = reader.GetAttribute("id"),
+                    Name = reader.GetAttribute("name"),
+                    CatalogNumber = reader.GetAttribute("catno"),
+                    Id = reader.GetAttribute("id"),
                 };
                 list.Add(obj);
             }
@@ -388,32 +421,34 @@ public class release : IExportable
         }
     }
 
-    public class format
+    [XmlRoot("format")]
+    public class Format
     {
-        [XmlAttribute]
-        public string name { get; set; }
+        [XmlAttribute("name")]
+        public string Name { get; set; }
 
-        [XmlAttribute]
-        public string qty { get; set; }
+        [XmlAttribute("qty")]
+        public string Quantity { get; set; }
 
-        [XmlAttribute]
-        public string text { get; set; }
+        [XmlAttribute("test")]
+        public string Text { get; set; }
 
+        [XmlArray("descriptions")]
         [XmlArrayItem("description")]
-        public string[] descriptions { get; set; }
+        public string[] Descriptions { get; set; }
 
-        public static format[] Parse(XmlReader reader)
+        public static Format[] Parse(XmlReader reader)
         {
             // expects to be on <identifiers> node
             // reader.Read();
-            List<format> list = [];
+            List<Format> list = [];
             while (reader.Read() && reader.IsStartElement("format"))
             {
-                var obj = new format
+                Format obj = new()
                 {
-                    name = reader.GetAttribute("name"),
-                    qty = reader.GetAttribute("qty"),
-                    text = reader.GetAttribute("text"),
+                    Name = reader.GetAttribute("name"),
+                    Quantity = reader.GetAttribute("qty"),
+                    Text = reader.GetAttribute("text"),
                 };
                 // read descriptions
                 if (reader.IsEmptyElement)
@@ -424,7 +459,7 @@ public class release : IExportable
                 }
 
                 reader.Read();
-                obj.descriptions = reader.ReadChildren("description");
+                obj.Descriptions = reader.ReadChildren("description");
                 if (reader.NodeType == XmlNodeType.EndElement)
                 {
                     reader.Skip();
@@ -437,34 +472,51 @@ public class release : IExportable
         }
     }
 
-    public class track
+    [XmlRoot("track")]
+    public class Track
     {
         private const string TrackIdFormat = "{0}.{1}";
         private const string SubTrackIdFormat = "{0}.{1}.{2}";
-        public string position { get; set; }
-        public string title { get; set; }
-        public string duration { get; set; }
-        public artist[] artists { get; set; }
-        public artist[] extraartists { get; set; }
-        public track[] sub_tracks { get; set; }
-        internal string track_id { get; private set; } = "";
-        internal string parent_track_id { get; private set; } = "";
+
+        [XmlElement("position")]
+        public string Position { get; set; }
+
+        [XmlElement("title")]
+        public string Title { get; set; }
+
+        [XmlElement("duration")]
+        public string Duration { get; set; }
+
+        [XmlArray("artists")]
+        public Artist[] Artists { get; set; } = [];
+
+        [XmlArray("extraartists")]
+        public Artist[] ExtraArtists { get; set; } = [];
+
+        [XmlArray("sub_tracks")]
+        public Track[] SubTracks { get; set; } = [];
+
+        [XmlElement("track_id")]
+        internal string TrackId { get; private set; } = "";
+
+        [XmlElement("parent_track_id")]
+        internal string ParentTrackId { get; private set; } = "";
 
         public void SetTrackId(string releaseId, int trackSeq)
-            => track_id = string.Format(TrackIdFormat, releaseId, trackSeq);
+            => TrackId = string.Format(TrackIdFormat, releaseId, trackSeq);
 
         public void SetTrackId(string releaseId, int trackSeq, int subTrackSeq)
         {
-            parent_track_id = string.Format(TrackIdFormat, releaseId, trackSeq);
-            track_id = string.Format(SubTrackIdFormat, releaseId, trackSeq, subTrackSeq);
+            ParentTrackId = string.Format(TrackIdFormat, releaseId, trackSeq);
+            TrackId = string.Format(SubTrackIdFormat, releaseId, trackSeq, subTrackSeq);
         }
 
-        public static track[] Parse(XmlReader reader)
+        public static Track[] Parse(XmlReader reader)
         {
-            var list = new List<track>();
+            List<Track> list = new();
             while (reader.Read() && reader.IsStartElement("track"))
             {
-                var obj = new track();
+                Track obj = new();
                 reader.Read(); // mode into sub-nodes
                 while (!reader.EOF)
                 {
@@ -476,16 +528,16 @@ public class release : IExportable
                     switch (reader.Name)
                     {
                         case "position":
-                            obj.position = reader.ReadElementContentAsString();
+                            obj.Position = reader.ReadElementContentAsString();
                             break;
                         case "title":
-                            obj.title = reader.ReadElementContentAsString();
+                            obj.Title = reader.ReadElementContentAsString();
                             break;
                         case "duration":
-                            obj.duration = reader.ReadElementContentAsString();
+                            obj.Duration = reader.ReadElementContentAsString();
                             break;
                         case "artists":
-                            obj.artists = artist.Parse(reader);
+                            obj.Artists = Artist.Parse(reader);
                             if (reader.NodeType == XmlNodeType.EndElement)
                             {
                                 reader.Skip();
@@ -493,7 +545,7 @@ public class release : IExportable
 
                             break;
                         case "extraartists":
-                            obj.extraartists = artist.Parse(reader);
+                            obj.ExtraArtists = Artist.Parse(reader);
                             if (reader.NodeType == XmlNodeType.EndElement)
                             {
                                 reader.Skip();
@@ -501,7 +553,7 @@ public class release : IExportable
 
                             break;
                         case "sub_tracks":
-                            obj.sub_tracks = Parse(reader);
+                            obj.SubTracks = Parse(reader);
                             if (reader.NodeType == XmlNodeType.EndElement)
                             {
                                 reader.Skip();
@@ -521,28 +573,29 @@ public class release : IExportable
         }
     }
 
-    public class identifier
+    [XmlRoot("identifier")]
+    public class Identifier
     {
-        [XmlAttribute]
-        public string type { get; set; }
+        [XmlAttribute("type")]
+        public string Type { get; set; }
 
-        [XmlAttribute]
-        public string value { get; set; }
+        [XmlAttribute("value")]
+        public string Value { get; set; }
 
-        [XmlAttribute]
-        public string description { get; set; }
+        [XmlAttribute("description")]
+        public string Description { get; set; }
 
-        public static identifier[] Parse(XmlReader reader)
+        public static Identifier[] Parse(XmlReader reader)
         {
             // expects to be on the < identifiers > node
-            List<identifier> list = [];
+            List<Identifier> list = [];
             while (reader.Read() && reader.IsStartElement("identifier"))
             {
-                var obj = new identifier
+                Identifier obj = new()
                 {
-                    type = reader.GetAttribute("type"),
-                    value = reader.GetAttribute("value"),
-                    description = reader.GetAttribute("description"),
+                    Type = reader.GetAttribute("type"),
+                    Value = reader.GetAttribute("value"),
+                    Description = reader.GetAttribute("description"),
                 };
                 list.Add(obj);
             }
@@ -551,21 +604,33 @@ public class release : IExportable
         }
     }
 
-    public class company
+    [XmlRoot("company")]
+    public class Company
     {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string catno { get; set; }
-        public string entity_type { get; set; }
-        public string entity_type_name { get; set; }
-        public string resource_url { get; set; }
+        [XmlElement("id")]
+        public string Id { get; set; }
 
-        public static company[] Parse(XmlReader reader)
+        [XmlElement("name")]
+        public string Name { get; set; }
+
+        [XmlElement("catno")]
+        public string CatalogNumber { get; set; }
+
+        [XmlElement("entity_type")]
+        public string EntityType { get; set; }
+
+        [XmlElement("entity_type_name")]
+        public string EntityTypeName { get; set; }
+
+        [XmlElement("resource_url")]
+        public string ResourceUrl { get; set; }
+
+        public static Company[] Parse(XmlReader reader)
         {
-            List<company> list = [];
+            List<Company> list = [];
             while (reader.Read() && reader.IsStartElement("company"))
             {
-                var obj = new company();
+                Company obj = new();
                 reader.Read();
                 while (!reader.EOF)
                 {
@@ -577,22 +642,22 @@ public class release : IExportable
                     switch (reader.Name)
                     {
                         case "id":
-                            obj.id = reader.ReadElementContentAsString();
+                            obj.Id = reader.ReadElementContentAsString();
                             break;
                         case "name":
-                            obj.name = reader.ReadElementContentAsString();
+                            obj.Name = reader.ReadElementContentAsString();
                             break;
                         case "catno":
-                            obj.catno = reader.ReadElementContentAsString();
+                            obj.CatalogNumber = reader.ReadElementContentAsString();
                             break;
                         case "entity_type":
-                            obj.entity_type = reader.ReadElementContentAsString();
+                            obj.EntityType = reader.ReadElementContentAsString();
                             break;
                         case "entity_type_name":
-                            obj.entity_type_name = reader.ReadElementContentAsString();
+                            obj.EntityTypeName = reader.ReadElementContentAsString();
                             break;
                         case "resource_url":
-                            obj.resource_url = reader.ReadElementContentAsString();
+                            obj.ResourceUrl = reader.ReadElementContentAsString();
                             break;
                         default:
                             reader.Skip();
@@ -605,7 +670,5 @@ public class release : IExportable
 
             return list.ToArray();
         }
-
     }
-
 }

@@ -61,7 +61,7 @@ public class ParserTests
 
     [Fact]
     public async Task ParseStream_Release_CallsExporterForEveryTopNodeAsync()
-        => await ParseStream_Type_CallsExporterForEveryTopNodeAsync<discogs.Releases.release>("releases", 1_000);
+        => await ParseStream_Type_CallsExporterForEveryTopNodeAsync<Release>("releases", 1_000);
 
     [Fact]
     public async Task ParseStream_Artist_KnownCounts()
@@ -77,7 +77,7 @@ public class ParserTests
 
     [Fact]
     public async Task ParseStream_Release_KnownCounts()
-        => await ParseStream_Type_TotalCounts<discogs.Releases.release>("releases");
+        => await ParseStream_Type_TotalCounts<Release>("releases");
 
     private static async Task ParseStream_Type_CallsExporterForEveryTopNodeAsync<T>(string file, int exportCallsCount)
         where T : IExportable, new()

@@ -95,7 +95,7 @@ public class Program
         }
         else if (fileName.Contains("_releases"))
         {
-            await ParseAsync<Releases.release>(fileName, options);
+            await ParseAsync<Release>(fileName, options);
         }
         else if (fileName.Contains("_artists"))
         {

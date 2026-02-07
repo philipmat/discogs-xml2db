@@ -129,18 +129,18 @@ public class ObjectDeserializationTests
     [Fact]
     public void Label_Populate()
     {
-        var label = new discogs.Labels.label();
+        var label = new discogs.Labels.Label();
 
         // Act
         Populate(label, "label.xml");
 
         // Assert
-        label.id.Should().Be("1");
-        label.name.Should().Be("Planet E");
-        label.profile.Should().StartWith("[a=Carl Craig]'s");
-        label.profile.Should().EndWith("as publisher.");
-        label.data_quality.Should().Be("Correct");
-        label.urls.Should().HaveCount(5);
+        label.Id.Should().Be("1");
+        label.Name.Should().Be("Planet E");
+        label.Profile.Should().StartWith("[a=Carl Craig]'s");
+        label.Profile.Should().EndWith("as publisher.");
+        label.DataQuality.Should().Be("Correct");
+        label.Urls.Should().HaveCount(5);
         /*
         label.sublabels.Should().HaveCount(2);
         label.sublabels[0].SubId.Should().Be("86537");
@@ -148,16 +148,16 @@ public class ObjectDeserializationTests
         label.sublabels[1].SubId.Should().Be("488315");
         label.sublabels[1].SubName.Should().Be("TWPENTY");
         */
-        label.parentLabel.id.Should().Be("4711");
-        label.parentLabel.name.Should().Be("Goldhead Music");
-        label.images.Should().HaveCount(3);
-        label.images[0].Type.Should().Be("primary");
-        label.images[0].Uri.Should().BeNullOrEmpty();
-        label.images[0].Uri150.Should().BeNullOrEmpty();
-        label.images[0].Width.Should().Be("132");
-        label.images[0].Height.Should().Be("24");
-        label.images[1].Type.Should().Be("secondary");
-        label.images[^1].Type.Should().Be("secondary");
+        label.ParentLabel.id.Should().Be("4711");
+        label.ParentLabel.name.Should().Be("Goldhead Music");
+        label.Images.Should().HaveCount(3);
+        label.Images[0].Type.Should().Be("primary");
+        label.Images[0].Uri.Should().BeNullOrEmpty();
+        label.Images[0].Uri150.Should().BeNullOrEmpty();
+        label.Images[0].Width.Should().Be("132");
+        label.Images[0].Height.Should().Be("24");
+        label.Images[1].Type.Should().Be("secondary");
+        label.Images[^1].Type.Should().Be("secondary");
     }
 
     [Fact]

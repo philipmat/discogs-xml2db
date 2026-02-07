@@ -1,40 +1,56 @@
 namespace discogs.Labels;
 
-public class label : IExportable
+[XmlType("label")]
+public class Label : IExportable
 {
-    private static readonly Dictionary<string, string[]> CsvExportHeaders = new()
+    private static readonly Dictionary<string, string[]> _csvExportHeaders = new()
     {
         ["label"] = ["id", "name", "contact_info", "profile", "parent_name", "data_quality"],
         ["label_url"] = ["label_id", "url"],
         ["label_image"] = ["label_id", "type", "width", "height"],
     };
 
-    public Image[] images { get; set; }
-    public string id { get; set; }
-    public string name { get; set; }
+    [XmlArrayItem("images")]
+    public Image[] Images { get; set; }
 
-    private string contactinfo;
+    [XmlElement("id")]
+    public string Id { get; set; }
+
+    [XmlElement("name")]
+    public string Name { get; set; }
+
+    [XmlElement("contactinfo")]
+    [XmlText]
+    public string ContactInfo { get; set; }
 
 
-    public string profile { get; set; }
-    public string data_quality { get; set; }
-    public ParentLabel parentLabel { get; set; }
+    [XmlElement("profile")]
+    public string Profile { get; set; }
 
+    [XmlElement("data_quality")]
+    public string DataQuality { get; set; }
+
+    // [XmlElement( "parentLabel")]
+    public ParentLabel ParentLabel { get; set; }
+
+    [XmlArray("urls")]
     [XmlArrayItem("url")]
-    public string[] urls { get; set; }
+    public string[] Urls { get; set; }
 
     [XmlAttribute("id")]
     public string SubId { get; set; }
 
-    [XmlText] public string SubName { get; set; }
+    [XmlText]
+    public string SubName { get; set; }
 
-    public label[] sublabels { get; set; }
+    [XmlArray( "sublabels" )]
+    public Label[] Sublabels { get; set; }
 
     /// <summary>
     /// Gets the possible export schemes for the class
     /// </summary>
     /// <returns>A read-only dictionary where the key is the type of export stream and the values are the headers/columns/fields exported.</returns>
-    public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields() => CsvExportHeaders;
+    public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields() => _csvExportHeaders;
 
     /// <summary>
     /// Exports instance to CSV.
@@ -42,21 +58,21 @@ public class label : IExportable
     /// <returns>Tuples where the StreamName matches a key from <see ref="GetCsvExportScheme"> </returns>
     public IEnumerable<(string StreamName, string[] RowValues)> Export()
     {
-        yield return ("label", [id, name, contactinfo, profile, parentLabel?.name, data_quality]);
-        if ((urls?.Length ?? 0) > 0)
+        yield return ("label", [Id, Name, ContactInfo, Profile, ParentLabel?.name, DataQuality]);
+        if ((Urls?.Length ?? 0) > 0)
         {
-            foreach (var url in urls)
+            foreach (var url in Urls)
             {
                 if (string.IsNullOrEmpty(url)) continue;
-                yield return ("label_url", [id, url]);
+                yield return ("label_url", [Id, url]);
             }
         }
 
-        if ((images?.Length ?? 0) > 0)
+        if ((Images?.Length ?? 0) > 0)
         {
-            foreach (var image in images)
+            foreach (var image in Images)
             {
-                yield return ("label_image", [id, image.Type, image.Width, image.Height]);
+                yield return ("label_image", [Id, image.Type, image.Width, image.Height]);
             }
         }
     }
@@ -81,35 +97,35 @@ public class label : IExportable
                     // it's back on a release node (EndElement); release control
                     return;
                 case "images":
-                    images = Image.Parse(reader);
+                    Images = Image.Parse(reader);
                     break;
                 case "id":
-                    id = reader.ReadElementContentAsString();
+                    Id = reader.ReadElementContentAsString();
                     break;
                 case "name":
-                    name = reader.ReadElementContentAsString();
+                    Name = reader.ReadElementContentAsString();
                     break;
                 case "contactinfo":
-                    contactinfo = reader.ReadElementContentAsString();
+                    ContactInfo = reader.ReadElementContentAsString();
                     break;
                 case "profile":
-                    profile = reader.ReadElementContentAsString();
+                    Profile = reader.ReadElementContentAsString();
                     break;
                 case "data_quality":
-                    data_quality = reader.ReadElementContentAsString();
+                    DataQuality = reader.ReadElementContentAsString();
                     break;
                 case "urls":
-                    urls = reader.ReadChildren("url");
+                    Urls = reader.ReadChildren("url");
                     break;
                 case "parentLabel":
-                    parentLabel = new ParentLabel
+                    ParentLabel = new ParentLabel
                     {
                         id = reader.GetAttribute("id"),
                         name = reader.ReadElementContentAsString()
                     };
                     break;
                 case "sublabels":
-                    sublabels = ParseSublabels(reader);
+                    Sublabels = ParseSublabels(reader);
                     break;
                 default:
                     reader.Read();
@@ -139,32 +155,32 @@ public class label : IExportable
 
             if (reader.IsStartElement("id"))
             {
-                id = reader.ReadElementContentAsString();
+                Id = reader.ReadElementContentAsString();
             }
 
             if (reader.IsStartElement("name"))
             {
-                name = reader.ReadElementContentAsString();
+                Name = reader.ReadElementContentAsString();
             }
 
             if (reader.IsStartElement("contactinfo"))
             {
-                contactinfo = reader.ReadElementContentAsString();
+                ContactInfo = reader.ReadElementContentAsString();
             }
 
             if (reader.IsStartElement("profile"))
             {
-                profile = reader.ReadElementContentAsString();
+                Profile = reader.ReadElementContentAsString();
             }
 
             if (reader.IsStartElement("data_quality"))
             {
-                data_quality = reader.ReadElementContentAsString();
+                DataQuality = reader.ReadElementContentAsString();
             }
 
             if (reader.IsStartElement("parentLabel"))
             {
-                parentLabel = new ParentLabel
+                ParentLabel = new ParentLabel
                 {
                     id = reader.GetAttribute("id"),
                     name = reader.ReadElementContentAsString()
@@ -174,18 +190,18 @@ public class label : IExportable
             if (reader.IsStartElement("sublabels"))
             {
                 reader.Read();
-                var sublabelList = new List<label>();
+                var sublabelList = new List<Label>();
                 while (reader.IsStartElement("label"))
                 {
-                    var label = new label
+                    var label = new Label
                     {
-                        id = reader.GetAttribute("id"),
-                        name = reader.ReadElementContentAsString()
+                        Id = reader.GetAttribute("id"),
+                        Name = reader.ReadElementContentAsString()
                     };
                     sublabelList.Add(label);
                 }
 
-                sublabels = sublabelList.ToArray();
+                Sublabels = sublabelList.ToArray();
             }
 
             if (reader.IsStartElement("images"))
@@ -201,7 +217,7 @@ public class label : IExportable
                     images.Add(image);
                 }
 
-                this.images = images.ToArray();
+                this.Images = images.ToArray();
             }
 
             if (reader.IsStartElement("urls"))
@@ -215,17 +231,17 @@ public class label : IExportable
                         urls.Add(url);
                 }
 
-                this.urls = urls.ToArray();
+                this.Urls = urls.ToArray();
             }
         }
     }
 
-    public bool IsValid() => !string.IsNullOrEmpty(id);
+    public bool IsValid() => !string.IsNullOrEmpty(Id);
 
-    private static label[] ParseSublabels(XmlReader reader)
+    private static Label[] ParseSublabels(XmlReader reader)
     {
         reader.Read();
-        var sublabelList = new List<label>();
+        var sublabelList = new List<Label>();
         while (reader.IsStartElement("label"))
         {
             if (reader.IsEmptyElement)
@@ -234,10 +250,10 @@ public class label : IExportable
                 continue;
             }
 
-            var label = new label
+            var label = new Label
             {
-                id = reader.GetAttribute("id"),
-                name = reader.ReadElementContentAsString()
+                Id = reader.GetAttribute("id"),
+                Name = reader.ReadElementContentAsString()
             };
             sublabelList.Add(label);
         }
@@ -245,12 +261,13 @@ public class label : IExportable
         return sublabelList.ToArray();
     }
 
+}
 
-    public class ParentLabel
+[XmlType( "parentLabel" )]
+public class ParentLabel
     {
         [XmlAttribute]
         public string id { get; set; }
 
         [XmlText] public string name { get; set; }
     }
-}

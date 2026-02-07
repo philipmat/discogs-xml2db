@@ -4,7 +4,7 @@ namespace tests;
 
 public class ParserTests
 {
-    private static readonly Dictionary<string, Dictionary<string, int>> KnownCountsByFile = new Dictionary<string, Dictionary<string, int>>
+    private static readonly Dictionary<string, Dictionary<string, int>> _knownCountsByFile = new()
     {
         ["labels"] = new Dictionary<string, int>
         {
@@ -64,28 +64,32 @@ public class ParserTests
         => await ParseStream_Type_CallsExporterForEveryTopNodeAsync<discogs.Releases.release>("releases", 1_000);
 
     [Fact]
-    public async Task ParseStream_Artist_KnownCounts() => await ParseStream_Type_TotalCounts<discogs.Artists.artist>("artists");
+    public async Task ParseStream_Artist_KnownCounts()
+        => await ParseStream_Type_TotalCounts<discogs.Artists.artist>("artists");
 
     [Fact]
-    public async Task ParseStream_Label_KnownCounts() => await ParseStream_Type_TotalCounts<discogs.Labels.label>("labels");
+    public async Task ParseStream_Label_KnownCounts()
+        => await ParseStream_Type_TotalCounts<discogs.Labels.label>("labels");
 
     [Fact]
-    public async Task ParseStream_Master_KnownCounts() => await ParseStream_Type_TotalCounts<discogs.Masters.master>("masters");
+    public async Task ParseStream_Master_KnownCounts()
+        => await ParseStream_Type_TotalCounts<discogs.Masters.master>("masters");
 
     [Fact]
-    public async Task ParseStream_Release_KnownCounts() => await ParseStream_Type_TotalCounts<discogs.Releases.release>("releases");
+    public async Task ParseStream_Release_KnownCounts()
+        => await ParseStream_Type_TotalCounts<discogs.Releases.release>("releases");
 
     private static async Task ParseStream_Type_CallsExporterForEveryTopNodeAsync<T>(string file, int exportCallsCount)
         where T : IExportable, new()
     {
         // Given
-        int counter = 0;
+        var counter = 0;
         var exporter = Substitute.For<IExporter<T>>();
         exporter.WhenForAnyArgs(x => x.ExportAsync(Arg.Any<T>()))
-            .Do(ci => counter++);
+            .Do(_ => counter++);
 
-        using var stream = TestCommons.GetResourceStream($"discogs_20200806_{file}.xml.gz");
-        using var gzStream = new GZipStream(stream, CompressionMode.Decompress);
+        await using var stream = TestCommons.GetResourceStream($"discogs_20200806_{file}.xml.gz");
+        await using var gzStream = new GZipStream(stream, CompressionMode.Decompress);
 
         var p = new Parser<T>(exporter);
 
@@ -93,14 +97,17 @@ public class ParserTests
         await p.ParseStreamAsync(gzStream);
 
         // Then
-        counter.Should().Be(exportCallsCount, because: $"there are {exportCallsCount:n0} records in the {file} xml file");
+        counter.Should()
+            .Be(exportCallsCount, because: $"there are {exportCallsCount:n0} records in the {file} xml file");
     }
+
     private static async Task ParseStream_Type_TotalCounts<T>(string file)
         where T : IExportable, new()
     {
         // Given
-        var knownFileCountsByScheme = KnownCountsByFile[file];
-        Dictionary<string, int> countsByScheme = knownFileCountsByScheme.ToDictionary(kvp => kvp.Key, kvp => 0);
+        var knownFileCountsByScheme = _knownCountsByFile[file];
+        Dictionary<string, int> countsByScheme = knownFileCountsByScheme.ToDictionary(kvp => kvp.Key, _ => 0);
+
         void AddCounts(T obj)
         {
             foreach (var (scheme, _) in obj.Export())
@@ -112,8 +119,8 @@ public class ParserTests
         var exporter = Substitute.For<IExporter<T>>();
         await exporter.ExportAsync(Arg.Do<T>(AddCounts));
 
-        using var stream = TestCommons.GetResourceStream($"discogs_20200806_{file}.xml.gz");
-        using var gzStream = new GZipStream(stream, CompressionMode.Decompress);
+        await using var stream = TestCommons.GetResourceStream($"discogs_20200806_{file}.xml.gz");
+        await using var gzStream = new GZipStream(stream, CompressionMode.Decompress);
 
         var p = new Parser<T>(exporter);
 

@@ -2,7 +2,8 @@ namespace discogs;
 
 public static class CsvExtensions
 {
-    private static readonly char[] _escapedChars = { ',', '"', '\r', '\n' };
+    private static readonly char[] _escapedChars = [',', '"', '\r', '\n'];
+
     public static string ToCsv(params string[] values)
         => string.Join(",", values.Select(SafeCsv));
 
@@ -13,10 +14,10 @@ public static class CsvExtensions
             return "";
         }
 
-        var quoted = s.Replace("\"", "\"\"").Trim();
+        string quoted = s.Replace("\"", "\"\"").Trim();
 
-        // this produces a cleaner CSV, however
-        // it is profoundly disliked by Excel which translated values like "0003" into 3
+        // this produces a cleaner CSV; however,
+        // it is profoundly disliked by Excel, which translated values like "0003" into 3
         // and "58152000018389" into 5.8152E+13
         if (quoted.IndexOfAny(_escapedChars) != -1)
         {
@@ -45,6 +46,7 @@ public static class CsvExtensions
                 if (nextChar == '"')
                     sb.Append("\"");
             }
+
             sb.Append("\"");
             return sb.ToString();
         }

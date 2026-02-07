@@ -16,7 +16,9 @@ public class ObjectDeserializationTests
         artist.urls[0].Should().Be("https://lekebusch.bandcamp.com/");
         artist.namevariations.Should().HaveCount(2);
         artist.namevariations[0].Should().Be("C Lekebusch");
-        artist.namevariations[1].Should().Be("Cari Lekebusch den rykande Bönsyrsan", because: "escaped antities are transformed");
+        artist.namevariations[1]
+            .Should()
+            .Be("Cari Lekebusch den rykande Bönsyrsan", because: "escaped antities are transformed");
         artist.members.Should().HaveCount(2);
         artist.members[0].id.Should().Be("6549", because: "6549 is the first member");
         artist.members[0].value.Should().Be("Richard Worth", because: "Richard Worth is the first member");
@@ -48,7 +50,9 @@ public class ObjectDeserializationTests
         artist.urls[0].Should().Be("https://lekebusch.bandcamp.com/");
         artist.namevariations.Should().HaveCount(2);
         artist.namevariations[0].Should().Be("C Lekebusch");
-        artist.namevariations[1].Should().Be("Cari Lekebusch den rykande Bönsyrsan", because: "escaped antities are transformed");
+        artist.namevariations[1]
+            .Should()
+            .Be("Cari Lekebusch den rykande Bönsyrsan", because: "escaped antities are transformed");
         artist.members.Should().HaveCount(2);
         artist.members[0].id.Should().Be("6549", because: "6549 is the first member");
         artist.members[0].value.Should().Be("Richard Worth", because: "Richard Worth is the first member");
@@ -214,7 +218,7 @@ public class ObjectDeserializationTests
         release.formats[1].name.Should().Be("CD");
         release.formats[1].qty.Should().Be("1");
         release.formats[1].text.Should().Be("cd text");
-        release.formats[1].descriptions.Should().BeEquivalentTo(new string[] { "Compilation", "Mixed" });
+        release.formats[1].descriptions.Should().BeEquivalentTo(["Compilation", "Mixed"]);
 
         release.artists.Should().HaveCount(1);
         release.artists[0].id.Should().Be("3");
@@ -355,15 +359,12 @@ public class ObjectDeserializationTests
         return;
         //*/
         //*
-        using (Stream artistRes = TestCommons.GetResourceStream(resourceName))
-        {
-            using (XmlReader reader = XmlReader.Create(artistRes, Parser<T>.DefaultReaderSettings))
-            {
-                reader.MoveToContent();  // on root - artist
-                // reader.Read(); // on text between <artist> and first node; the first thing in Populate is Read, which takes it to first node within artist
-                obj.Populate(reader);
-            }
-        }
+        using Stream artistRes = TestCommons.GetResourceStream(resourceName);
+        using XmlReader reader = XmlReader.Create(artistRes, Parser<T>.DefaultReaderSettings);
+        reader.MoveToContent(); // on root - artist
+        // reader.Read(); // on text between <artist> and the first node; the first thing in Populate is Read, which takes it to the first node within artist
+        obj.Populate(reader);
+
         //*/
     }
 
@@ -384,17 +385,15 @@ public class ObjectDeserializationTests
     private static async Task<T> DeserializeAsync<T>(string resourceFileName)
         where T : IExportable, new()
     {
-        var xml = await TestCommons.GetResourceAsync(resourceFileName);
+        string xml = await TestCommons.GetResourceAsync(resourceFileName);
         return new ParserProxy<T>().DeserializeProxy(xml);
     }
 
 
-    public class ParserProxy<T> : SerializerParser<T>
+    private class ParserProxy<T>() : SerializerParser<T>(null)
         where T : IExportable, new()
     {
-        public ParserProxy() : base (null) { }
-
         public T DeserializeProxy(string content)
-            => base.Deserialize(content);
+            => Deserialize(content);
     }
 }

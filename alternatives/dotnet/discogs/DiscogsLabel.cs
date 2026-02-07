@@ -2,11 +2,11 @@ namespace discogs.Labels;
 
 public class label : IExportable
 {
-    private static readonly Dictionary<string, string[]> CsvExportHeaders = new Dictionary<string, string[]>
+    private static readonly Dictionary<string, string[]> CsvExportHeaders = new()
     {
-        ["label"] = new[] { "id", "name", "contact_info", "profile", "parent_name", "data_quality" },
-        ["label_url"] = new[] { "label_id", "url" },
-        ["label_image"] = new[] { "label_id", "type", "width", "height" },
+        ["label"] = ["id", "name", "contact_info", "profile", "parent_name", "data_quality"],
+        ["label_url"] = ["label_id", "url"],
+        ["label_image"] = ["label_id", "type", "width", "height"],
     };
 
     public image[] images { get; set; }
@@ -18,7 +18,7 @@ public class label : IExportable
 
     public string profile { get; set; }
     public string data_quality { get; set; }
-    public parentLabel parentLabel { get; set; }
+    public ParentLabel parentLabel { get; set; }
 
     [XmlArrayItem("url")]
     public string[] urls { get; set; }
@@ -26,8 +26,7 @@ public class label : IExportable
     [XmlAttribute("id")]
     public string SubId { get; set; }
 
-    [XmlText]
-    public string SubName { get; set; }
+    [XmlText] public string SubName { get; set; }
 
     public label[] sublabels { get; set; }
 
@@ -43,27 +42,28 @@ public class label : IExportable
     /// <returns>Tuples where the StreamName matches a key from <see ref="GetCsvExportScheme"> </returns>
     public IEnumerable<(string StreamName, string[] RowValues)> Export()
     {
-        yield return ("label", new[] { this.id, this.name, this.contactinfo, this.profile, this.parentLabel?.name, this.data_quality });
+        yield return ("label", [id, name, contactinfo, profile, parentLabel?.name, data_quality]);
         if ((urls?.Length ?? 0) > 0)
         {
             foreach (var url in urls)
             {
                 if (string.IsNullOrEmpty(url)) continue;
-                yield return ("label_url", new[] { this.id, url });
+                yield return ("label_url", [id, url]);
             }
         }
+
         if ((images?.Length ?? 0) > 0)
         {
-            foreach (var image in this.images)
+            foreach (var image in images)
             {
-                yield return ("label_image", new[] { this.id, image.type, image.width, image.height });
+                yield return ("label_image", [id, image.type, image.width, image.height]);
             }
         }
     }
 
     public void Populate(XmlReader reader) => Populate2(reader);
 
-       
+
     public void Populate2(XmlReader reader)
     {
         if (reader.Name != "label")
@@ -81,35 +81,35 @@ public class label : IExportable
                     // it's back on a release node (EndElement); release control
                     return;
                 case "images":
-                    this.images = image.Parse(reader);
+                    images = image.Parse(reader);
                     break;
                 case "id":
-                    this.id = reader.ReadElementContentAsString();
+                    id = reader.ReadElementContentAsString();
                     break;
                 case "name":
-                    this.name = reader.ReadElementContentAsString();
+                    name = reader.ReadElementContentAsString();
                     break;
                 case "contactinfo":
-                    this.contactinfo = reader.ReadElementContentAsString();
+                    contactinfo = reader.ReadElementContentAsString();
                     break;
                 case "profile":
-                    this.profile = reader.ReadElementContentAsString();
+                    profile = reader.ReadElementContentAsString();
                     break;
                 case "data_quality":
-                    this.data_quality = reader.ReadElementContentAsString();
+                    data_quality = reader.ReadElementContentAsString();
                     break;
                 case "urls":
-                    this.urls = reader.ReadChildren("url");
+                    urls = reader.ReadChildren("url");
                     break;
                 case "parentLabel":
-                    this.parentLabel = new discogs.Labels.parentLabel
+                    parentLabel = new ParentLabel
                     {
                         id = reader.GetAttribute("id"),
                         name = reader.ReadElementContentAsString()
                     };
                     break;
                 case "sublabels":
-                    this.sublabels = ParseSublabels(reader);
+                    sublabels = ParseSublabels(reader);
                     break;
                 default:
                     reader.Read();
@@ -122,11 +122,12 @@ public class label : IExportable
                 {
                     return;
                 }
+
                 reader.Skip();
             }
         }
     }
- 
+
     public void Populate1(XmlReader reader)
     {
         while (reader.Read())
@@ -135,34 +136,41 @@ public class label : IExportable
             {
                 return;
             }
+
             if (reader.IsStartElement("id"))
             {
-                this.id = reader.ReadElementContentAsString();
+                id = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("name"))
             {
-                this.name = reader.ReadElementContentAsString();
+                name = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("contactinfo"))
             {
-                this.contactinfo = reader.ReadElementContentAsString();
+                contactinfo = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("profile"))
             {
-                this.profile = reader.ReadElementContentAsString();
+                profile = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("data_quality"))
             {
-                this.data_quality = reader.ReadElementContentAsString();
+                data_quality = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("parentLabel"))
             {
-                this.parentLabel = new discogs.Labels.parentLabel
+                parentLabel = new ParentLabel
                 {
                     id = reader.GetAttribute("id"),
                     name = reader.ReadElementContentAsString()
                 };
             }
+
             if (reader.IsStartElement("sublabels"))
             {
                 reader.Read();
@@ -176,18 +184,26 @@ public class label : IExportable
                     };
                     sublabelList.Add(label);
                 }
+
                 sublabels = sublabelList.ToArray();
             }
+
             if (reader.IsStartElement("images"))
             {
                 var images = new List<image>();
                 while (reader.Read() && reader.IsStartElement("image"))
                 {
-                    var image = new image { type = reader.GetAttribute("type"), width = reader.GetAttribute("width"), height = reader.GetAttribute("height") };
+                    var image = new image
+                    {
+                        type = reader.GetAttribute("type"), width = reader.GetAttribute("width"),
+                        height = reader.GetAttribute("height")
+                    };
                     images.Add(image);
                 }
+
                 this.images = images.ToArray();
             }
+
             if (reader.IsStartElement("urls"))
             {
                 reader.Read();
@@ -198,6 +214,7 @@ public class label : IExportable
                     if (!string.IsNullOrWhiteSpace(url))
                         urls.Add(url);
                 }
+
                 this.urls = urls.ToArray();
             }
         }
@@ -205,16 +222,18 @@ public class label : IExportable
 
     public bool IsValid() => !string.IsNullOrEmpty(id);
 
-    private static label[] ParseSublabels(XmlReader reader) {
-
+    private static label[] ParseSublabels(XmlReader reader)
+    {
         reader.Read();
         var sublabelList = new List<label>();
         while (reader.IsStartElement("label"))
         {
-            if (reader.IsEmptyElement) {
+            if (reader.IsEmptyElement)
+            {
                 reader.Skip();
                 continue;
             }
+
             var label = new label
             {
                 id = reader.GetAttribute("id"),
@@ -222,16 +241,16 @@ public class label : IExportable
             };
             sublabelList.Add(label);
         }
+
         return sublabelList.ToArray();
     }
-}
 
 
-public class parentLabel
-{
-    [XmlAttribute]
-    public string id { get; set; }
+    public class ParentLabel
+    {
+        [XmlAttribute]
+        public string id { get; set; }
 
-    [XmlText]
-    public string name { get; set; }
+        [XmlText] public string name { get; set; }
+    }
 }

@@ -8,9 +8,9 @@ public static class XmlExtensions
         reader.Read();
 
         var list = new List<string>();
-        while(reader.IsStartElement(childName))
+        while (reader.IsStartElement(childName))
         {
-            var e = reader.ReadElementContentAsString();
+            string e = reader.ReadElementContentAsString();
             if (!string.IsNullOrWhiteSpace(e))
                 list.Add(e);
         }

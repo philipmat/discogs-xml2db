@@ -1,22 +1,18 @@
 namespace discogs;
 
-public class SerializerParser<T> : Parser<T>
+public class SerializerParser<T>(IExporter<T> exporter, int throttle = 1) : Parser<T>(exporter, throttle)
     where T : IExportable, new()
 {
-    private readonly XmlSerializer _serializer = new XmlSerializer(typeof(T));
-
-    public SerializerParser(IExporter<T> exporter, int throttle = 1)
-        :base(exporter, throttle)
-    {
-    }
+    private readonly XmlSerializer _serializer = new(typeof(T));
 
     protected override async Task<T> ReadObject(XmlReader positionedReader)
     {
-        var objectString = await positionedReader.ReadOuterXmlAsync();
+        string objectString = await positionedReader.ReadOuterXmlAsync();
         if (string.IsNullOrEmpty(objectString))
         {
             return default(T);
         }
+
         try
         {
             return Deserialize(objectString);

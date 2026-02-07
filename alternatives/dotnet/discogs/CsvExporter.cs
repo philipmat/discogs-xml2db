@@ -2,7 +2,7 @@ using System.IO.Compression;
 
 namespace discogs;
 
-public interface IExporter<T> : IDisposable
+public interface IExporter<in T> : IDisposable
     where T : IExportable, new()
 {
     Task ExportAsync(T value);
@@ -15,23 +15,25 @@ public class CsvExporter<T> : IExporter<T>
     private const int BufferSize = 1024 * 1024;
     private readonly string _typeName;
     private readonly Dictionary<string, (string FilePath, StreamWriter FileStream)> _csvStreams;
-    private bool disposedValue;
+    private bool _disposedValue;
 
     public CsvExporter(string outPutDirectory, bool compress = false, bool verbose = false)
     {
         _typeName = typeof(T).Name.Split('.')[^1];
         _csvStreams = GetCsvFilesFor(outPutDirectory, compress);
     }
+
     public async Task CompleteExportAsync(int finalCount)
     {
-        var csvFileNames = string.Join("; ", _csvStreams.Select(kvp => kvp.Value.FilePath));
-        // pbar.WriteLine("Parsing done. Writing streams.");
+        string csvFileNames = string.Join("; ", _csvStreams.Select(kvp => kvp.Value.FilePath));
+        // progressBar.WriteLine("Parsing done. Writing streams.");
         foreach (var kvp in _csvStreams)
         {
             await kvp.Value.FileStream.FlushAsync();
             kvp.Value.FileStream.Close();
             // await kvp.Value.FileStream.DisposeAsync();
         }
+
         Console.WriteLine($"Found {finalCount:n0} {_typeName}s. Wrote them to {csvFileNames}.");
     }
 
@@ -44,7 +46,9 @@ public class CsvExporter<T> : IExporter<T>
         }
     }
 
-    private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesFor(string outPutDirectory, bool compress)
+    private static Dictionary<string, (string FilePath, StreamWriter FileStream)> GetCsvFilesFor(
+        string outPutDirectory,
+        bool compress)
     {
         var obj = new T();
         IReadOnlyDictionary<string, string[]> files = obj.GetExportStreamsAndFields();
@@ -52,19 +56,24 @@ public class CsvExporter<T> : IExporter<T>
             kvp => kvp.Key,
             kvp =>
             {
-                var extension = compress ? "csv.gz" : "csv";
-                var csvFile = Path.Combine(outPutDirectory, $"{kvp.Key}.{extension}");
+                string extension = compress ? "csv.gz" : "csv";
+                string csvFile = Path.Combine(outPutDirectory, $"{kvp.Key}.{extension}");
                 StreamWriter stream;
                 if (compress)
                 {
                     var fs = File.Create(csvFile, bufferSize: BufferSize);
                     var gzStream = new GZipStream(fs, CompressionMode.Compress, leaveOpen: false);
-                    stream = new StreamWriter(gzStream, encoding: System.Text.Encoding.UTF8);
+                    stream = new StreamWriter(gzStream, encoding: Encoding.UTF8);
                 }
                 else
                 {
-                    stream = new StreamWriter(csvFile, append: false, encoding: System.Text.Encoding.UTF8, bufferSize: BufferSize);
+                    stream = new StreamWriter(
+                        csvFile,
+                        append: false,
+                        encoding: Encoding.UTF8,
+                        bufferSize: BufferSize);
                 }
+
                 stream.WriteLine(CsvExtensions.ToCsv(kvp.Value));
                 return (csvFile, stream);
             });
@@ -88,11 +97,11 @@ public class CsvExporter<T> : IExporter<T>
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (!_disposedValue)
         {
             if (disposing)
             {
-                // dispose managed state (managed objects)
+                // dispose of managed state (managed objects)
                 foreach (var kvp in _csvStreams)
                 {
                     var (_, stream) = kvp.Value;
@@ -102,7 +111,7 @@ public class CsvExporter<T> : IExporter<T>
 
             // TODO: free unmanaged resources (unmanaged objects) and override finalizer
             // TODO: set large fields to null
-            disposedValue = true;
+            _disposedValue = true;
         }
     }
 }

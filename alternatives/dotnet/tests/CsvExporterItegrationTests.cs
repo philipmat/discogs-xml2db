@@ -2,25 +2,25 @@ namespace tests;
 
 public class CsvExporterIntegrationTests : IDisposable
 {
-    public static readonly string TestPath = Path.Combine(Path.GetTempPath(), "CvsExporter");
+    private static readonly string _testPath = Path.Combine(Path.GetTempPath(), "CvsExporter");
 
     public CsvExporterIntegrationTests()
     {
-        // deletes folder as a shorcut to cleaning out and starting the test with blank slate
-        if (Directory.Exists(TestPath)) Directory.Delete(TestPath, recursive: true);
-        Directory.CreateDirectory(TestPath);
+        // deletes the folder as a shorcut to cleaning out and starting the test with blank slate
+        if (Directory.Exists(_testPath)) Directory.Delete(_testPath, recursive: true);
+        Directory.CreateDirectory(_testPath);
     }
 
     public void Dispose()
     {
-        Directory.Delete(TestPath, recursive: true);
+        Directory.Delete(_testPath, recursive: true);
     }
 
     [Fact]
     public async Task Export_DoesNotCreateBomAsync()
     {
         //Given
-        var exporter = new CsvExporter<SimpleRecord>(TestPath, compress: false);
+        var exporter = new CsvExporter<SimpleRecord>(_testPath, compress: false);
         var record = new SimpleRecord();
 
         //When
@@ -28,9 +28,9 @@ public class CsvExporterIntegrationTests : IDisposable
         await exporter.CompleteExportAsync(1);
 
         //Then
-        var outputFile = Path.Combine(TestPath, "test_1.csv");
+        string outputFile = Path.Combine(_testPath, "test_1.csv");
         File.Exists(outputFile).Should().BeTrue();
-        string content = await File.ReadAllTextAsync(outputFile);
+        string content = await File.ReadAllTextAsync(outputFile, TestContext.Current.CancellationToken);
 
         content.Should().StartWith("foo,bar");
     }
@@ -39,12 +39,13 @@ public class CsvExporterIntegrationTests : IDisposable
     {
         public IEnumerable<(string StreamName, string[] RowValues)> Export()
         {
-            yield return ("test_1", new string[] { "1.0", "1.1" });
+            yield return ("test_1", ["1.0", "1.1"]);
         }
 
         public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields()
-            => new Dictionary<string, string[]> {
-                ["test_1"] = new string[] { "foo", "bar" }
+            => new Dictionary<string, string[]>
+            {
+                ["test_1"] = ["foo", "bar"]
             };
 
 

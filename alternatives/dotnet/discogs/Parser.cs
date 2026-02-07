@@ -6,9 +6,7 @@ public class Parser<T>
     where T : IExportable, new()
 {
     private const int BufferSize = 1024 * 1024;
-    private static readonly XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
-
-    private static readonly XmlReaderSettings ReaderSettings = new XmlReaderSettings
+    private static readonly XmlReaderSettings _readerSettings = new()
     {
         ConformanceLevel = ConformanceLevel.Fragment,
         Async = true,
@@ -29,15 +27,15 @@ public class Parser<T>
         _typeName = typeof(T).Name.Split('.')[^1];
     }
 
-    public static XmlReaderSettings DefaultReaderSettings => ReaderSettings;
+    public static XmlReaderSettings DefaultReaderSettings => _readerSettings;
 
     public event EventHandler<ParseEventArgs> OnSucessfulParse = delegate { };
 
     public async Task ParseFileAsync(string fileName)
     {
-        using FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: BufferSize, useAsync: true);
+        await using FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: BufferSize, useAsync: true);
         Stream readingStream = fileStream;
-        if (System.IO.Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase))
+        if (Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase))
         {
             readingStream = new GZipStream(fileStream, CompressionMode.Decompress);
         }
@@ -48,9 +46,9 @@ public class Parser<T>
     public async Task ParseStreamAsync(Stream stream)
     {
         int objectCount = 0;
-        using XmlReader reader = XmlReader.Create(stream, ReaderSettings);
+        using XmlReader reader = XmlReader.Create(stream, _readerSettings);
 
-        await reader.MoveToContentAsync(); // moves to first element in XML
+        await reader.MoveToContentAsync(); // moves to the first element in XML
         await reader.ReadAsync(); // moves to the first element after, so the text between <artists> and <artist>
         while (!reader.EOF)
         {

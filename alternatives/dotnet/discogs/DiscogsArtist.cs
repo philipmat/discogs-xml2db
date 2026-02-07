@@ -1,4 +1,4 @@
-namespace discogs.Artists;
+namespace discogs;
 
 [XmlType("artist")]
 public class Artist : IExportable
@@ -138,13 +138,13 @@ public class Artist : IExportable
                     NameVariations = reader.ReadChildren("name");
                     break;
                 case "members":
-                    Members = discogs.Artists.Name.Parse(reader, "members");
+                    Members = discogs.Name.Parse(reader, "members");
                     break;
                 case "aliases":
-                    Aliases = discogs.Artists.Name.Parse(reader, "aliases");
+                    Aliases = discogs.Name.Parse(reader, "aliases");
                     break;
                 case "groups":
-                    Groups = discogs.Artists.Name.Parse(reader, "groups");
+                    Groups = discogs.Name.Parse(reader, "groups");
                     break;
                 default:
                     reader.Read();

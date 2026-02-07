@@ -49,7 +49,7 @@ public class ParserTests
 
     [Fact]
     public async Task ParseStream_Artist_CallsExporterForEveryTopNodeAsync()
-        => await ParseStream_Type_CallsExporterForEveryTopNodeAsync<discogs.Artists.Artist>("artists", 1_000);
+        => await ParseStream_Type_CallsExporterForEveryTopNodeAsync<Artist>("artists", 1_000);
 
     [Fact]
     public async Task ParseStream_Label_CallsExporterForEveryTopNodeAsync()
@@ -65,7 +65,7 @@ public class ParserTests
 
     [Fact]
     public async Task ParseStream_Artist_KnownCounts()
-        => await ParseStream_Type_TotalCounts<discogs.Artists.Artist>("artists");
+        => await ParseStream_Type_TotalCounts<Artist>("artists");
 
     [Fact]
     public async Task ParseStream_Label_KnownCounts()

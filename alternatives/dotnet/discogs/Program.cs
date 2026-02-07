@@ -99,7 +99,7 @@ public class Program
         }
         else if (fileName.Contains("_artists"))
         {
-            await ParseAsync<Artists.Artist>(fileName, options);
+            await ParseAsync<Artist>(fileName, options);
         }
         else if (fileName.Contains("_masters"))
         {

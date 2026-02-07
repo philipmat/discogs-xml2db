@@ -1,5 +1,3 @@
-using discogs.Artists;
-
 namespace tests;
 
 public class ObjectDeserializationTests
@@ -7,7 +5,7 @@ public class ObjectDeserializationTests
     [Fact]
     public async Task Artist_DeserializesAllProperties_WithXmlSerializer()
     {
-        Artist artist = await DeserializeAsync<discogs.Artists.Artist>("artist.xml");
+        Artist artist = await DeserializeAsync<Artist>("artist.xml");
 
         // Assert
         artist.Id.Should().Be("27");
@@ -386,14 +384,14 @@ public class ObjectDeserializationTests
     [DebugOnly]
     public async Task Artist_11037_DeserializationMatchesBothApproaches()
     {
-        var artist = await DeserializeAsync<discogs.Artists.Artist>("artist_11037.xml");
+        var artist = await DeserializeAsync<Artist>("artist_11037.xml");
 
         // Assert
         artist.Id.Should().Be("11037");
         artist.Name.Should().Be("Soul Boy");
         artist.RealName.Should().Be("M. Marsico, L. Macchiaizzano\rif  M. Marsico & L. M");
 
-        var artists = RetrieveObjects<discogs.Artists.Artist>("artist_problems.xml")
+        var artists = RetrieveObjects<Artist>("artist_problems.xml")
             .ToList();
 
         artists.Should().HaveCount(1);

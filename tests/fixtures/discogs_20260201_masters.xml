@@ -1,0 +1,10 @@
+<masters>
+<master id="392818"><main_release>1946857</main_release><artists><artist><id>598091</id><name>Tapio Rautavaara</name><join>,</join></artist></artists><genres><genre>Rock</genre><genre>Pop</genre><genre>Children's</genre><genre>Folk, World, &amp; Country</genre></genres><styles><style>Country</style><style>Soft Rock</style><style>Folk</style><style>Ballad</style><style>Schlager</style></styles><year>2008</year><title>Kulkurin Taival (Kaikki Levytykset 1946-1979)</title><data_quality>Correct</data_quality></master>
+
+<master id="1168624"><main_release>1028981</main_release><artists><artist><id>95546</id><name>Wolfgang Amadeus Mozart</name><join>,</join></artist></artists><genres><genre>Classical</genre></genres><styles><style>Classical</style><style>Choral</style><style>Opera</style></styles><year>2005</year><title>Complete Works = L'Oeuvre Intégrale = Gesamtwerk</title><data_quality>Correct</data_quality></master>
+
+<master id="2280259"><main_release>5355366</main_release><artists><artist><id>95537</id><name>Johann Sebastian Bach</name><anv>Bach</anv><join>,</join></artist></artists><genres><genre>Classical</genre></genres><styles><style>Baroque</style><style>Cantata</style><style>Mass</style></styles><year>2012</year><title>The Complete Bach Edition</title><data_quality>Correct</data_quality></master>
+
+<master id="3319987"><main_release>8890864</main_release><artists><artist><id>95544</id><name>Ludwig van Beethoven</name><join>,</join></artist></artists><genres><genre>Classical</genre></genres><styles><style>Classical</style></styles><year>2013</year><title>Beethoven: Complete Edition</title><data_quality>Correct</data_quality></master>
+
+</masters>

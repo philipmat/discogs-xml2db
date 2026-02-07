@@ -133,6 +133,57 @@ Processing    releases:  78%|█████████████████
 The total amount and percentages might be off a bit as the exact amount is not known while reading the file.  
 Specifying `--apicounts` will provide more accurate predictions by getting the latest amounts from the Discogs API.
 
+### Generating XML fixtures
+
+For parity testing between the Python and .NET parsers, you can generate a small,
+coherent set of XML fixtures (with relationships preserved across files).
+
+Script: `tests/fixtures/generate_fixtures.py`
+
+Example (runs against `tests/samples`):
+
+```sh
+uv run --with lxml python tests/fixtures/generate_fixtures.py \
+  --input-dir tests/samples \
+  --output-dir tests/fixtures \
+  --size 25 \
+  --complexity highest
+```
+
+Options:
+- `--size`: number of releases to seed (default 25).
+- `--complexity`: `highest` (default), `random`, or `mixed`.
+  - `highest`: pick releases with the largest overall feature count (tracks, artists, labels,
+    identifiers, videos, etc.). If availability scan is enabled, prioritizes releases that
+    reference IDs present in the available dumps.
+  - `random`: uniform random sample (deterministic with `--seed`).
+  - `mixed`: combine a top slice of complex releases with a random remainder. Controlled by
+    `--mixed-ratio`.
+- `--mixed-ratio`: only used when `--complexity mixed`. Fraction of releases taken from the
+  "top complexity" set; the remainder is random. Default `0.7`.
+- `--availability-scan`: `auto` (default), `always`, or `never`.
+  - `always`: scan artists/labels/masters to prefer releases whose references exist in those
+    files (best coherence, slower on big dumps).
+  - `never`: skip scanning; selection is purely by complexity/randomness.
+  - `auto`: only scan if the combined size of artists/labels/masters is below
+    `--availability-max-mb`.
+- `--availability-max-mb`: size threshold used when `--availability-scan auto` (default 256).
+- `--seed`: RNG seed used for deterministic sampling (default 1).
+- `--input-dir`: folder containing the Discogs dumps (default `tests/samples`).
+- `--output-dir`: folder to write fixtures (default `tests/fixtures`).
+- `--progress-every`: print progress every N parsed entities (default 50,000; set to 0 to disable).
+- `--manifest`: reuse an existing `manifest.json` to extract exactly the listed IDs.
+  In this mode, selection/complexity options are ignored and no graph expansion
+  is performed; the script only pulls the specified entities from the dumps.
+
+Outputs:
+- Fixture XML files are written to `tests/fixtures/`.
+- A `tests/fixtures/manifest.json` is produced with IDs, counts, and missing
+  references for debugging.
+
+The script supports both `.xml` and `.xml.gz` files and preserves XML header/doctype/namespace
+if present. To run against the latest dumps in `./tmp`, use `--input-dir ./tmp`.
+
 ### Importing
 
 If `pv` is available it will be used to display progress during import.  

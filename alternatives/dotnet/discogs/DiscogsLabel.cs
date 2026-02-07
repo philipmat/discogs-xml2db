@@ -9,7 +9,7 @@ public class label : IExportable
         ["label_image"] = ["label_id", "type", "width", "height"],
     };
 
-    public image[] images { get; set; }
+    public Image[] images { get; set; }
     public string id { get; set; }
     public string name { get; set; }
 
@@ -56,7 +56,7 @@ public class label : IExportable
         {
             foreach (var image in images)
             {
-                yield return ("label_image", [id, image.type, image.width, image.height]);
+                yield return ("label_image", [id, image.Type, image.Width, image.Height]);
             }
         }
     }
@@ -81,7 +81,7 @@ public class label : IExportable
                     // it's back on a release node (EndElement); release control
                     return;
                 case "images":
-                    images = image.Parse(reader);
+                    images = Image.Parse(reader);
                     break;
                 case "id":
                     id = reader.ReadElementContentAsString();
@@ -190,13 +190,13 @@ public class label : IExportable
 
             if (reader.IsStartElement("images"))
             {
-                var images = new List<image>();
+                var images = new List<Image>();
                 while (reader.Read() && reader.IsStartElement("image"))
                 {
-                    var image = new image
+                    var image = new Image
                     {
-                        type = reader.GetAttribute("type"), width = reader.GetAttribute("width"),
-                        height = reader.GetAttribute("height")
+                        Type = reader.GetAttribute("type"), Width = reader.GetAttribute("width"),
+                        Height = reader.GetAttribute("height")
                     };
                     images.Add(image);
                 }

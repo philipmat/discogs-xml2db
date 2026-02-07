@@ -1,77 +1,131 @@
+using discogs.Artists;
+
 namespace tests;
 
 public class ObjectDeserializationTests
 {
     [Fact]
-    public async Task Artist_DeserializesAllPropertiesAsync()
+    public async Task Artist_DeserializesAllProperties_WithXmlSerializer()
     {
-        var artist = await DeserializeAsync<discogs.Artists.Artist>("artist.xml");
+        Artist artist = await DeserializeAsync<discogs.Artists.Artist>("artist.xml");
 
         // Assert
-        artist.id.Should().Be("27");
-        artist.name.Should().Be("Cari Lekebusch");
-        artist.profile.Should().NotBeNullOrEmpty();
-        artist.data_quality.Should().Be("Needs Vote");
-        artist.urls.Should().HaveCount(3);
-        artist.urls[0].Should().Be("https://lekebusch.bandcamp.com/");
-        artist.namevariations.Should().HaveCount(2);
-        artist.namevariations[0].Should().Be("C Lekebusch");
-        artist.namevariations[1]
-            .Should()
-            .Be("Cari Lekebusch den rykande Bönsyrsan", because: "escaped antities are transformed");
-        artist.members.Should().HaveCount(2);
-        artist.members[0].id.Should().Be("6549", because: "6549 is the first member");
-        artist.members[0].value.Should().Be("Richard Worth", because: "Richard Worth is the first member");
-        artist.aliases.Should().HaveCount(2);
-        artist.aliases[0].id.Should().Be("89");
-        artist.aliases[1].value.Should().Be("Braincell");
-        /* TODO: groups
-        artist.groups.Should().HaveCount(2);
-        artist.groups[0].id.Should().Be("2");
-        artist.groups[1].value.Should().Be("Puente Latino");
-        */
+        artist.Id.Should().Be("27");
+        artist.Name.Should().Be("Cari Lekebusch");
+        artist.RealName.Should().Be("Kari Pekka Lekebusch");
+        artist.Profile.Should().Match("Capricorn born *");
+        artist.DataQuality.Should().Be("Needs Vote");
+        artist.Urls.Should()
+            .HaveCount(3)
+            .And
+            .AllSatisfy(u => u.Should().Contain("lekebusch"));
+        artist.Urls[0].Should().Be("https://lekebusch.bandcamp.com/");
+        artist.NameVariations.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                n => n.Should().Be("C Lekebusch"),
+                n => n.Should()
+                    .Be("Cari Lekebusch den rykande Bönsyrsan", because: "escaped entities are transformed"));
+        artist.Members.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                m =>
+                {
+                    m.Id.Should().Be("6549", because: "6549 is the first member");
+                    m.Value.Should().Be("Richard Worth", because: "Richard Worth is the first member");
+                },
+                m =>
+                {
+                    m.Id.Should().Be("28896", because: "28896 is the second member");
+                    m.Value.Should().Be("Jay Rodriguez");
+                }
+            );
+        artist.Aliases.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                a => a.Id.Should().Be("89"),
+                a => a.Value.Should().Be("Braincell")
+            );
+        artist.Groups.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                g => g.Id.Should().Be("2"),
+                g => g.Value.Should().Be("Puente Latino")
+            );
     }
 
     [Fact]
     public void Artist_Populate()
     {
         // Arrange
-        var artist = new discogs.Artists.Artist();
+        Artist artist = new Artist();
 
         // Act
         Populate(artist, "artist.xml");
 
         // assert
-        artist.id.Should().Be("27");
-        artist.name.Should().Be("Cari Lekebusch");
-        artist.profile.Should().NotBeNullOrEmpty();
-        artist.data_quality.Should().Be("Needs Vote");
-        artist.urls.Should().HaveCount(3);
-        artist.urls[0].Should().Be("https://lekebusch.bandcamp.com/");
-        artist.namevariations.Should().HaveCount(2);
-        artist.namevariations[0].Should().Be("C Lekebusch");
-        artist.namevariations[1]
-            .Should()
-            .Be("Cari Lekebusch den rykande Bönsyrsan", because: "escaped antities are transformed");
-        artist.members.Should().HaveCount(2);
-        artist.members[0].id.Should().Be("6549", because: "6549 is the first member");
-        artist.members[0].value.Should().Be("Richard Worth", because: "Richard Worth is the first member");
-        artist.aliases.Should().HaveCount(2);
-        artist.aliases[0].id.Should().Be("89");
-        artist.aliases[1].value.Should().Be("Braincell");
-        /*
-        artist.groups.Should().HaveCount(2);
-        artist.groups[0].id.Should().Be("2");
-        artist.groups[1].value.Should().Be("Puente Latino");
-        */
-        artist.images.Should().HaveCount(5);
-        artist.images[0].type.Should().Be("primary");
-        artist.images[0].uri.Should().BeNullOrEmpty();
-        artist.images[0].uri150.Should().BeNullOrEmpty();
-        artist.images[0].width.Should().Be("333");
-        artist.images[0].height.Should().Be("500");
-        artist.images[1].type.Should().Be("secondary");
-        artist.images[^1].type.Should().Be("secondary");
+        artist.Id.Should().Be("27");
+        artist.Name.Should().Be("Cari Lekebusch");
+        artist.RealName.Should().Be("Kari Pekka Lekebusch");
+        artist.Profile.Should().Match("Capricorn born *");
+        artist.DataQuality.Should().Be("Needs Vote");
+        artist.Urls.Should()
+            .HaveCount(3)
+            .And
+            .AllSatisfy(u => u.Should().Contain("lekebusch"));
+        artist.Urls[0].Should().Be("https://lekebusch.bandcamp.com/");
+        artist.NameVariations.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                n => n.Should().Be("C Lekebusch"),
+                n => n.Should()
+                    .Be("Cari Lekebusch den rykande Bönsyrsan", because: "escaped entities are transformed"));
+        artist.Members.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                m =>
+                {
+                    m.Id.Should().Be("6549", because: "6549 is the first member");
+                    m.Value.Should().Be("Richard Worth", because: "Richard Worth is the first member");
+                },
+                m =>
+                {
+                    m.Id.Should().Be("28896", because: "28896 is the second member");
+                    m.Value.Should().Be("Jay Rodriguez");
+                }
+            );
+        artist.Aliases.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                a => a.Id.Should().Be("89"),
+                a => a.Value.Should().Be("Braincell")
+            );
+        artist.Groups.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                g => g.Id.Should().Be("2"),
+                g => g.Value.Should().Be("Puente Latino")
+            );
+
+        artist.Images.Should()
+            .HaveCount(5)
+            .And
+            .AllSatisfy(i =>
+            {
+                i.Type.Should().BeOneOf("primary", "secondary");
+                i.Uri.Should().BeNullOrEmpty();
+                i.Uri150.Should().BeNullOrEmpty();
+                i.Width.Should().HaveLength(3);
+                i.Height.Should().HaveLength(3);
+            });
     }
 
     [Fact]
@@ -99,13 +153,13 @@ public class ObjectDeserializationTests
         label.parentLabel.id.Should().Be("4711");
         label.parentLabel.name.Should().Be("Goldhead Music");
         label.images.Should().HaveCount(3);
-        label.images[0].type.Should().Be("primary");
-        label.images[0].uri.Should().BeNullOrEmpty();
-        label.images[0].uri150.Should().BeNullOrEmpty();
-        label.images[0].width.Should().Be("132");
-        label.images[0].height.Should().Be("24");
-        label.images[1].type.Should().Be("secondary");
-        label.images[^1].type.Should().Be("secondary");
+        label.images[0].Type.Should().Be("primary");
+        label.images[0].Uri.Should().BeNullOrEmpty();
+        label.images[0].Uri150.Should().BeNullOrEmpty();
+        label.images[0].Width.Should().Be("132");
+        label.images[0].Height.Should().Be("24");
+        label.images[1].Type.Should().Be("secondary");
+        label.images[^1].Type.Should().Be("secondary");
     }
 
     [Fact]
@@ -123,16 +177,16 @@ public class ObjectDeserializationTests
         master.title.Should().Be("Organized Chaos E.P.");
         master.data_quality.Should().Be("Correct");
         master.images.Should().HaveCount(2);
-        master.images[0].type.Should().Be("primary");
-        master.images[0].uri.Should().BeNullOrEmpty();
-        master.images[0].uri150.Should().BeNullOrEmpty();
-        master.images[0].width.Should().Be("600");
-        master.images[0].height.Should().Be("604");
-        master.images[1].type.Should().Be("secondary");
-        master.images[1].uri.Should().BeNullOrEmpty();
-        master.images[1].uri150.Should().BeNullOrEmpty();
-        master.images[1].width.Should().Be("600");
-        master.images[1].height.Should().Be("604");
+        master.images[0].Type.Should().Be("primary");
+        master.images[0].Uri.Should().BeNullOrEmpty();
+        master.images[0].Uri150.Should().BeNullOrEmpty();
+        master.images[0].Width.Should().Be("600");
+        master.images[0].Height.Should().Be("604");
+        master.images[1].Type.Should().Be("secondary");
+        master.images[1].Uri.Should().BeNullOrEmpty();
+        master.images[1].Uri150.Should().BeNullOrEmpty();
+        master.images[1].Width.Should().Be("600");
+        master.images[1].Height.Should().Be("604");
 
         master.artists.Should().HaveCount(2);
         master.artists[0].id.Should().Be("69209");
@@ -156,11 +210,11 @@ public class ObjectDeserializationTests
         master.styles[2].Should().Be("Jungle");
 
         master.videos.Should().HaveCount(2);
-        master.videos[0].src.Should().Be("https://www.youtube.com/watch?v=mksCnb_USuc");
-        master.videos[0].duration.Should().Be("364");
-        master.videos[0].embed.Should().Be("true");
-        master.videos[0].title.Should().Be("Mix Race - Mixrace Outta Hand");
-        master.videos[0].description.Should().Be("[SHADOW 28] Mixrace - Organized Chaos EP (1992)");
+        master.videos[0].Src.Should().Be("https://www.youtube.com/watch?v=mksCnb_USuc");
+        master.videos[0].Duration.Should().Be("364");
+        master.videos[0].Embed.Should().Be("true");
+        master.videos[0].Title.Should().Be("Mix Race - Mixrace Outta Hand");
+        master.videos[0].Description.Should().Be("[SHADOW 28] Mixrace - Organized Chaos EP (1992)");
     }
 
     [Fact]
@@ -180,16 +234,16 @@ public class ObjectDeserializationTests
         release.master_id.Should().Be("66526");
 
         release.videos.Should().HaveCount(3);
-        release.videos[0].src.Should().Be("https://www.youtube.com/watch?v=bqUfNGJEKlo");
-        release.videos[0].duration.Should().Be("4074");
-        release.videos[0].embed.Should().Be("true");
-        release.videos[0].title.Should().Be("Profound Sounds Vol. 1 - Josh Wink");
-        release.videos[0].description.Should().Be("mix 1999");
-        release.videos[^1].src.Should().Be("https://www.youtube.com/watch?v=cpQWEQjunF4");
-        release.videos[^1].duration.Should().Be("421");
-        release.videos[^1].embed.Should().Be("true");
-        release.videos[^1].title.Should().Be("Profound Sounds Track 1....");
-        release.videos[^1].description.Should().Be("How it SHOULD sound......");
+        release.videos[0].Src.Should().Be("https://www.youtube.com/watch?v=bqUfNGJEKlo");
+        release.videos[0].Duration.Should().Be("4074");
+        release.videos[0].Embed.Should().Be("true");
+        release.videos[0].Title.Should().Be("Profound Sounds Vol. 1 - Josh Wink");
+        release.videos[0].Description.Should().Be("mix 1999");
+        release.videos[^1].Src.Should().Be("https://www.youtube.com/watch?v=cpQWEQjunF4");
+        release.videos[^1].Duration.Should().Be("421");
+        release.videos[^1].Embed.Should().Be("true");
+        release.videos[^1].Title.Should().Be("Profound Sounds Track 1....");
+        release.videos[^1].Description.Should().Be("How it SHOULD sound......");
 
         release.genres.Should().HaveCount(1);
         release.genres[0].Should().Be("Electronic");
@@ -335,17 +389,17 @@ public class ObjectDeserializationTests
         var artist = await DeserializeAsync<discogs.Artists.Artist>("artist_11037.xml");
 
         // Assert
-        artist.id.Should().Be("11037");
-        artist.name.Should().Be("Soul Boy");
-        artist.realname.Should().Be("M. Marsico, L. Macchiaizzano\rif  M. Marsico & L. M");
+        artist.Id.Should().Be("11037");
+        artist.Name.Should().Be("Soul Boy");
+        artist.RealName.Should().Be("M. Marsico, L. Macchiaizzano\rif  M. Marsico & L. M");
 
         var artists = RetrieveObjects<discogs.Artists.Artist>("artist_problems.xml")
             .ToList();
 
         artists.Should().HaveCount(1);
-        artists[0].id.Should().Be(artist.id);
-        artists[0].name.Should().Be(artist.name);
-        artists[0].realname.Should().Be(artist.realname);
+        artists[0].Id.Should().Be(artist.Id);
+        artists[0].Name.Should().Be(artist.Name);
+        artists[0].RealName.Should().Be(artist.RealName);
     }
 
     private static void Populate<T>(T obj, string resourceName)

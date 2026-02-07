@@ -28,7 +28,7 @@ public class release : IExportable
     [XmlAttribute]
     public string status { get; set; }
 
-    public image[] images { get; set; }
+    public Image[] images { get; set; }
     public artist[] artists { get; set; }
     public string title { get; set; }
     public label[] labels { get; set; }
@@ -51,7 +51,7 @@ public class release : IExportable
     public string master_id { get; set; }
     public track[] tracklist { get; set; }
     public identifier[] identifiers { get; set; }
-    public video[] videos { get; set; }
+    public Video[] videos { get; set; }
     public company[] companies { get; set; }
 
     public IEnumerable<track> GetTracks()
@@ -110,7 +110,7 @@ public class release : IExportable
         {
             foreach (var image in images)
             {
-                yield return ("release_image", [id, image.type, image.width, image.height]);
+                yield return ("release_image", [id, image.Type, image.Width, image.Height]);
             }
         }
 
@@ -150,7 +150,7 @@ public class release : IExportable
             foreach (var v in videos)
             {
                 if (v == null) continue;
-                yield return ("release_video", [id, v.duration, v.title, v.description, v.src]);
+                yield return ("release_video", [id, v.Duration, v.Title, v.Description, v.Src]);
             }
         }
 
@@ -247,7 +247,7 @@ public class release : IExportable
                     master_id = reader.ReadElementContentAsString();
                     break;
                 case "images":
-                    images = image.Parse(reader);
+                    images = Image.Parse(reader);
                     break;
                 case "genres":
                     genres = reader.ReadChildren("genre");
@@ -256,7 +256,7 @@ public class release : IExportable
                     styles = reader.ReadChildren("style");
                     break;
                 case "videos":
-                    videos = video.Parse(reader);
+                    videos = Video.Parse(reader);
                     break;
                 case "identifiers":
                     identifiers = identifier.Parse(reader);

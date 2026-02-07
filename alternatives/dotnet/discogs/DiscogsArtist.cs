@@ -1,6 +1,6 @@
 namespace discogs.Artists;
 
-[XmlRoot("artist")]
+[XmlType("artist")]
 public class Artist : IExportable
 {
     private static readonly Dictionary<string, string[]> _csvExportHeaders = new()
@@ -13,48 +13,75 @@ public class Artist : IExportable
         { "artist_image", "artist_id type width height".Split(" ") },
     };
 
-    public image[] images { get; set; }
+    [XmlArrayItem("images")]
+    public Image[] Images { get; set; }
+
+    [XmlArray("urls")]
     [XmlArrayItem("url")]
-    public string[] urls { get; set; }
+    public string[] Urls { get; set; }
 
-    public string id { get; set; }
-    public string name { get; set; }
-    public string realname { get; set; }
-    public string profile { get; set; }
-    public string data_quality { get; set; }
+    [XmlElement("id")]
+    public string Id { get; set; }
+
+    [XmlElement("name")]
+    public string Name { get; set; }
+
+    [XmlElement("realname")]
+    public string RealName { get; set; }
+
+    [XmlElement("profile")]
+    public string Profile { get; set; }
+
+    [XmlElement("data_quality")]
+    public string DataQuality { get; set; }
+
+    [XmlArray("namevariations")]
     [XmlArrayItem("name")]
-    public string[] namevariations { get; set; }
-    public name[] members { get; set; }
-    public name[] aliases { get; set; }
-    // groups are not parsed in the python version
-    public name[] groups {get;set;}
+    public string[] NameVariations { get; set; }
 
-    public override string ToString() => id;
+    [XmlArray("members")]
+    [XmlArrayItem("name")]
+    public Name[] Members { get; set; }
+
+    [XmlArray("aliases")]
+    [XmlArrayItem("name")]
+    public Name[] Aliases { get; set; }
+
+    // groups are not parsed in the python version
+    [XmlArray("groups")]
+    [XmlArrayItem("name")]
+    public Name[] Groups { get; set; }
+
+    public override string ToString() => Id;
 
     public IEnumerable<(string StreamName, string[] RowValues)> Export()
     {
-        yield return ("artist", [id, name, realname, profile, data_quality]);
-        foreach (var a in (aliases ?? []))
+        yield return ("artist", [Id, Name, RealName, Profile, DataQuality]);
+        foreach (Name a in (Aliases ?? []))
         {
-            yield return ("artist_alias", [id, a.value]);
+            yield return ("artist_alias", [Id, a.Value]);
         }
-        foreach (string nv in (namevariations ?? []))
+
+        foreach (string nv in (NameVariations ?? []))
         {
-            yield return ("artist_namevariation", [id, nv]);
+            yield return ("artist_namevariation", [Id, nv]);
         }
-        foreach (string u in (urls ?? []))
+
+        foreach (string u in (Urls ?? []))
         {
-            yield return ("artist_url", [id, u]);
+            yield return ("artist_url", [Id, u]);
         }
-        foreach (var m in (members ?? []))
+
+        foreach (Name m in (Members ?? []))
         {
-            yield return ("group_member", [id, m.id, m.value]);
+            yield return ("group_member", [Id, m.Id, m.Value]);
         }
-        if ((images?.Length ?? 0) > 0)
+
+        if ((Images?.Length ?? 0) > 0)
         {
-            foreach (var image in images)
+            foreach (Image image in Images)
             {
-                yield return ("artist_image", [id, image.type, image.width, image.height]);
+                yield return ("artist_image", [Id, image.Type, image.Width, image.Height]);
             }
         }
     }
@@ -62,7 +89,7 @@ public class Artist : IExportable
     public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields()
         => _csvExportHeaders;
 
-    public bool IsValid() => !string.IsNullOrEmpty(id);
+    public bool IsValid() => !string.IsNullOrEmpty(Id);
 
     /// <summary>
     /// Populates the current object from an XML reader.
@@ -70,7 +97,7 @@ public class Artist : IExportable
     /// <param name="reader">An XML reader positioned right after the <![CDATA[<artist>]]> node.</param>
     public void Populate(XmlReader reader) => Populate2(reader);
 
-    public void Populate2(XmlReader reader)
+    private void Populate2(XmlReader reader)
     {
         if (reader.Name != "artist")
         {
@@ -87,37 +114,37 @@ public class Artist : IExportable
                     // it's back on a release node (EndElement); release control
                     return;
                 case "images":
-                    images = image.Parse(reader);
+                    Images = Image.Parse(reader);
                     break;
                 case "id":
-                    id = reader.ReadElementContentAsString();
+                    Id = reader.ReadElementContentAsString();
                     break;
                 case "name":
-                    name = reader.ReadElementContentAsString();
+                    Name = reader.ReadElementContentAsString();
                     break;
                 case "realname":
-                    realname = reader.ReadElementContentAsString();
+                    RealName = reader.ReadElementContentAsString();
                     break;
                 case "profile":
-                    profile = reader.ReadElementContentAsString();
+                    Profile = reader.ReadElementContentAsString();
                     break;
                 case "data_quality":
-                    data_quality = reader.ReadElementContentAsString();
+                    DataQuality = reader.ReadElementContentAsString();
                     break;
                 case "urls":
-                    urls = reader.ReadChildren("url");
+                    Urls = reader.ReadChildren("url");
                     break;
                 case "namevariations":
-                    namevariations = reader.ReadChildren("name");
+                    NameVariations = reader.ReadChildren("name");
                     break;
                 case "members":
-                    members = discogs.Artists.name.Parse(reader, "members");
+                    Members = discogs.Artists.Name.Parse(reader, "members");
                     break;
                 case "aliases":
-                    aliases = discogs.Artists.name.Parse(reader, "aliases");
+                    Aliases = discogs.Artists.Name.Parse(reader, "aliases");
                     break;
                 case "groups":
-                    groups = discogs.Artists.name.Parse(reader, "groups");
+                    Groups = discogs.Artists.Name.Parse(reader, "groups");
                     break;
                 default:
                     reader.Read();
@@ -130,12 +157,13 @@ public class Artist : IExportable
                 {
                     return;
                 }
+
                 reader.Skip();
             }
         }
     }
 
-    public void Populate1(XmlReader reader)
+    private void Populate1(XmlReader reader)
     {
         while (reader.Read())
         {
@@ -144,42 +172,50 @@ public class Artist : IExportable
                 // that means we encountered the next node
                 return;
             }
+
             if (reader.IsStartElement("id"))
             {
-                id = reader.ReadElementContentAsString();
+                Id = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("name"))
             {
-                name = reader.ReadElementContentAsString();
+                Name = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("realname"))
             {
-                realname = reader.ReadElementContentAsString();
+                RealName = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("profile"))
             {
-                profile = reader.ReadElementContentAsString();
+                Profile = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("data_quality"))
             {
-                data_quality = reader.ReadElementContentAsString();
+                DataQuality = reader.ReadElementContentAsString();
             }
+
             if (reader.IsStartElement("namevariations"))
             {
                 reader.Read();
-                var nvs = new List<string>();
+                List<string> nvs = [];
                 while (reader.IsStartElement("name"))
                 {
                     string nv = reader.ReadElementContentAsString();
                     if (!string.IsNullOrWhiteSpace(nv))
                         nvs.Add(nv);
                 }
-                namevariations = nvs.ToArray();
+
+                NameVariations = nvs.ToArray();
             }
+
             if (reader.IsStartElement("members"))
             {
                 reader.Read(); // move inside members
-                var members = new List<name>();
+                List<Name> members = [];
                 while (reader.IsStartElement("name") || reader.IsStartElement("id"))
                 {
                     if (reader.IsStartElement("id"))
@@ -187,108 +223,132 @@ public class Artist : IExportable
                         reader.Skip();
                         continue;
                     }
-                    var n = new name
+
+                    Name n = new()
                     {
-                        id = reader.GetAttribute("id"),
-                        value = reader.ReadElementContentAsString(),
+                        Id = reader.GetAttribute("id"),
+                        Value = reader.ReadElementContentAsString(),
                     };
                     members.Add(n);
                 }
-                this.members = members.ToArray();
+
+                this.Members = members.ToArray();
             }
+
             if (reader.IsStartElement("aliases"))
             {
                 reader.Read();
-                var aliases = new List<name>();
+                List<Name> aliases = [];
                 while (reader.IsStartElement("name"))
                 {
-                    var n = new name
+                    Name n = new()
                     {
-                        id = reader.GetAttribute("id"),
-                        value = reader.ReadElementContentAsString(),
+                        Id = reader.GetAttribute("id"),
+                        Value = reader.ReadElementContentAsString(),
                     };
                     aliases.Add(n);
                 }
-                this.aliases = aliases.ToArray();
+
+                this.Aliases = aliases.ToArray();
             }
+
             if (reader.IsStartElement("groups"))
             {
                 reader.Read();
-                var names = new List<name>();
+                List<Name> names = [];
                 while (reader.IsStartElement("name"))
                 {
-                    var n = new name
+                    Name n = new()
                     {
-                        id = reader.GetAttribute("id"),
-                        value = reader.ReadElementContentAsString(),
+                        Id = reader.GetAttribute("id"),
+                        Value = reader.ReadElementContentAsString(),
                     };
                     names.Add(n);
                 }
-                groups = names.ToArray();
+
+                Groups = names.ToArray();
             }
 
             if (reader.IsStartElement("images"))
             {
-                var images = new List<image>();
+                List<Image> images = [];
                 while (reader.Read() && reader.IsStartElement("image"))
                 {
-                    var image = new image { type = reader.GetAttribute("type"), width = reader.GetAttribute("width"), height = reader.GetAttribute("height") };
+                    Image image = new()
+                    {
+                        Type = reader.GetAttribute("type"), Width = reader.GetAttribute("width"),
+                        Height = reader.GetAttribute("height")
+                    };
                     images.Add(image);
                 }
-                this.images = images.ToArray();
+
+                this.Images = images.ToArray();
             }
+
             if (reader.IsStartElement("urls"))
             {
                 reader.Read();
-                var urls = new List<string>();
+                List<string> urls = [];
                 while (reader.IsStartElement("url"))
                 {
                     string url = reader.ReadElementContentAsString();
                     if (!string.IsNullOrWhiteSpace(url))
                         urls.Add(url);
                 }
-                this.urls = urls.ToArray();
+
+                this.Urls = urls.ToArray();
             }
         }
     }
 }
 
-public class name
+// [XmlRoot("name")]
+[XmlType("name")]
+public class Name
 {
-    [XmlAttribute]
-    public string id { get; set; }
-    [XmlText]
-    public string value { get; set; }
+    [XmlAttribute("id")]
+    public string Id { get; set; }
 
-    public static name[] Parse(XmlReader reader, string parentName)
+    [XmlText] public string Value { get; set; }
+
+    public static Name[] Parse(XmlReader reader, string parentName)
     {
-        if (reader.IsEmptyElement) {
+        if (reader.IsEmptyElement)
+        {
             reader.Skip();
             return [];
         }
+
         // expects to be on <parentName> node
         reader.Read();
-        var list = new List<name>();
+        List<Name> list = [];
         while (!reader.EOF)
         {
-            if (reader.Name == parentName) {
+            if (reader.Name == parentName)
+            {
                 break;
             }
-            if (reader.Name == "name") {
-                var obj = new name {
-                    id = reader.GetAttribute("id"),
-                    value = reader.ReadElementContentAsString(),
+
+            if (reader.Name == "name")
+            {
+                Name obj = new()
+                {
+                    Id = reader.GetAttribute("id"),
+                    Value = reader.ReadElementContentAsString(),
                 };
                 list.Add(obj);
             }
-            else {
+            else
+            {
                 reader.Skip();
             }
         }
+
         if (reader.NodeType == XmlNodeType.EndElement)
         {
             reader.Skip();
         }
+
         return list.ToArray();
     }
 }

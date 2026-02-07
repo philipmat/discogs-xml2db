@@ -1,73 +1,78 @@
 namespace discogs;
 
-public class image
+[XmlType("image")]
+public class Image
 {
-    [XmlAttribute]
-    public string type { get; set; }
+    [XmlAttribute("type")]
+    public string Type { get; set; }
 
-    [XmlAttribute]
-    public string uri { get; set; }
+    [XmlAttribute("uri")]
+    public string Uri { get; set; }
 
-    [XmlAttribute]
-    public string uri150 { get; set; }
+    [XmlAttribute("uri150")]
+    public string Uri150 { get; set; }
 
-    [XmlAttribute]
-    public string width { get; set; }
+    [XmlAttribute("width")]
+    public string Width { get; set; }
 
-    [XmlAttribute]
-    public string height { get; set; }
+    [XmlAttribute("height")]
+    public string Height { get; set; }
 
-    internal static image[] Parse(XmlReader reader)
+    internal static Image[] Parse(XmlReader reader)
     {
-        var list = new List<image>();
+        List<Image> list = [];
         while (reader.Read() && reader.IsStartElement("image"))
         {
-            var obj = ParseImage(reader);
+            Image obj = ParseImage(reader);
             list.Add(obj);
         }
 
         return list.ToArray();
     }
 
-    internal static image ParseImage(XmlReader reader)
+    internal static Image ParseImage(XmlReader reader)
         => new()
         {
-            type = reader.GetAttribute("type"),
-            width = reader.GetAttribute("width"),
-            height = reader.GetAttribute("height")
+            Type = reader.GetAttribute("type"),
+            Width = reader.GetAttribute("width"),
+            Height = reader.GetAttribute("height")
         };
 }
 
-public class url
+[XmlType("url")]
+public class Url
 {
     [XmlElement("url")]
     public string TheUrl { get; set; }
 }
 
-public class video
+[XmlRoot("video")]
+public class Video
 {
-    [XmlAttribute]
-    public string src { get; set; }
+    [XmlAttribute("src")]
+    public string Src { get; set; }
 
-    [XmlAttribute]
-    public string duration { get; set; }
+    [XmlAttribute("duration")]
+    public string Duration { get; set; }
 
-    [XmlAttribute]
-    public string embed { get; set; }
+    [XmlAttribute("embed")]
+    public string Embed { get; set; }
 
-    public string title { get; set; }
-    public string description { get; set; }
+    [XmlElement("title")]
+    public string Title { get; set; }
+    [XmlElement("description")]
+    public string Description { get; set; }
 
-    internal static video[] Parse(XmlReader reader)
+    internal static Video[] Parse(XmlReader reader)
     {
-        var list = new List<video>();
+        List<Video> list = [];
         while (reader.Read() && reader.IsStartElement("video"))
         {
-            var one = new video
+            Video one = new()
             {
-                src = reader.GetAttribute("src"),
-                duration = reader.GetAttribute("duration"),
-                embed = reader.GetAttribute("embed"),
+                Src = reader.GetAttribute("src"),
+                Duration = reader.GetAttribute("duration"),
+                Embed = reader.GetAttribute("embed"),
             };
 
             reader.Read();
@@ -75,13 +80,13 @@ public class video
             {
                 if (reader.Name == "title")
                 {
-                    one.title = reader.ReadElementContentAsString();
+                    one.Title = reader.ReadElementContentAsString();
                     continue;
                 }
 
                 if (reader.Name == "description")
                 {
-                    one.description = reader.ReadElementContentAsString();
+                    one.Description = reader.ReadElementContentAsString();
                     continue;
                 }
 

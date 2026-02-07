@@ -19,7 +19,7 @@ public class master : IExportable
     public string year { get; set; }
     public string title { get; set; }
     public string data_quality { get; set; }
-    public image[] images { get; set; }
+    public Image[] images { get; set; }
     public artist[] artists { get; set; }
 
     [XmlArrayItem("genre")]
@@ -28,7 +28,7 @@ public class master : IExportable
     [XmlArrayItem("style")]
     public string[] styles { get; set; }
 
-    public video[] videos { get; set; }
+    public Video[] videos { get; set; }
 
     public IEnumerable<(string StreamName, string[] RowValues)> Export()
     {
@@ -49,7 +49,7 @@ public class master : IExportable
             foreach (var v in videos)
             {
                 if (v == null) continue;
-                yield return ("master_video", [id, v.duration, v.title, v.description, v.src]);
+                yield return ("master_video", [id, v.Duration, v.Title, v.Description, v.Src]);
             }
         }
 
@@ -75,7 +75,7 @@ public class master : IExportable
         {
             foreach (var image in images)
             {
-                yield return ("master_image", [id, image.type, image.width, image.height]);
+                yield return ("master_image", [id, image.Type, image.Width, image.Height]);
             }
         }
     }
@@ -117,7 +117,7 @@ public class master : IExportable
                     data_quality = reader.ReadElementContentAsString();
                     break;
                 case "images":
-                    images = image.Parse(reader);
+                    images = Image.Parse(reader);
                     break;
                 case "genres":
                     genres = reader.ReadChildren("genre");
@@ -126,7 +126,7 @@ public class master : IExportable
                     styles = reader.ReadChildren("style");
                     break;
                 case "videos":
-                    videos = video.Parse(reader);
+                    videos = Video.Parse(reader);
                     break;
                 case "artists":
                     artists = artist.Parse(reader);
@@ -173,13 +173,13 @@ public class master : IExportable
 
             if (reader.IsStartElement("images"))
             {
-                List<image> imageList = [];
+                List<Image> imageList = [];
                 while (reader.Read() && reader.IsStartElement("image"))
                 {
-                    var image = new image
+                    var image = new Image
                     {
-                        type = reader.GetAttribute("type"), width = reader.GetAttribute("width"),
-                        height = reader.GetAttribute("height")
+                        Type = reader.GetAttribute("type"), Width = reader.GetAttribute("width"),
+                        Height = reader.GetAttribute("height")
                     };
                     imageList.Add(image);
                 }
@@ -301,27 +301,27 @@ public class master : IExportable
 
             if (reader.IsStartElement("videos"))
             {
-                List<video> list = [];
+                List<Video> list = [];
                 reader.Read();
                 while (reader.IsStartElement("video"))
                 {
-                    var video = new video
+                    var video = new Video
                     {
-                        src = reader.GetAttribute("src"),
-                        duration = reader.GetAttribute("duration"),
-                        embed = reader.GetAttribute("embed"),
+                        Src = reader.GetAttribute("src"),
+                        Duration = reader.GetAttribute("duration"),
+                        Embed = reader.GetAttribute("embed"),
                     };
                     while (reader.Read()
                            && (reader.IsStartElement("title") || reader.IsStartElement("description")))
                     {
                         if (reader.IsStartElement("title"))
                         {
-                            video.title = reader.ReadElementContentAsString();
+                            video.Title = reader.ReadElementContentAsString();
                         }
 
                         if (reader.IsStartElement("description"))
                         {
-                            video.description = reader.ReadElementContentAsString();
+                            video.Description = reader.ReadElementContentAsString();
                         }
                     }
 

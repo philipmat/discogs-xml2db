@@ -1,6 +1,3 @@
-using System.Xml;
-using System.Xml.Serialization;
-
 namespace discogs.Masters;
 
 public class master : IExportable

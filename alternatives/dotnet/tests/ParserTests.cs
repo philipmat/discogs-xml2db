@@ -1,8 +1,4 @@
 using System.IO.Compression;
-using discogs;
-using AwesomeAssertions;
-using NSubstitute;
-using Xunit;
 
 namespace tests;
 

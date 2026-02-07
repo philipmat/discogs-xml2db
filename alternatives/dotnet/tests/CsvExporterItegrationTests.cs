@@ -1,8 +1,3 @@
-using System.Xml;
-using discogs;
-using AwesomeAssertions;
-using Xunit;
-
 namespace tests;
 
 public class CsvExporterIntegrationTests : IDisposable

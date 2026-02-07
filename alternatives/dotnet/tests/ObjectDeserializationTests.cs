@@ -1,9 +1,3 @@
-using System.Xml;
-using discogs;
-using AwesomeAssertions;
-using NSubstitute;
-using Xunit;
-
 namespace tests;
 
 public class ObjectDeserializationTests

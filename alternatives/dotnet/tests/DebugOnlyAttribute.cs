@@ -1,5 +1,3 @@
-using Xunit;
-
 namespace tests;
 
 public class DebugOnlyAttribute : FactAttribute

@@ -1,5 +1,3 @@
-using System.Xml;
-
 namespace discogs;
 
 public static class XmlExtensions

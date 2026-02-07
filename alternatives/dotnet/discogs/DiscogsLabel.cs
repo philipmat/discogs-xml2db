@@ -1,6 +1,3 @@
-using System.Xml;
-using System.Xml.Serialization;
-
 namespace discogs.Labels;
 
 public class label : IExportable

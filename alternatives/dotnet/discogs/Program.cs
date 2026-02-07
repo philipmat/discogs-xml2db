@@ -1,4 +1,6 @@
-﻿namespace discogs;
+﻿using ShellProgressBar;
+
+namespace discogs;
 
 public class Program
 {
@@ -6,6 +8,7 @@ public class Program
     private const int ExitHelp = 1;
     private const int ExitParamIssue = 2;
     private const int ProgressDisplayThrottle = 1_000; // display every ProgressDisplayThrottle only once
+
     private const string Usage = @"Converts discogs XML files for database import.
 Usage: discogs [options] [files...]
 
@@ -17,9 +20,13 @@ Options:
 files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             Can specify multiple files.
  ";
+
     private static readonly Dictionary<string, int> _statistics = new()
     {
-        {"release", 12945920}, { "artist", 7075521}, { "label", 1579404}, {"master", 1250000}
+        ["release"] = 20_000_000,
+        ["artist"] = 10_000_000,
+        ["label"] = 2_500_000,
+        ["master"] = 2_600_000
     };
 
     static async Task<int> Main(string[] args)
@@ -31,8 +38,8 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
         }
 
         // TODO: use an argument parsing library
-        using var options = new RunOptions();
-        var files = new List<string>();
+        using RunOptions options = new();
+        List<string> files = [];
         foreach (string arg in args)
         {
             if (string.Equals(arg, "--dry-run", StringComparison.OrdinalIgnoreCase))
@@ -115,7 +122,8 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
                 compress: options.CompressOutput,
                 verbose: options.Verbose);
         }
-        var pbar = options.GetProgress(typeName, ticks);
+
+        ProgressBarBase pbar = options.GetProgress(typeName, ticks);
 
         Parser<T> parser = options.UseVersion1
             ? new XmlSerializerBasedParser<T>(exporter, ProgressDisplayThrottle)
@@ -136,69 +144,80 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
 
         public int FileCount;
 
-        private readonly List<ShellProgressBar.ProgressBarBase> _progressBars = new();
+        private readonly List<ProgressBarBase> _progressBars = new();
         private readonly object _lock = new();
 
         public void Dispose()
         {
-            Parallel.ForEach(_progressBars, p => { if (p is IDisposable pd) pd.Dispose(); });
+            Parallel.ForEach(
+                _progressBars,
+                p =>
+                {
+                    if (p is IDisposable pd) pd.Dispose();
+                });
         }
 
-        public ShellProgressBar.ProgressBarBase GetProgress(string typeName, int ticks) {
-            if (FileCount <= 1) {
-                var pbarOptions = new ShellProgressBar.ProgressBarOptions
+        public ProgressBarBase GetProgress(string typeName, int ticks)
+        {
+            if (FileCount <= 1)
+            {
+                ProgressBarOptions pbarOptions = new()
                 {
                     DisplayTimeInRealTime = false,
                     ShowEstimatedDuration = true,
                     CollapseWhenFinished = true,
                 };
-                var pbar = new ShellProgressBar.ProgressBar(ticks, $"Parsing {typeName}s", pbarOptions);
+                ProgressBar pbar = new(ticks, $"Parsing {typeName}s", pbarOptions);
                 _progressBars.Add(pbar);
                 return pbar;
             }
-            else {
+            else
+            {
                 lock (_lock)
                 {
-                    ShellProgressBar.ProgressBar mainBar;
+                    ProgressBar mainBar;
                     if (_progressBars.Count == 0)
                     {
-                        var mainPbarOptions = new ShellProgressBar.ProgressBarOptions
+                        ProgressBarOptions mainPbarOptions = new()
                         {
                             DisplayTimeInRealTime = false,
                             ShowEstimatedDuration = true,
                             CollapseWhenFinished = true,
                         };
-                        mainBar = new ShellProgressBar.ProgressBar(FileCount, $"Parsing {FileCount} files", mainPbarOptions);
+                        mainBar = new(
+                            FileCount,
+                            $"Parsing {FileCount} files",
+                            mainPbarOptions);
                         _progressBars.Add(mainBar);
                     }
                     else
                     {
-                        mainBar = (ShellProgressBar.ProgressBar)_progressBars[0];
+                        mainBar = (ProgressBar)_progressBars[0];
                     }
 
-                    var childPbarOptions = new ShellProgressBar.ProgressBarOptions
+                    ProgressBarOptions childPbarOptions = new()
                     {
                         DisplayTimeInRealTime = false,
                         ShowEstimatedDuration = true,
                         CollapseWhenFinished = false,
                         ForegroundColor = ConsoleColor.Cyan,
                     };
-                    var childPbar = mainBar.Spawn(ticks, $"Parsing {typeName}s", childPbarOptions);
+                    ChildProgressBar childPbar = mainBar.Spawn(ticks, $"Parsing {typeName}s", childPbarOptions);
                     _progressBars.Add(childPbar);
                     return childPbar;
                 }
             }
         }
 
-        public void Finished(ShellProgressBar.ProgressBarBase pbar)
+        public void Finished(ProgressBarBase pbar)
         {
             switch (pbar)
             {
-                case ShellProgressBar.ChildProgressBar childBar:
+                case ChildProgressBar childBar:
                     childBar.Dispose();
                     _progressBars[0].Tick();
                     break;
-                case ShellProgressBar.ProgressBar mainBar:
+                case ProgressBar mainBar:
                     mainBar.Dispose();
                     break;
             }

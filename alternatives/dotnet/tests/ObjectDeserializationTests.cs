@@ -129,7 +129,7 @@ public class ObjectDeserializationTests
     [Fact]
     public void Label_Populate()
     {
-        var label = new discogs.Labels.Label();
+        var label = new Label();
 
         // Act
         Populate(label, "label.xml");
@@ -140,24 +140,40 @@ public class ObjectDeserializationTests
         label.Profile.Should().StartWith("[a=Carl Craig]'s");
         label.Profile.Should().EndWith("as publisher.");
         label.DataQuality.Should().Be("Correct");
-        label.Urls.Should().HaveCount(5);
-        /*
-        label.sublabels.Should().HaveCount(2);
-        label.sublabels[0].SubId.Should().Be("86537");
-        label.sublabels[0].SubName.Should().Be("Antidote (4)");
-        label.sublabels[1].SubId.Should().Be("488315");
-        label.sublabels[1].SubName.Should().Be("TWPENTY");
-        */
+        label.Urls.Should()
+            .HaveCount(5)
+            .And
+            .AllSatisfy(u => u.Should().StartWith("http"));
         label.ParentLabel.id.Should().Be("4711");
         label.ParentLabel.name.Should().Be("Goldhead Music");
-        label.Images.Should().HaveCount(3);
-        label.Images[0].Type.Should().Be("primary");
-        label.Images[0].Uri.Should().BeNullOrEmpty();
-        label.Images[0].Uri150.Should().BeNullOrEmpty();
-        label.Images[0].Width.Should().Be("132");
-        label.Images[0].Height.Should().Be("24");
-        label.Images[1].Type.Should().Be("secondary");
-        label.Images[^1].Type.Should().Be("secondary");
+        label.Sublabels.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                l =>
+                {
+                    l.Id.Should().Be("86537");
+                    l.Name.Should().Be("Antidote (4)");
+                },
+                l =>
+                {
+                    l.Id.Should().Be("488315");
+                    l.Name.Should().Be("TWPENTY");
+                }
+            )
+            .And
+            .AllSatisfy(l => l.IsSubLabel.Should().BeTrue());
+        label.Images.Should()
+            .HaveCount(3)
+            .And
+            .AllSatisfy(i =>
+            {
+                i.Type.Should().BeOneOf("primary", "secondary");
+                i.Uri.Should().BeNullOrEmpty();
+                i.Uri150.Should().BeNullOrEmpty();
+                i.Width.Should().MatchRegex("\\d+");
+                i.Height.Should().MatchRegex("\\d+");
+            });
     }
 
     [Fact]

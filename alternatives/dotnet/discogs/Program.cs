@@ -91,7 +91,7 @@ public class Program
         fileName = Path.GetFullPath(fileName);
         if (fileName.Contains("_labels"))
         {
-            await ParseAsync<Labels.Label>(fileName, options);
+            await ParseAsync<Label>(fileName, options);
         }
         else if (fileName.Contains("_releases"))
         {

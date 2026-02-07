@@ -1,4 +1,4 @@
-namespace discogs.Labels;
+namespace discogs;
 
 [XmlType("label")]
 public class Label : IExportable
@@ -30,21 +30,25 @@ public class Label : IExportable
     [XmlElement("data_quality")]
     public string DataQuality { get; set; }
 
-    // [XmlElement( "parentLabel")]
+    [XmlElement( "parentLabel")]
     public ParentLabel ParentLabel { get; set; }
 
     [XmlArray("urls")]
     [XmlArrayItem("url")]
     public string[] Urls { get; set; }
+    [XmlArray("sublabels")]
+    public Label[] Sublabels { get; set; }
 
+    [Obsolete("Was used by the XmlSerializer")]
     [XmlAttribute("id")]
     public string SubId { get; set; }
 
+    [Obsolete("Was used by the XmlSerializer")]
     [XmlText]
     public string SubName { get; set; }
 
-    [XmlArray( "sublabels" )]
-    public Label[] Sublabels { get; set; }
+
+    public bool IsSubLabel { get; private init; }
 
     /// <summary>
     /// Gets the possible export schemes for the class
@@ -61,7 +65,7 @@ public class Label : IExportable
         yield return ("label", [Id, Name, ContactInfo, Profile, ParentLabel?.name, DataQuality]);
         if ((Urls?.Length ?? 0) > 0)
         {
-            foreach (var url in Urls)
+            foreach (string url in Urls)
             {
                 if (string.IsNullOrEmpty(url)) continue;
                 yield return ("label_url", [Id, url]);
@@ -70,7 +74,7 @@ public class Label : IExportable
 
         if ((Images?.Length ?? 0) > 0)
         {
-            foreach (var image in Images)
+            foreach (Image image in Images)
             {
                 yield return ("label_image", [Id, image.Type, image.Width, image.Height]);
             }
@@ -80,7 +84,7 @@ public class Label : IExportable
     public void Populate(XmlReader reader) => Populate2(reader);
 
 
-    public void Populate2(XmlReader reader)
+    private void Populate2(XmlReader reader)
     {
         if (reader.Name != "label")
         {
@@ -118,7 +122,7 @@ public class Label : IExportable
                     Urls = reader.ReadChildren("url");
                     break;
                 case "parentLabel":
-                    ParentLabel = new ParentLabel
+                    ParentLabel = new()
                     {
                         id = reader.GetAttribute("id"),
                         name = reader.ReadElementContentAsString()
@@ -144,7 +148,7 @@ public class Label : IExportable
         }
     }
 
-    public void Populate1(XmlReader reader)
+    private void Populate1(XmlReader reader)
     {
         while (reader.Read())
         {
@@ -180,7 +184,7 @@ public class Label : IExportable
 
             if (reader.IsStartElement("parentLabel"))
             {
-                ParentLabel = new ParentLabel
+                ParentLabel = new()
                 {
                     id = reader.GetAttribute("id"),
                     name = reader.ReadElementContentAsString()
@@ -190,10 +194,10 @@ public class Label : IExportable
             if (reader.IsStartElement("sublabels"))
             {
                 reader.Read();
-                var sublabelList = new List<Label>();
+                List<Label> sublabelList = [];
                 while (reader.IsStartElement("label"))
                 {
-                    var label = new Label
+                    Label label = new()
                     {
                         Id = reader.GetAttribute("id"),
                         Name = reader.ReadElementContentAsString()
@@ -206,10 +210,10 @@ public class Label : IExportable
 
             if (reader.IsStartElement("images"))
             {
-                var images = new List<Image>();
+                List<Image> images = [];
                 while (reader.Read() && reader.IsStartElement("image"))
                 {
-                    var image = new Image
+                    Image image = new()
                     {
                         Type = reader.GetAttribute("type"), Width = reader.GetAttribute("width"),
                         Height = reader.GetAttribute("height")
@@ -223,10 +227,10 @@ public class Label : IExportable
             if (reader.IsStartElement("urls"))
             {
                 reader.Read();
-                var urls = new List<string>();
+                List<string> urls = [];
                 while (reader.IsStartElement("url"))
                 {
-                    var url = reader.ReadElementContentAsString();
+                    string url = reader.ReadElementContentAsString();
                     if (!string.IsNullOrWhiteSpace(url))
                         urls.Add(url);
                 }
@@ -241,7 +245,7 @@ public class Label : IExportable
     private static Label[] ParseSublabels(XmlReader reader)
     {
         reader.Read();
-        var sublabelList = new List<Label>();
+        List<Label> sublabelList = [];
         while (reader.IsStartElement("label"))
         {
             if (reader.IsEmptyElement)
@@ -250,24 +254,24 @@ public class Label : IExportable
                 continue;
             }
 
-            var label = new Label
+            Label label = new()
             {
                 Id = reader.GetAttribute("id"),
-                Name = reader.ReadElementContentAsString()
+                Name = reader.ReadElementContentAsString(),
+                IsSubLabel = true
             };
             sublabelList.Add(label);
         }
 
         return sublabelList.ToArray();
     }
-
 }
 
-[XmlType( "parentLabel" )]
+[XmlType("parentLabel")]
 public class ParentLabel
-    {
-        [XmlAttribute]
-        public string id { get; set; }
+{
+    [XmlAttribute]
+    public string id { get; set; }
 
-        [XmlText] public string name { get; set; }
-    }
+    [XmlText] public string name { get; set; }
+}

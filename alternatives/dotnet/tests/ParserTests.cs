@@ -53,7 +53,7 @@ public class ParserTests
 
     [Fact]
     public async Task ParseStream_Label_CallsExporterForEveryTopNodeAsync()
-        => await ParseStream_Type_CallsExporterForEveryTopNodeAsync<discogs.Labels.Label>("labels", 1_000);
+        => await ParseStream_Type_CallsExporterForEveryTopNodeAsync<Label>("labels", 1_000);
 
     [Fact]
     public async Task ParseStream_Master_CallsExporterForEveryTopNodeAsync()
@@ -69,7 +69,7 @@ public class ParserTests
 
     [Fact]
     public async Task ParseStream_Label_KnownCounts()
-        => await ParseStream_Type_TotalCounts<discogs.Labels.Label>("labels");
+        => await ParseStream_Type_TotalCounts<Label>("labels");
 
     [Fact]
     public async Task ParseStream_Master_KnownCounts()

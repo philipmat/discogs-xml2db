@@ -7,19 +7,21 @@ public class Program
     private const int ExitOk = 0;
     private const int ExitHelp = 1;
     private const int ExitParamIssue = 2;
-    private const int ProgressDisplayThrottle = 1_000; // display every ProgressDisplayThrottle only once
+    private const int ProgressDisplayThrottle = 1_000; // display only once every "ProgressDisplayThrottle" increment
 
-    private const string Usage = @"Converts discogs XML files for database import.
-Usage: discogs [options] [files...]
+    private const string Usage = """
+                                 Converts discogs XML files for database import.
+                                 Usage: discogs [options] [files...]
 
-Options:
+                                 Options:
 
---dry-run   Parse the files, output counts, but don't write any actual files
---verbose   More verbose output
---gz        Compress output files (gzip)
-files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
-            Can specify multiple files.
- ";
+                                 --dry-run   Parse the files, output counts, but don't write any actual files
+                                 --verbose   More verbose output
+                                 --gz        Compress output files (gzip)
+                                 files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
+                                             Can specify multiple files.
+
+                                 """;
 
     private static readonly Dictionary<string, int> _statistics = new()
     {

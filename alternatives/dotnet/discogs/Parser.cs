@@ -6,6 +6,7 @@ public class Parser<T>
     where T : IExportable, new()
 {
     private const int BufferSize = 1024 * 1024;
+
     private static readonly XmlReaderSettings _readerSettings = new()
     {
         ConformanceLevel = ConformanceLevel.Fragment,
@@ -20,6 +21,7 @@ public class Parser<T>
     private readonly int _throttle = 1;
     private readonly string _typeName;
     private readonly IExporter<T> _exporter;
+
     public Parser(IExporter<T> exporter, int throttle = 1)
     {
         _exporter = exporter;
@@ -33,12 +35,19 @@ public class Parser<T>
 
     public async Task ParseFileAsync(string fileName)
     {
-        await using FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: BufferSize, useAsync: true);
+        await using FileStream fileStream = new FileStream(
+            fileName,
+            FileMode.Open,
+            FileAccess.Read,
+            FileShare.Read,
+            bufferSize: BufferSize,
+            useAsync: true);
         Stream readingStream = fileStream;
         if (Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase))
         {
             readingStream = new GZipStream(fileStream, CompressionMode.Decompress);
         }
+
         await ParseStreamAsync(readingStream);
         await readingStream.DisposeAsync();
     }
@@ -52,27 +61,34 @@ public class Parser<T>
         await reader.ReadAsync(); // moves to the first element after, so the text between <artists> and <artist>
         while (!reader.EOF)
         {
-            if (reader.Name == _typeName)
+            if (string.Equals(reader.Name, _typeName, StringComparison.OrdinalIgnoreCase))
             {
-                if (reader.NodeType == XmlNodeType.EndElement) {
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
                     await reader.SkipAsync();
                     continue;
                 }
+
                 T obj = await ReadObject(reader);
                 if (obj?.IsValid() == false)
                 {
                     continue;
                 }
+
                 await _exporter.ExportAsync(obj);
 
                 objectCount++;
-                if (objectCount % _throttle == 0) OnSucessfulParse(null, new ParseEventArgs { ParseCount = objectCount });
+                if (objectCount % _throttle == 0)
+                {
+                    OnSucessfulParse(null, new ParseEventArgs { ParseCount = objectCount });
+                }
             }
             else
             {
                 await reader.ReadAsync();
             }
         }
+
         await _exporter.CompleteExportAsync(objectCount);
     }
 

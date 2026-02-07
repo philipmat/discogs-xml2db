@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using discogs;
 using AwesomeAssertions;
+using NSubstitute;
 using Xunit;
 
 namespace tests
@@ -346,7 +347,7 @@ namespace tests
 
             var artists = RetrieveObjects<discogs.Artists.artist>("artist_problems.xml")
                             .ToList();
-            
+
             artists.Should().HaveCount(1);
             artists[0].id.Should().Be(artist.id);
             artists[0].name.Should().Be(artist.name);
@@ -389,7 +390,7 @@ namespace tests
 
             return objs;
         }
-            
+
         private static async Task<T> DeserializeAsync<T>(string resourceFileName)
             where T : IExportable, new()
         {

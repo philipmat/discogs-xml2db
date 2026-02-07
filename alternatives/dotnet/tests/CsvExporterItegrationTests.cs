@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Xml;
 using discogs;
 using AwesomeAssertions;
 using Xunit;
@@ -30,31 +31,35 @@ namespace tests
             //Given
             var exporter = new CsvExporter<SimpleRecord>(TestPath, compress: false);
             var record = new SimpleRecord();
-        
+
             //When
             await exporter.ExportAsync(record);
             await exporter.CompleteExportAsync(1);
-        
+
             //Then
             var outputFile = Path.Combine(TestPath, "test_1.csv");
             File.Exists(outputFile).Should().BeTrue();
-            byte[] content = await File.ReadAllBytesAsync(outputFile);
+            string content = await File.ReadAllTextAsync(outputFile);
 
-            content[0].Should().Be((byte)'f', because: "foo is the first word in the file");
-            content[1].Should().Be((byte)'o', because: "foo is the first word in the file");
+            content.Should().StartWith("foo,bar");
         }
 
-        private class SimpleRecord : IExportToCsv
+        private class SimpleRecord : IExportable
         {
-            public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
+            public IEnumerable<(string StreamName, string[] RowValues)> Export()
             {
                 yield return ("test_1", new string[] { "1.0", "1.1" });
             }
 
-            public IReadOnlyDictionary<string, string[]> GetCsvExportScheme()
+            public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields()
                 => new Dictionary<string, string[]> {
                     ["test_1"] = new string[] { "foo", "bar" }
                 };
+
+
+            public bool IsValid() => throw new NotImplementedException();
+
+            public void Populate(XmlReader reader) => throw new NotImplementedException();
         }
     }
 }

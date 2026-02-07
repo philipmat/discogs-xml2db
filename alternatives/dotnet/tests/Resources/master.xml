@@ -26,8 +26,11 @@
     <videos>
         <video src="https://www.youtube.com/watch?v=mksCnb_USuc" duration="364" embed="true">
             <title>Mix Race - Mixrace Outta Hand</title>
-            <description>[SHADOW 28] Mixrace - Organized Chaos EP (1992)</description></video><video src="https://www.youtube.com/watch?v=UNxtcvAoP_0" duration="320" embed="true"><title>Mix Race - Dance with the Devil</title>
             <description>[SHADOW 28] Mixrace - Organized Chaos EP (1992)</description>
+        </video>
+        <video src="https://www.youtube.com/watch?v=UNxtcvAoP_0" duration="320" embed="true">
+          <title>Mix Race - Dance with the Devil</title>
+          <description>[SHADOW 28] Mixrace - Organized Chaos EP (1992)</description>
         </video>
     </videos>
 </master>

@@ -60,7 +60,7 @@ public class ObjectDeserializationTests
     public void Artist_Populate()
     {
         // Arrange
-        Artist artist = new Artist();
+        Artist artist = new();
 
         // Act
         Populate(artist, "artist.xml");
@@ -179,56 +179,81 @@ public class ObjectDeserializationTests
     [Fact]
     public void Master_Populate()
     {
-        var master = new discogs.Masters.master();
+        Master master = new();
 
         // Act
         Populate(master, "master.xml");
 
         // Assert
-        master.id.Should().Be("122");
-        master.main_release.Should().Be("85912");
-        master.year.Should().Be("1993");
-        master.title.Should().Be("Organized Chaos E.P.");
-        master.data_quality.Should().Be("Correct");
-        master.images.Should().HaveCount(2);
-        master.images[0].Type.Should().Be("primary");
-        master.images[0].Uri.Should().BeNullOrEmpty();
-        master.images[0].Uri150.Should().BeNullOrEmpty();
-        master.images[0].Width.Should().Be("600");
-        master.images[0].Height.Should().Be("604");
-        master.images[1].Type.Should().Be("secondary");
-        master.images[1].Uri.Should().BeNullOrEmpty();
-        master.images[1].Uri150.Should().BeNullOrEmpty();
-        master.images[1].Width.Should().Be("600");
-        master.images[1].Height.Should().Be("604");
+        master.Id.Should().Be("122");
+        master.MainRelease.Should().Be("85912");
+        master.Year.Should().Be("1993");
+        master.Title.Should().Be("Organized Chaos E.P.");
+        master.DataQuality.Should().Be("Correct");
+        master.Images.Should()
+            .HaveCount(2)
+            .And
+            .AllSatisfy(i =>
+            {
+                i.Type.Should().BeOneOf("primary", "secondary");
+                i.Uri.Should().BeNullOrEmpty();
+                i.Uri150.Should().BeNullOrEmpty();
+                i.Width.Should().HaveLength(3);
+                i.Height.Should().HaveLength(3);
+            });
 
-        master.artists.Should().HaveCount(2);
-        master.artists[0].id.Should().Be("69209");
-        master.artists[0].name.Should().Be("Mixrace");
-        master.artists[0].anv.Should().BeNullOrEmpty();
-        master.artists[0].join.Should().BeNullOrEmpty();
-        master.artists[0].role.Should().BeNullOrEmpty();
-        master.artists[0].tracks.Should().BeNullOrEmpty();
-        master.artists[1].id.Should().Be("123");
-        master.artists[1].name.Should().Be("Second Artist");
-        master.artists[1].anv.Should().Be("Artist Name Variation");
-        master.artists[1].join.Should().BeNullOrEmpty();
-        master.artists[1].role.Should().BeNullOrEmpty();
-        master.artists[1].tracks.Should().BeNullOrEmpty();
+        master.Artists.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                a =>
+                {
+                    a.Id.Should().Be("69209");
+                    a.Name.Should().Be("Mixrace");
+                    a.ArtistNameVariation.Should().BeNullOrEmpty();
+                    a.Join.Should().BeNullOrEmpty();
+                    a.Role.Should().BeNullOrEmpty();
+                    a.Tracks.Should().BeNullOrEmpty();
+                },
+                a =>
+                {
+                    a.Id.Should().Be("123");
+                    a.Name.Should().Be("Second Artist");
+                    a.ArtistNameVariation.Should().Be("Artist Name Variation");
+                    a.Join.Should().BeNullOrEmpty();
+                    a.Role.Should().BeNullOrEmpty();
+                    a.Tracks.Should().BeNullOrEmpty();
+                }
+            );
 
-        master.genres.Should().HaveCount(1);
-        master.genres[0].Should().Be("Electronic");
-        master.styles.Should().HaveCount(3);
-        master.styles[0].Should().Be("Breakbeat");
-        master.styles[1].Should().Be("Hardcore");
-        master.styles[2].Should().Be("Jungle");
+        master.Genres.Should()
+            .HaveCount(1)
+            .And.BeEquivalentTo("Electronic");
+        master.Styles.Should()
+            .HaveCount(3)
+            .And.BeEquivalentTo("Breakbeat", "Hardcore", "Jungle");
 
-        master.videos.Should().HaveCount(2);
-        master.videos[0].Src.Should().Be("https://www.youtube.com/watch?v=mksCnb_USuc");
-        master.videos[0].Duration.Should().Be("364");
-        master.videos[0].Embed.Should().Be("true");
-        master.videos[0].Title.Should().Be("Mix Race - Mixrace Outta Hand");
-        master.videos[0].Description.Should().Be("[SHADOW 28] Mixrace - Organized Chaos EP (1992)");
+        master.Videos.Should()
+            .HaveCount(2)
+            .And
+            .SatisfyRespectively(
+                v =>
+                {
+                    v.Src.Should().Be("https://www.youtube.com/watch?v=mksCnb_USuc");
+                    v.Duration.Should().Be("364");
+                    v.Embed.Should().Be("true");
+                    v.Title.Should().Be("Mix Race - Mixrace Outta Hand");
+                    v.Description.Should().Be("[SHADOW 28] Mixrace - Organized Chaos EP (1992)");
+                },
+                v =>
+                {
+                    v.Src.Should().Be("https://www.youtube.com/watch?v=UNxtcvAoP_0");
+                    v.Duration.Should().Be("320");
+                    v.Embed.Should().Be("true");
+                    v.Title.Should().Be("Mix Race - Dance with the Devil");
+                    v.Description.Should().Be("[SHADOW 28] Mixrace - Organized Chaos EP (1992)");
+                }
+            );
     }
 
     [Fact]

@@ -103,7 +103,7 @@ public class Program
         }
         else if (fileName.Contains("_masters"))
         {
-            await ParseAsync<Masters.master>(fileName, options);
+            await ParseAsync<Master>(fileName, options);
         }
     }
 

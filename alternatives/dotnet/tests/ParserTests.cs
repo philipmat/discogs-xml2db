@@ -57,7 +57,7 @@ public class ParserTests
 
     [Fact]
     public async Task ParseStream_Master_CallsExporterForEveryTopNodeAsync()
-        => await ParseStream_Type_CallsExporterForEveryTopNodeAsync<discogs.Masters.master>("masters", 1_000);
+        => await ParseStream_Type_CallsExporterForEveryTopNodeAsync<Master>("masters", 1_000);
 
     [Fact]
     public async Task ParseStream_Release_CallsExporterForEveryTopNodeAsync()
@@ -73,7 +73,7 @@ public class ParserTests
 
     [Fact]
     public async Task ParseStream_Master_KnownCounts()
-        => await ParseStream_Type_TotalCounts<discogs.Masters.master>("masters");
+        => await ParseStream_Type_TotalCounts<Master>("masters");
 
     [Fact]
     public async Task ParseStream_Release_KnownCounts()

@@ -30,6 +30,7 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             return ExitHelp;
         }
 
+        // TODO: use an argument parsing library
         using var options = new RunOptions();
         var files = new List<string>();
         foreach (string arg in args)
@@ -189,14 +190,19 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
             }
         }
 
-        public void Finished(ShellProgressBar.ProgressBarBase pbar) {
-            if (pbar is ShellProgressBar.ChildProgressBar childBar) {
-                childBar.Dispose();
-                _progressBars[0].Tick();
+        public void Finished(ShellProgressBar.ProgressBarBase pbar)
+        {
+            switch (pbar)
+            {
+                case ShellProgressBar.ChildProgressBar childBar:
+                    childBar.Dispose();
+                    _progressBars[0].Tick();
+                    break;
+                case ShellProgressBar.ProgressBar mainBar:
+                    mainBar.Dispose();
+                    break;
             }
-            else if (pbar is ShellProgressBar.ProgressBar mainBar) {
-                mainBar.Dispose();
-            }
+
             _progressBars.Remove(pbar);
         }
     }

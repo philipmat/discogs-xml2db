@@ -1,6 +1,7 @@
 namespace discogs.Artists;
 
-public class artist : IExportable
+[XmlRoot("artist")]
+public class Artist : IExportable
 {
     private static readonly Dictionary<string, string[]> _csvExportHeaders = new()
     {

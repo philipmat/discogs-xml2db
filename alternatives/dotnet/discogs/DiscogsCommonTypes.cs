@@ -1,13 +1,5 @@
 namespace discogs;
 
-public interface IExportable
-{
-    IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields();
-    IEnumerable<(string StreamName, string[] RowValues)> Export();
-    public bool IsValid();
-    void Populate(XmlReader reader);
-}
-
 public class image
 {
     [XmlAttribute]

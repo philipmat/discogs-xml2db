@@ -4,10 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AwesomeAssertions" Version="9.3.0"/>
+    <PackageReference Include="AwesomeAssertions" Version="9.3.0" />
     <PackageReference Include="AwesomeAssertions.Analyzers" Version="9.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,21 +28,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\artist.xml"/>
+    <EmbeddedResource Include="Resources\artist.xml" />
     <EmbeddedResource Include="Resources\artist_11037.xml" />
     <EmbeddedResource Include="Resources\artist_problems.xml" />
-    <EmbeddedResource Include="Resources\label.xml"/>
-    <EmbeddedResource Include="Resources\master.xml"/>
-    <EmbeddedResource Include="Resources\release.xml"/>
-    <EmbeddedResource Include="Resources\discogs_20200806_artists.xml.gz"/>
-    <EmbeddedResource Include="Resources\discogs_20200806_labels.xml.gz"/>
-    <EmbeddedResource Include="Resources\discogs_20200806_masters.xml.gz"/>
-    <EmbeddedResource Include="Resources\discogs_20200806_releases.xml.gz"/>
+    <EmbeddedResource Include="Resources\label.xml" />
+    <EmbeddedResource Include="Resources\master.xml" />
+    <EmbeddedResource Include="Resources\release.xml" />
+    <EmbeddedResource Include="Resources\discogs_20200806_artists.xml.gz" />
+    <EmbeddedResource Include="Resources\discogs_20200806_labels.xml.gz" />
+    <EmbeddedResource Include="Resources\discogs_20200806_masters.xml.gz" />
+    <EmbeddedResource Include="Resources\discogs_20200806_releases.xml.gz" />
     <EmbeddedResource Include="Resources\release_4497890.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\discogs\discogs.csproj"/>
+    <ProjectReference Include="..\discogs\discogs.csproj" />
   </ItemGroup>
 
 </Project>

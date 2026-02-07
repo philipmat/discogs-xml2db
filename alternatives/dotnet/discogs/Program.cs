@@ -118,7 +118,7 @@ files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
         var pbar = options.GetProgress(typeName, ticks);
 
         Parser<T> parser = options.UseVersion1
-            ? new SerializerParser<T>(exporter, ProgressDisplayThrottle)
+            ? new XmlSerializerBasedParser<T>(exporter, ProgressDisplayThrottle)
             : new Parser<T>(exporter, ProgressDisplayThrottle);
         parser.OnSucessfulParse += (_, _) => pbar.Tick();
         await parser.ParseFileAsync(fileName);

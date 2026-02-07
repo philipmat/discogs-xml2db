@@ -390,7 +390,7 @@ public class ObjectDeserializationTests
     }
 
 
-    private class ParserProxy<T>() : SerializerParser<T>(null)
+    private class ParserProxy<T>() : XmlSerializerBasedParser<T>(null)
         where T : IExportable, new()
     {
         public T DeserializeProxy(string content)

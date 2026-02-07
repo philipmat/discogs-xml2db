@@ -1,6 +1,9 @@
 namespace discogs;
 
-public class SerializerParser<T>(IExporter<T> exporter, int throttle = 1) : Parser<T>(exporter, throttle)
+/// <summary>
+/// Implements a parser using XmlSerializer.
+/// </summary>
+public class XmlSerializerBasedParser<T>(IExporter<T> exporter, int throttle = 1) : Parser<T>(exporter, throttle)
     where T : IExportable, new()
 {
     private readonly XmlSerializer _serializer = new(typeof(T));

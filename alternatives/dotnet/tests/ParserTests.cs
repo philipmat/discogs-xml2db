@@ -3,7 +3,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using discogs;
-using FluentAssertions;
+using AwesomeAssertions;
 using NSubstitute;
 using Xunit;
 

@@ -1,37 +1,46 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <InvariantGlobalization>true</InvariantGlobalization>
-    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <TargetFramework>net8.0</TargetFramework>
+
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Include="NSubstitute" Version="4.2.2" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+    <PackageReference Include="AwesomeAssertions" Version="9.3.0"/>
+    <PackageReference Include="AwesomeAssertions.Analyzers" Version="9.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="NSubstitute" Version="5.3.0" />
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\artist.xml" />
+    <EmbeddedResource Include="Resources\artist.xml"/>
     <EmbeddedResource Include="Resources\artist_11037.xml" />
     <EmbeddedResource Include="Resources\artist_problems.xml" />
-    <EmbeddedResource Include="Resources\label.xml" />
-    <EmbeddedResource Include="Resources\master.xml" />
-    <EmbeddedResource Include="Resources\release.xml" />
-    <EmbeddedResource Include="Resources\discogs_20200806_artists.xml.gz" />
-    <EmbeddedResource Include="Resources\discogs_20200806_labels.xml.gz" />
-    <EmbeddedResource Include="Resources\discogs_20200806_masters.xml.gz" />
-    <EmbeddedResource Include="Resources\discogs_20200806_releases.xml.gz" />
+    <EmbeddedResource Include="Resources\label.xml"/>
+    <EmbeddedResource Include="Resources\master.xml"/>
+    <EmbeddedResource Include="Resources\release.xml"/>
+    <EmbeddedResource Include="Resources\discogs_20200806_artists.xml.gz"/>
+    <EmbeddedResource Include="Resources\discogs_20200806_labels.xml.gz"/>
+    <EmbeddedResource Include="Resources\discogs_20200806_masters.xml.gz"/>
+    <EmbeddedResource Include="Resources\discogs_20200806_releases.xml.gz"/>
     <EmbeddedResource Include="Resources\release_4497890.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\discogs\discogs.csproj" />
+    <ProjectReference Include="..\discogs\discogs.csproj"/>
   </ItemGroup>
 
 </Project>

@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using discogs;
-using FluentAssertions;
-using NSubstitute;
+using AwesomeAssertions;
 using Xunit;
 
 namespace tests

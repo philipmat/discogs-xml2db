@@ -190,6 +190,19 @@ $ mysql/importcsv.sh /csvdir/*
 $ mysql/exec_sql.sh < mysql/AssignPrimaryKeys.sql
 ```
 
+#### Importing into SQLite
+
+```sh
+# Create database tables
+$ sqlite3 /path/to/discogs.sqlite < sqlite/sql/CreateTables.sql
+
+# Import CSV files
+$ python3 sqlite/importcsv.py --db=/path/to/discogs.sqlite /csvdir/*
+
+# Create indexes (optional but recommended for querying)
+$ sqlite3 /path/to/discogs.sqlite < sqlite/sql/CreateIndexes.sql
+```
+
 #### Importing into MongoDB
 
 The CSV files can be imported into MongoDB using

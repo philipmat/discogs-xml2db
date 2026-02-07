@@ -4,34 +4,34 @@ discogs-xml2db is a python program for importing [discogs data dumps](https://da
 into several databases.
 
 Version 2 is a rewrite of the original *discogs-xml2db*
-(referred in here as the *classic* version).  
-It is based on a [branch by RedApple](https://github.com/redapple/discogs-xml2db)
+(referred to here as the *classic* version).  
+It is based on a [branch by RedApple,](https://github.com/redapple/discogs-xml2db)
 and it is several times faster.
 
-Currently supports MySQL and PostgreSQL as target databases.
+Currently, it supports MySQL and PostgreSQL as target databases.
 Instructions for importing into MongoDB, though these are untested.  
 Let us know how it goes!
 
 ## Experimental version
 
 In parallel to the original Python codebase, we're working on a parser/exporter
-that's even faster. This is a complete rewrite in C# and initial results are highly
+that's even faster. This is a complete rewrite in C #, and initial results are highly
 promising:
 
-| File | Record Count | Python | C# |
-| --- | ---: | :---: | :---: |
-| discogs_20200806_artists.xml.gz  |  7,046,615 | 6:22    | 2:35 |
-| discogs_20200806_labels.xml.gz   |  1,571,873 | 1:15    | 0:22 |
-| discogs_20200806_masters.xml.gz  |  1,734,371 | 3:56    | 1:57 |
-| discogs_20200806_releases.xml.gz | 12,867,980 | 1:45:16 | 42:38 |
+| File                             | Record Count | Python  |  C#   |
+|----------------------------------|-------------:|:-------:|:-----:|
+| discogs_20200806_artists.xml.gz  |    7,046,615 |  6:22   | 2:35  |
+| discogs_20200806_labels.xml.gz   |    1,571,873 |  1:15   | 0:22  |
+| discogs_20200806_masters.xml.gz  |    1,734,371 |  3:56   | 1:57  |
+| discogs_20200806_releases.xml.gz |   12,867,980 | 1:45:16 | 42:38 |
 
-If you're interested in testing one of this versions, read more about it
+If you're interested in testing one of these versions, read more about it
 in the [.NET Parser README](./alternatives/dotnet/README.md) or grab
 the appropriate binaries from the
 [Releases page](https://github.com/philipmat/discogs-xml2db/releases).
 
-While this version does not have yet complete feature-parity with the Python
-version, the core export-to-csv is there and it's likely it will
+While this version does not have complete feature-parity with the Python
+version (yet), the core export-to-csv is there, and it's likely it will
 eventually replace it.
 
 ![DotNet Build](https://github.com/philipmat/discogs-xml2db/workflows/DotNet%20Build/badge.svg)
@@ -49,7 +49,7 @@ Importing to some databases may require additional dependencies,
 see the documentation for your target database below.
 
 It's best that a [Python virtual environment](https://docs.python.org/3/library/venv.html)
-is created in order to install the required modules in a safe
+is created to install the required modules in a safe
 location, which does not require elevated security permissions:
 
 ```sh
@@ -73,7 +73,7 @@ Installation instruction for other platforms can be found in the [pip documentat
 Download the latest dump files from discogs manually from [discogs](https://data.discogs.com/)
 or run `get_latest_dumps.sh`.
 
-To check the files' integrity download the appropriate checksum file from
+To check the files' integrity, download the appropriate checksum file from
 [https://data.discogs.com/](https://data.discogs.com/),
 place it in the same directory as the dumps and compare the checksums.
 
@@ -119,7 +119,7 @@ There are two run modes:
   Not needed if the individual files are specified.
 - `--bz2`: Compresses output csv files using bz2 compression library.
 - `--limit=<lines>`: Limits export to some number of entities
-- `--apicounts`: Makes progress report more accurate by getting total amounts from Discogs API.
+- `--apicounts`: Makes the progress report more accurate by getting total amounts from Discogs API.
 - `--output` : the folder where to store the csv files; default it current directory
 
 The exporter provides progress information in real time:
@@ -173,7 +173,7 @@ Options:
 - `--output-dir`: folder to write fixtures (default `tests/fixtures`).
 - `--progress-every`: print progress every N parsed entities (default 50,000; set to 0 to disable).
 - `--manifest`: reuse an existing `manifest.json` to extract exactly the listed IDs.
-  In this mode, selection/complexity options are ignored and no graph expansion
+  In this mode, selection/complexity options are ignored, and no graph expansion
   is performed; the script only pulls the specified entities from the dumps.
 
 Outputs:
@@ -261,16 +261,16 @@ as explained in [this tutorial](https://medium.com/codait/simple-csv-import-for-
 
 *speedup* is many times faster than *classic* because it uses a different approach:
 
-1. The discogs xml dumps are first converted into one csv file per database table.
+1. The discogs XML dumps are first converted into one csv file per database table.
 2. These csv files are then imported into the different target databases (bulk load).  
-   This is different from *classic* discogs-xml2db which loads records into the database
-   one by one while parsing the xml file, waiting on the database after every row.
+   This is different from *classic* discogs-xml2db, which loads records into the database
+   one by one while parsing the XML file, waiting on the database after every row.
 
 *speedup* requires less disk space than *classic* as it can work while the dump files are still compressed.
-While the uncompressed dumps for May 2020 take up 57GB of space the compressed dumps are only 8.8GB.
+While the uncompressed dumps for May 2020 take up 57GB of space, the compressed dumps are only 8.8GB.
 The dumps can be deleted after converting them to compressed CSV files (6.1GB).
 
-As many databases can import CSV files out of the box it should be easy
+As many databases can import CSV files out of the box, it should be easy
 to add support for more databases to discogs-xml2db *speedup* in the future.
 
 ### Database schema changes
@@ -291,8 +291,8 @@ The following things changed compared to *classic* `discogs-xml2db`:
 - added: `label` has new `parent_id` field
 - added: `release_label` has extra fields
 - moved: `aliases` now in `artist_alias` table
-- moved: `tracks_extra_artists` now in `track_artist` table with extra flag
-- moved: `releases_extra_artists` now in `release_track_artist` table with extra flag
+- moved: `tracks_extra_artists` now in `track_artist` table with an extra flag
+- moved: `releases_extra_artists` now in `release_track_artist` table with an extra flag
 - moved: `release.genres` now in own `release_genre` table
 - moved: `release.styles` now in own `release_style` table
 - moved: `release.barcode` now in `release_identifier` table

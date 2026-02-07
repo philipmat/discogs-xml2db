@@ -140,7 +140,7 @@ class LabelExporter(EntityCsvExporter):
     def __init__(self, *args, **kwargs):
         super().__init__('label', *args, **kwargs)
 
-        main_fields = ['id', 'name', 'contactinfo', 'profile', 'parentLabel', 'data_quality']
+        main_fields = ['id', 'name', 'contactinfo', 'profile', 'parentLabel', 'parentLabelId', 'data_quality']
         image_fields = ['type', 'width', 'height']
         self.actions = (
             ('label', _write_entity, [main_fields]),
@@ -255,7 +255,7 @@ _exporters = {
 
 
 csv_headers = {table: columns.split() for table, columns in {
-    'label': 'id name contact_info profile parent_name data_quality',
+    'label': 'id name contact_info profile parent_name parent_id data_quality',
     'label_url': 'label_id url',
     'label_image': 'label_id type width height',
 

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import heapq
 import json
 import random
 import re
@@ -144,7 +145,10 @@ def build_root_tag(
 def iter_entities(
     path: Path, tag: str, progress: Optional[Progress] = None
 ) -> Iterable[etree._Element]:
-    """Yield entities for a given tag using streaming parse and cleanup."""
+    """Yield entities for a given tag using streaming parse and cleanup.
+
+    Uses lxml's huge_tree mode for very large (trusted) Discogs dumps.
+    """
     with open_xml(path) as fp:
         context = etree.iterparse(fp, tag=tag, events=("end",), huge_tree=True)
         for _, element in context:
@@ -152,9 +156,10 @@ def iter_entities(
                 progress.tick()
             yield element
             element.clear()
-            for ancestor in element.xpath("ancestor-or-self::*"):
-                while ancestor.getprevious() is not None:
-                    del ancestor.getparent()[0]
+            parent = element.getparent()
+            if parent is not None:
+                while element.getprevious() is not None:
+                    del parent[0]
 
 
 def xpath_count(element: etree._Element, expr: str) -> int:
@@ -361,6 +366,19 @@ def select_releases(
         score += len(labels & available_labels)
         return score
 
+    def push_top(
+        heap: List[Tuple[Tuple[int, int], int, bytes, Dict[str, int], int]],
+        item: Tuple[Tuple[int, int], int, bytes, Dict[str, int], int],
+        limit: int,
+    ) -> None:
+        if limit <= 0:
+            return
+        if len(heap) < limit:
+            heapq.heappush(heap, item)
+        else:
+            if item[:2] > heap[0][:2]:
+                heapq.heapreplace(heap, item)
+
     progress = make_progress("Scanning releases (selection)", progress_every)
     if complexity == "random":
         reservoir: List[Tuple[int, int, bytes, Dict[str, int]]] = []
@@ -405,13 +423,7 @@ def select_releases(
                 score_key = (cov, counts["total"])
             xml_bytes = etree.tostring(element, encoding="utf-8")
             item = (score_key, rid, xml_bytes, counts, cov)
-            if len(top_heap) < top_size:
-                top_heap.append(item)
-                top_heap.sort(key=lambda x: (x[0], x[1]))
-            else:
-                if (score_key, rid) > (top_heap[0][0], top_heap[0][1]):
-                    top_heap[0] = item
-                    top_heap.sort(key=lambda x: (x[0], x[1]))
+            push_top(top_heap, item, top_size)
 
         top_ids = {rid for _, rid, _, _, _ in top_heap}
         reservoir: List[Tuple[int, int, bytes, Dict[str, int]]] = []
@@ -463,13 +475,7 @@ def select_releases(
             score_key = (cov, counts["total"])
         xml_bytes = etree.tostring(element, encoding="utf-8")
         item = (score_key, rid, xml_bytes, counts, cov)
-        if len(top_heap) < size:
-            top_heap.append(item)
-            top_heap.sort(key=lambda x: (x[0], x[1]))
-        else:
-            if (score_key, rid) > (top_heap[0][0], top_heap[0][1]):
-                top_heap[0] = item
-                top_heap.sort(key=lambda x: (x[0], x[1]))
+        push_top(top_heap, item, size)
 
     for score_key, rid, xml_bytes, counts, cov in top_heap:
         selected[rid] = xml_bytes

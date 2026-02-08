@@ -1,107 +1,106 @@
-using System;
-using System.IO;
 using System.IO.Compression;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 
-namespace discogs
+namespace discogs;
+
+public class Parser<T>
+    where T : IExportable, new()
 {
-    public class Parser<T>
-            where T : IExportToCsv, new()
+    private const int BufferSize = 1024 * 1024;
+
+    private static readonly XmlReaderSettings _readerSettings = new()
     {
-        private const int BufferSize = 1024 * 1024;
-        private static readonly XmlSerializer _labelXmlSerializer = new XmlSerializer(typeof(T));
-        private readonly int _throttle = 1;
-        private readonly string _typeName;
-        private readonly IExporter<T> _exporter;
-        public Parser(IExporter<T> exporter, int throttle = 1)
+        ConformanceLevel = ConformanceLevel.Fragment,
+        Async = true,
+        DtdProcessing = DtdProcessing.Prohibit,
+        // TODO: perf IgnoreComments = true,
+        IgnoreProcessingInstructions = true,
+        IgnoreWhitespace = true,
+        XmlResolver = null,
+    };
+
+    private readonly int _throttle = 1;
+    private readonly string _typeName;
+    private readonly IExporter<T> _exporter;
+
+    public Parser(IExporter<T> exporter, int throttle = 1)
+    {
+        _exporter = exporter;
+        _throttle = throttle;
+        _typeName = typeof(T).Name.Split('.')[^1];
+    }
+
+    public static XmlReaderSettings DefaultReaderSettings => _readerSettings;
+
+    public event EventHandler<ParseEventArgs> OnSucessfulParse = delegate { };
+
+    public async Task ParseFileAsync(string fileName)
+    {
+        await using FileStream fileStream = new FileStream(
+            fileName,
+            FileMode.Open,
+            FileAccess.Read,
+            FileShare.Read,
+            bufferSize: BufferSize,
+            useAsync: true);
+        Stream readingStream = fileStream;
+        if (Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase))
         {
-            _exporter = exporter;
-            _throttle = throttle;
-            _typeName = typeof(T).Name.Split('.')[^1];
+            readingStream = new GZipStream(fileStream, CompressionMode.Decompress);
         }
 
-        public event EventHandler<ParseEventArgs> OnSucessfulParse = delegate {};
+        await ParseStreamAsync(readingStream);
+        await readingStream.DisposeAsync();
+    }
 
-        public async Task ParseFileAsync(string fileName) {
-            using FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: BufferSize, useAsync: true);
-            Stream readingStream = fileStream;
-            if (System.IO.Path.GetExtension(fileName).Equals(".gz", StringComparison.OrdinalIgnoreCase))
-            {
-                readingStream = new GZipStream(fileStream, CompressionMode.Decompress);
-            }
-            await ParseStreamAsync(readingStream);
-            await readingStream.DisposeAsync();
-        }
+    public async Task ParseStreamAsync(Stream stream)
+    {
+        int objectCount = 0;
+        using XmlReader reader = XmlReader.Create(stream, _readerSettings);
 
-        public async Task ParseStreamAsync(Stream stream)
+        await reader.MoveToContentAsync(); // moves to the first element in XML
+        await reader.ReadAsync(); // moves to the first element after, so the text between <artists> and <artist>
+        while (!reader.EOF)
         {
-            int objectCount = 0;
-            var settings = new XmlReaderSettings
+            if (string.Equals(reader.Name, _typeName, StringComparison.OrdinalIgnoreCase))
             {
-                ConformanceLevel = ConformanceLevel.Fragment,
-                Async = true,
-                DtdProcessing = DtdProcessing.Prohibit,
-                // TODO: perf IgnoreComments = true,
-                IgnoreProcessingInstructions = true,
-                XmlResolver = null,
-            };
-            using XmlReader reader = XmlReader.Create(stream, settings);
-
-            await reader.MoveToContentAsync();
-            await reader.ReadAsync();
-            while (!reader.EOF)
-            {
-                if (reader.Name == _typeName)
+                if (reader.NodeType == XmlNodeType.EndElement)
                 {
-                    var objectString = await reader.ReadOuterXmlAsync();
-                    // var objectString = await reader.ReadInnerXmlAsync();
-                    try
-                    {
-                        if (!string.IsNullOrEmpty(objectString))
-                        {
-                            await ExportRecord(objectString);
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error {ex} parsing node {objectString}");
-                    }
-                    objectCount++;
-                    // await reader.SkipAsync();
-                    if (objectCount % _throttle == 0) OnSucessfulParse(null, new ParseEventArgs { ParseCount = objectCount });
+                    await reader.SkipAsync();
                     continue;
                 }
-                else
+
+                T obj = await ReadObject(reader);
+                if (obj?.IsValid() == false)
                 {
-                    await reader.ReadAsync();
+                    continue;
+                }
+
+                await _exporter.ExportAsync(obj);
+
+                objectCount++;
+                if (objectCount % _throttle == 0)
+                {
+                    OnSucessfulParse(null, new ParseEventArgs { ParseCount = objectCount });
                 }
             }
-            await _exporter.CompleteExportAsync(objectCount);
+            else
+            {
+                await reader.ReadAsync();
+            }
         }
 
-        protected static T Deserialize(string content)
-        {
-            // TODO: would MemoryStream be faster?
-            using var reader = new StringReader(content);
-            var obj = (T)_labelXmlSerializer.Deserialize(reader);
-            return obj;
-        }
-
-        private async Task ExportRecord(string objectString)
-        {
-            var obj = Deserialize(objectString);
-            await _exporter.ExportAsync(obj);
-        }
+        await _exporter.CompleteExportAsync(objectCount);
     }
 
-    public class ParseEventArgs : EventArgs
+    protected virtual Task<T> ReadObject(XmlReader positionedReader)
     {
-        public int ParseCount { get; set; }
+        var obj = new T();
+        obj.Populate(positionedReader);
+        return Task.FromResult(obj);
     }
+}
+
+public class ParseEventArgs : EventArgs
+{
+    public int ParseCount { get; set; }
 }

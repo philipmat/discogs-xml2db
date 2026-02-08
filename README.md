@@ -14,7 +14,7 @@ Let us know how it goes!
 ## Experimental version
 
 In parallel to the original Python codebase, we're working on a parser/exporter
-that's even faster. This is a complete rewrite in C #, and initial results are highly
+that's even faster. This is a complete rewrite in C# and initial results are highly
 promising:
 
 | File                             | Record Count | Python  |  C#   |

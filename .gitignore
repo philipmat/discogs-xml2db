@@ -1,6 +1,12 @@
 *.pyc
 Session.vim
+
+# Ignore discogs data files globally (they tend to be large)
 discogs_*_*.xml.*
+
+# Exception: Allow discogs data files in this specific directory
+!alternatives/dotnet/tests/Resources/samples/discogs_*_*.xml.*
+
 COUCH
 tmp
 

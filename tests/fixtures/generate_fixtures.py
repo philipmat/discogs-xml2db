@@ -72,6 +72,7 @@ class Progress:
             file=sys.stderr,
         )
 
+
 def make_progress(label: str, every: int) -> Optional[Progress]:
     """Create a Progress helper or return None when disabled."""
     if every <= 0:

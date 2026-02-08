@@ -7,7 +7,7 @@ public class Release : IExportable
     {
         { "release", "id title released country notes data_quality master_id status".Split(" ") },
         { "release_genre", "release_id genre".Split(" ") },
-        { "release_label", "release_id label_name catno".Split(" ") },
+        { "release_label", "release_id label_id label_name catno".Split(" ") },
         { "release_style", "release_id style".Split(" ") },
         { "release_image", "release_id type width height".Split(" ") },
         { "release_format", "release_id name qty text_string descriptions".Split(" ") },
@@ -113,7 +113,7 @@ public class Release : IExportable
             foreach (Label l in Labels)
             {
                 if (l == null) continue;
-                yield return ("release_label", [Id, l.Name, l.CatalogNumber]);
+                yield return ("release_label", [Id, l.Id, l.Name, l.CatalogNumber]);
             }
         }
 

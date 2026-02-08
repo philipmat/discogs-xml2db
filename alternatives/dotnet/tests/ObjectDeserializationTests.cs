@@ -144,8 +144,8 @@ public class ObjectDeserializationTests
             .HaveCount(5)
             .And
             .AllSatisfy(u => u.Should().StartWith("http"));
-        label.ParentLabel.id.Should().Be("4711");
-        label.ParentLabel.name.Should().Be("Goldhead Music");
+        label.ParentLabel.Id.Should().Be("4711");
+        label.ParentLabel.Name.Should().Be("Goldhead Music");
         label.Sublabels.Should()
             .HaveCount(2)
             .And

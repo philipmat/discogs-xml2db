@@ -5,7 +5,7 @@ public class Label : IExportable
 {
     private static readonly Dictionary<string, string[]> _csvExportHeaders = new()
     {
-        ["label"] = ["id", "name", "contact_info", "profile", "parent_name", "data_quality"],
+        ["label"] = ["id", "name", "contact_info", "profile", "parent_name", "parent_id", "data_quality"],
         ["label_url"] = ["label_id", "url"],
         ["label_image"] = ["label_id", "type", "width", "height"],
     };
@@ -62,7 +62,7 @@ public class Label : IExportable
     /// <returns>Tuples where the StreamName matches a key from <see ref="GetCsvExportScheme"> </returns>
     public IEnumerable<(string StreamName, string[] RowValues)> Export()
     {
-        yield return ("label", [Id, Name, ContactInfo, Profile, ParentLabel?.name, DataQuality]);
+        yield return ("label", [Id, Name, ContactInfo, Profile, ParentLabel?.Name, ParentLabel?.Id, DataQuality]);
         if ((Urls?.Length ?? 0) > 0)
         {
             foreach (string url in Urls)
@@ -124,8 +124,8 @@ public class Label : IExportable
                 case "parentLabel":
                     ParentLabel = new()
                     {
-                        id = reader.GetAttribute("id"),
-                        name = reader.ReadElementContentAsString()
+                        Id = reader.GetAttribute("id"),
+                        Name = reader.ReadElementContentAsString()
                     };
                     break;
                 case "sublabels":
@@ -186,8 +186,8 @@ public class Label : IExportable
             {
                 ParentLabel = new()
                 {
-                    id = reader.GetAttribute("id"),
-                    name = reader.ReadElementContentAsString()
+                    Id = reader.GetAttribute("id"),
+                    Name = reader.ReadElementContentAsString()
                 };
             }
 
@@ -270,8 +270,8 @@ public class Label : IExportable
 [XmlType("parentLabel")]
 public class ParentLabel
 {
-    [XmlAttribute]
-    public string id { get; set; }
+    [XmlAttribute("id")]
+    public string Id { get; set; }
 
-    [XmlText] public string name { get; set; }
+    [XmlText] public string Name { get; set; }
 }

@@ -178,10 +178,12 @@ public class CsvExportComparisonIntegrationTests : IDisposable
                 $"{streamName}: expected header count {expectedStats.HeaderCount} does not match schema {expectedHeaderCount}.");
         }
 
-        if (actualStats.HeaderCount != expectedStats.HeaderCount)
+        if (!actualStats.Header.SequenceEqual(expectedStats.Header))
         {
+            string actualHeader = string.Join(", ", actualStats.Header);
+            string expectedHeader = string.Join(", ", expectedStats.Header);
             differences.Add(
-                $"{streamName}: header count actual {actualStats.HeaderCount} vs expected {expectedStats.HeaderCount}.");
+                $"{streamName}: header mismatch.\n  Actual:   [{actualHeader}]\n  Expected: [{expectedHeader}]");
         }
 
         if (actualStats.LineCount != expectedStats.LineCount)
@@ -212,7 +214,7 @@ public class CsvExportComparisonIntegrationTests : IDisposable
 
         if (parser.EndOfData)
         {
-            return new CsvFileStats(0, lineCount, 0);
+            return new CsvFileStats([], 0, lineCount, 0);
         }
 
         string[] header = parser.ReadFields() ?? [];
@@ -223,7 +225,7 @@ public class CsvExportComparisonIntegrationTests : IDisposable
             recordCount += 1;
         }
 
-        return new CsvFileStats(header.Length, lineCount, recordCount);
+        return new CsvFileStats(header, header.Length, lineCount, recordCount);
     }
 
     private static int CountLines(string path)
@@ -388,5 +390,5 @@ public class CsvExportComparisonIntegrationTests : IDisposable
             $"Could not locate alternatives/dotnet/tests/Resources/{resourceName} starting at '{AppContext.BaseDirectory}'.");
     }
 
-    private readonly record struct CsvFileStats(int HeaderCount, int LineCount, int RecordCount);
+    private readonly record struct CsvFileStats(string[] Header, int HeaderCount, int LineCount, int RecordCount);
 }

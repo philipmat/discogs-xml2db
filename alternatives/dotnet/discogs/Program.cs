@@ -23,7 +23,7 @@ public class Program
 
                                  """;
 
-    private static readonly Dictionary<string, int> _statistics = new()
+    private static readonly Dictionary<string, int> _statistics = new([], StringComparer.OrdinalIgnoreCase)
     {
         ["release"] = 20_000_000,
         ["artist"] = 10_000_000,

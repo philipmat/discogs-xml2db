@@ -45,4 +45,131 @@
     <ProjectReference Include="..\discogs\discogs.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\export\artist.csv" />
+    <Content Include="Resources\export\artist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\artist_alias.csv" />
+    <Content Include="Resources\export\artist_alias.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\artist_image.csv" />
+    <Content Include="Resources\export\artist_image.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\artist_namevariation.csv" />
+    <Content Include="Resources\export\artist_namevariation.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\artist_url.csv" />
+    <Content Include="Resources\export\artist_url.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\group_member.csv" />
+    <Content Include="Resources\export\group_member.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\label.csv" />
+    <Content Include="Resources\export\label.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\label_image.csv" />
+    <Content Include="Resources\export\label_image.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\label_url.csv" />
+    <Content Include="Resources\export\label_url.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\master.csv" />
+    <Content Include="Resources\export\master.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\master_artist.csv" />
+    <Content Include="Resources\export\master_artist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\master_genre.csv" />
+    <Content Include="Resources\export\master_genre.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\master_image.csv" />
+    <Content Include="Resources\export\master_image.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\master_style.csv" />
+    <Content Include="Resources\export\master_style.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\master_video.csv" />
+    <Content Include="Resources\export\master_video.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release.csv" />
+    <Content Include="Resources\export\release.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_artist.csv" />
+    <Content Include="Resources\export\release_artist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_company.csv" />
+    <Content Include="Resources\export\release_company.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_format.csv" />
+    <Content Include="Resources\export\release_format.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_genre.csv" />
+    <Content Include="Resources\export\release_genre.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_identifier.csv" />
+    <Content Include="Resources\export\release_identifier.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_image.csv" />
+    <Content Include="Resources\export\release_image.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_label.csv" />
+    <Content Include="Resources\export\release_label.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_style.csv" />
+    <Content Include="Resources\export\release_style.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_track.csv" />
+    <Content Include="Resources\export\release_track.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_track_artist.csv" />
+    <Content Include="Resources\export\release_track_artist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\export\release_video.csv" />
+    <Content Include="Resources\export\release_video.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\samples\discogs_20200806_artists.xml.gz" />
+    <Content Include="Resources\samples\discogs_20200806_artists.xml.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\samples\discogs_20200806_labels.xml.gz" />
+    <Content Include="Resources\samples\discogs_20200806_labels.xml.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\samples\discogs_20200806_masters.xml.gz" />
+    <Content Include="Resources\samples\discogs_20200806_masters.xml.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Resources\samples\discogs_20200806_releases.xml.gz" />
+    <Content Include="Resources\samples\discogs_20200806_releases.xml.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -33,7 +33,7 @@ def main():
 
     Look at fixture/generate_fixtures.py for a (slower, but) better way to generate
     coherent sample files.
-    """"
+    """
     arguments = docopt(__doc__)
 
     rough_counts = {

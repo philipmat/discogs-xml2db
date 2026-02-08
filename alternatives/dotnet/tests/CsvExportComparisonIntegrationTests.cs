@@ -37,18 +37,18 @@ public class CsvExportComparisonIntegrationTests : IDisposable
         IEnumerable<string> files = Directory.EnumerateFiles(samplesDirectory, "discogs_*_*.xml.gz");
         foreach (string file in files)
         {
-            yield return [file];
+            yield return [Path.GetFileNameWithoutExtension(file), file];
         }
     }
 
     [Theory]
     [MemberData(nameof(SampleFiles))]
-    public async Task ParseSample_ExportsMatchExpectedCsvAsync(string sampleFile)
+    public async Task ParseSample_ExportsMatchExpectedCsvAsync(string fileName, string sampleFile)
     {
         // Given
         string exportDirectory = _exportDirectory.Value;
         Directory.Exists(exportDirectory).Should().BeTrue(
-            because: $"expected export directory at '{exportDirectory}'");
+            because: $"expected export directory at '{exportDirectory}' for sample '{fileName}'.");
 
         string baseName = GetSampleBaseName(sampleFile);
         string outputDirectory = Path.Combine(_outputRoot, baseName);

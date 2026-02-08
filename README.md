@@ -3,13 +3,12 @@
 discogs-xml2db is a python program for importing [discogs data dumps](https://data.discogs.com/)
 into several databases.
 
-Version 2 is a rewrite of the original *discogs-xml2db*
-(referred to here as the *classic* version).  
-It is based on a [branch by RedApple,](https://github.com/redapple/discogs-xml2db)
-and it is several times faster.
+It exports to CSV as an intermediate step.  
+It can then import these CSV files into  MySQL, PostgreSQL, and SQLite
+through provided scripts/instructions.
 
-Currently, it supports MySQL and PostgreSQL as target databases.
-Instructions for importing into MongoDB, though these are untested.  
+Instructions for importing into MongoDB, though these are untested.
+
 Let us know how it goes!
 
 ## Experimental version
@@ -42,8 +41,12 @@ eventually replace it.
 
 ### Requirements
 
-**discogs-xml2db requires python3 (minimum 3.6)** and some python modules.  
-Additionally, the bash shell is used for automating some tasks.  
+**discogs-xml2db requires python3** and some python modules.  
+Additionally, the bash shell is used for automating some tasks.
+
+**Note**: the minimum version _tested_ is the one that still receives
+security updates according to <https://endoflife.date/python>. It
+might work with earlier versions, but no guarantees.
 
 Importing to some databases may require additional dependencies,
 see the documentation for your target database below.
@@ -221,7 +224,7 @@ $ nano postgresql/postgresql.conf
 
 # Configure primary keys and constraints, build indexes
 (.discogsenv) $ python3 postgresql/psql.py < postgresql/sql/CreatePrimaryKeys.sql
-(.discogsenv) $python3 postgresql/psql.py < postgresql/sql/CreateFKConstraints.sql
+(.discogsenv) $ python3 postgresql/psql.py < postgresql/sql/CreateFKConstraints.sql
 (.discogsenv) $ python3 postgresql/psql.py < postgresql/sql/CreateIndexes.sql
 ```
 
@@ -263,28 +266,6 @@ The CSV files can be imported into MongoDB using
 mongoimport --db=discogs --collection=releases --type=csv --headerline --file=release.csv
 ```
 
-#### Importing into CouchDB
-
-CouchDB only supports importing JSON files.  
-[`couchimport`](https://github.com/glynnbird/couchimport) can be used to convert
-the CSV files to JSON and import them into CouchDB,
-as explained in [this tutorial](https://medium.com/codait/simple-csv-import-for-couchdb-71616200b095).
-
-## Comparison to classic discogs-xml2db
-
-*speedup* is many times faster than *classic* because it uses a different approach:
-
-1. The discogs XML dumps are first converted into one csv file per database table.
-2. These csv files are then imported into the different target databases (bulk load).  
-   This is different from *classic* discogs-xml2db, which loads records into the database
-   one by one while parsing the XML file, waiting on the database after every row.
-
-*speedup* requires less disk space than *classic* as it can work while the dump files are still compressed.
-While the uncompressed dumps for May 2020 take up 57GB of space, the compressed dumps are only 8.8GB.
-The dumps can be deleted after converting them to compressed CSV files (6.1GB).
-
-As many databases can import CSV files out of the box, it should be easy
-to add support for more databases to discogs-xml2db *speedup* in the future.
 
 ### Database schema changes
 

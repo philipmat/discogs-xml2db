@@ -67,3 +67,9 @@ to the executable: `discogs /tmp/discogs_20200806_artists.xml.gz /tmp/discogs_20
 Currently, the program exports the csv files in the same folder as each of the
 original xml files. If you would like the csv files to be compressed to `.csv.gz`,
 pass the `--gz` argument: `discogs --gz /tmp/discogs_20200806_artists.xml.gz`.
+
+## Generating XML fixtures
+
+To generate sample XML files for parity testing,
+see the `Generating XML fixtures` section in the [Python README](../python/README.md).
+

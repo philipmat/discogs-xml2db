@@ -21,6 +21,7 @@ public class CsvExportComparisonIntegrationTests : IDisposable
             Directory.Delete(_outputRoot, recursive: true);
         }
         Directory.CreateDirectory(_outputRoot);
+        Console.WriteLine($"Output root: {_outputRoot}");
     }
 
     public void Dispose()

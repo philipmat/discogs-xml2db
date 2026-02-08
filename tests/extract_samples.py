@@ -22,6 +22,18 @@ from tqdm import tqdm
 
 
 def main():
+    """
+    Extracts a number samples from discogs XML files.
+
+    It performs a naive extraction by spreading the number of samples across 10 regions
+    of the XML file.
+    This results in predictable samples, but that are not correlated
+    across files. For example, artist records in the resulting sample file might
+    refer to label ids that do not exist in the sample labels file.
+
+    Look at fixture/generate_fixtures.py for a (slower, but) better way to generate
+    coherent sample files.
+    """"
     arguments = docopt(__doc__)
 
     rough_counts = {

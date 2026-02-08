@@ -21,9 +21,9 @@ jobs:
     strategy:
       matrix:
         python-version:
-        - 3.10 # earliest to still receive security updates (rel 2021-10-04, EOL 2023-04-05, Sec EOL 2026-10-31)
-        - 3.13 # current dev (rel 2024-10-07, EOL 2026-10-31, Sec EOL 2029-10-31)
-        - 3.x  # most recent python available, based on https://endoflife.date/python
+        - '3.10' # earliest to still receive security updates (rel 2021-10-04, EOL 2023-04-05, Sec EOL 2026-10-31)
+        - '3.13' # current dev (rel 2024-10-07, EOL 2026-10-31, Sec EOL 2029-10-31)
+        - '3.x'  # most recent python available, based on https://endoflife.date/python
 
     steps:
     - uses: actions/checkout@v6

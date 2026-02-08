@@ -20,12 +20,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.12]
+        python-version:
+        - 3.7  # earliest version to support. Security updates EOL: 2023-06-27
+        - 3.10 # earliest to still receive security updates (rel 2021-10-04, EOL 2023-04-05, Sec EOL 2026-10-31)
+        - 3.13 # current dev (rel 2024-10-07, EOL 2026-10-31, Sec EOL 2029-10-31)
+        - 3.x  # most recent python available, based on https://endoflife.date/python
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies

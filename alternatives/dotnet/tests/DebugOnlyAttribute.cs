@@ -6,7 +6,7 @@ public class DebugOnlyAttribute : FactAttribute
 {
     public DebugOnlyAttribute(
         [CallerFilePath]
-        string? sourceFilePath = null,
+        string sourceFilePath = null,
         [CallerLineNumber]
         int sourceLineNumber = -1) : base(sourceFilePath, sourceLineNumber)
     {

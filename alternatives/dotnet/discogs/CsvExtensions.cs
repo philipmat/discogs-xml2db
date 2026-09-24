@@ -4,8 +4,11 @@ public static class CsvExtensions
 {
     private static readonly char[] _escapedChars = [',', '"', '\r', '\n'];
 
-    public static string ToCsv(params string[] values)
-        => string.Join(",", values.Select(SafeCsv));
+    extension(string[] values)
+    {
+        public string ToCsv()
+            => string.Join(",", values.Select(SafeCsv));
+    }
 
     private static string SafeCsv(string s)
     {

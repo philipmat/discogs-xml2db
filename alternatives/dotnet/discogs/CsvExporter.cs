@@ -42,7 +42,7 @@ public class CsvExporter<T> : IExporter<T>
         IEnumerable<(string StreamName, string[] Row)> csvExports = value.Export();
         foreach (var (streamName, row) in csvExports)
         {
-            await _csvStreams[streamName].FileStream.WriteLineAsync(CsvExtensions.ToCsv(row));
+            await _csvStreams[streamName].FileStream.WriteLineAsync(row.ToCsv());
         }
     }
 
@@ -74,7 +74,7 @@ public class CsvExporter<T> : IExporter<T>
                         bufferSize: BufferSize);
                 }
 
-                stream.WriteLine(CsvExtensions.ToCsv(kvp.Value));
+                stream.WriteLine(kvp.Value.ToCsv());
                 return (csvFile, stream);
             });
 

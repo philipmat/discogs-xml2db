@@ -1,72 +1,277 @@
-using System.Collections.Generic;
-using System.Xml.Serialization;
+namespace discogs;
 
-namespace discogs.Labels
+[XmlType("label")]
+public class Label : IExportable
 {
-    public class label : IExportToCsv
+    private static readonly Dictionary<string, string[]> _csvExportHeaders = new()
     {
-        private static readonly Dictionary<string, string[]> CsvExportHeaders = new Dictionary<string, string[]>
+        ["label"] = ["id", "name", "contact_info", "profile", "parent_name", "parent_id", "data_quality"],
+        ["label_url"] = ["label_id", "url"],
+        ["label_image"] = ["label_id", "type", "width", "height"],
+    };
+
+    [XmlArrayItem("images")]
+    public Image[] Images { get; set; }
+
+    [XmlElement("id")]
+    public string Id { get; set; }
+
+    [XmlElement("name")]
+    public string Name { get; set; }
+
+    [XmlElement("contactinfo")]
+    [XmlText]
+    public string ContactInfo { get; set; }
+
+
+    [XmlElement("profile")]
+    public string Profile { get; set; }
+
+    [XmlElement("data_quality")]
+    public string DataQuality { get; set; }
+
+    [XmlElement( "parentLabel")]
+    public ParentLabel ParentLabel { get; set; }
+
+    [XmlArray("urls")]
+    [XmlArrayItem("url")]
+    public string[] Urls { get; set; }
+    [XmlArray("sublabels")]
+    public Label[] Sublabels { get; set; }
+
+    [Obsolete("Was used by the XmlSerializer")]
+    [XmlAttribute("id")]
+    public string SubId { get; set; }
+
+    [Obsolete("Was used by the XmlSerializer")]
+    [XmlText]
+    public string SubName { get; set; }
+
+
+    public bool IsSubLabel { get; private init; }
+
+    /// <summary>
+    /// Gets the possible export schemes for the class
+    /// </summary>
+    /// <returns>A read-only dictionary where the key is the type of export stream and the values are the headers/columns/fields exported.</returns>
+    public IReadOnlyDictionary<string, string[]> GetExportStreamsAndFields() => _csvExportHeaders;
+
+    /// <summary>
+    /// Exports instance to CSV.
+    /// </summary>
+    /// <returns>Tuples where the StreamName matches a key from <see ref="GetCsvExportScheme"> </returns>
+    public IEnumerable<(string StreamName, string[] RowValues)> Export()
+    {
+        yield return ("label", [Id, Name, ContactInfo, Profile, ParentLabel?.Name, ParentLabel?.Id, DataQuality]);
+        if ((Urls?.Length ?? 0) > 0)
         {
-            ["label"] = new[] { "id", "name", "contact_info", "profile", "parent_name", "data_quality" },
-            ["label_url"] = new[] { "label_id", "url" },
-            ["label_image"] = new[] { "label_id", "type", "width", "height" },
-        };
-        
-        public image[] images { get; set; }
-        public string id { get; set; }
-        public string name { get; set; }
-        public string contactinfo { get; set; }
-        public string profile { get; set; }
-        public string data_quality { get; set; }
-        public parentLabel parentLabel { get; set; }
-        [XmlArrayItem("url")]
-        public string[] urls { get; set; }
-
-        [XmlAttribute("id")]
-        public string SubId { get; set; }
-
-        [XmlText]
-        public string SubName { get; set; }
-
-        public label[] sublabels { get; set; }
-
-        /// <summary>
-        /// Gets the possible export schemes for the class
-        /// </summary>
-        /// <returns>A read-only dictionary where the key is the type of export stream and the values are the headers/columns/fields exported.</returns>
-        public IReadOnlyDictionary<string, string[]> GetCsvExportScheme() => CsvExportHeaders;
-
-        /// <summary>
-        /// Exports instance to CSV.
-        /// </summary>
-        /// <returns>Tuples where the StreamName matches a key from <see ref="GetCsvExportScheme"> </returns>
-        public IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv()
-        {
-            yield return ("label", new[] { this.id, this.name, this.contactinfo, this.profile, this.parentLabel?.name, this.data_quality });
-            if ((urls?.Length ?? 0) > 0)
+            foreach (string url in Urls)
             {
-                foreach (var url in urls)
-                {
-                    if (string.IsNullOrEmpty(url)) continue;
-                    yield return ("label_url", new[] { this.id, url });
-                }
+                if (string.IsNullOrEmpty(url)) continue;
+                yield return ("label_url", [Id, url]);
             }
-            if ((images?.Length ?? 0) > 0)
+        }
+
+        if ((Images?.Length ?? 0) > 0)
+        {
+            foreach (Image image in Images)
             {
-                foreach (var image in this.images)
-                {
-                    yield return ("label_image", new[] { this.id, image.type, image.width, image.height });
-                }
+                yield return ("label_image", [Id, image.Type, image.Width, image.Height]);
             }
         }
     }
 
-    public class parentLabel
-    {
-        [XmlAttribute]
-        public string id { get; set; }
+    public void Populate(XmlReader reader) => Populate2(reader);
 
-        [XmlText]
-        public string name { get; set; }
+
+    private void Populate2(XmlReader reader)
+    {
+        if (reader.Name != "label")
+        {
+            return;
+        }
+
+        // <master id="123"> unlike all others
+        reader.Read();
+        while (!reader.EOF)
+        {
+            switch (reader.Name)
+            {
+                case "label":
+                    // it's back on a release node (EndElement); release control
+                    return;
+                case "images":
+                    Images = Image.Parse(reader);
+                    break;
+                case "id":
+                    Id = reader.ReadElementContentAsString();
+                    break;
+                case "name":
+                    Name = reader.ReadElementContentAsString();
+                    break;
+                case "contactinfo":
+                    ContactInfo = reader.ReadElementContentAsString();
+                    break;
+                case "profile":
+                    Profile = reader.ReadElementContentAsString();
+                    break;
+                case "data_quality":
+                    DataQuality = reader.ReadElementContentAsString();
+                    break;
+                case "urls":
+                    Urls = reader.ReadChildren("url");
+                    break;
+                case "parentLabel":
+                    ParentLabel = new()
+                    {
+                        Id = reader.GetAttribute("id"),
+                        Name = reader.ReadElementContentAsString()
+                    };
+                    break;
+                case "sublabels":
+                    Sublabels = ParseSublabels(reader);
+                    break;
+                default:
+                    reader.Read();
+                    break;
+            }
+
+            if (reader.NodeType == XmlNodeType.EndElement)
+            {
+                if (reader.Name == "label")
+                {
+                    return;
+                }
+
+                reader.Skip();
+            }
+        }
     }
+
+    private void Populate1(XmlReader reader)
+    {
+        while (reader.Read())
+        {
+            if (reader.IsStartElement("label"))
+            {
+                return;
+            }
+
+            if (reader.IsStartElement("id"))
+            {
+                Id = reader.ReadElementContentAsString();
+            }
+
+            if (reader.IsStartElement("name"))
+            {
+                Name = reader.ReadElementContentAsString();
+            }
+
+            if (reader.IsStartElement("contactinfo"))
+            {
+                ContactInfo = reader.ReadElementContentAsString();
+            }
+
+            if (reader.IsStartElement("profile"))
+            {
+                Profile = reader.ReadElementContentAsString();
+            }
+
+            if (reader.IsStartElement("data_quality"))
+            {
+                DataQuality = reader.ReadElementContentAsString();
+            }
+
+            if (reader.IsStartElement("parentLabel"))
+            {
+                ParentLabel = new()
+                {
+                    Id = reader.GetAttribute("id"),
+                    Name = reader.ReadElementContentAsString()
+                };
+            }
+
+            if (reader.IsStartElement("sublabels"))
+            {
+                reader.Read();
+                List<Label> sublabelList = [];
+                while (reader.IsStartElement("label"))
+                {
+                    Label label = new()
+                    {
+                        Id = reader.GetAttribute("id"),
+                        Name = reader.ReadElementContentAsString()
+                    };
+                    sublabelList.Add(label);
+                }
+
+                Sublabels = sublabelList.ToArray();
+            }
+
+            if (reader.IsStartElement("images"))
+            {
+                List<Image> images = [];
+                while (reader.Read() && reader.IsStartElement("image"))
+                {
+                    Image image = new()
+                    {
+                        Type = reader.GetAttribute("type"), Width = reader.GetAttribute("width"),
+                        Height = reader.GetAttribute("height")
+                    };
+                    images.Add(image);
+                }
+
+                this.Images = images.ToArray();
+            }
+
+            if (reader.IsStartElement("urls"))
+            {
+                reader.Read();
+                List<string> urls = [];
+                while (reader.IsStartElement("url"))
+                {
+                    string url = reader.ReadElementContentAsString();
+                    if (!string.IsNullOrWhiteSpace(url))
+                        urls.Add(url);
+                }
+
+                this.Urls = urls.ToArray();
+            }
+        }
+    }
+
+    public bool IsValid() => !string.IsNullOrEmpty(Id);
+
+    private static Label[] ParseSublabels(XmlReader reader)
+    {
+        reader.Read();
+        List<Label> sublabelList = [];
+        while (reader.IsStartElement("label"))
+        {
+            if (reader.IsEmptyElement)
+            {
+                reader.Skip();
+                continue;
+            }
+
+            Label label = new()
+            {
+                Id = reader.GetAttribute("id"),
+                Name = reader.ReadElementContentAsString(),
+                IsSubLabel = true
+            };
+            sublabelList.Add(label);
+        }
+
+        return sublabelList.ToArray();
+    }
+}
+
+[XmlType("parentLabel")]
+public class ParentLabel
+{
+    [XmlAttribute("id")]
+    public string Id { get; set; }
+
+    [XmlText] public string Name { get; set; }
 }

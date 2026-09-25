@@ -1,54 +1,108 @@
-using System.Collections.Generic;
-using System.Xml.Serialization;
+namespace discogs;
 
-namespace discogs
+[XmlType("image")]
+public class Image
 {
-    public interface IExportToCsv
-    {
-        /// <summary>
-        /// Returns the names of all files an implementation would produce and their headers.
-        /// </summary>
-        /// <returns>A dictionary where the key is the file name (e.g. "artist_url") and the
-        /// value is an array of headers (e.g. [ "url_id", "url", "artist_id" ].</returns>
-        IReadOnlyDictionary<string, string[]> GetCsvExportScheme();
+    [XmlAttribute("type")]
+    public string Type { get; set; }
 
-        /// <summary>
-        /// Produces list of tuples where the StreamName is the kind of record, matching
-        /// the key from <see cref="GetCsvExportScheme"/>, and the RowValues contains
-        /// one entry for each of the columns the csv file has.
-        /// </summary>
-        /// <returns>Ex: <code>[ (StreamName: "artist_url", RowValues: ["1", "1", "http://example.com"]), ...]</code></returns>
-        IEnumerable<(string StreamName, string[] RowValues)> ExportToCsv();
+    [XmlAttribute("uri")]
+    public string Uri { get; set; }
+
+    [XmlAttribute("uri150")]
+    public string Uri150 { get; set; }
+
+    [XmlAttribute("width")]
+    public string Width { get; set; }
+
+    [XmlAttribute("height")]
+    public string Height { get; set; }
+
+    internal static Image[] Parse(XmlReader reader)
+    {
+        List<Image> list = [];
+        while (reader.Read() && reader.IsStartElement("image"))
+        {
+            Image obj = ParseImage(reader);
+            list.Add(obj);
+        }
+
+        return list.ToArray();
     }
 
-    public class image
-    {
-        [XmlAttribute]
-        public string type { get; set; }
-        [XmlAttribute]
-        public string uri { get; set; }
-        [XmlAttribute]
-        public string uri150 { get; set; }
-        [XmlAttribute]
-        public string width { get; set; }
-        [XmlAttribute]
-        public string height { get; set; }
-    }
+    internal static Image ParseImage(XmlReader reader)
+        => new()
+        {
+            Type = reader.GetAttribute("type"),
+            Width = reader.GetAttribute("width"),
+            Height = reader.GetAttribute("height")
+        };
+}
 
-    public class url
+[XmlType("url")]
+public class Url
+{
+    [XmlElement("url")]
+    public string TheUrl { get; set; }
+}
+
+[XmlRoot("video")]
+public class Video
+{
+    [XmlAttribute("src")]
+    public string Src { get; set; }
+
+    [XmlAttribute("duration")]
+    public string Duration { get; set; }
+
+    [XmlAttribute("embed")]
+    public string Embed { get; set; }
+
+    [XmlElement("title")]
+    public string Title { get; set; }
+    [XmlElement("description")]
+    public string Description { get; set; }
+
+    internal static Video[] Parse(XmlReader reader)
     {
-        [XmlElement("url")]
-        public string TheUrl { get; set; }
-    }
-    public class video
-    {
-        [XmlAttribute]
-        public string src { get; set; }
-        [XmlAttribute]
-        public string duration { get; set; }
-        [XmlAttribute]
-        public string embed { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
+        List<Video> list = [];
+        while (reader.Read() && reader.IsStartElement("video"))
+        {
+            Video one = new()
+            {
+                Src = reader.GetAttribute("src"),
+                Duration = reader.GetAttribute("duration"),
+                Embed = reader.GetAttribute("embed"),
+            };
+
+            reader.Read();
+            while (!reader.EOF)
+            {
+                if (reader.Name == "title")
+                {
+                    one.Title = reader.ReadElementContentAsString();
+                    continue;
+                }
+
+                if (reader.Name == "description")
+                {
+                    one.Description = reader.ReadElementContentAsString();
+                    continue;
+                }
+
+                if (reader.Name == "video")
+                {
+                    // reader.Skip();
+                    break;
+                }
+
+                // any other element
+                reader.Read();
+            }
+
+            list.Add(one);
+        }
+
+        return list.ToArray();
     }
 }

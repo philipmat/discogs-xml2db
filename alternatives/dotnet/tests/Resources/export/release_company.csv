@@ -1,0 +1,1679 @@
+release_id,company_id,company_name,entity_type,entity_type_name,uri
+1,271046,The Globe Studios,23,Recorded At,https://api.discogs.com/labels/271046
+1,56025,MPO,17,Pressed By,https://api.discogs.com/labels/56025
+2,266169,JTS Studios,29,Mastered At,https://api.discogs.com/labels/266169
+2,56025,MPO,17,Pressed By,https://api.discogs.com/labels/56025
+3,93330,Columbia Records,10,Manufactured By,https://api.discogs.com/labels/93330
+3,93330,Columbia Records,9,Distributed By,https://api.discogs.com/labels/93330
+5,403521,Del Haze Entertainment,8,Marketed By,https://api.discogs.com/labels/403521
+5,291931,CD Plant MFG,10,Manufactured By,https://api.discogs.com/labels/291931
+5,265233,Sel i/s/c,26,Produced At,https://api.discogs.com/labels/265233
+7,520880,Mind Massage Music,37,Produced For,https://api.discogs.com/labels/520880
+7,662061,Deep4Life Recordings,13,Phonographic Copyright (p),https://api.discogs.com/labels/662061
+7,662061,Deep4Life Recordings,14,Copyright (c),https://api.discogs.com/labels/662061
+8,662061,Deep4Life Recordings,13,Phonographic Copyright (p),https://api.discogs.com/labels/662061
+8,662061,Deep4Life Recordings,14,Copyright (c),https://api.discogs.com/labels/662061
+8,1019382,40 Days/40 Nights Music,37,Produced For,https://api.discogs.com/labels/1019382
+9,272720,"Naked Music NYC Recordings, LLC",13,Phonographic Copyright (p),https://api.discogs.com/labels/272720
+9,272720,"Naked Music NYC Recordings, LLC",14,Copyright (c),https://api.discogs.com/labels/272720
+9,272719,Fur & Femur Music,21,Published By,https://api.discogs.com/labels/272719
+9,727314,M. Bingham,21,Published By,https://api.discogs.com/labels/727314
+9,355338,Moulton Studios,24,Engineered At,https://api.discogs.com/labels/355338
+10,272719,Fur & Femur Music,21,Published By,https://api.discogs.com/labels/272719
+10,355338,Moulton Studios,24,Engineered At,https://api.discogs.com/labels/355338
+10,1498978,Art Dept. NYC,33,Designed At,https://api.discogs.com/labels/1498978
+11,272719,Fur & Femur Music,21,Published By,https://api.discogs.com/labels/272719
+11,355338,Moulton Studios,24,Engineered At,https://api.discogs.com/labels/355338
+11,1498978,Art Dept. NYC,33,Designed At,https://api.discogs.com/labels/1498978
+13,662061,Deep4Life Recordings,14,Copyright (c),https://api.discogs.com/labels/662061
+13,662061,Deep4Life Recordings,13,Phonographic Copyright (p),https://api.discogs.com/labels/662061
+13,270907,"Metropolis Mastering, Ltd",29,Mastered At,https://api.discogs.com/labels/270907
+13,66254,Record Technology Incorporated,17,Pressed By,https://api.discogs.com/labels/66254
+13,520880,Mind Massage Music,37,Produced For,https://api.discogs.com/labels/520880
+13,520880,Mind Massage Music,21,Published By,https://api.discogs.com/labels/520880
+15,362370,"Music, Soul, Nature Publishing",13,Phonographic Copyright (p),https://api.discogs.com/labels/362370
+15,362370,"Music, Soul, Nature Publishing",14,Copyright (c),https://api.discogs.com/labels/362370
+15,362368,Panhandle Studio,26,Produced At,https://api.discogs.com/labels/362368
+15,362369,Dufflebag Studio,23,Recorded At,https://api.discogs.com/labels/362369
+17,263988,UCM Music Publishing,21,Published By,https://api.discogs.com/labels/263988
+17,11598,UCMG New York,13,Phonographic Copyright (p),https://api.discogs.com/labels/11598
+17,11598,UCMG New York,14,Copyright (c),https://api.discogs.com/labels/11598
+17,267164,Record Industry,17,Pressed By,https://api.discogs.com/labels/267164
+17,214688,Europadisk,29,Mastered At,https://api.discogs.com/labels/214688
+17,214688,Europadisk,30,Lacquer Cut At,https://api.discogs.com/labels/214688
+18,1411692,EBE Audio Publications,14,Copyright (c),https://api.discogs.com/labels/1411692
+21,295038,Soma Music,21,Published By,https://api.discogs.com/labels/295038
+21,270709,Soma Recordings Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/270709
+21,270709,Soma Recordings Ltd.,14,Copyright (c),https://api.discogs.com/labels/270709
+21,56025,MPO,17,Pressed By,https://api.discogs.com/labels/56025
+22,270907,"Metropolis Mastering, Ltd",30,Lacquer Cut At,https://api.discogs.com/labels/270907
+22,520880,Mind Massage Music,21,Published By,https://api.discogs.com/labels/520880
+22,285289,Prime Distribution,9,Distributed By,https://api.discogs.com/labels/285289
+22,66254,Record Technology Incorporated,17,Pressed By,https://api.discogs.com/labels/66254
+23,662061,Deep4Life Recordings,14,Copyright (c),https://api.discogs.com/labels/662061
+23,662061,Deep4Life Recordings,13,Phonographic Copyright (p),https://api.discogs.com/labels/662061
+23,520880,Mind Massage Music,21,Published By,https://api.discogs.com/labels/520880
+25,1824,"Madhouse Records, Inc.",21,Published By,https://api.discogs.com/labels/1824
+25,290292,Champion Music,21,Published By,https://api.discogs.com/labels/290292
+25,380335,"Large Music, LLC",13,Phonographic Copyright (p),https://api.discogs.com/labels/380335
+25,380335,"Large Music, LLC",14,Copyright (c),https://api.discogs.com/labels/380335
+25,199325,Frankford/Wayne Mastering Labs,30,Lacquer Cut At,https://api.discogs.com/labels/199325
+26,199325,Frankford/Wayne Mastering Labs,29,Mastered At,https://api.discogs.com/labels/199325
+26,12,Large Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/12
+26,12,Large Records,14,Copyright (c),https://api.discogs.com/labels/12
+26,12,Large Records,10,Manufactured By,https://api.discogs.com/labels/12
+26,12,Large Records,9,Distributed By,https://api.discogs.com/labels/12
+28,1566086,The Recline Center,23,Recorded At,https://api.discogs.com/labels/1566086
+29,314115,Parallax Muzik,21,Published By,https://api.discogs.com/labels/314115
+29,199013,Integrale Muzique Limited,9,Distributed By,https://api.discogs.com/labels/199013
+31,380335,"Large Music, LLC",13,Phonographic Copyright (p),https://api.discogs.com/labels/380335
+31,380335,"Large Music, LLC",14,Copyright (c),https://api.discogs.com/labels/380335
+31,278810,Groovy Native Music,21,Published By,https://api.discogs.com/labels/278810
+31,199325,Frankford/Wayne Mastering Labs,29,Mastered At,https://api.discogs.com/labels/199325
+38,1566086,The Recline Center,26,Produced At,https://api.discogs.com/labels/1566086
+38,1566086,The Recline Center,24,Engineered At,https://api.discogs.com/labels/1566086
+39,19837,EURODISC,10,Manufactured By,https://api.discogs.com/labels/19837
+39,56025,MPO,17,Pressed By,https://api.discogs.com/labels/56025
+39,158759,The Exchange,30,Lacquer Cut At,https://api.discogs.com/labels/158759
+40,355338,Moulton Studios,24,Engineered At,https://api.discogs.com/labels/355338
+40,663479,Deluxe Soul Productions,37,Produced For,https://api.discogs.com/labels/663479
+40,324139,Deluxe Tempo Music,21,Published By,https://api.discogs.com/labels/324139
+41,450863,Calvent Music,21,Published By,https://api.discogs.com/labels/450863
+42,39,i! Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/39
+42,39,i! Records,14,Copyright (c),https://api.discogs.com/labels/39
+42,337145,Cal Vent Music,21,Published By,https://api.discogs.com/labels/337145
+42,270810,Master Cutting Room,29,Mastered At,https://api.discogs.com/labels/270810
+43,100,Distant Music,9,Distributed By,https://api.discogs.com/labels/100
+45,40,Loaded Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/40
+45,40,Loaded Records,14,Copyright (c),https://api.discogs.com/labels/40
+45,149122,3mv,9,Distributed By,https://api.discogs.com/labels/149122
+45,264522,Pinnacle (3),9,Distributed By,https://api.discogs.com/labels/264522
+45,265761,Container Publishing,21,Published By,https://api.discogs.com/labels/265761
+48,1759,Hearts Of Space,13,Phonographic Copyright (p),https://api.discogs.com/labels/1759
+48,1759,Hearts Of Space,14,Copyright (c),https://api.discogs.com/labels/1759
+48,81417,Amoeba Music,21,Published By,https://api.discogs.com/labels/81417
+48,322471,Brian Williams,21,Published By,https://api.discogs.com/labels/322471
+48,635272,"Cinram, Richmond, IN",31,Glass Mastered At,https://api.discogs.com/labels/635272
+49,29074,Moonshine Music,9,Distributed By,https://api.discogs.com/labels/29074
+49,269018,DMC Publishing Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/269018
+49,269018,DMC Publishing Ltd.,14,Copyright (c),https://api.discogs.com/labels/269018
+52,149122,3MV,9,Distributed By,https://api.discogs.com/labels/149122
+52,264522,Pinnacle (3),9,Distributed By,https://api.discogs.com/labels/264522
+52,1500231,20:20 Vision Recordings,37,Produced For,https://api.discogs.com/labels/1500231
+52,40,Loaded Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/40
+52,40,Loaded Records,14,Copyright (c),https://api.discogs.com/labels/40
+52,265761,Container Publishing,21,Published By,https://api.discogs.com/labels/265761
+52,664769,"The Farm, Leeds",28,Remixed At,https://api.discogs.com/labels/664769
+52,664769,"The Farm, Leeds",26,Produced At,https://api.discogs.com/labels/664769
+52,158759,The Exchange,30,Lacquer Cut At,https://api.discogs.com/labels/158759
+52,754,EMI Records,17,Pressed By,https://api.discogs.com/labels/754
+53,12,Large Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/12
+53,12,Large Records,14,Copyright (c),https://api.discogs.com/labels/12
+53,434172,Final Cut Studios,23,Recorded At,https://api.discogs.com/labels/434172
+53,392130,On Bar Music,21,Published By,https://api.discogs.com/labels/392130
+53,278810,Groovy Native Music,21,Published By,https://api.discogs.com/labels/278810
+54,214688,Europadisk,29,Mastered At,https://api.discogs.com/labels/214688
+54,28,Deep Vision Records,10,Manufactured By,https://api.discogs.com/labels/28
+54,28,Deep Vision Records,9,Distributed By,https://api.discogs.com/labels/28
+55,47,IntelliNET,9,Distributed By,https://api.discogs.com/labels/47
+55,316,Plus 8 Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/316
+55,356895,Plus 8 Music,13,Phonographic Copyright (p),https://api.discogs.com/labels/356895
+55,114113,Mute Song,13,Phonographic Copyright (p),https://api.discogs.com/labels/114113
+55,883467,Seven Grand Studios,23,Recorded At,https://api.discogs.com/labels/883467
+55,883467,Seven Grand Studios,27,Mixed At,https://api.discogs.com/labels/883467
+57,1411692,EBE Audio Publications,13,Phonographic Copyright (p),https://api.discogs.com/labels/1411692
+57,911268,Border Patrol Music & Publishing,13,Phonographic Copyright (p),https://api.discogs.com/labels/911268
+59,265055,reSource Heidelberg,23,Recorded At,https://api.discogs.com/labels/265055
+60,63,Instinct Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/63
+60,63,Instinct Records,14,Copyright (c),https://api.discogs.com/labels/63
+60,264196,KAO Optical Products,10,Manufactured By,https://api.discogs.com/labels/264196
+61,291931,CD Plant MFG,10,Manufactured By,https://api.discogs.com/labels/291931
+62,271798,Trutone Mastering Labs,29,Mastered At,https://api.discogs.com/labels/271798
+65,379641,Interfisch Records GmbH,4,Record Company,https://api.discogs.com/labels/379641
+65,2444,EFA,9,Distributed By,https://api.discogs.com/labels/2444
+65,271891,Tresor Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/271891
+65,271891,Tresor Records,14,Copyright (c),https://api.discogs.com/labels/271891
+65,264266,Dubplates & Mastering,29,Mastered At,https://api.discogs.com/labels/264266
+65,264266,Dubplates & Mastering,30,Lacquer Cut At,https://api.discogs.com/labels/264266
+66,266587,Orlake Records,17,Pressed By,https://api.discogs.com/labels/266587
+66,455352,The Cancer Room,23,Recorded At,https://api.discogs.com/labels/455352
+66,462815,A13 Productions,21,Published By,https://api.discogs.com/labels/462815
+66,462815,A13 Productions,13,Phonographic Copyright (p),https://api.discogs.com/labels/462815
+66,462815,A13 Productions,14,Copyright (c),https://api.discogs.com/labels/462815
+67,39,i! Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/39
+67,357403,Distance Music,14,Copyright (c),https://api.discogs.com/labels/357403
+67,354718,Trio Productions,37,Produced For,https://api.discogs.com/labels/354718
+67,337145,Cal Vent Music,21,Published By,https://api.discogs.com/labels/337145
+67,39,i! Records,6,Licensed From,https://api.discogs.com/labels/39
+67,390941,PLS Music,5,Licensed To,https://api.discogs.com/labels/390941
+67,354717,Sunny Nuwark Music,37,Produced For,https://api.discogs.com/labels/354717
+67,60133,Musisoft Distribution,9,Distributed By,https://api.discogs.com/labels/60133
+67,264522,Pinnacle (3),9,Distributed By,https://api.discogs.com/labels/264522
+67,141989,Damont,17,Pressed By,https://api.discogs.com/labels/141989
+68,276264,Dark Music Ltd,21,Published By,https://api.discogs.com/labels/276264
+68,319988,Rising High Productions Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/319988
+68,319988,Rising High Productions Ltd.,14,Copyright (c),https://api.discogs.com/labels/319988
+69,1566086,The Recline Center,26,Produced At,https://api.discogs.com/labels/1566086
+69,1566086,The Recline Center,24,Engineered At,https://api.discogs.com/labels/1566086
+70,663479,Deluxe Soul Productions,37,Produced For,https://api.discogs.com/labels/663479
+70,324139,Deluxe Tempo Music,21,Published By,https://api.discogs.com/labels/324139
+70,355338,Moulton Studios,24,Engineered At,https://api.discogs.com/labels/355338
+70,276645,A&M Mastering Studios,29,Mastered At,https://api.discogs.com/labels/276645
+73,335358,Sound 2020 Publishing,21,Published By,https://api.discogs.com/labels/335358
+73,705320,Sound 2020,13,Phonographic Copyright (p),https://api.discogs.com/labels/705320
+73,705320,Sound 2020,14,Copyright (c),https://api.discogs.com/labels/705320
+76,471114,83 West Records Ltd.,10,Manufactured By,https://api.discogs.com/labels/471114
+76,471114,83 West Records Ltd.,9,Distributed By,https://api.discogs.com/labels/471114
+76,267642,The Kitchen,23,Recorded At,https://api.discogs.com/labels/267642
+76,275797,Kingsize Studios,23,Recorded At,https://api.discogs.com/labels/275797
+76,52,Low Pressings,37,Produced For,https://api.discogs.com/labels/52
+76,264712,Sherlock Holmes Music,21,Published By,https://api.discogs.com/labels/264712
+76,48207,Copyright Control,21,Published By,https://api.discogs.com/labels/48207
+76,471113,83 West Music,21,Published By,https://api.discogs.com/labels/471113
+77,1441603,Viva Recordings (2),14,Copyright (c),https://api.discogs.com/labels/1441603
+77,1566584,Concentrated Music,21,Published By,https://api.discogs.com/labels/1566584
+77,298177,Bucks Music Ltd.,21,Published By,https://api.discogs.com/labels/298177
+77,1566520,C.S. Productions (2),37,Produced For,https://api.discogs.com/labels/1566520
+78,39,i! Records,14,Copyright (c),https://api.discogs.com/labels/39
+78,39,i! Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/39
+78,450863,Calvent Music,21,Published By,https://api.discogs.com/labels/450863
+78,199325,Frankford/Wayne Mastering Labs,29,Mastered At,https://api.discogs.com/labels/199325
+79,271046,The Globe Studios,23,Recorded At,https://api.discogs.com/labels/271046
+79,56025,MPO,17,Pressed By,https://api.discogs.com/labels/56025
+79,266169,JTS Studios,29,Mastered At,https://api.discogs.com/labels/266169
+80,1566086,The Recline Center,23,Recorded At,https://api.discogs.com/labels/1566086
+80,282902,Masterwork Recording,29,Mastered At,https://api.discogs.com/labels/282902
+80,35,Ovum Recordings,13,Phonographic Copyright (p),https://api.discogs.com/labels/35
+80,35,Ovum Recordings,14,Copyright (c),https://api.discogs.com/labels/35
+81,199325,Frankford/Wayne Mastering Labs,29,Mastered At,https://api.discogs.com/labels/199325
+82,35,Ovum Recordings,13,Phonographic Copyright (p),https://api.discogs.com/labels/35
+82,35,Ovum Recordings,14,Copyright (c),https://api.discogs.com/labels/35
+83,66254,Record Technology Incorporated,17,Pressed By,https://api.discogs.com/labels/66254
+83,294209,Better Quality Sound,30,Lacquer Cut At,https://api.discogs.com/labels/294209
+84,271798,Trutone Mastering Labs,29,Mastered At,https://api.discogs.com/labels/271798
+84,314115,Parallax Muzik,13,Phonographic Copyright (p),https://api.discogs.com/labels/314115
+84,314115,Parallax Muzik,14,Copyright (c),https://api.discogs.com/labels/314115
+85,263977,interGROOVE Ltd.,9,Distributed By,https://api.discogs.com/labels/263977
+85,308049,Sherlock Holmes,21,Published By,https://api.discogs.com/labels/308049
+85,48207,Copyright Control,21,Published By,https://api.discogs.com/labels/48207
+85,699694,"The Kitchen, Berkshire",23,Recorded At,https://api.discogs.com/labels/699694
+85,335752,Soundquest Studios,23,Recorded At,https://api.discogs.com/labels/335752
+85,275797,Kingsize Studios,23,Recorded At,https://api.discogs.com/labels/275797
+85,43580,Low Pressings Limited,13,Phonographic Copyright (p),https://api.discogs.com/labels/43580
+85,43580,Low Pressings Limited,14,Copyright (c),https://api.discogs.com/labels/43580
+85,267164,Record Industry,17,Pressed By,https://api.discogs.com/labels/267164
+88,48,Wave Music,13,Phonographic Copyright (p),https://api.discogs.com/labels/48
+88,272719,Fur & Femur Music,21,Published By,https://api.discogs.com/labels/272719
+88,364825,Dense Music,21,Published By,https://api.discogs.com/labels/364825
+88,272720,"Naked Music NYC Recordings, LLC",37,Produced For,https://api.discogs.com/labels/272720
+89,1725605,Pagan Records (9),4,Record Company,https://api.discogs.com/labels/1725605
+89,66,Pagan,37,Produced For,https://api.discogs.com/labels/66
+89,1610991,Salt City Productions,4,Record Company,https://api.discogs.com/labels/1610991
+89,52953,Ark 21,13,Phonographic Copyright (p),https://api.discogs.com/labels/52953
+89,52953,Ark 21,14,Copyright (c),https://api.discogs.com/labels/52953
+89,167859,Perfect Songs,21,Published By,https://api.discogs.com/labels/167859
+89,48207,Copyright Control,21,Published By,https://api.discogs.com/labels/48207
+89,404917,Payback Studios,28,Remixed At,https://api.discogs.com/labels/404917
+89,319506,P.R. Records Limited,29,Mastered At,https://api.discogs.com/labels/319506
+89,319506,P.R. Records Limited,17,Pressed By,https://api.discogs.com/labels/319506
+90,433559,Enertia Creations,21,Published By,https://api.discogs.com/labels/433559
+90,400340,JAJAPO Music,21,Published By,https://api.discogs.com/labels/400340
+90,664332,Liaz Music,21,Published By,https://api.discogs.com/labels/664332
+90,199325,Frankford/Wayne Mastering Labs,29,Mastered At,https://api.discogs.com/labels/199325
+92,362370,"Music, Soul, Nature Publishing",21,Published By,https://api.discogs.com/labels/362370
+92,270907,"Metropolis Mastering, Ltd",30,Lacquer Cut At,https://api.discogs.com/labels/270907
+94,50,Fair Park,14,Copyright (c),https://api.discogs.com/labels/50
+94,377734,Innergalactic Groove Source,9,Distributed By,https://api.discogs.com/labels/377734
+94,610887,A+R Record Manufacturing Corporation,30,Lacquer Cut At,https://api.discogs.com/labels/610887
+94,610887,A+R Record Manufacturing Corporation,17,Pressed By,https://api.discogs.com/labels/610887
+97,1106470,Nou Lion Productions,37,Produced For,https://api.discogs.com/labels/1106470
+97,35,Ovum Recordings,13,Phonographic Copyright (p),https://api.discogs.com/labels/35
+97,35,Ovum Recordings,14,Copyright (c),https://api.discogs.com/labels/35
+97,167055,Musica Del Sol,21,Published By,https://api.discogs.com/labels/167055
+97,486109,Sunkiss Los Angeles,23,Recorded At,https://api.discogs.com/labels/486109
+97,282902,Masterwork Recording,29,Mastered At,https://api.discogs.com/labels/282902
+100,396832,Maya Studios,23,Recorded At,https://api.discogs.com/labels/396832
+100,353254,Paluka Publishing,21,Published By,https://api.discogs.com/labels/353254
+100,4,Siesta Music,9,Distributed By,https://api.discogs.com/labels/4
+100,4,Siesta Music,10,Manufactured By,https://api.discogs.com/labels/4
+1586309,429670,"Imprimerie De Saint-Michel, Saint-Michel-sur-Orge",19,Printed By,https://api.discogs.com/labels/429670
+1586309,271286,Vogue P.I.P.,9,Distributed By,https://api.discogs.com/labels/271286
+1586311,264807,Team-Trykk A.S.,19,Printed By,https://api.discogs.com/labels/264807
+1586311,365610,Hans Busch Musikförlag AB,21,Published By,https://api.discogs.com/labels/365610
+1586311,209264,Multitone,21,Published By,https://api.discogs.com/labels/209264
+1586311,288349,Imudico,21,Published By,https://api.discogs.com/labels/288349
+1586311,303760,Sonora Musikförlag,21,Published By,https://api.discogs.com/labels/303760
+1586311,14731,Air Music Scandinavia AB,21,Published By,https://api.discogs.com/labels/14731
+1586311,177323,Sweden Music,21,Published By,https://api.discogs.com/labels/177323
+1586311,264550,Rosenborg Studio,30,Lacquer Cut At,https://api.discogs.com/labels/264550
+1586311,402962,Musikkindustri A/S,17,Pressed By,https://api.discogs.com/labels/402962
+1586313,63404,EMI Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/63404
+1586313,63404,EMI Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/63404
+1586313,138147,Warner/Chappell,21,Published By,https://api.discogs.com/labels/138147
+1586313,189548,Sony Music Publishing,21,Published By,https://api.discogs.com/labels/189548
+1586313,266166,Warner Chappell Music Ltd.,21,Published By,https://api.discogs.com/labels/266166
+1586313,267769,EMI Virgin Music Ltd.,21,Published By,https://api.discogs.com/labels/267769
+1586313,266869,MCA Music Ltd.,21,Published By,https://api.discogs.com/labels/266869
+1586313,310982,MCPS Ltd.,21,Published By,https://api.discogs.com/labels/310982
+1586313,26126,EMI,10,Manufactured By,https://api.discogs.com/labels/26126
+1586313,26126,EMI,9,Distributed By,https://api.discogs.com/labels/26126
+1586313,264021,Olympic Studios,23,Recorded At,https://api.discogs.com/labels/264021
+1586313,313145,Le Zénith De Paris,23,Recorded At,https://api.discogs.com/labels/313145
+1586326,415807,Phonodisc B.V.,17,Pressed By,https://api.discogs.com/labels/415807
+1586326,415807,Phonodisc B.V.,30,Lacquer Cut At,https://api.discogs.com/labels/415807
+1586327,56980,Flashback Records (2),9,Distributed By,https://api.discogs.com/labels/56980
+1586327,56980,Flashback Records (2),13,Phonographic Copyright (p),https://api.discogs.com/labels/56980
+1586327,56980,Flashback Records (2),14,Copyright (c),https://api.discogs.com/labels/56980
+1586328,40780,MCA Records (Canada),10,Manufactured By,https://api.discogs.com/labels/40780
+1586328,12204,Amherst Records,37,Produced For,https://api.discogs.com/labels/12204
+1586328,63704,"MCA Records, Inc.",14,Copyright (c),https://api.discogs.com/labels/63704
+1586328,266031,"Transcontinent Record Sales, Inc.",14,Copyright (c),https://api.discogs.com/labels/266031
+1586328,266031,"Transcontinent Record Sales, Inc.",13,Phonographic Copyright (p),https://api.discogs.com/labels/266031
+1586328,314985,"MCA Pressing Plant, Gloversville",17,Pressed By,https://api.discogs.com/labels/314985
+1586328,266276,Harlem Music,21,Published By,https://api.discogs.com/labels/266276
+1586328,321514,Crosseyed Bear Music,21,Published By,https://api.discogs.com/labels/321514
+1586328,767261,"House Of Music, West Orange, NJ",23,Recorded At,https://api.discogs.com/labels/767261
+1586328,339159,Mark Studios,23,Recorded At,https://api.discogs.com/labels/339159
+1586328,314124,Blue Rock Studio,23,Recorded At,https://api.discogs.com/labels/314124
+1586328,270550,"CBS Studios, New York",36,Edited At,https://api.discogs.com/labels/270550
+1586328,270550,"CBS Studios, New York",29,Mastered At,https://api.discogs.com/labels/270550
+1586330,273274,"Studio M, Novi Sad",23,Recorded At,https://api.discogs.com/labels/273274
+1586330,387654,Studio 6 Radio Beograda,23,Recorded At,https://api.discogs.com/labels/387654
+1586330,299062,"Studio AB, Rijeka",23,Recorded At,https://api.discogs.com/labels/299062
+1586330,38213,PGP RTS,13,Phonographic Copyright (p),https://api.discogs.com/labels/38213
+1586333,307446,SAM-Distribution,9,Distributed By,https://api.discogs.com/labels/307446
+1586333,295346,General Printing AB,19,Printed By,https://api.discogs.com/labels/295346
+1586333,265085,Silence Studio,27,Mixed At,https://api.discogs.com/labels/265085
+1586333,264474,Cutting Room,30,Lacquer Cut At,https://api.discogs.com/labels/264474
+1586333,344982,Mariahissen,23,Recorded At,https://api.discogs.com/labels/344982
+1586333,1732629,Brunnsparken,23,Recorded At,https://api.discogs.com/labels/1732629
+1586333,1732630,Errol's,23,Recorded At,https://api.discogs.com/labels/1732630
+1586338,369187,Skysaw Music,21,Published By,https://api.discogs.com/labels/369187
+1586338,268667,E.G. Music Ltd.,21,Published By,https://api.discogs.com/labels/268667
+1586338,323509,Pinnacle Recuts,9,Distributed By,https://api.discogs.com/labels/323509
+1586341,534201,Desert Fish Studios,27,Mixed At,https://api.discogs.com/labels/534201
+1586341,307880,Arnyard Studios,13,Phonographic Copyright (p),https://api.discogs.com/labels/307880
+1586341,55392,Solitudes,13,Phonographic Copyright (p),https://api.discogs.com/labels/55392
+1586341,55392,Solitudes,14,Copyright (c),https://api.discogs.com/labels/55392
+1586341,264131,Cinram,10,Manufactured By,https://api.discogs.com/labels/264131
+1586347,23937,Atlantic Recording Corporation,14,Copyright (c),https://api.discogs.com/labels/23937
+1586347,23937,Atlantic Recording Corporation,13,Phonographic Copyright (p),https://api.discogs.com/labels/23937
+1586347,266839,The Hit Factory,23,Recorded At,https://api.discogs.com/labels/266839
+1586347,264584,Atlantic Studios,23,Recorded At,https://api.discogs.com/labels/264584
+1586347,300120,Dynamic Sounds Studios,23,Recorded At,https://api.discogs.com/labels/300120
+1586347,266839,The Hit Factory,28,Remixed At,https://api.discogs.com/labels/266839
+1586347,264584,Atlantic Studios,28,Remixed At,https://api.discogs.com/labels/264584
+1586347,130920,Presswell,17,Pressed By,https://api.discogs.com/labels/130920
+1586365,96171,The Decca Record Company Limited,16,Made By,https://api.discogs.com/labels/96171
+1586365,264337,MacNeill Press Ltd.,19,Printed By,https://api.discogs.com/labels/264337
+1586365,276619,Acuff-Rose,21,Published By,https://api.discogs.com/labels/276619
+1586365,281506,Belinda,21,Published By,https://api.discogs.com/labels/281506
+1586365,275162,A. Schroeder Music,21,Published By,https://api.discogs.com/labels/275162
+1586365,269986,Decca Studios,29,Mastered At,https://api.discogs.com/labels/269986
+1586365,628145,"Decca Record Co. Ltd., Pressing Plant, UK.",17,Pressed By,https://api.discogs.com/labels/628145
+1586370,320456,Alpha CD Digital,10,Manufactured By,https://api.discogs.com/labels/320456
+1586370,2371,Byte Records,14,Copyright (c),https://api.discogs.com/labels/2371
+1586370,2371,Byte Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/2371
+1586378,286022,Miletryck,19,Printed By,https://api.discogs.com/labels/286022
+1586386,267984,Audiodisc AB,17,Pressed By,https://api.discogs.com/labels/267984
+1586386,264474,Cutting Room,30,Lacquer Cut At,https://api.discogs.com/labels/264474
+1586389,297968,BCP (BMG),13,Phonographic Copyright (p),https://api.discogs.com/labels/297968
+1586389,327423,Wackies Music,13,Phonographic Copyright (p),https://api.discogs.com/labels/327423
+1586389,327422,Jammyland,9,Distributed By,https://api.discogs.com/labels/327422
+1586389,327422,Jammyland,10,Manufactured By,https://api.discogs.com/labels/327422
+1586392,118138,Tyfon Grammofon AB,13,Phonographic Copyright (p),https://api.discogs.com/labels/118138
+1586392,264012,Tyfon Music,14,Copyright (c),https://api.discogs.com/labels/264012
+1586393,306553,Fly Again Music Productions LLC,13,Phonographic Copyright (p),https://api.discogs.com/labels/306553
+1586393,306553,Fly Again Music Productions LLC,14,Copyright (c),https://api.discogs.com/labels/306553
+1586393,165472,Disc Makers,10,Manufactured By,https://api.discogs.com/labels/165472
+1586393,292531,Weitz House Publishing Company,21,Published By,https://api.discogs.com/labels/292531
+1586393,306552,Ramos Famos Music,21,Published By,https://api.discogs.com/labels/306552
+1586394,138831,A&M Records Of Canada Limited,10,Manufactured By,https://api.discogs.com/labels/138831
+1586394,138831,A&M Records Of Canada Limited,9,Distributed By,https://api.discogs.com/labels/138831
+1586399,350447,Tube Temple Studios,23,Recorded At,https://api.discogs.com/labels/350447
+1586399,350447,Tube Temple Studios,27,Mixed At,https://api.discogs.com/labels/350447
+1586401,129094,Optimal Media Production,17,Pressed By,https://api.discogs.com/labels/129094
+1586402,18472,Houzy Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/18472
+1586402,266439,S.A.I.F.A.M. Srl,13,Phonographic Copyright (p),https://api.discogs.com/labels/266439
+1586402,412244,Bonzai Music (2),14,Copyright (c),https://api.discogs.com/labels/412244
+1586402,293092,BMG Universal Music Publishing,14,Copyright (c),https://api.discogs.com/labels/293092
+1586402,412244,Bonzai Music (2),21,Published By,https://api.discogs.com/labels/412244
+1586402,293092,BMG Universal Music Publishing,21,Published By,https://api.discogs.com/labels/293092
+1586402,126881,Lightning Records NV,6,Licensed From,https://api.discogs.com/labels/126881
+1586402,474275,Home Base Studio (2),27,Mixed At,https://api.discogs.com/labels/474275
+1586406,85778,EVA Records (5),13,Phonographic Copyright (p),https://api.discogs.com/labels/85778
+1586406,85778,EVA Records (5),14,Copyright (c),https://api.discogs.com/labels/85778
+1586406,138147,Warner/Chappell,21,Published By,https://api.discogs.com/labels/138147
+1586406,283438,Fellow,21,Published By,https://api.discogs.com/labels/283438
+1586406,276245,Songs Of Logic,21,Published By,https://api.discogs.com/labels/276245
+1586406,273087,Willesden Music Inc.,21,Published By,https://api.discogs.com/labels/273087
+1586406,284133,SweMix Music,21,Published By,https://api.discogs.com/labels/284133
+1586406,48207,Copyright Control,21,Published By,https://api.discogs.com/labels/48207
+1586406,296266,Cutting Records Music,21,Published By,https://api.discogs.com/labels/296266
+1586406,141268,Jam Lab Music,21,Published By,https://api.discogs.com/labels/141268
+1586406,399454,Virgin Music AB,21,Published By,https://api.discogs.com/labels/399454
+1586406,382053,WHA Publishing,21,Published By,https://api.discogs.com/labels/382053
+1586406,267224,Fiction Songs Ltd.,21,Published By,https://api.discogs.com/labels/267224
+1586406,264362,Chrysalis Music Ltd.,21,Published By,https://api.discogs.com/labels/264362
+1586406,172308,Jobete Music (UK) Ltd.,21,Published By,https://api.discogs.com/labels/172308
+1586406,266376,Virgin Music (Publishers) Ltd.,21,Published By,https://api.discogs.com/labels/266376
+1586406,542167,Ice Baby Music,21,Published By,https://api.discogs.com/labels/542167
+1586406,542166,QPM Music,21,Published By,https://api.discogs.com/labels/542166
+1586406,266870,BMG Music Publishing Ltd.,21,Published By,https://api.discogs.com/labels/266870
+1586406,109278,Island Music Ltd.,21,Published By,https://api.discogs.com/labels/109278
+1586406,520171,Zodroq,21,Published By,https://api.discogs.com/labels/520171
+1586406,199,Editions EG,21,Published By,https://api.discogs.com/labels/199
+1586406,520169,Zodboy,21,Published By,https://api.discogs.com/labels/520169
+1586406,346545,Sir Spence Songs,21,Published By,https://api.discogs.com/labels/346545
+1586406,520170,M & T Spencer Music,21,Published By,https://api.discogs.com/labels/520170
+1586406,297331,Kear Music,21,Published By,https://api.discogs.com/labels/297331
+1586406,297330,Epic/Solar Songs Inc.,21,Published By,https://api.discogs.com/labels/297330
+1586406,1171775,Green Shirt Music,21,Published By,https://api.discogs.com/labels/1171775
+1586406,266869,MCA Music Ltd.,21,Published By,https://api.discogs.com/labels/266869
+1586406,280390,Repromusic,21,Published By,https://api.discogs.com/labels/280390
+1586406,311061,Data Alpha,21,Published By,https://api.discogs.com/labels/311061
+1586406,291405,Mambo Musikverlag,21,Published By,https://api.discogs.com/labels/291405
+1586406,296623,Step Six Music AB,21,Published By,https://api.discogs.com/labels/296623
+1586408,1003,BMG,8,Marketed By,https://api.discogs.com/labels/1003
+1586408,26385,BMG Records,9,Distributed By,https://api.discogs.com/labels/26385
+1586408,33652,BMG Ariola,9,Distributed By,https://api.discogs.com/labels/33652
+1586408,34190,BMG Music,13,Phonographic Copyright (p),https://api.discogs.com/labels/34190
+1586408,95728,Sonopress,17,Pressed By,https://api.discogs.com/labels/95728
+1586408,264551,TOPAC,19,Printed By,https://api.discogs.com/labels/264551
+1586408,295866,Oakfield Avenue Music,21,Published By,https://api.discogs.com/labels/295866
+1586408,264933,Morgan Studios,23,Recorded At,https://api.discogs.com/labels/264933
+1586409,39053,Intercord Ton GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/39053
+1586409,39053,Intercord Ton GmbH,14,Copyright (c),https://api.discogs.com/labels/39053
+1586409,286305,Miau Musikverlag GmbH,21,Published By,https://api.discogs.com/labels/286305
+1586409,342158,"PMDC, Germany",16,Made By,https://api.discogs.com/labels/342158
+1586409,266774,Ink Studios,33,Designed At,https://api.discogs.com/labels/266774
+1586410,272994,The Cave,23,Recorded At,https://api.discogs.com/labels/272994
+1586410,165472,Disc Makers,31,Glass Mastered At,https://api.discogs.com/labels/165472
+1586416,26064,N.E.W.S.,13,Phonographic Copyright (p),https://api.discogs.com/labels/26064
+1586416,26064,N.E.W.S.,14,Copyright (c),https://api.discogs.com/labels/26064
+1586416,73708,DocData,10,Manufactured By,https://api.discogs.com/labels/73708
+1586419,39053,Intercord Ton GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/39053
+1586419,39053,Intercord Ton GmbH,14,Copyright (c),https://api.discogs.com/labels/39053
+1586419,60948,Polydor GmbH,4,Record Company,https://api.discogs.com/labels/60948
+1586419,342158,"PMDC, Germany",10,Manufactured By,https://api.discogs.com/labels/342158
+1586423,700078,Popkredit Studio,23,Recorded At,https://api.discogs.com/labels/700078
+1586426,264668,RFI Mastering,29,Mastered At,https://api.discogs.com/labels/264668
+1586426,669326,Starwood Amphitheatre,23,Recorded At,https://api.discogs.com/labels/669326
+1586427,50112,Les Industries Musicales Et Electriques Pathé Marconi,9,Distributed By,https://api.discogs.com/labels/50112
+1586427,82793,Pathé Marconi,16,Made By,https://api.discogs.com/labels/82793
+1586427,270508,I.D.N.,19,Printed By,https://api.discogs.com/labels/270508
+1586427,407968,"Pathé Marconi, Chatou",17,Pressed By,https://api.discogs.com/labels/407968
+1586427,407968,"Pathé Marconi, Chatou",17,Pressed By,https://api.discogs.com/labels/407968
+3019916,63313,Island Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/63313
+3019916,63313,Island Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/63313
+3019916,26385,BMG Records,9,Distributed By,https://api.discogs.com/labels/26385
+3019916,33652,BMG Ariola,9,Distributed By,https://api.discogs.com/labels/33652
+3019916,264551,TOPAC,19,Printed By,https://api.discogs.com/labels/264551
+3019917,9428,We Love You,13,Phonographic Copyright (p),https://api.discogs.com/labels/9428
+3019917,9428,We Love You,14,Copyright (c),https://api.discogs.com/labels/9428
+3019917,1463610,Charlton Heston's Beard Productions,37,Produced For,https://api.discogs.com/labels/1463610
+3019917,316676,BMG Publishing France,21,Published By,https://api.discogs.com/labels/316676
+3019917,264485,EMI Publishing,21,Published By,https://api.discogs.com/labels/264485
+3019917,311079,Da Du Bap Music,21,Published By,https://api.discogs.com/labels/311079
+3019917,48207,Copyright Control,21,Published By,https://api.discogs.com/labels/48207
+3019917,754,EMI Records,17,Pressed By,https://api.discogs.com/labels/754
+3019918,268169,Salle Pleyel,23,Recorded At,https://api.discogs.com/labels/268169
+3019918,271286,Vogue P.I.P.,39,Recorded By,https://api.discogs.com/labels/271286
+3019918,544761,Dillard et Cie. Imp. Paris,19,Printed By,https://api.discogs.com/labels/544761
+3019921,264517,GZ Digital Media,17,Pressed By,https://api.discogs.com/labels/264517
+3019930,696948,"Sound On Sound, New York",23,Recorded At,https://api.discogs.com/labels/696948
+3019930,696948,"Sound On Sound, New York",27,Mixed At,https://api.discogs.com/labels/696948
+3019930,264219,Baby Monster Studios,27,Mixed At,https://api.discogs.com/labels/264219
+3019930,274727,Platinum Island Studios,27,Mixed At,https://api.discogs.com/labels/274727
+3019933,1473718,Velle Entertainment,37,Produced For,https://api.discogs.com/labels/1473718
+3019933,23937,Atlantic Recording Corporation,13,Phonographic Copyright (p),https://api.discogs.com/labels/23937
+3019933,392876,Frabensha Publishing,21,Published By,https://api.discogs.com/labels/392876
+3019933,392874,Stone Jam Music,21,Published By,https://api.discogs.com/labels/392874
+3019933,306515,"Ness, Nitty & Capone, Inc.",21,Published By,https://api.discogs.com/labels/306515
+3019933,131984,WB Music Corp.,21,Published By,https://api.discogs.com/labels/131984
+3019933,392875,Dean St. Studios (2),23,Recorded At,https://api.discogs.com/labels/392875
+3019933,295805,"Sony Music Studios, New York City",27,Mixed At,https://api.discogs.com/labels/295805
+3019933,273437,Soundtrack Studios,23,Recorded At,https://api.discogs.com/labels/273437
+3019937,444786,Studio 8 PM,26,Produced At,https://api.discogs.com/labels/444786
+3019937,978836,Camera Productions,29,Mastered At,https://api.discogs.com/labels/978836
+3019937,266784,DOCdata France,16,Made By,https://api.discogs.com/labels/266784
+3019941,264517,GZ Digital Media,17,Pressed By,https://api.discogs.com/labels/264517
+3019942,51526,GRT Corporation,13,Phonographic Copyright (p),https://api.discogs.com/labels/51526
+3019942,51526,GRT Corporation,37,Produced For,https://api.discogs.com/labels/51526
+3019942,273388,Arc Music Corp.,21,Published By,https://api.discogs.com/labels/273388
+3019942,725113,Rathsino Pub.,21,Published By,https://api.discogs.com/labels/725113
+3019942,270318,"Heavy Music, Inc.",21,Published By,https://api.discogs.com/labels/270318
+3019942,282909,MCA Inc.,21,Published By,https://api.discogs.com/labels/282909
+3019942,51526,GRT Corporation,10,Manufactured By,https://api.discogs.com/labels/51526
+3019942,264182,I.B.C. Studios,23,Recorded At,https://api.discogs.com/labels/264182
+3019942,265540,"Record Plant, N.Y.C.",23,Recorded At,https://api.discogs.com/labels/265540
+3019942,267980,Electric Lady Studios,27,Mixed At,https://api.discogs.com/labels/267980
+3019942,264060,Sterling Sound,29,Mastered At,https://api.discogs.com/labels/264060
+3019943,818,Rykodisc,10,Manufactured By,https://api.discogs.com/labels/818
+3019943,818,Rykodisc,9,Distributed By,https://api.discogs.com/labels/818
+3019945,625874,Vandross Ltd.,37,Produced For,https://api.discogs.com/labels/625874
+3019945,19936,CBS Records,9,Distributed By,https://api.discogs.com/labels/19936
+3019945,109547,CBS Disques S.A.,9,Distributed By,https://api.discogs.com/labels/109547
+3019945,19936,CBS Records,14,Copyright (c),https://api.discogs.com/labels/19936
+3019945,211334,CBS Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/211334
+3019945,175973,SBK Songs,21,Published By,https://api.discogs.com/labels/175973
+3019945,304289,Keith Prowse Music Pub. Co. Ltd.,21,Published By,https://api.discogs.com/labels/304289
+3019945,26126,EMI,21,Published By,https://api.discogs.com/labels/26126
+3019945,264060,Sterling Sound,29,Mastered At,https://api.discogs.com/labels/264060
+3019945,266587,Orlake Records,17,Pressed By,https://api.discogs.com/labels/266587
+3019947,216731,Sony BMG Music Entertainment (Australia) Pty Limited,14,Copyright (c),https://api.discogs.com/labels/216731
+3019947,241987,Universal Music Australia Pty Ltd,14,Copyright (c),https://api.discogs.com/labels/241987
+3019947,216731,Sony BMG Music Entertainment (Australia) Pty Limited,9,Distributed By,https://api.discogs.com/labels/216731
+3019947,267417,SMEA,17,Pressed By,https://api.discogs.com/labels/267417
+3019952,1683463,Russell Hoke,14,Copyright (c),https://api.discogs.com/labels/1683463
+3019952,289595,Terra Nova Digital Audio,29,Mastered At,https://api.discogs.com/labels/289595
+3019952,238322,United Record Pressing,17,Pressed By,https://api.discogs.com/labels/238322
+3019956,9393,Da Music,13,Phonographic Copyright (p),https://api.discogs.com/labels/9393
+3019956,9393,Da Music,14,Copyright (c),https://api.discogs.com/labels/9393
+3019956,266746,Deutsche Austrophon,13,Phonographic Copyright (p),https://api.discogs.com/labels/266746
+3019956,266746,Deutsche Austrophon,14,Copyright (c),https://api.discogs.com/labels/266746
+3019956,277449,P+O Pallas,17,Pressed By,https://api.discogs.com/labels/277449
+3019959,265807,Sony BMG Music Entertainment (Germany) GmbH,14,Copyright (c),https://api.discogs.com/labels/265807
+3019959,265807,Sony BMG Music Entertainment (Germany) GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/265807
+3019959,1866,Columbia,4,Record Company,https://api.discogs.com/labels/1866
+3019959,129094,Optimal Media Production,30,Lacquer Cut At,https://api.discogs.com/labels/129094
+3019959,1468856,X-Amount (3),21,Published By,https://api.discogs.com/labels/1468856
+3019959,263856,BMG Ufa,21,Published By,https://api.discogs.com/labels/263856
+3019959,1312503,Merkaba International,21,Published By,https://api.discogs.com/labels/1312503
+3019959,138147,Warner/Chappell,21,Published By,https://api.discogs.com/labels/138147
+3019959,795662,Premium Blend,21,Published By,https://api.discogs.com/labels/795662
+3019959,723064,Rootdown Publishing,21,Published By,https://api.discogs.com/labels/723064
+3019959,1703518,Dillack Music,21,Published By,https://api.discogs.com/labels/1703518
+3019959,1703519,Rok-Diz,21,Published By,https://api.discogs.com/labels/1703519
+3019959,304864,Edition Elijah,21,Published By,https://api.discogs.com/labels/304864
+3019959,420901,Rotary Head Music,21,Published By,https://api.discogs.com/labels/420901
+3019959,75414,3P,21,Published By,https://api.discogs.com/labels/75414
+3019959,272553,Planet Phuture,21,Published By,https://api.discogs.com/labels/272553
+3019959,267156,Hanseatic,21,Published By,https://api.discogs.com/labels/267156
+3019959,703954,"Edition Red, Black And Green",21,Published By,https://api.discogs.com/labels/703954
+3019959,371373,Edition Fourplay,21,Published By,https://api.discogs.com/labels/371373
+3019959,453371,Vaul & Späth,21,Published By,https://api.discogs.com/labels/453371
+3019959,484410,Edition Vierundsiebzig,21,Published By,https://api.discogs.com/labels/484410
+3019961,264873,Sony Music Entertainment UK Limited,13,Phonographic Copyright (p),https://api.discogs.com/labels/264873
+3019961,64732,Sony Music Japan International Inc.,10,Manufactured By,https://api.discogs.com/labels/64732
+3019964,367560,"Студия ""Монолит""",13,Phonographic Copyright (p),https://api.discogs.com/labels/367560
+3019964,367560,"Студия ""Монолит""",13,Phonographic Copyright (p),https://api.discogs.com/labels/367560
+3019964,561,ZYX Music,6,Licensed From,https://api.discogs.com/labels/561
+3019965,680599,Square Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/680599
+3019965,680599,Square Ltd.,14,Copyright (c),https://api.discogs.com/labels/680599
+3019965,115133,Spartan,9,Distributed By,https://api.discogs.com/labels/115133
+3019965,109278,Island Music Ltd.,21,Published By,https://api.discogs.com/labels/109278
+3019966,774,Hed Kandi Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/774
+3019966,774,Hed Kandi Records,14,Copyright (c),https://api.discogs.com/labels/774
+3019966,120257,Universal Music Operations Ltd.,9,Distributed By,https://api.discogs.com/labels/120257
+3019966,564724,Pushin' Sound Studios,29,Mastered At,https://api.discogs.com/labels/564724
+3019967,605826,Variety Film,9,Distributed By,https://api.discogs.com/labels/605826
+3019967,432706,Liuto Edizioni Musicali,21,Published By,https://api.discogs.com/labels/432706
+3019967,97782,Sound Work Shop,23,Recorded At,https://api.discogs.com/labels/97782
+3019967,667569,Litografia Roberto Pioda,19,Printed By,https://api.discogs.com/labels/667569
+3019973,696535,"Sampson Studios, Tiverton, RI",23,Recorded At,https://api.discogs.com/labels/696535
+3019973,271111,K Disc Mastering,30,Lacquer Cut At,https://api.discogs.com/labels/271111
+3019977,263914,Rainbow Studio,23,Recorded At,https://api.discogs.com/labels/263914
+3019977,263914,Rainbow Studio,29,Mastered At,https://api.discogs.com/labels/263914
+3019979,499865,1-е Тон-Ателье Останкино,23,Recorded At,https://api.discogs.com/labels/499865
+3019979,581197,Государственный Дом Радиовещания И Звукозаписи СССР,23,Recorded At,https://api.discogs.com/labels/581197
+3019979,307782,Тон-Студия Мосфильм,23,Recorded At,https://api.discogs.com/labels/307782
+3019979,371413,"Студия ""Ленком""",23,Recorded At,https://api.discogs.com/labels/371413
+3019979,29191,Мистерия Звука,13,Phonographic Copyright (p),https://api.discogs.com/labels/29191
+3019979,29191,Мистерия Звука,14,Copyright (c),https://api.discogs.com/labels/29191
+3019979,29191,Мистерия Звука,8,Marketed By,https://api.discogs.com/labels/29191
+3019981,22474,DMR,10,Manufactured By,https://api.discogs.com/labels/22474
+3019982,63704,"MCA Records, Inc.",14,Copyright (c),https://api.discogs.com/labels/63704
+3019982,63704,"MCA Records, Inc.",13,Phonographic Copyright (p),https://api.discogs.com/labels/63704
+3019982,63704,"MCA Records, Inc.",38,Manufactured For,https://api.discogs.com/labels/63704
+3019983,53022,Discos Fuentes,4,Record Company,https://api.discogs.com/labels/53022
+3019983,53022,Discos Fuentes,16,Made By,https://api.discogs.com/labels/53022
+3019983,524808,Edimúsica,21,Published By,https://api.discogs.com/labels/524808
+3019987,263914,Rainbow Studio,23,Recorded At,https://api.discogs.com/labels/263914
+3019987,263914,Rainbow Studio,29,Mastered At,https://api.discogs.com/labels/263914
+3019989,45149,Bad Dog Records,6,Licensed From,https://api.discogs.com/labels/45149
+3019989,33384,Sound Pollution Records,9,Distributed By,https://api.discogs.com/labels/33384
+3019989,47232,Agipunk,9,Distributed By,https://api.discogs.com/labels/47232
+3019992,754,EMI Records,14,Copyright (c),https://api.discogs.com/labels/754
+3019992,343320,London Astoria,23,Recorded At,https://api.discogs.com/labels/343320
+3019992,266256,EMI Uden,31,Glass Mastered At,https://api.discogs.com/labels/266256
+3019993,19780,Zomba Recording Corporation,13,Phonographic Copyright (p),https://api.discogs.com/labels/19780
+3019993,19780,Zomba Recording Corporation,14,Copyright (c),https://api.discogs.com/labels/19780
+3019993,19780,Zomba Recording Corporation,10,Manufactured By,https://api.discogs.com/labels/19780
+3019993,1396205,Rhino Entertainment Corp.,6,Licensed From,https://api.discogs.com/labels/1396205
+3019993,639469,Waterbed Productions,37,Produced For,https://api.discogs.com/labels/639469
+3019993,68868,"Zomba Enterprises, Inc.",21,Published By,https://api.discogs.com/labels/68868
+3019993,409497,Ron G Music,21,Published By,https://api.discogs.com/labels/409497
+3019993,277723,Zomba Songs Inc.,21,Published By,https://api.discogs.com/labels/277723
+3019993,285969,Gambi Music,21,Published By,https://api.discogs.com/labels/285969
+3019993,502052,29 Black Music,21,Published By,https://api.discogs.com/labels/502052
+3019993,267941,Warner-Tamerlane Publishing Corp.,21,Published By,https://api.discogs.com/labels/267941
+3019993,280468,Chung King Studios,23,Recorded At,https://api.discogs.com/labels/280468
+3019993,280468,Chung King Studios,27,Mixed At,https://api.discogs.com/labels/280468
+3019993,264060,Sterling Sound,29,Mastered At,https://api.discogs.com/labels/264060
+3019995,488177,Martin Audio Duplication,10,Manufactured By,https://api.discogs.com/labels/488177
+3019995,332658,"Disc Manufacturing, Inc.",31,Glass Mastered At,https://api.discogs.com/labels/332658
+3019995,541468,Mill Rat Studios,23,Recorded At,https://api.discogs.com/labels/541468
+3019995,696535,"Sampson Studios, Tiverton, RI",23,Recorded At,https://api.discogs.com/labels/696535
+3019998,349051,EQ Music (M) Sdn. Bhd.,8,Marketed By,https://api.discogs.com/labels/349051
+3019998,349053,EQ Music Pte. Ltd.,8,Marketed By,https://api.discogs.com/labels/349053
+3019999,283310,Eagle Rock Entertainment Ltd.,4,Record Company,https://api.discogs.com/labels/283310
+3019999,283311,Montreux Sounds SA,14,Copyright (c),https://api.discogs.com/labels/283311
+3019999,283310,Eagle Rock Entertainment Ltd.,14,Copyright (c),https://api.discogs.com/labels/283310
+3019999,238683,Montreux Jazz Festival,23,Recorded At,https://api.discogs.com/labels/238683
+3019999,238683,Montreux Jazz Festival,34,Filmed At,https://api.discogs.com/labels/238683
+3019999,271341,Mtx Mastering Studio,29,Mastered At,https://api.discogs.com/labels/271341
+3020001,264310,Mushroom Records Pty. Ltd.,6,Licensed From,https://api.discogs.com/labels/264310
+3020001,108138,Festival Records Pty. Ltd.,5,Licensed To,https://api.discogs.com/labels/108138
+3020001,108138,Festival Records Pty. Ltd.,16,Made By,https://api.discogs.com/labels/108138
+3020001,108138,Festival Records Pty. Ltd.,10,Manufactured By,https://api.discogs.com/labels/108138
+3020001,108138,Festival Records Pty. Ltd.,9,Distributed By,https://api.discogs.com/labels/108138
+3020001,264310,Mushroom Records Pty. Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/264310
+3020001,71095,Mushroom Music,14,Copyright (c),https://api.discogs.com/labels/71095
+3020001,1167079,Mushroom (8),21,Published By,https://api.discogs.com/labels/1167079
+3020001,288348,Music Farm Studios,23,Recorded At,https://api.discogs.com/labels/288348
+3020003,269648,"PolyGram Ibérica, S.A.",16,Made By,https://api.discogs.com/labels/269648
+3020003,272181,"Eurogram, S.A.",10,Manufactured By,https://api.discogs.com/labels/272181
+3020003,282676,"Gráficas Foco, S.A.",19,Printed By,https://api.discogs.com/labels/282676
+3020006,337708,"The Forum, London",23,Recorded At,https://api.discogs.com/labels/337708
+3020009,108138,Festival Records Pty. Ltd.,16,Made By,https://api.discogs.com/labels/108138
+3020009,116390,ONJ Productions,13,Phonographic Copyright (p),https://api.discogs.com/labels/116390
+3020009,108138,Festival Records Pty. Ltd.,14,Copyright (c),https://api.discogs.com/labels/108138
+3020009,58356,Chappell,21,Published By,https://api.discogs.com/labels/58356
+3020009,25946,Warner Bros.,21,Published By,https://api.discogs.com/labels/25946
+3020009,803819,Festival (17),21,Published By,https://api.discogs.com/labels/803819
+3020011,264702,Radarscope Records Ltd.,4,Record Company,https://api.discogs.com/labels/264702
+3020011,264702,Radarscope Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/264702
+3020011,264702,Radarscope Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/264702
+3020011,264522,Pinnacle (3),9,Distributed By,https://api.discogs.com/labels/264522
+3020011,586932,The Flowershop,23,Recorded At,https://api.discogs.com/labels/586932
+3020011,48207,Copyright Control,21,Published By,https://api.discogs.com/labels/48207
+3020011,147881,Mayking,31,Glass Mastered At,https://api.discogs.com/labels/147881
+3020012,1264828,Laurentiuskirche Oberderdingen,23,Recorded At,https://api.discogs.com/labels/1264828
+3020013,263914,Rainbow Studio,23,Recorded At,https://api.discogs.com/labels/263914
+3020013,263914,Rainbow Studio,27,Mixed At,https://api.discogs.com/labels/263914
+3020014,264266,Dubplates & Mastering,30,Lacquer Cut At,https://api.discogs.com/labels/264266
+3020014,56025,MPO,17,Pressed By,https://api.discogs.com/labels/56025
+3020014,1831,Neuton,9,Distributed By,https://api.discogs.com/labels/1831
+3020022,899319,Shiv,14,Copyright (c),https://api.discogs.com/labels/899319
+3020022,238322,United Record Pressing,17,Pressed By,https://api.discogs.com/labels/238322
+3020022,168969,Fun City,23,Recorded At,https://api.discogs.com/labels/168969
+3020024,275513,Carl Lindström GmbH,10,Manufactured By,https://api.discogs.com/labels/275513
+4497824,264766,Garrod & Lofthouse,19,Printed By,https://api.discogs.com/labels/264766
+4497827,754,EMI Records,4,Record Company,https://api.discogs.com/labels/754
+4497827,271435,Jones Music,13,Phonographic Copyright (p),https://api.discogs.com/labels/271435
+4497827,271436,Mainman S.A.,13,Phonographic Copyright (p),https://api.discogs.com/labels/271436
+4497827,63404,EMI Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/63404
+4497827,63404,EMI Records Ltd.,5,Licensed To,https://api.discogs.com/labels/63404
+4497827,268781,EMI Swindon,17,Pressed By,https://api.discogs.com/labels/268781
+4497827,271421,Westminster Music Ltd.,21,Published By,https://api.discogs.com/labels/271421
+4497827,264362,Chrysalis Music Ltd.,21,Published By,https://api.discogs.com/labels/264362
+4497827,265460,EMI Music Publishing Ltd.,21,Published By,https://api.discogs.com/labels/265460
+4497827,481219,Design Music Ltd.,21,Published By,https://api.discogs.com/labels/481219
+4497827,268781,EMI Swindon,31,Glass Mastered At,https://api.discogs.com/labels/268781
+4497828,151925,FalconMedia,13,Phonographic Copyright (p),https://api.discogs.com/labels/151925
+4497828,286529,White Falcon Publishing,14,Copyright (c),https://api.discogs.com/labels/286529
+4497828,34295,Magneoton,9,Distributed By,https://api.discogs.com/labels/34295
+4497828,913663,Syma Csarnok,34,Filmed At,https://api.discogs.com/labels/913663
+4497828,476884,Budapest Sportcsarnok,34,Filmed At,https://api.discogs.com/labels/476884
+4497829,276180,Universal Music Enterprises,13,Phonographic Copyright (p),https://api.discogs.com/labels/276180
+4497829,276180,Universal Music Enterprises,10,Manufactured By,https://api.discogs.com/labels/276180
+4497829,535077,MGM Mirage,9,Distributed By,https://api.discogs.com/labels/535077
+4497829,535077,MGM Mirage,14,Copyright (c),https://api.discogs.com/labels/535077
+4497833,55707,Sony BMG,13,Phonographic Copyright (p),https://api.discogs.com/labels/55707
+4497833,415381,"Rama Lama Music, S.L.",14,Copyright (c),https://api.discogs.com/labels/415381
+4497833,271812,"Blanco Y Negro Music, S.A.",9,Distributed By,https://api.discogs.com/labels/271812
+4497833,291769,Duplico 2000,10,Manufactured By,https://api.discogs.com/labels/291769
+4497835,267848,DADC Austria,17,Pressed By,https://api.discogs.com/labels/267848
+4497836,277832,Prairie Cat Mastering,29,Mastered At,https://api.discogs.com/labels/277832
+4497836,100643,Rainbo Records,17,Pressed By,https://api.discogs.com/labels/100643
+4497836,100643,Rainbo Records,17,Pressed By,https://api.discogs.com/labels/100643
+4497836,37250,Polyvinyl Record Company,13,Phonographic Copyright (p),https://api.discogs.com/labels/37250
+4497836,37250,Polyvinyl Record Company,14,Copyright (c),https://api.discogs.com/labels/37250
+4497837,23779,Southern Lord Recordings,14,Copyright (c),https://api.discogs.com/labels/23779
+4497837,428669,I-Beam,23,Recorded At,https://api.discogs.com/labels/428669
+4497837,311491,924 Gilman Street,23,Recorded At,https://api.discogs.com/labels/311491
+4497843,459476,Westwood Recordings Ltd,10,Manufactured By,https://api.discogs.com/labels/459476
+4497843,379362,Mid Wales Sound Studios,23,Recorded At,https://api.discogs.com/labels/379362
+4497843,265502,West Brothers Printers Limited,16,Made By,https://api.discogs.com/labels/265502
+4497843,265502,West Brothers Printers Limited,19,Printed By,https://api.discogs.com/labels/265502
+4497843,270549,"CBS Studios, London",29,Mastered At,https://api.discogs.com/labels/270549
+4497848,266315,Московский Опытный Завод «Грамзапись»,17,Pressed By,https://api.discogs.com/labels/266315
+4497850,73846,Polydor International GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/73846
+4497850,849269,Paolo Petazzi,14,Copyright (c),https://api.discogs.com/labels/849269
+4497850,303971,Gerhard Kaiser,19,Printed By,https://api.discogs.com/labels/303971
+4497853,241326,RONEeS,9,Distributed By,https://api.discogs.com/labels/241326
+4497853,34155,Moroz Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/34155
+4497853,34155,Moroz Records,14,Copyright (c),https://api.discogs.com/labels/34155
+4497857,127675,Presidential Records,10,Manufactured By,https://api.discogs.com/labels/127675
+4497857,127675,Presidential Records,14,Copyright (c),https://api.discogs.com/labels/127675
+4497857,127675,Presidential Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/127675
+4497857,448693,Presidential Records Publishing,21,Published By,https://api.discogs.com/labels/448693
+4497857,448694,No ID Publishing,21,Published By,https://api.discogs.com/labels/448694
+4497857,437786,South Coast Recorders,27,Mixed At,https://api.discogs.com/labels/437786
+4497857,437786,South Coast Recorders,36,Edited At,https://api.discogs.com/labels/437786
+4497857,437786,South Coast Recorders,29,Mastered At,https://api.discogs.com/labels/437786
+4497857,1076669,Virtual Recorders,27,Mixed At,https://api.discogs.com/labels/1076669
+4497857,1076669,Virtual Recorders,29,Mastered At,https://api.discogs.com/labels/1076669
+4497862,263775,Warner/Chappell Music Ltd.,21,Published By,https://api.discogs.com/labels/263775
+4497862,63404,EMI Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/63404
+4497862,63404,EMI Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/63404
+4497862,26126,EMI,10,Manufactured By,https://api.discogs.com/labels/26126
+4497862,26126,EMI,9,Distributed By,https://api.discogs.com/labels/26126
+4497863,219519,ELAP Music Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/219519
+4497865,123043,Universal Music Spain S.L.,13,Phonographic Copyright (p),https://api.discogs.com/labels/123043
+4497865,123043,Universal Music Spain S.L.,14,Copyright (c),https://api.discogs.com/labels/123043
+4497865,123043,Universal Music Spain S.L.,8,Marketed By,https://api.discogs.com/labels/123043
+4497865,123043,Universal Music Spain S.L.,9,Distributed By,https://api.discogs.com/labels/123043
+4497870,281512,Real World Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/281512
+4497870,281512,Real World Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/281512
+4497870,170110,Womad,37,Produced For,https://api.discogs.com/labels/170110
+4497873,45267,Metal Blade Records,6,Licensed From,https://api.discogs.com/labels/45267
+4497873,264517,GZ Digital Media,17,Pressed By,https://api.discogs.com/labels/264517
+4497877,273086,Universal Music LLC,8,Marketed By,https://api.discogs.com/labels/273086
+4497877,273086,Universal Music LLC,9,Distributed By,https://api.discogs.com/labels/273086
+4497877,40755,Mercury Records Ltd. (London),13,Phonographic Copyright (p),https://api.discogs.com/labels/40755
+4497877,40755,Mercury Records Ltd. (London),14,Copyright (c),https://api.discogs.com/labels/40755
+4497877,243433,Universal Strategic Marketing Japan,4,Record Company,https://api.discogs.com/labels/243433
+4497882,380740,Musitech,29,Mastered At,https://api.discogs.com/labels/380740
+4497884,423045,Onlyroots Records,9,Distributed By,https://api.discogs.com/labels/423045
+4497886,266015,"Phonogram, Inc.",9,Distributed By,https://api.discogs.com/labels/266015
+4497886,266015,"Phonogram, Inc.",10,Manufactured By,https://api.discogs.com/labels/266015
+4497886,266015,"Phonogram, Inc.",13,Phonographic Copyright (p),https://api.discogs.com/labels/266015
+4497886,289902,"Lipstick Killers Pub., Inc.",21,Published By,https://api.discogs.com/labels/289902
+4497886,273388,Arc Music Corp.,21,Published By,https://api.discogs.com/labels/273388
+4497886,265540,"Record Plant, N.Y.C.",23,Recorded At,https://api.discogs.com/labels/265540
+4497886,264060,Sterling Sound,29,Mastered At,https://api.discogs.com/labels/264060
+4497887,289079,Big Seven Music Corp.,21,Published By,https://api.discogs.com/labels/289079
+4497887,299013,"RCA Studios, Toronto",29,Mastered At,https://api.discogs.com/labels/299013
+4497887,79473,Allied Record Corporation,9,Distributed By,https://api.discogs.com/labels/79473
+4497890,5723,Snapper Music,13,Phonographic Copyright (p),https://api.discogs.com/labels/5723
+4497890,5723,Snapper Music,14,Copyright (c),https://api.discogs.com/labels/5723
+4497890,132604,Eagle Rock Entertainment,6,Licensed From,https://api.discogs.com/labels/132604
+4497892,439045,The Blue Note Jazz Club,23,Recorded At,https://api.discogs.com/labels/439045
+4497894,266839,The Hit Factory,29,Mastered At,https://api.discogs.com/labels/266839
+4497894,63704,"MCA Records, Inc.",13,Phonographic Copyright (p),https://api.discogs.com/labels/63704
+4497894,63704,"MCA Records, Inc.",14,Copyright (c),https://api.discogs.com/labels/63704
+4497894,275839,"Universal Music & Video Distribution, Inc.",9,Distributed By,https://api.discogs.com/labels/275839
+4497895,234796,Companhia Brasileira De Discos,10,Manufactured By,https://api.discogs.com/labels/234796
+4497898,82391,Warner Music Sweden AB,9,Distributed By,https://api.discogs.com/labels/82391
+4497898,272307,DCM (3),16,Made By,https://api.discogs.com/labels/272307
+4497899,55613,Columbia House,10,Manufactured By,https://api.discogs.com/labels/55613
+4497899,90718,Warner Bros. Records Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/90718
+4497899,90718,Warner Bros. Records Inc.,14,Copyright (c),https://api.discogs.com/labels/90718
+4497906,273086,Universal Music LLC,8,Marketed By,https://api.discogs.com/labels/273086
+4497906,273086,Universal Music LLC,9,Distributed By,https://api.discogs.com/labels/273086
+4497906,243433,Universal Strategic Marketing Japan,5,Licensed To,https://api.discogs.com/labels/243433
+4497906,343954,Mercury Records Ltd. (UK),13,Phonographic Copyright (p),https://api.discogs.com/labels/343954
+4497906,343954,Mercury Records Ltd. (UK),14,Copyright (c),https://api.discogs.com/labels/343954
+4497908,545412,End Of The Road Studios,23,Recorded At,https://api.discogs.com/labels/545412
+4497908,545412,End Of The Road Studios,27,Mixed At,https://api.discogs.com/labels/545412
+4497908,545413,Sound Big Now,29,Mastered At,https://api.discogs.com/labels/545413
+4497908,91504,Pirates Press,17,Pressed By,https://api.discogs.com/labels/91504
+4497910,270349,"RCA Manufacturing Co., Inc.",4,Record Company,https://api.discogs.com/labels/270349
+4497911,429877,Kibir La Amlak Studio,26,Produced At,https://api.discogs.com/labels/429877
+4497911,429877,Kibir La Amlak Studio,27,Mixed At,https://api.discogs.com/labels/429877
+4497911,264406,Optimum Mastering,29,Mastered At,https://api.discogs.com/labels/264406
+4497911,535079,Kibir La Amlak Music,14,Copyright (c),https://api.discogs.com/labels/535079
+4497911,535079,Kibir La Amlak Music,13,Phonographic Copyright (p),https://api.discogs.com/labels/535079
+4497912,470309,Store Studio,23,Recorded At,https://api.discogs.com/labels/470309
+4497912,470309,Store Studio,27,Mixed At,https://api.discogs.com/labels/470309
+4497912,470309,Store Studio,29,Mastered At,https://api.discogs.com/labels/470309
+4497913,116450,Global Music (4),14,Copyright (c),https://api.discogs.com/labels/116450
+4497913,451799,NMB Records Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/451799
+4497915,401271,CBS Records Ltd. (2),10,Manufactured By,https://api.discogs.com/labels/401271
+4497915,401271,CBS Records Ltd. (2),9,Distributed By,https://api.discogs.com/labels/401271
+4497917,1062224,Cream Music Studios,23,Recorded At,https://api.discogs.com/labels/1062224
+4497919,270862,Sound Mastering,29,Mastered At,https://api.discogs.com/labels/270862
+4497919,302741,Barnaby Records Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/302741
+4497919,228088,Ace Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/228088
+4497919,228088,Ace Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/228088
+4497919,228088,Ace Records Ltd.,5,Licensed To,https://api.discogs.com/labels/228088
+4497922,347950,Imprimerie Glory-Carpel,19,Printed By,https://api.discogs.com/labels/347950
+4497922,318625,Wilhelm Hansen Musikforlag,21,Published By,https://api.discogs.com/labels/318625
+4497922,45530,Boosey & Hawkes,21,Published By,https://api.discogs.com/labels/45530
+4497923,272382,"Ardent Music, LLC",13,Phonographic Copyright (p),https://api.discogs.com/labels/272382
+4497923,237055,Omnivore Recordings,14,Copyright (c),https://api.discogs.com/labels/237055
+4497923,476342,Omnivore Entertainment Group,4,Record Company,https://api.discogs.com/labels/476342
+4497923,237055,Omnivore Recordings,10,Manufactured By,https://api.discogs.com/labels/237055
+4497923,237055,Omnivore Recordings,8,Marketed By,https://api.discogs.com/labels/237055
+4497923,268426,Ardent Studios,36,Edited At,https://api.discogs.com/labels/268426
+4497923,268426,Ardent Studios,27,Mixed At,https://api.discogs.com/labels/268426
+4497923,624235,L. Nix Mastering,29,Mastered At,https://api.discogs.com/labels/624235
+4497924,27055,House Nation,13,Phonographic Copyright (p),https://api.discogs.com/labels/27055
+4497924,20719,Universal Licensing Music (ULM),14,Copyright (c),https://api.discogs.com/labels/20719
+4497924,113745,Dance Street Gmbh,6,Licensed From,https://api.discogs.com/labels/113745
+4497924,304472,Activate Music Publishing,21,Published By,https://api.discogs.com/labels/304472
+4497924,280162,Top Master,29,Mastered At,https://api.discogs.com/labels/280162
+4497924,275157,Cinram Optical Discs,16,Made By,https://api.discogs.com/labels/275157
+4497929,270356,Beroset GmbH,19,Printed By,https://api.discogs.com/labels/270356
+4497930,426724,Smile Studios,23,Recorded At,https://api.discogs.com/labels/426724
+4497930,24673,Spartan Records,10,Manufactured By,https://api.discogs.com/labels/24673
+4497930,24673,Spartan Records,9,Distributed By,https://api.discogs.com/labels/24673
+4497930,1802558,Fourleaf/Panda Promotions,37,Produced For,https://api.discogs.com/labels/1802558
+6084055,310474,Guozi Shudian,9,Distributed By,https://api.discogs.com/labels/310474
+6084060,224498,King Record Co. Ltd,13,Phonographic Copyright (p),https://api.discogs.com/labels/224498
+6084064,26126,EMI,4,Record Company,https://api.discogs.com/labels/26126
+6084064,355705,"Industrias Eléctricas y Musicales Odeon, S.A.",21,Published By,https://api.discogs.com/labels/355705
+6084064,264546,Northern Songs,21,Published By,https://api.discogs.com/labels/264546
+6084064,314847,Ono Music Ltd.,21,Published By,https://api.discogs.com/labels/314847
+6084067,286448,Imprimerie Chaumès,19,Printed By,https://api.discogs.com/labels/286448
+6084069,29656,RCA Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/29656
+6084069,29656,RCA Records,14,Copyright (c),https://api.discogs.com/labels/29656
+6084069,29073,Sony Music Entertainment,8,Marketed By,https://api.discogs.com/labels/29073
+6084069,29073,Sony Music Entertainment,9,Distributed By,https://api.discogs.com/labels/29073
+6084069,264060,Sterling Sound,29,Mastered At,https://api.discogs.com/labels/264060
+6084070,266192,Senol Printing Ltd.,19,Printed By,https://api.discogs.com/labels/266192
+6084071,73846,Polydor International GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/73846
+6084071,269648,"PolyGram Ibérica, S.A.",14,Copyright (c),https://api.discogs.com/labels/269648
+6084071,299492,"Servicios Ibéricos Entertainment, S.A.",16,Made By,https://api.discogs.com/labels/299492
+6084073,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+6084073,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+6084078,224498,King Record Co. Ltd,13,Phonographic Copyright (p),https://api.discogs.com/labels/224498
+6084080,33924,Touch And Go Records (2),13,Phonographic Copyright (p),https://api.discogs.com/labels/33924
+6084080,528075,Didjits,14,Copyright (c),https://api.discogs.com/labels/528075
+6084082,265847,Le Laboratoire Central,29,Mastered At,https://api.discogs.com/labels/265847
+6084082,267164,Record Industry,17,Pressed By,https://api.discogs.com/labels/267164
+6084083,266942,Birdland Studios,23,Recorded At,https://api.discogs.com/labels/266942
+6084083,266942,Birdland Studios,27,Mixed At,https://api.discogs.com/labels/266942
+6084083,266942,Birdland Studios,26,Produced At,https://api.discogs.com/labels/266942
+6084083,266942,Birdland Studios,29,Mastered At,https://api.discogs.com/labels/266942
+6084085,211334,CBS Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/211334
+6084085,19936,CBS Records,9,Distributed By,https://api.discogs.com/labels/19936
+6084086,578150,"Discos CBS, S.A., Madrid",9,Distributed By,https://api.discogs.com/labels/578150
+6084086,951543,"PIR, Inc.",13,Phonographic Copyright (p),https://api.discogs.com/labels/951543
+6084086,951543,"PIR, Inc.",14,Copyright (c),https://api.discogs.com/labels/951543
+6084086,264241,Mighty Three Music,21,Published By,https://api.discogs.com/labels/264241
+6084086,267622,Golden Fleece Music,21,Published By,https://api.discogs.com/labels/267622
+6084086,397887,Mardix Music,21,Published By,https://api.discogs.com/labels/397887
+6084086,327273,Dunbar Music,21,Published By,https://api.discogs.com/labels/327273
+6084086,397888,Rutri Music Inc.,21,Published By,https://api.discogs.com/labels/397888
+6084086,264049,Sigma Sound Studios,23,Recorded At,https://api.discogs.com/labels/264049
+6084086,167962,Frankford/Wayne Recording Labs,29,Mastered At,https://api.discogs.com/labels/167962
+6084091,213761,"Nippon Columbia Co., Ltd.",16,Made By,https://api.discogs.com/labels/213761
+6084092,265984,Radio Corporation Of America,14,Copyright (c),https://api.discogs.com/labels/265984
+6084095,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+6084095,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+6084096,37500,Howling Bull America,13,Phonographic Copyright (p),https://api.discogs.com/labels/37500
+6084096,264018,"Relapse Records, Inc.",5,Licensed To,https://api.discogs.com/labels/264018
+6084096,300001,Coney Island Studio,23,Recorded At,https://api.discogs.com/labels/300001
+6084096,939158,"Library Mall, Madison, WI",23,Recorded At,https://api.discogs.com/labels/939158
+6084096,266493,Sleepless Nights,29,Mastered At,https://api.discogs.com/labels/266493
+6084098,71736,RCA Limited,16,Made By,https://api.discogs.com/labels/71736
+6084101,97815,Banana Klan,13,Phonographic Copyright (p),https://api.discogs.com/labels/97815
+6084101,1103,Big Dada Recordings,14,Copyright (c),https://api.discogs.com/labels/1103
+6084104,283571,World Connection B.V.,13,Phonographic Copyright (p),https://api.discogs.com/labels/283571
+6084104,283571,World Connection B.V.,14,Copyright (c),https://api.discogs.com/labels/283571
+6084104,362406,Estúdios Xangrilá,23,Recorded At,https://api.discogs.com/labels/362406
+6084105,265231,Presto! Recording Studios,23,Recorded At,https://api.discogs.com/labels/265231
+6084105,264170,West West Side Music,29,Mastered At,https://api.discogs.com/labels/264170
+6084105,18608,Jade Tree,13,Phonographic Copyright (p),https://api.discogs.com/labels/18608
+6084105,18608,Jade Tree,14,Copyright (c),https://api.discogs.com/labels/18608
+6084109,52062,"BMG Direct Marketing, Inc.",4,Record Company,https://api.discogs.com/labels/52062
+6084110,774011,Dep Distribution Exclusive Ltée,9,Distributed By,https://api.discogs.com/labels/774011
+6084110,264131,Cinram,10,Manufactured By,https://api.discogs.com/labels/264131
+6084112,295918,"MSD Holdings Limited, London",13,Phonographic Copyright (p),https://api.discogs.com/labels/295918
+6084112,295918,"MSD Holdings Limited, London",14,Copyright (c),https://api.discogs.com/labels/295918
+6084112,358025,"PDO, Germany",16,Made By,https://api.discogs.com/labels/358025
+6084113,322715,Garate Studios,23,Recorded At,https://api.discogs.com/labels/322715
+6084113,301613,CD Master,29,Mastered At,https://api.discogs.com/labels/301613
+6084115,216997,"Dyna Products, Inc.",10,Manufactured By,https://api.discogs.com/labels/216997
+6084116,34548,Le Chant Du Monde,4,Record Company,https://api.discogs.com/labels/34548
+6084116,15486,Мелодия,39,Recorded By,https://api.discogs.com/labels/15486
+6084116,15486,Мелодия,6,Licensed From,https://api.discogs.com/labels/15486
+6084124,423961,TIM The International Music Company AG,9,Distributed By,https://api.discogs.com/labels/423961
+6084124,423961,TIM The International Music Company AG,14,Copyright (c),https://api.discogs.com/labels/423961
+6084124,267257,TIM CZ,13,Phonographic Copyright (p),https://api.discogs.com/labels/267257
+6084127,96584,Phonogram S.A.I.C.,4,Record Company,https://api.discogs.com/labels/96584
+6084127,264209,Rockfield Studios,23,Recorded At,https://api.discogs.com/labels/264209
+6084128,34825,Sony DADC,17,Pressed By,https://api.discogs.com/labels/34825
+6084128,346866,Lundgaard Studios,27,Mixed At,https://api.discogs.com/labels/346866
+6084128,309113,Medley Mastering,29,Mastered At,https://api.discogs.com/labels/309113
+6084128,346866,Lundgaard Studios,23,Recorded At,https://api.discogs.com/labels/346866
+6084128,560299,Studio Bloch,23,Recorded At,https://api.discogs.com/labels/560299
+6084130,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+6084130,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+6084138,48207,Copyright Control,14,Copyright (c),https://api.discogs.com/labels/48207
+6084138,108132,TELDEC »Telefunken-Decca« Schallplatten GmbH,10,Manufactured By,https://api.discogs.com/labels/108132
+6084142,8547,DRO EastWest S.A.,13,Phonographic Copyright (p),https://api.discogs.com/labels/8547
+6084142,8547,DRO EastWest S.A.,14,Copyright (c),https://api.discogs.com/labels/8547
+6084142,122624,Warner Music Manufacturing Europe,16,Made By,https://api.discogs.com/labels/122624
+6084144,641956,Zofia Komedowa,7,Licensed Through,https://api.discogs.com/labels/641956
+6084145,271784,Napalm Records Handels GmbH,14,Copyright (c),https://api.discogs.com/labels/271784
+6084145,271784,Napalm Records Handels GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/271784
+6084145,268910,Sonopress Arvato,17,Pressed By,https://api.discogs.com/labels/268910
+6084146,270046,Padded Cell Studios,23,Recorded At,https://api.discogs.com/labels/270046
+6084147,34825,Sony DADC,17,Pressed By,https://api.discogs.com/labels/34825
+6084147,560299,Studio Bloch,23,Recorded At,https://api.discogs.com/labels/560299
+6084147,608242,Room 313,27,Mixed At,https://api.discogs.com/labels/608242
+6084147,290362,Black Saloon Studios,29,Mastered At,https://api.discogs.com/labels/290362
+6084153,94729,Chrysalis Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/94729
+6084153,94729,Chrysalis Records,14,Copyright (c),https://api.discogs.com/labels/94729
+6084153,113643,"Chrysalis Records, Inc.",21,Published By,https://api.discogs.com/labels/113643
+6084154,26760,Virgin Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/26760
+6084154,312954,That Petrol Emotion Ltd.,14,Copyright (c),https://api.discogs.com/labels/312954
+6084155,263780,"Buena Vista Pictures Distribution, Inc.",9,Distributed By,https://api.discogs.com/labels/263780
+6084155,263781,The Walt Disney Company,13,Phonographic Copyright (p),https://api.discogs.com/labels/263781
+6084155,263780,"Buena Vista Pictures Distribution, Inc.",14,Copyright (c),https://api.discogs.com/labels/263780
+6084156,56025,MPO,17,Pressed By,https://api.discogs.com/labels/56025
+6084156,265113,SST Brüggemann GmbH,30,Lacquer Cut At,https://api.discogs.com/labels/265113
+6084156,49318,Noiseland Industries,10,Manufactured By,https://api.discogs.com/labels/49318
+6084163,619849,Cousin Jacks,14,Copyright (c),https://api.discogs.com/labels/619849
+6084163,675975,Cherry Lane Music Co.,14,Copyright (c),https://api.discogs.com/labels/675975
+6084163,776882,High Road Music,14,Copyright (c),https://api.discogs.com/labels/776882
+6084163,382935,"Folkways Music Publishers, Inc.",14,Copyright (c),https://api.discogs.com/labels/382935
+6084163,850671,Spectacle Lane Music,14,Copyright (c),https://api.discogs.com/labels/850671
+6084163,199325,Frankford/Wayne Mastering Labs,29,Mastered At,https://api.discogs.com/labels/199325
+6084163,408779,"PRC Recording Company, Richmond, IN",17,Pressed By,https://api.discogs.com/labels/408779
+6084166,31283,Delta Music,6,Licensed From,https://api.discogs.com/labels/31283
+7697988,154119,EMI (Australia) Limited,16,Made By,https://api.discogs.com/labels/154119
+7697991,297393,Studio Hérouville,23,Recorded At,https://api.discogs.com/labels/297393
+7697991,265201,Rosenberg Studio,23,Recorded At,https://api.discogs.com/labels/265201
+7697993,57377,CM Distro,9,Distributed By,https://api.discogs.com/labels/57377
+7697993,313190,Optimal Media GmbH,17,Pressed By,https://api.discogs.com/labels/313190
+7697993,339623,Parlour Studios,23,Recorded At,https://api.discogs.com/labels/339623
+7697993,339623,Parlour Studios,24,Engineered At,https://api.discogs.com/labels/339623
+7697993,339623,Parlour Studios,26,Produced At,https://api.discogs.com/labels/339623
+7697993,339623,Parlour Studios,27,Mixed At,https://api.discogs.com/labels/339623
+7697993,272587,Studio Hostivař,23,Recorded At,https://api.discogs.com/labels/272587
+7697993,272587,Studio Hostivař,23,Recorded At,https://api.discogs.com/labels/272587
+7697993,285431,Griffin Studios,24,Engineered At,https://api.discogs.com/labels/285431
+7697993,313190,Optimal Media GmbH,30,Lacquer Cut At,https://api.discogs.com/labels/313190
+7697994,48207,Copyright Control,21,Published By,https://api.discogs.com/labels/48207
+7697996,106824,Australian Record Company Limited,4,Record Company,https://api.discogs.com/labels/106824
+7697996,274819,Jewel Music,21,Published By,https://api.discogs.com/labels/274819
+7697997,472793,"Pony, Inc.",9,Distributed By,https://api.discogs.com/labels/472793
+7697999,297393,Studio Hérouville,23,Recorded At,https://api.discogs.com/labels/297393
+7697999,265201,Rosenberg Studio,23,Recorded At,https://api.discogs.com/labels/265201
+7698005,162054,"Victor Musical Industries, Inc.",10,Manufactured By,https://api.discogs.com/labels/162054
+7698005,274478,"Van Gelder Studio, Englewood Cliffs, New Jersey",23,Recorded At,https://api.discogs.com/labels/274478
+7698005,274478,"Van Gelder Studio, Englewood Cliffs, New Jersey",27,Mixed At,https://api.discogs.com/labels/274478
+7698005,274478,"Van Gelder Studio, Englewood Cliffs, New Jersey",29,Mastered At,https://api.discogs.com/labels/274478
+7698006,280895,CA-DI,9,Distributed By,https://api.discogs.com/labels/280895
+7698007,263786,"Fabrica De Discos Peerless, S.A. De C.V.",9,Distributed By,https://api.discogs.com/labels/263786
+7698007,263786,"Fabrica De Discos Peerless, S.A. De C.V.",10,Manufactured By,https://api.discogs.com/labels/263786
+7698010,275673,"Tokuma Musical Industries Co., Ltd.",16,Made By,https://api.discogs.com/labels/275673
+7698012,13054,Real Life Recordings,13,Phonographic Copyright (p),https://api.discogs.com/labels/13054
+7698012,13054,Real Life Recordings,14,Copyright (c),https://api.discogs.com/labels/13054
+7698017,460993,Chiyu Printing Ltd.,19,Printed By,https://api.discogs.com/labels/460993
+7698018,313266,"Capitol Records Pressing Plant, Los Angeles",17,Pressed By,https://api.discogs.com/labels/313266
+7698021,213861,"Nippon Phonogram Co., Ltd.",10,Manufactured By,https://api.discogs.com/labels/213861
+7698024,432718,"Seeco Records, Inc.",10,Manufactured By,https://api.discogs.com/labels/432718
+7698030,315338,DeutschlandRadio,13,Phonographic Copyright (p),https://api.discogs.com/labels/315338
+7698030,467664,Ludger Böckenhoff,14,Copyright (c),https://api.discogs.com/labels/467664
+7698030,467664,Ludger Böckenhoff,13,Phonographic Copyright (p),https://api.discogs.com/labels/467664
+7698030,985571,"Hochschule Für Musik, Berlin",23,Recorded At,https://api.discogs.com/labels/985571
+7698033,763515,"Decca Records Pressing Plant, Richmond, IN",17,Pressed By,https://api.discogs.com/labels/763515
+7698035,676929,Studio 246 Kyoto,23,Recorded At,https://api.discogs.com/labels/676929
+7698036,23089,Polygram Records,8,Marketed By,https://api.discogs.com/labels/23089
+7698036,23089,Polygram Records,10,Manufactured By,https://api.discogs.com/labels/23089
+7698036,33290,Phonogram Ltd. (London),13,Phonographic Copyright (p),https://api.discogs.com/labels/33290
+7698036,33290,Phonogram Ltd. (London),14,Copyright (c),https://api.discogs.com/labels/33290
+7698036,271999,CBS Songs,21,Published By,https://api.discogs.com/labels/271999
+7698037,280895,CA-DI,9,Distributed By,https://api.discogs.com/labels/280895
+7698044,211334,CBS Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/211334
+7698044,883729,April (5),21,Published By,https://api.discogs.com/labels/883729
+7698046,87317,"Capitol Records, Inc.",10,Manufactured By,https://api.discogs.com/labels/87317
+7698046,314605,"Capitol Records Pressing Plant, Jacksonville",17,Pressed By,https://api.discogs.com/labels/314605
+7698046,299088,Fame Recording Studios,23,Recorded At,https://api.discogs.com/labels/299088
+7698046,268679,"Fame Publishing Co., Inc.",21,Published By,https://api.discogs.com/labels/268679
+7698046,331399,Al Gallico Music Corp.,21,Published By,https://api.discogs.com/labels/331399
+7698049,1379816,PSG Recording Studio,39,Recorded By,https://api.discogs.com/labels/1379816
+7698051,8185,Toshiba EMI Ltd,10,Manufactured By,https://api.discogs.com/labels/8185
+7698051,62643,Stern's Africa,13,Phonographic Copyright (p),https://api.discogs.com/labels/62643
+7698051,1376247,Production Jean-François Paillard,13,Phonographic Copyright (p),https://api.discogs.com/labels/1376247
+7698052,143899,Отделение Мамонов,14,Copyright (c),https://api.discogs.com/labels/143899
+7698052,34155,Moroz Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/34155
+7698053,439050,"""El Virrey"" Industrias Musicales S.A.",38,Manufactured For,https://api.discogs.com/labels/439050
+7698053,439050,"""El Virrey"" Industrias Musicales S.A.",16,Made By,https://api.discogs.com/labels/439050
+7698056,151839,WEA Records Pty. Limited,16,Made By,https://api.discogs.com/labels/151839
+7698056,151839,WEA Records Pty. Limited,9,Distributed By,https://api.discogs.com/labels/151839
+7698060,63313,Island Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/63313
+7698060,63313,Island Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/63313
+7698060,109278,Island Music Ltd.,21,Published By,https://api.discogs.com/labels/109278
+7698060,87246,The Town House,29,Mastered At,https://api.discogs.com/labels/87246
+7698060,296310,Brixton Academy,23,Recorded At,https://api.discogs.com/labels/296310
+7698060,264340,Manor Mobile,39,Recorded By,https://api.discogs.com/labels/264340
+7698060,8742,PolyGram,8,Marketed By,https://api.discogs.com/labels/8742
+7698061,278501,Salt Mastering,30,Lacquer Cut At,https://api.discogs.com/labels/278501
+7698061,437410,"The Lodge, New York",29,Mastered At,https://api.discogs.com/labels/437410
+7698063,151701,Sony Music Entertainment (Brasil) I.C.L.,13,Phonographic Copyright (p),https://api.discogs.com/labels/151701
+7698063,256684,"Sony Music Entertainment México, S.A. De C.V.",14,Copyright (c),https://api.discogs.com/labels/256684
+7698065,528478,Stuyvesant Productions Inc.,4,Record Company,https://api.discogs.com/labels/528478
+7698065,282659,"Trio Music Co., Inc.",21,Published By,https://api.discogs.com/labels/282659
+7698065,795719,Melder Pub. Co.,21,Published By,https://api.discogs.com/labels/795719
+7698065,288546,"Audio Matrix, Inc.",29,Mastered At,https://api.discogs.com/labels/288546
+7698065,122360,Bell Sound Studios,29,Mastered At,https://api.discogs.com/labels/122360
+7698067,264131,Cinram,10,Manufactured By,https://api.discogs.com/labels/264131
+7698067,38454,Quality Music & Video,9,Distributed By,https://api.discogs.com/labels/38454
+7698067,264131,Cinram,17,Pressed By,https://api.discogs.com/labels/264131
+7698068,64672,CBS Records Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/64672
+7698068,46221,CBS Schallplatten GmbH,14,Copyright (c),https://api.discogs.com/labels/46221
+7698068,58356,Chappell,21,Published By,https://api.discogs.com/labels/58356
+7698069,108138,Festival Records Pty. Ltd.,16,Made By,https://api.discogs.com/labels/108138
+7698074,154119,EMI (Australia) Limited,10,Manufactured By,https://api.discogs.com/labels/154119
+7698077,220303,Universal International Music B.V.,6,Licensed From,https://api.discogs.com/labels/220303
+7698077,526663,"СП ""Київ-Євростар""",9,Distributed By,https://api.discogs.com/labels/526663
+7698077,52003,Ukrainian Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/52003
+7698077,1610,Polydor,13,Phonographic Copyright (p),https://api.discogs.com/labels/1610
+7698077,1610,Polydor,14,Copyright (c),https://api.discogs.com/labels/1610
+7698079,26126,EMI,8,Marketed By,https://api.discogs.com/labels/26126
+7698079,26126,EMI,9,Distributed By,https://api.discogs.com/labels/26126
+7698079,87317,"Capitol Records, Inc.",13,Phonographic Copyright (p),https://api.discogs.com/labels/87317
+7698079,87317,"Capitol Records, Inc.",14,Copyright (c),https://api.discogs.com/labels/87317
+7698079,265644,Future Disc,29,Mastered At,https://api.discogs.com/labels/265644
+7698079,270678,G-Son Studios,23,Recorded At,https://api.discogs.com/labels/270678
+7698079,270678,G-Son Studios,27,Mixed At,https://api.discogs.com/labels/270678
+7698079,403398,Tin Pan Alley Studios (2),23,Recorded At,https://api.discogs.com/labels/403398
+7698079,403398,Tin Pan Alley Studios (2),27,Mixed At,https://api.discogs.com/labels/403398
+7698079,266256,EMI Uden,17,Pressed By,https://api.discogs.com/labels/266256
+7698080,154119,EMI (Australia) Limited,16,Made By,https://api.discogs.com/labels/154119
+7698081,207420,SMA,17,Pressed By,https://api.discogs.com/labels/207420
+7698086,275786,Georgetown Masters,29,Mastered At,https://api.discogs.com/labels/275786
+7698086,300781,Pedernales Studio,23,Recorded At,https://api.discogs.com/labels/300781
+7698086,138683,CBS Records Canada Ltd.,10,Manufactured By,https://api.discogs.com/labels/138683
+7698087,272609,Polydor Ltd. (London),13,Phonographic Copyright (p),https://api.discogs.com/labels/272609
+7698087,272609,Polydor Ltd. (London),14,Copyright (c),https://api.discogs.com/labels/272609
+7698087,8742,PolyGram,8,Marketed By,https://api.discogs.com/labels/8742
+7698088,467664,Ludger Böckenhoff,13,Phonographic Copyright (p),https://api.discogs.com/labels/467664
+7698088,467664,Ludger Böckenhoff,14,Copyright (c),https://api.discogs.com/labels/467664
+7698088,333336,Tokyo Bunka Kaikan,23,Recorded At,https://api.discogs.com/labels/333336
+7698088,95386,Universal Edition,21,Published By,https://api.discogs.com/labels/95386
+7698095,502769,Фирма Грамзаписи Никитин,6,Licensed From,https://api.discogs.com/labels/502769
+7698095,408613,"Торговая Фирма ""Никитин""",9,Distributed By,https://api.discogs.com/labels/408613
+7698095,526663,"СП ""Київ-Євростар""",10,Manufactured By,https://api.discogs.com/labels/526663
+7698095,502769,Фирма Грамзаписи Никитин,13,Phonographic Copyright (p),https://api.discogs.com/labels/502769
+7698095,15185,WWW Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/15185
+7698095,615888,Warner-Barham Music LLC,14,Copyright (c),https://api.discogs.com/labels/615888
+7698097,271287,The Stooodio,29,Mastered At,https://api.discogs.com/labels/271287
+7698098,43089,Antenna Recordings,14,Copyright (c),https://api.discogs.com/labels/43089
+7698098,43089,Antenna Recordings,13,Phonographic Copyright (p),https://api.discogs.com/labels/43089
+7698103,371460,ЗеКо Рекордс,13,Phonographic Copyright (p),https://api.discogs.com/labels/371460
+7698104,1862040,"Luck, Texas, Inc.",14,Copyright (c),https://api.discogs.com/labels/1862040
+7698104,300781,Pedernales Studio,23,Recorded At,https://api.discogs.com/labels/300781
+7698104,289595,Terra Nova Digital Audio,29,Mastered At,https://api.discogs.com/labels/289595
+7698104,1862555,Rodgers & Hammerhead Publishing,21,Published By,https://api.discogs.com/labels/1862555
+7698104,357479,"Sony Tree Publishing Co., Inc.",21,Published By,https://api.discogs.com/labels/357479
+7698104,1828688,Clad Music,21,Published By,https://api.discogs.com/labels/1828688
+7698104,357478,"Full Nelson Music, Inc.",21,Published By,https://api.discogs.com/labels/357478
+9342953,87246,The Town House,23,Recorded At,https://api.discogs.com/labels/87246
+9342953,144306,Sprint Music,21,Published By,https://api.discogs.com/labels/144306
+9342953,19936,CBS Records,14,Copyright (c),https://api.discogs.com/labels/19936
+9342953,19936,CBS Records,9,Distributed By,https://api.discogs.com/labels/19936
+9342953,109547,CBS Disques S.A.,9,Distributed By,https://api.discogs.com/labels/109547
+9342954,87664,Play It Again Sam Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/87664
+9342954,87664,Play It Again Sam Records,14,Copyright (c),https://api.discogs.com/labels/87664
+9342954,244273,Pas Mal Publishing,21,Published By,https://api.discogs.com/labels/244273
+9342954,265726,Relief Studio,24,Engineered At,https://api.discogs.com/labels/265726
+9342954,296844,Kitsch Studios,26,Produced At,https://api.discogs.com/labels/296844
+9342954,296844,Kitsch Studios,28,Remixed At,https://api.discogs.com/labels/296844
+9342954,87246,The Town House,29,Mastered At,https://api.discogs.com/labels/87246
+9342954,267848,DADC Austria,17,Pressed By,https://api.discogs.com/labels/267848
+9342955,266058,Hyperion Records Limited,13,Phonographic Copyright (p),https://api.discogs.com/labels/266058
+9342955,266058,Hyperion Records Limited,14,Copyright (c),https://api.discogs.com/labels/266058
+9342955,316869,Muziekcentrum Frits Philips,23,Recorded At,https://api.discogs.com/labels/316869
+9342955,56025,MPO,16,Made By,https://api.discogs.com/labels/56025
+9342957,224529,Ruf Records GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/224529
+9342957,224529,Ruf Records GmbH,14,Copyright (c),https://api.discogs.com/labels/224529
+9342957,384133,"EDC, Germany",17,Pressed By,https://api.discogs.com/labels/384133
+9342957,701902,Tom Hambridge Tunes,21,Published By,https://api.discogs.com/labels/701902
+9342957,725032,Richard Fleming Music,21,Published By,https://api.discogs.com/labels/725032
+9342957,1024842,Little Big Beat Musikverlag,21,Published By,https://api.discogs.com/labels/1024842
+9342957,754329,Bad Love Music,21,Published By,https://api.discogs.com/labels/754329
+9342957,99115,"Jobete Music Co., Inc.",21,Published By,https://api.discogs.com/labels/99115
+9342957,352214,Rockin' Music,21,Published By,https://api.discogs.com/labels/352214
+9342957,363562,Modern Music Pub. Co.,21,Published By,https://api.discogs.com/labels/363562
+9342957,297663,Sound Stage Studios,23,Recorded At,https://api.discogs.com/labels/297663
+9342957,627712,The Switchyard,23,Recorded At,https://api.discogs.com/labels/627712
+9342957,627712,The Switchyard,27,Mixed At,https://api.discogs.com/labels/627712
+9342957,627712,The Switchyard,29,Mastered At,https://api.discogs.com/labels/627712
+9342960,269986,Decca Studios,29,Mastered At,https://api.discogs.com/labels/269986
+9342960,628145,"Decca Record Co. Ltd., Pressing Plant, UK.",17,Pressed By,https://api.discogs.com/labels/628145
+9342960,96171,The Decca Record Company Limited,16,Made By,https://api.discogs.com/labels/96171
+9342960,264337,MacNeill Press Ltd.,19,Printed By,https://api.discogs.com/labels/264337
+9342960,693809,Éditions De L'Oiseau-Lyre,14,Copyright (c),https://api.discogs.com/labels/693809
+9342960,48207,Copyright Control,21,Published By,https://api.discogs.com/labels/48207
+9342961,347950,Imprimerie Glory-Carpel,19,Printed By,https://api.discogs.com/labels/347950
+9342964,291321,"Teichiku Records Co., Ltd.",10,Manufactured By,https://api.discogs.com/labels/291321
+9342965,63666,Gnome Records,37,Produced For,https://api.discogs.com/labels/63666
+9342965,263885,Druco,19,Printed By,https://api.discogs.com/labels/263885
+9342968,353029,"SIB-Tryck AB, Farsta",19,Printed By,https://api.discogs.com/labels/353029
+9342971,286950,U.M.I.P.,13,Phonographic Copyright (p),https://api.discogs.com/labels/286950
+9342971,626304,"Eglise Réformée De L'Annonciation, Paris",23,Recorded At,https://api.discogs.com/labels/626304
+9342973,321214,Bunker Studio,23,Recorded At,https://api.discogs.com/labels/321214
+9342975,537723,Philips Records (N.Z.) Ltd.,10,Manufactured By,https://api.discogs.com/labels/537723
+9342975,537723,Philips Records (N.Z.) Ltd.,9,Distributed By,https://api.discogs.com/labels/537723
+9342975,443084,CELLO-KRAFT Ltd.,19,Printed By,https://api.discogs.com/labels/443084
+9342978,263916,Kingsway Hall,23,Recorded At,https://api.discogs.com/labels/263916
+9342978,269986,Decca Studios,29,Mastered At,https://api.discogs.com/labels/269986
+9342978,96171,The Decca Record Company Limited,14,Copyright (c),https://api.discogs.com/labels/96171
+9342978,264337,MacNeill Press Ltd.,19,Printed By,https://api.discogs.com/labels/264337
+9342979,430654,GZ Media,17,Pressed By,https://api.discogs.com/labels/430654
+9342979,2125,Tru Thoughts,13,Phonographic Copyright (p),https://api.discogs.com/labels/2125
+9342979,2125,Tru Thoughts,14,Copyright (c),https://api.discogs.com/labels/2125
+9342984,211334,CBS Inc.,14,Copyright (c),https://api.discogs.com/labels/211334
+9342984,211334,CBS Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/211334
+9342984,272650,Pink Floyd Music Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/272650
+9342984,93330,Columbia Records,10,Manufactured By,https://api.discogs.com/labels/93330
+9342984,211334,CBS Inc.,10,Manufactured By,https://api.discogs.com/labels/211334
+9342985,142609,EPM,13,Phonographic Copyright (p),https://api.discogs.com/labels/142609
+9342986,432366,Merak Music Production S.r.l.,37,Produced For,https://api.discogs.com/labels/432366
+9342986,663845,Sangy Productions,21,Published By,https://api.discogs.com/labels/663845
+9342986,429062,RO.TO. Record,19,Printed By,https://api.discogs.com/labels/429062
+9342986,390194,Studio Sound Milano,24,Engineered At,https://api.discogs.com/labels/390194
+9342986,390194,Studio Sound Milano,23,Recorded At,https://api.discogs.com/labels/390194
+9342986,278123,Elettroformati,29,Mastered At,https://api.discogs.com/labels/278123
+9342987,291843,Československá Televize Praha,23,Recorded At,https://api.discogs.com/labels/291843
+9342987,256979,Československý Rozhlas,23,Recorded At,https://api.discogs.com/labels/256979
+9342987,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+9342987,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+9342990,28169,Amadeo,13,Phonographic Copyright (p),https://api.discogs.com/labels/28169
+9342990,28169,Amadeo,14,Copyright (c),https://api.discogs.com/labels/28169
+9342994,524785,Simple Minds Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/524785
+9342994,524785,Simple Minds Ltd.,14,Copyright (c),https://api.discogs.com/labels/524785
+9342994,674471,Caroline International,7,Licensed Through,https://api.discogs.com/labels/674471
+9342994,408323,BMG Rights Management (UK) Limited,21,Published By,https://api.discogs.com/labels/408323
+9342994,264150,Universal Music Publishing Ltd.,21,Published By,https://api.discogs.com/labels/264150
+9342994,266869,MCA Music Ltd.,21,Published By,https://api.discogs.com/labels/266869
+9342994,575788,Gorbals Sound,23,Recorded At,https://api.discogs.com/labels/575788
+9342994,266460,Southwest Studios,23,Recorded At,https://api.discogs.com/labels/266460
+9342994,266460,Southwest Studios,27,Mixed At,https://api.discogs.com/labels/266460
+9342994,310452,La Source Mastering,29,Mastered At,https://api.discogs.com/labels/310452
+9342994,384133,"EDC, Germany",16,Made By,https://api.discogs.com/labels/384133
+9342995,269709,Fascination Street Studios,29,Mastered At,https://api.discogs.com/labels/269709
+9342996,193066,Gravações Elétricas S.A.,10,Manufactured By,https://api.discogs.com/labels/193066
+9342997,313190,Optimal Media GmbH,10,Manufactured By,https://api.discogs.com/labels/313190
+9342997,154122,Crosscut Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/154122
+9342997,690727,KOKA Studios,23,Recorded At,https://api.discogs.com/labels/690727
+9342997,1439484,CrossCut Publishing,21,Published By,https://api.discogs.com/labels/1439484
+9343000,265523,Carlin Music Corp.,21,Published By,https://api.discogs.com/labels/265523
+9343000,211334,CBS Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/211334
+9343000,19936,CBS Records,9,Distributed By,https://api.discogs.com/labels/19936
+9343000,19936,CBS Records,5,Licensed To,https://api.discogs.com/labels/19936
+9343008,270393,Sackville Productions Ltd.,14,Copyright (c),https://api.discogs.com/labels/270393
+9343008,270393,Sackville Productions Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/270393
+9343008,679661,British Rocket Music Publishing Co.,21,Published By,https://api.discogs.com/labels/679661
+9343008,273388,Arc Music Corp.,21,Published By,https://api.discogs.com/labels/273388
+9343008,63704,"MCA Records, Inc.",14,Copyright (c),https://api.discogs.com/labels/63704
+9343008,63704,"MCA Records, Inc.",10,Manufactured By,https://api.discogs.com/labels/63704
+9343008,254254,Allen Zentz Mastering,29,Mastered At,https://api.discogs.com/labels/254254
+9343008,314985,"MCA Pressing Plant, Gloversville",17,Pressed By,https://api.discogs.com/labels/314985
+9343010,267848,DADC Austria,17,Pressed By,https://api.discogs.com/labels/267848
+9343010,244273,Pas Mal Publishing,21,Published By,https://api.discogs.com/labels/244273
+9343010,87664,Play It Again Sam Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/87664
+9343010,87664,Play It Again Sam Records,14,Copyright (c),https://api.discogs.com/labels/87664
+9343010,265733,ICP Recording Studios,23,Recorded At,https://api.discogs.com/labels/265733
+9343013,272999,Jamaica Recording Studio,9,Distributed By,https://api.discogs.com/labels/272999
+9343015,337034,Ahoy Rotterdam,23,Recorded At,https://api.discogs.com/labels/337034
+9343015,1097733,Masterclaudel Ltd.,5,Licensed To,https://api.discogs.com/labels/1097733
+9343017,25407,Bell Records,6,Licensed From,https://api.discogs.com/labels/25407
+9343017,73924,Polydor International,7,Licensed Through,https://api.discogs.com/labels/73924
+9343017,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+9343017,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+9343018,91504,Pirates Press,10,Manufactured By,https://api.discogs.com/labels/91504
+9343018,430654,GZ Media,17,Pressed By,https://api.discogs.com/labels/430654
+9343018,587842,Pandemonium Studios,23,Recorded At,https://api.discogs.com/labels/587842
+9343018,587842,Pandemonium Studios,26,Produced At,https://api.discogs.com/labels/587842
+9343018,587842,Pandemonium Studios,27,Mixed At,https://api.discogs.com/labels/587842
+9343021,303809,"Frank Sinatra Enterprises, LLC",13,Phonographic Copyright (p),https://api.discogs.com/labels/303809
+9343021,303809,"Frank Sinatra Enterprises, LLC",14,Copyright (c),https://api.discogs.com/labels/303809
+9343021,384133,"EDC, Germany",16,Made By,https://api.discogs.com/labels/384133
+9343022,334960,Minos-EMI S.A.,13,Phonographic Copyright (p),https://api.discogs.com/labels/334960
+9343022,334960,Minos-EMI S.A.,14,Copyright (c),https://api.discogs.com/labels/334960
+9343022,112315,Fabelsound,10,Manufactured By,https://api.discogs.com/labels/112315
+9343028,651466,Fireball Records AS,4,Record Company,https://api.discogs.com/labels/651466
+9343031,44531,Ariola Eurodisc GmbH,4,Record Company,https://api.discogs.com/labels/44531
+9343031,904,A&M Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/904
+9343031,53506,Dark Horse Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/53506
+9343031,1747341,Clog Music,21,Published By,https://api.discogs.com/labels/1747341
+9343031,95728,Sonopress,17,Pressed By,https://api.discogs.com/labels/95728
+9343032,311379,Jacomo Music Edizioni Musicali S.r.l.,14,Copyright (c),https://api.discogs.com/labels/311379
+9343032,101951,Time S.r.l.,13,Phonographic Copyright (p),https://api.discogs.com/labels/101951
+9343033,431546,Ubu Projex,13,Phonographic Copyright (p),https://api.discogs.com/labels/431546
+9343033,431546,Ubu Projex,14,Copyright (c),https://api.discogs.com/labels/431546
+9343033,275839,"Universal Music & Video Distribution, Inc.",9,Distributed By,https://api.discogs.com/labels/275839
+9343033,287685,Suma Recording Studio,23,Recorded At,https://api.discogs.com/labels/287685
+9343033,370911,Cleveland Recording,23,Recorded At,https://api.discogs.com/labels/370911
+9343034,142409,"Mercury Music Entertainment Co., Ltd.",10,Manufactured By,https://api.discogs.com/labels/142409
+9343034,142409,"Mercury Music Entertainment Co., Ltd.",9,Distributed By,https://api.discogs.com/labels/142409
+9343034,264864,PolyGram GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/264864
+9343035,540386,"ООО ""Инновационные Технологии""",10,Manufactured By,https://api.discogs.com/labels/540386
+9343037,101951,TIME S.r.l.,4,Record Company,https://api.discogs.com/labels/101951
+9343037,101951,TIME S.r.l.,13,Phonographic Copyright (p),https://api.discogs.com/labels/101951
+9343037,311379,Jacomo Music Edizioni Musicali S.r.l.,14,Copyright (c),https://api.discogs.com/labels/311379
+9343037,311379,Jacomo Music Edizioni Musicali S.r.l.,21,Published By,https://api.discogs.com/labels/311379
+9343040,17725,Dischi Ricordi S.p.A.,9,Distributed By,https://api.discogs.com/labels/17725
+9343040,636,Mute Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/636
+9343040,636,Mute Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/636
+9343040,272750,Dying Art Ltd.,14,Copyright (c),https://api.discogs.com/labels/272750
+9343040,272750,Dying Art Ltd.,21,Published By,https://api.discogs.com/labels/272750
+9343040,288766,Dimehart Ltd,21,Published By,https://api.discogs.com/labels/288766
+9343040,21699,Freibank,21,Published By,https://api.discogs.com/labels/21699
+9343040,284476,Cardan Studios,23,Recorded At,https://api.discogs.com/labels/284476
+9343040,286237,Tritonus Tonstudio,27,Mixed At,https://api.discogs.com/labels/286237
+9343042,27426,Warner-Pioneer Corporation,10,Manufactured By,https://api.discogs.com/labels/27426
+9343042,1255,WEA International Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/1255
+9343042,90718,Warner Bros. Records Inc.,14,Copyright (c),https://api.discogs.com/labels/90718
+9343046,111594,TIME (2),37,Produced For,https://api.discogs.com/labels/111594
+9343046,101951,Time S.r.l.,13,Phonographic Copyright (p),https://api.discogs.com/labels/101951
+9343046,311379,Jacomo Music Edizioni Musicali S.r.l.,21,Published By,https://api.discogs.com/labels/311379
+9343047,29073,Sony Music Entertainment,4,Record Company,https://api.discogs.com/labels/29073
+9343047,33768,Sony Music Entertainment (UK) Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/33768
+9343047,33768,Sony Music Entertainment (UK) Ltd.,14,Copyright (c),https://api.discogs.com/labels/33768
+9343049,90718,Warner Bros. Records Inc.,4,Record Company,https://api.discogs.com/labels/90718
+9343049,90718,Warner Bros. Records Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/90718
+9343049,90718,Warner Bros. Records Inc.,14,Copyright (c),https://api.discogs.com/labels/90718
+9343049,285104,Devo Music,21,Published By,https://api.discogs.com/labels/285104
+9343049,299603,"Nymph Music, Inc.",21,Published By,https://api.discogs.com/labels/299603
+9343049,313656,"Capitol Records Pressing Plant, Winchester",17,Pressed By,https://api.discogs.com/labels/313656
+9343049,336174,The Warfield,23,Recorded At,https://api.discogs.com/labels/336174
+9343049,599942,Wizard Recorders,27,Mixed At,https://api.discogs.com/labels/599942
+9343049,265641,Capitol Mastering,29,Mastered At,https://api.discogs.com/labels/265641
+9343051,264766,Garrod & Lofthouse,19,Printed By,https://api.discogs.com/labels/264766
+9343051,264766,Garrod & Lofthouse,16,Made By,https://api.discogs.com/labels/264766
+9343051,124959,Lyrita Recorded Edition,13,Phonographic Copyright (p),https://api.discogs.com/labels/124959
+9343051,124959,Lyrita Recorded Edition,14,Copyright (c),https://api.discogs.com/labels/124959
+9343051,126078,Oxford University Press,21,Published By,https://api.discogs.com/labels/126078
+9343051,936454,Curwen,21,Published By,https://api.discogs.com/labels/936454
+9343051,285638,Novello,21,Published By,https://api.discogs.com/labels/285638
+9343052,265540,"Record Plant, N.Y.C.",23,Recorded At,https://api.discogs.com/labels/265540
+9343053,268035,John Mellencamp,13,Phonographic Copyright (p),https://api.discogs.com/labels/268035
+9343053,268035,John Mellencamp,14,Copyright (c),https://api.discogs.com/labels/268035
+9343053,23089,PolyGram Records,10,Manufactured By,https://api.discogs.com/labels/23089
+9343053,23089,PolyGram Records,8,Marketed By,https://api.discogs.com/labels/23089
+9343053,23089,PolyGram Records,5,Licensed To,https://api.discogs.com/labels/23089
+9343059,601196,OctoberXart Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/601196
+9343059,601196,OctoberXart Records,14,Copyright (c),https://api.discogs.com/labels/601196
+9343060,379289,Anne Sylvestre,13,Phonographic Copyright (p),https://api.discogs.com/labels/379289
+9343060,3304,Barclay,9,Distributed By,https://api.discogs.com/labels/3304
+9343060,316249,Studio Eta Gaffinel,23,Recorded At,https://api.discogs.com/labels/316249
+9343060,49930,Arabella,9,Distributed By,https://api.discogs.com/labels/49930
+9343060,279068,Studio E.T.A.,23,Recorded At,https://api.discogs.com/labels/279068
+9343067,13923,Self Abuse Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/13923
+9343067,13923,Self Abuse Records,14,Copyright (c),https://api.discogs.com/labels/13923
+9343067,1099779,Philosophers Of Darkness,13,Phonographic Copyright (p),https://api.discogs.com/labels/1099779
+9343067,932496,Chamber Of The Lost Souls Studios,14,Copyright (c),https://api.discogs.com/labels/932496
+9343067,13923,Self Abuse Records,6,Licensed From,https://api.discogs.com/labels/13923
+9343067,420508,Skin Crime Archive,13,Phonographic Copyright (p),https://api.discogs.com/labels/420508
+9343067,410937,Tapeline,18,Duplicated By,https://api.discogs.com/labels/410937
+9343067,847185,"The Cellar Studio, Sweden",23,Recorded At,https://api.discogs.com/labels/847185
+9343070,1097733,Masterclaudel Ltd.,5,Licensed To,https://api.discogs.com/labels/1097733
+9343070,351779,"Olympen, Lund",23,Recorded At,https://api.discogs.com/labels/351779
+9343070,353259,Gröna Lund,23,Recorded At,https://api.discogs.com/labels/353259
+11058779,445676,Snmi,21,Published By,https://api.discogs.com/labels/445676
+11058779,7783,Flarenasch,13,Phonographic Copyright (p),https://api.discogs.com/labels/7783
+11058780,63404,EMI Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/63404
+11058780,63404,EMI Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/63404
+11058780,784048,Optimal Media Production (2),10,Manufactured By,https://api.discogs.com/labels/784048
+11058780,26126,EMI,8,Marketed By,https://api.discogs.com/labels/26126
+11058780,26126,EMI,9,Distributed By,https://api.discogs.com/labels/26126
+11058780,115653,Sony / ATV Music Publishing,21,Published By,https://api.discogs.com/labels/115653
+11058780,292238,Shapiro Bernstein,21,Published By,https://api.discogs.com/labels/292238
+11058780,265460,EMI Music Publishing Ltd.,21,Published By,https://api.discogs.com/labels/265460
+11058780,294416,Ardmore & Beechwood Ltd.,21,Published By,https://api.discogs.com/labels/294416
+11058780,264150,Universal Music Publishing Ltd.,21,Published By,https://api.discogs.com/labels/264150
+11058780,266412,Dick James Music Ltd.,21,Published By,https://api.discogs.com/labels/266412
+11058780,109762,MPL Communications Ltd.,21,Published By,https://api.discogs.com/labels/109762
+11058780,306856,Windswept Music (London) Ltd.,21,Published By,https://api.discogs.com/labels/306856
+11058780,298537,EMI United Partnership Ltd.,21,Published By,https://api.discogs.com/labels/298537
+11058780,340423,Ambassador Music Ltd.,21,Published By,https://api.discogs.com/labels/340423
+11058780,407823,Songfest Music Corp.,21,Published By,https://api.discogs.com/labels/407823
+11058780,281871,Sony/ATV Music Publishing (UK) Ltd.,21,Published By,https://api.discogs.com/labels/281871
+11058780,172308,Jobete Music (UK) Ltd.,21,Published By,https://api.discogs.com/labels/172308
+11058780,288811,Jewel Music Publishing Co. Ltd.,21,Published By,https://api.discogs.com/labels/288811
+11058780,301796,Universal/MCA Music Ltd.,21,Published By,https://api.discogs.com/labels/301796
+11058780,266870,BMG Music Publishing Ltd.,21,Published By,https://api.discogs.com/labels/266870
+11058780,310386,Peter Maurice,21,Published By,https://api.discogs.com/labels/310386
+11058780,301103,Peermusic (UK) Ltd,21,Published By,https://api.discogs.com/labels/301103
+11058780,291701,Knox Music Ltd.,21,Published By,https://api.discogs.com/labels/291701
+11058780,281074,Lark Music Ltd.,21,Published By,https://api.discogs.com/labels/281074
+11058780,279286,Harrisongs Ltd.,21,Published By,https://api.discogs.com/labels/279286
+11058780,280518,Universal Music Publishing MGB Ltd.,21,Published By,https://api.discogs.com/labels/280518
+11058780,353393,Startling Music Ltd.,21,Published By,https://api.discogs.com/labels/353393
+11058780,263775,Warner/Chappell Music Ltd.,21,Published By,https://api.discogs.com/labels/263775
+11058780,273106,Eaton Music Ltd.,21,Published By,https://api.discogs.com/labels/273106
+11058780,265523,Carlin Music Corp.,21,Published By,https://api.discogs.com/labels/265523
+11058780,274057,EMI Studios,23,Recorded At,https://api.discogs.com/labels/274057
+11058780,284702,Pathé-Marconi Studios,23,Recorded At,https://api.discogs.com/labels/284702
+11058780,273895,Regent Sound Studios,23,Recorded At,https://api.discogs.com/labels/273895
+11058780,218698,Trident Studios,23,Recorded At,https://api.discogs.com/labels/218698
+11058780,408204,Twickenham Film Studios,23,Recorded At,https://api.discogs.com/labels/408204
+11058780,268136,De Lane Lea Studios,25,Overdubbed At,https://api.discogs.com/labels/268136
+11058783,386831,Arianna,42,Exclusive Retailer,https://api.discogs.com/labels/386831
+11058783,189526,Arnoldo Mondadori Editore,21,Published By,https://api.discogs.com/labels/189526
+11058785,63404,EMI Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/63404
+11058785,63404,EMI Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/63404
+11058785,210403,"ООО ""Парадиз""",10,Manufactured By,https://api.discogs.com/labels/210403
+11058785,238189,ООО «Формат»,16,Made By,https://api.discogs.com/labels/238189
+11058787,74446,"A&M Records, Inc.",14,Copyright (c),https://api.discogs.com/labels/74446
+11058789,269573,Polydor of India Ltd.,10,Manufactured By,https://api.discogs.com/labels/269573
+11058789,269573,Polydor of India Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/269573
+11058793,956941,Sparks & Shadows LLC,13,Phonographic Copyright (p),https://api.discogs.com/labels/956941
+11058793,956941,Sparks & Shadows LLC,14,Copyright (c),https://api.discogs.com/labels/956941
+11058793,1020942,Bear McCreary Music,21,Published By,https://api.discogs.com/labels/1020942
+11058793,165472,Disc Makers,17,Pressed By,https://api.discogs.com/labels/165472
+11058794,295136,Winterland,23,Recorded At,https://api.discogs.com/labels/295136
+11058794,563633,Marin County Civic Center,23,Recorded At,https://api.discogs.com/labels/563633
+11058794,563634,Island Music Center,23,Recorded At,https://api.discogs.com/labels/563634
+11058794,563632,"State University Of New York, Plattsburgh",23,Recorded At,https://api.discogs.com/labels/563632
+11058794,304325,"Record Plant, Sausalito",23,Recorded At,https://api.discogs.com/labels/304325
+11058794,267980,Electric Lady Studios,28,Remixed At,https://api.discogs.com/labels/267980
+11058794,186075,The Mastering Lab,29,Mastered At,https://api.discogs.com/labels/186075
+11058794,333071,Back Stage Studio,27,Mixed At,https://api.discogs.com/labels/333071
+11058794,265594,Gateway Mastering,35,Remastered At,https://api.discogs.com/labels/265594
+11058794,23694,Universal Music,10,Manufactured By,https://api.discogs.com/labels/23694
+11058794,23694,Universal Music,9,Distributed By,https://api.discogs.com/labels/23694
+11058794,264131,Cinram,17,Pressed By,https://api.discogs.com/labels/264131
+11058796,56025,MPO,17,Pressed By,https://api.discogs.com/labels/56025
+11058796,158759,The Exchange,29,Mastered At,https://api.discogs.com/labels/158759
+11058803,575872,"The Basement, Cologne",23,Recorded At,https://api.discogs.com/labels/575872
+11058806,370768,Avex Marketing Communications Inc.,10,Manufactured By,https://api.discogs.com/labels/370768
+11058806,467175,Icezone Music GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/467175
+11058806,467175,Icezone Music GmbH,14,Copyright (c),https://api.discogs.com/labels/467175
+11058809,47054,Spiegelei,13,Phonographic Copyright (p),https://api.discogs.com/labels/47054
+11058809,71234,Intercord,13,Phonographic Copyright (p),https://api.discogs.com/labels/71234
+11058809,108193,EMI Electrola GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/108193
+11058809,47054,Spiegelei,14,Copyright (c),https://api.discogs.com/labels/47054
+11058809,71234,Intercord,14,Copyright (c),https://api.discogs.com/labels/71234
+11058809,108193,EMI Electrola GmbH,14,Copyright (c),https://api.discogs.com/labels/108193
+11058809,293177,"Studio 70, Munich",23,Recorded At,https://api.discogs.com/labels/293177
+11058809,293774,Railroad Tracks,35,Remastered At,https://api.discogs.com/labels/293774
+11058809,275005,Mediamotion,17,Pressed By,https://api.discogs.com/labels/275005
+11058809,26126,EMI,8,Marketed By,https://api.discogs.com/labels/26126
+11058809,26126,EMI,9,Distributed By,https://api.discogs.com/labels/26126
+11058809,294921,Edition Eurocord,21,Published By,https://api.discogs.com/labels/294921
+11058812,195489,FONO Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/195489
+11058812,34782,AFM Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/34782
+11058812,34782,AFM Records,14,Copyright (c),https://api.discogs.com/labels/34782
+11058812,34782,AFM Records,6,Licensed From,https://api.discogs.com/labels/34782
+11058812,540386,"ООО ""Инновационные Технологии""",17,Pressed By,https://api.discogs.com/labels/540386
+11058814,1365961,Atose Records,9,Distributed By,https://api.discogs.com/labels/1365961
+11058814,1438323,Peter Okoloba Design Association,19,Printed By,https://api.discogs.com/labels/1438323
+11058814,951965,"Polygram Studio, Ikeja, Lagos",23,Recorded At,https://api.discogs.com/labels/951965
+11058814,1438323,Peter Okoloba Design Association,33,Designed At,https://api.discogs.com/labels/1438323
+11058816,26831,London Records 90 Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/26831
+11058816,26831,London Records 90 Ltd.,14,Copyright (c),https://api.discogs.com/labels/26831
+11058817,8580,Attic Records Limited,6,Licensed From,https://api.discogs.com/labels/8580
+11058817,8580,Attic Records Limited,13,Phonographic Copyright (p),https://api.discogs.com/labels/8580
+11058817,8580,Attic Records Limited,14,Copyright (c),https://api.discogs.com/labels/8580
+11058817,8184,"Alfa Records, Inc",10,Manufactured By,https://api.discogs.com/labels/8184
+11058817,27426,Warner-Pioneer Corporation,9,Distributed By,https://api.discogs.com/labels/27426
+11058819,444324,StarDelta Audio Mastering,29,Mastered At,https://api.discogs.com/labels/444324
+11058819,959148,Jacknife,33,Designed At,https://api.discogs.com/labels/959148
+11058822,104218,"Ultra-Vybe, Inc.",9,Distributed By,https://api.discogs.com/labels/104218
+11058822,104218,"Ultra-Vybe, Inc.",10,Manufactured By,https://api.discogs.com/labels/104218
+11058822,104218,"Ultra-Vybe, Inc.",13,Phonographic Copyright (p),https://api.discogs.com/labels/104218
+11058822,115707,Turntable Troopers Entertainment,13,Phonographic Copyright (p),https://api.discogs.com/labels/115707
+11058822,104218,"Ultra-Vybe, Inc.",14,Copyright (c),https://api.discogs.com/labels/104218
+11058822,115707,Turntable Troopers Entertainment,14,Copyright (c),https://api.discogs.com/labels/115707
+11058822,1362184,Studio Dollar Mark,23,Recorded At,https://api.discogs.com/labels/1362184
+11058824,286253,Avex Marketing Inc.,10,Manufactured By,https://api.discogs.com/labels/286253
+11058824,170891,Avex Entertainment Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/170891
+11058824,170891,Avex Entertainment Inc.,14,Copyright (c),https://api.discogs.com/labels/170891
+11058825,130581,Aural Music,9,Distributed By,https://api.discogs.com/labels/130581
+11058825,31449,Audioglobe,9,Distributed By,https://api.discogs.com/labels/31449
+11058825,96109,SPV GmbH,9,Distributed By,https://api.discogs.com/labels/96109
+11058825,335594,Code 7,9,Distributed By,https://api.discogs.com/labels/335594
+11058825,9923,PHD,9,Distributed By,https://api.discogs.com/labels/9923
+11058825,46796,My Kingdom Music,13,Phonographic Copyright (p),https://api.discogs.com/labels/46796
+11058825,46796,My Kingdom Music,14,Copyright (c),https://api.discogs.com/labels/46796
+11058825,490244,Draconia Studio,23,Recorded At,https://api.discogs.com/labels/490244
+11058825,490244,Draconia Studio,24,Engineered At,https://api.discogs.com/labels/490244
+11058825,1372248,Cut Fire Studio,36,Edited At,https://api.discogs.com/labels/1372248
+11058825,316027,Domination Studio,29,Mastered At,https://api.discogs.com/labels/316027
+11058826,273380,Page One Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/273380
+11058826,4756,Repertoire Records,14,Copyright (c),https://api.discogs.com/labels/4756
+11058827,486331,Nippon Seinen-kan Hall,23,Recorded At,https://api.discogs.com/labels/486331
+11058827,319279,Tamco Studio,27,Mixed At,https://api.discogs.com/labels/319279
+11058827,1362501,W-Design Communication Inc.,33,Designed At,https://api.discogs.com/labels/1362501
+11058827,608171,Sound Man,21,Published By,https://api.discogs.com/labels/608171
+11058827,572946,Scitron & Art Inc.,37,Produced For,https://api.discogs.com/labels/572946
+11058827,1363642,Data East,14,Copyright (c),https://api.discogs.com/labels/1363642
+11058827,237014,Sega,14,Copyright (c),https://api.discogs.com/labels/237014
+11058827,27418,Capcom,14,Copyright (c),https://api.discogs.com/labels/27418
+11058827,711917,Taito Corporation,14,Copyright (c),https://api.discogs.com/labels/711917
+11058828,25487,Sony Music,9,Distributed By,https://api.discogs.com/labels/25487
+11058828,287138,Avery Fisher Hall,23,Recorded At,https://api.discogs.com/labels/287138
+11058831,211334,CBS Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/211334
+11058836,281597,Kölnische Verlagsdruckerei GmbH,19,Printed By,https://api.discogs.com/labels/281597
+11058840,1090396,"ATOM Records, LLC",14,Copyright (c),https://api.discogs.com/labels/1090396
+11058840,1090396,"ATOM Records, LLC",13,Phonographic Copyright (p),https://api.discogs.com/labels/1090396
+11058849,332599,"ABC-Paramount Records, Inc.",4,Record Company,https://api.discogs.com/labels/332599
+11058849,69315,Vega,21,Published By,https://api.discogs.com/labels/69315
+11058850,95046,Valentim De Carvalho,10,Manufactured By,https://api.discogs.com/labels/95046
+11058850,95046,Valentim De Carvalho,9,Distributed By,https://api.discogs.com/labels/95046
+11058855,224498,King Record Co. Ltd,13,Phonographic Copyright (p),https://api.discogs.com/labels/224498
+11058857,796495,L.A.T.A.S. - Sensarric - Les Lilas,19,Printed By,https://api.discogs.com/labels/796495
+11058858,11358,RCA Victor,13,Phonographic Copyright (p),https://api.discogs.com/labels/11358
+11058858,216245,Montreuil Offset,19,Printed By,https://api.discogs.com/labels/216245
+11058863,157,Reprise Records,8,Marketed By,https://api.discogs.com/labels/157
+11058863,1682,Sire Records Company,13,Phonographic Copyright (p),https://api.discogs.com/labels/1682
+11058863,1255,WEA International Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/1255
+11058863,1682,Sire Records Company,14,Copyright (c),https://api.discogs.com/labels/1682
+11058863,43012,WEA Musik GmbH,16,Made By,https://api.discogs.com/labels/43012
+11058863,503903,Studio Adouaa Al Madina,23,Recorded At,https://api.discogs.com/labels/503903
+11058863,503902,Mobile Exil Studios,23,Recorded At,https://api.discogs.com/labels/503902
+11058863,503904,Studio Golam,23,Recorded At,https://api.discogs.com/labels/503904
+11058863,503905,Global Conspiracy Studios,23,Recorded At,https://api.discogs.com/labels/503905
+11058863,286426,Brunwey Studios,23,Recorded At,https://api.discogs.com/labels/286426
+11058863,271712,HAM Audio,29,Mastered At,https://api.discogs.com/labels/271712
+11058863,1255,WEA International Inc.,14,Copyright (c),https://api.discogs.com/labels/1255
+11058863,27426,Warner-Pioneer Corporation,16,Made By,https://api.discogs.com/labels/27426
+11058864,108132,TELDEC »Telefunken-Decca« Schallplatten GmbH,10,Manufactured By,https://api.discogs.com/labels/108132
+11058877,56025,MPO,17,Pressed By,https://api.discogs.com/labels/56025
+11058877,505692,Ten Eight Seven Mastering,29,Mastered At,https://api.discogs.com/labels/505692
+11058882,238189,ООО «Формат»,10,Manufactured By,https://api.discogs.com/labels/238189
+11058885,681,Atlantic,13,Phonographic Copyright (p),https://api.discogs.com/labels/681
+11058885,23937,Atlantic Recording Corporation,13,Phonographic Copyright (p),https://api.discogs.com/labels/23937
+11058885,23937,Atlantic Recording Corporation,14,Copyright (c),https://api.discogs.com/labels/23937
+11058885,552180,Warner Communications,4,Record Company,https://api.discogs.com/labels/552180
+11058885,1003205,Fox-Gimbel Productions,21,Published By,https://api.discogs.com/labels/1003205
+11058885,288505,Scarab Publishing Corp.,21,Published By,https://api.discogs.com/labels/288505
+11058885,264509,Ensign Music Corp.,21,Published By,https://api.discogs.com/labels/264509
+11058885,271521,Screen Gems-EMI Music Inc.,21,Published By,https://api.discogs.com/labels/271521
+11058885,328062,Skyforest Music,21,Published By,https://api.discogs.com/labels/328062
+11058885,349319,Antisia Music,21,Published By,https://api.discogs.com/labels/349319
+11058885,1034020,Stormking Music,21,Published By,https://api.discogs.com/labels/1034020
+11058885,284411,Scarab Music,21,Published By,https://api.discogs.com/labels/284411
+11058885,99115,"Jobete Music Co., Inc.",21,Published By,https://api.discogs.com/labels/99115
+11058885,264761,Stone Diamond Music Corp.,21,Published By,https://api.discogs.com/labels/264761
+11058885,1261331,Big Hill Music Co.,21,Published By,https://api.discogs.com/labels/1261331
+11058885,280444,Frank Music (2),21,Published By,https://api.discogs.com/labels/280444
+11058885,602274,Digitpress,19,Printed By,https://api.discogs.com/labels/602274
+11058893,150337,Metal Blade Records Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/150337
+11058893,150337,Metal Blade Records Inc.,14,Copyright (c),https://api.discogs.com/labels/150337
+11058894,1388330,Egotistic Publishing,21,Published By,https://api.discogs.com/labels/1388330
+11058894,264352,DADC,17,Pressed By,https://api.discogs.com/labels/264352
+11058900,162054,"Victor Musical Industries, Inc.",10,Manufactured By,https://api.discogs.com/labels/162054
+11058900,1423082,"Gold Castle Records, Ltd.",6,Licensed From,https://api.discogs.com/labels/1423082
+11058902,291221,DeinKlang,29,Mastered At,https://api.discogs.com/labels/291221
+11058905,37556,BASF,9,Distributed By,https://api.discogs.com/labels/37556
+11058906,654,Capitol Records,10,Manufactured By,https://api.discogs.com/labels/654
+11058906,313252,"Capitol Records Pressing Plant, Scranton",17,Pressed By,https://api.discogs.com/labels/313252
+12645389,268464,"Coral Records, Inc.",10,Manufactured By,https://api.discogs.com/labels/268464
+12645390,299336,"Babygrande Records, Inc.",13,Phonographic Copyright (p),https://api.discogs.com/labels/299336
+12645390,299336,"Babygrande Records, Inc.",14,Copyright (c),https://api.discogs.com/labels/299336
+12645391,681762,Sony Music Labels Inc.,10,Manufactured By,https://api.discogs.com/labels/681762
+12645398,318620,D.C.D.,16,Made By,https://api.discogs.com/labels/318620
+12645398,323212,Selected Sound Carrier,9,Distributed By,https://api.discogs.com/labels/323212
+12645398,283303,San Juan Music Group,6,Licensed From,https://api.discogs.com/labels/283303
+12645398,23769,Selected Sound Carrier AG,13,Phonographic Copyright (p),https://api.discogs.com/labels/23769
+12645401,263919,Dockside Studio,23,Recorded At,https://api.discogs.com/labels/263919
+12645401,263919,Dockside Studio,27,Mixed At,https://api.discogs.com/labels/263919
+12645401,877932,"Reeltime Studios, Savannah, GA",23,Recorded At,https://api.discogs.com/labels/877932
+12645401,538287,Sound Bunker,29,Mastered At,https://api.discogs.com/labels/538287
+12645401,681762,Sony Music Labels Inc.,10,Manufactured By,https://api.discogs.com/labels/681762
+12645408,48983,Rainbow Music Group,16,Made By,https://api.discogs.com/labels/48983
+12645408,199939,Rainbow Products Limited,4,Record Company,https://api.discogs.com/labels/199939
+12645408,271592,Wally Heider Studios,23,Recorded At,https://api.discogs.com/labels/271592
+12645410,576080,Dureco Weesp,9,Distributed By,https://api.discogs.com/labels/576080
+12645414,93330,Columbia Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/93330
+12645414,29073,Sony Music Entertainment,9,Distributed By,https://api.discogs.com/labels/29073
+12645414,93330,Columbia Records,14,Copyright (c),https://api.discogs.com/labels/93330
+12645417,129094,Optimal Media Production,10,Manufactured By,https://api.discogs.com/labels/129094
+12645417,49990,Silversonic Records,5,Licensed To,https://api.discogs.com/labels/49990
+12645417,388301,H'Art Musik-Vertrieb GmbH,9,Distributed By,https://api.discogs.com/labels/388301
+12645417,459763,Influx Studios,23,Recorded At,https://api.discogs.com/labels/459763
+12645417,624498,Château De Justiniac,23,Recorded At,https://api.discogs.com/labels/624498
+12645417,624499,Züriwest Studios,23,Recorded At,https://api.discogs.com/labels/624499
+12645417,459763,Influx Studios,27,Mixed At,https://api.discogs.com/labels/459763
+12645417,275864,Basel City Studios,27,Mixed At,https://api.discogs.com/labels/275864
+12645417,917005,"Livingroom Studio, Bern",29,Mastered At,https://api.discogs.com/labels/917005
+12645419,1533407,"Studio Aldo Russo, Chieri",23,Recorded At,https://api.discogs.com/labels/1533407
+12645420,182870,G.T. Music Distribution,9,Distributed By,https://api.discogs.com/labels/182870
+12645420,447948,Andromeda Relix,14,Copyright (c),https://api.discogs.com/labels/447948
+12645420,447948,Andromeda Relix,13,Phonographic Copyright (p),https://api.discogs.com/labels/447948
+12645420,1662087,Blut Und Boden Studio,23,Recorded At,https://api.discogs.com/labels/1662087
+12645420,1662085,East Land Studio,27,Mixed At,https://api.discogs.com/labels/1662085
+12645420,1662085,East Land Studio,29,Mastered At,https://api.discogs.com/labels/1662085
+12645420,1662086,Arte Video snc,18,Duplicated By,https://api.discogs.com/labels/1662086
+12645420,1662086,Arte Video snc,19,Printed By,https://api.discogs.com/labels/1662086
+12645421,122792,Universal Music K.K.,8,Marketed By,https://api.discogs.com/labels/122792
+12645421,122792,Universal Music K.K.,9,Distributed By,https://api.discogs.com/labels/122792
+12645424,737235,Archeo Recordings,5,Licensed To,https://api.discogs.com/labels/737235
+12645424,69613,R.A.N.D. Muzik,17,Pressed By,https://api.discogs.com/labels/69613
+12645443,563997,Parlophone Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/563997
+12645443,281591,"Jones/Tintoretto Entertainment Co., LLC",14,Copyright (c),https://api.discogs.com/labels/281591
+12645443,563997,Parlophone Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/563997
+12645443,313190,Optimal Media GmbH,10,Manufactured By,https://api.discogs.com/labels/313190
+12645443,2345,Warner Music Group,4,Record Company,https://api.discogs.com/labels/2345
+12645443,292336,Air Mastering,29,Mastered At,https://api.discogs.com/labels/292336
+12645443,292336,Air Mastering,35,Remastered At,https://api.discogs.com/labels/292336
+12645445,311902,Lawrence Wright Music Co. Ltd.,21,Published By,https://api.discogs.com/labels/311902
+12645445,273333,Chappell & Co. Ltd.,21,Published By,https://api.discogs.com/labels/273333
+12645445,253617,The Gramophone Co. Ltd.,10,Manufactured By,https://api.discogs.com/labels/253617
+12645447,26126,EMI,8,Marketed By,https://api.discogs.com/labels/26126
+12645447,26126,EMI,9,Distributed By,https://api.discogs.com/labels/26126
+12645447,64026,Chrysalis Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/64026
+12645447,64026,Chrysalis Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/64026
+12645447,266256,EMI Uden,17,Pressed By,https://api.discogs.com/labels/266256
+12645447,264021,Olympic Studios,23,Recorded At,https://api.discogs.com/labels/264021
+12645448,883041,La Société Métropolitaine Du Disque,9,Distributed By,https://api.discogs.com/labels/883041
+12645451,88466,USM Japan,4,Record Company,https://api.discogs.com/labels/88466
+12645451,273086,Universal Music LLC,8,Marketed By,https://api.discogs.com/labels/273086
+12645451,273086,Universal Music LLC,9,Distributed By,https://api.discogs.com/labels/273086
+12645453,51959,ccp Record Company,4,Record Company,https://api.discogs.com/labels/51959
+12645453,102661,Can't Stop Productions,13,Phonographic Copyright (p),https://api.discogs.com/labels/102661
+12645455,3072,CBS,10,Manufactured By,https://api.discogs.com/labels/3072
+12645463,274511,Ark Studio,23,Recorded At,https://api.discogs.com/labels/274511
+12645463,264517,GZ Digital Media,17,Pressed By,https://api.discogs.com/labels/264517
+12645466,176950,Butterfly Records (7),13,Phonographic Copyright (p),https://api.discogs.com/labels/176950
+12645466,176950,Butterfly Records (7),6,Licensed From,https://api.discogs.com/labels/176950
+12645466,450330,Rateo Music,21,Published By,https://api.discogs.com/labels/450330
+12645466,365968,Redondo Pacific Studios,23,Recorded At,https://api.discogs.com/labels/365968
+12645466,366346,Pasha Studios,23,Recorded At,https://api.discogs.com/labels/366346
+12645466,321161,Smoketree Ranch,23,Recorded At,https://api.discogs.com/labels/321161
+12645466,340561,Love 'N Comfort Studios,27,Mixed At,https://api.discogs.com/labels/340561
+12645466,280448,Idea Recording,30,Lacquer Cut At,https://api.discogs.com/labels/280448
+12645466,514357,CGD Pressing Plant,17,Pressed By,https://api.discogs.com/labels/514357
+12645466,236173,CGD Messaggerie Musicali S.p.A.,19,Printed By,https://api.discogs.com/labels/236173
+12645466,236173,CGD Messaggerie Musicali S.p.A.,9,Distributed By,https://api.discogs.com/labels/236173
+12645468,8742,PolyGram,10,Manufactured By,https://api.discogs.com/labels/8742
+12645468,8742,PolyGram,16,Made By,https://api.discogs.com/labels/8742
+12645468,268265,Münstermann-Druck KG,19,Printed By,https://api.discogs.com/labels/268265
+12645468,73846,Polydor International GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/73846
+12645468,358093,"PDO, France",16,Made By,https://api.discogs.com/labels/358093
+12645469,26126,EMI,8,Marketed By,https://api.discogs.com/labels/26126
+12645469,26126,EMI,9,Distributed By,https://api.discogs.com/labels/26126
+12645469,108193,EMI Electrola GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/108193
+12645469,266256,EMI Uden,17,Pressed By,https://api.discogs.com/labels/266256
+12645473,25407,Bell Records,9,Distributed By,https://api.discogs.com/labels/25407
+12645473,268659,"Cotillion Music, Inc.",21,Published By,https://api.discogs.com/labels/268659
+12645473,677994,"Muscle Shoals Sound Pub. Co., Inc.",21,Published By,https://api.discogs.com/labels/677994
+12645473,303576,Bestway Products Inc.,17,Pressed By,https://api.discogs.com/labels/303576
+12645477,256684,"Sony Music Entertainment México, S.A. De C.V.",10,Manufactured By,https://api.discogs.com/labels/256684
+12645477,620692,Sony Music México,31,Glass Mastered At,https://api.discogs.com/labels/620692
+12645477,256684,"Sony Music Entertainment México, S.A. De C.V.",13,Phonographic Copyright (p),https://api.discogs.com/labels/256684
+12645477,256684,"Sony Music Entertainment México, S.A. De C.V.",14,Copyright (c),https://api.discogs.com/labels/256684
+12645480,43315,WEA Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/43315
+12645480,43315,WEA Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/43315
+12645480,43012,WEA Musik GmbH,16,Made By,https://api.discogs.com/labels/43012
+12645480,264571,Warner Bros. Music Ltd.,21,Published By,https://api.discogs.com/labels/264571
+12645480,266525,Polygram Music Publishing Ltd.,21,Published By,https://api.discogs.com/labels/266525
+12645482,213761,"Nippon Columbia Co., Ltd.",10,Manufactured By,https://api.discogs.com/labels/213761
+12645487,109278,Island Music Ltd.,21,Published By,https://api.discogs.com/labels/109278
+12645487,264571,Warner Bros. Music Ltd.,21,Published By,https://api.discogs.com/labels/264571
+12645487,283017,Edward Kassner Music Co. Ltd.,21,Published By,https://api.discogs.com/labels/283017
+12645487,266839,The Hit Factory,23,Recorded At,https://api.discogs.com/labels/266839
+12645487,138798,Mediasound,23,Recorded At,https://api.discogs.com/labels/138798
+12645487,264049,Sigma Sound Studios,23,Recorded At,https://api.discogs.com/labels/264049
+12645487,199325,Frankford/Wayne Mastering Labs,29,Mastered At,https://api.discogs.com/labels/199325
+12645487,63404,EMI Records Ltd.,10,Manufactured By,https://api.discogs.com/labels/63404
+12645487,63404,EMI Records Ltd.,9,Distributed By,https://api.discogs.com/labels/63404
+12645487,264830,Garrod & Lofthouse Ltd.,19,Printed By,https://api.discogs.com/labels/264830
+12645489,63404,EMI Records Ltd.,13,Phonographic Copyright (p),https://api.discogs.com/labels/63404
+12645489,63404,EMI Records Ltd.,14,Copyright (c),https://api.discogs.com/labels/63404
+12645489,345209,"Teatro alla Scala, Milano",23,Recorded At,https://api.discogs.com/labels/345209
+12645489,217694,Abbey Road Studios,35,Remastered At,https://api.discogs.com/labels/217694
+12645494,314985,"MCA Pressing Plant, Gloversville",17,Pressed By,https://api.discogs.com/labels/314985
+12645496,45150,Indigo (2),9,Distributed By,https://api.discogs.com/labels/45150
+12645496,437687,MPO Germany,10,Manufactured By,https://api.discogs.com/labels/437687
+12645499,426284,"ВФГ ""Мелодия""",4,Record Company,https://api.discogs.com/labels/426284
+12645499,266308,Ленинградский Завод Грампластинок,14,Copyright (c),https://api.discogs.com/labels/266308
+12645499,266308,Ленинградский Завод Грампластинок,17,Pressed By,https://api.discogs.com/labels/266308
+12645504,247001,DSG,4,Record Company,https://api.discogs.com/labels/247001
+14220496,552180,Warner Communications,4,Record Company,https://api.discogs.com/labels/552180
+14220496,23937,Atlantic Recording Corporation,13,Phonographic Copyright (p),https://api.discogs.com/labels/23937
+14220496,264092,"WEA Music Of Canada, Ltd.",10,Manufactured By,https://api.discogs.com/labels/264092
+14220496,264092,"WEA Music Of Canada, Ltd.",9,Distributed By,https://api.discogs.com/labels/264092
+14220496,300116,Superhype,21,Published By,https://api.discogs.com/labels/300116
+14220496,285787,Arc (9),21,Published By,https://api.discogs.com/labels/285787
+14220496,533052,Conrad,21,Published By,https://api.discogs.com/labels/533052
+14220497,840896,Roughstate,13,Phonographic Copyright (p),https://api.discogs.com/labels/840896
+14220501,264092,"WEA Music Of Canada, Ltd.",10,Manufactured By,https://api.discogs.com/labels/264092
+14220501,264092,"WEA Music Of Canada, Ltd.",9,Distributed By,https://api.discogs.com/labels/264092
+14220501,264901,The Lacquer Channel,30,Lacquer Cut At,https://api.discogs.com/labels/264901
+14220501,111208,Quality Records Limited,17,Pressed By,https://api.discogs.com/labels/111208
+14220501,280318,Benchmark Music,21,Published By,https://api.discogs.com/labels/280318
+14220501,264159,Jazzbird Music,21,Published By,https://api.discogs.com/labels/264159
+14220501,264157,Kicking Bear Music,21,Published By,https://api.discogs.com/labels/264157
+14220501,552414,Golden Spread Music,21,Published By,https://api.discogs.com/labels/552414
+14220501,652101,"Rocky Top Music, Inc.",21,Published By,https://api.discogs.com/labels/652101
+14220501,342824,"Fifth Floor Music, Inc.",21,Published By,https://api.discogs.com/labels/342824
+14220501,387535,R. Twerk & Co.,33,Designed At,https://api.discogs.com/labels/387535
+14220501,623018,Pandora Productions Ltd.,37,Produced For,https://api.discogs.com/labels/623018
+14220501,264021,Olympic Studios,23,Recorded At,https://api.discogs.com/labels/264021
+14220501,304319,"Record Plant, Los Angeles",23,Recorded At,https://api.discogs.com/labels/304319
+14220502,596015,Warner Records Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/596015
+14220503,213861,"Nippon Phonogram Co., Ltd.",10,Manufactured By,https://api.discogs.com/labels/213861
+14220505,222987,Nuclear Blast GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/222987
+14220505,222987,Nuclear Blast GmbH,14,Copyright (c),https://api.discogs.com/labels/222987
+14220505,11499,Nuclear Blast,6,Licensed From,https://api.discogs.com/labels/11499
+14220508,264092,"WEA Music Of Canada, Ltd.",10,Manufactured By,https://api.discogs.com/labels/264092
+14220508,264092,"WEA Music Of Canada, Ltd.",9,Distributed By,https://api.discogs.com/labels/264092
+14220509,282350,Bruton Music Ltd,14,Copyright (c),https://api.discogs.com/labels/282350
+14220509,282350,Bruton Music Ltd,13,Phonographic Copyright (p),https://api.discogs.com/labels/282350
+14220509,267848,DADC Austria,16,Made By,https://api.discogs.com/labels/267848
+14220514,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+14220514,231274,Gramofonové Závody,17,Pressed By,https://api.discogs.com/labels/231274
+14220517,949644,Capitol Music store,9,Distributed By,https://api.discogs.com/labels/949644
+14220518,840896,Roughstate,13,Phonographic Copyright (p),https://api.discogs.com/labels/840896
+14220519,220170,London Wavelength,14,Copyright (c),https://api.discogs.com/labels/220170
+14220520,122360,Bell Sound Studios,30,Lacquer Cut At,https://api.discogs.com/labels/122360
+14220520,512061,Allentown Record Co. Inc.,17,Pressed By,https://api.discogs.com/labels/512061
+14220522,191252,Translab,29,Mastered At,https://api.discogs.com/labels/191252
+14220522,269416,Studio Pigalle,23,Recorded At,https://api.discogs.com/labels/269416
+14220522,23713,FNAC,42,Exclusive Retailer,https://api.discogs.com/labels/23713
+14220525,267164,Record Industry,17,Pressed By,https://api.discogs.com/labels/267164
+14220529,104520,Italdisc,5,Licensed To,https://api.discogs.com/labels/104520
+14220531,216527,Decca (West Africa) Limited,4,Record Company,https://api.discogs.com/labels/216527
+14220532,213897,Armada Music B.V.,13,Phonographic Copyright (p),https://api.discogs.com/labels/213897
+14220534,33674,Season Of Mist,13,Phonographic Copyright (p),https://api.discogs.com/labels/33674
+14220534,33674,Season Of Mist,6,Licensed From,https://api.discogs.com/labels/33674
+14220534,1534615,Kattran Records,14,Copyright (c),https://api.discogs.com/labels/1534615
+14220534,528312,Symbol Of Domination Prod,14,Copyright (c),https://api.discogs.com/labels/528312
+14220535,681,Atlantic,13,Phonographic Copyright (p),https://api.discogs.com/labels/681
+14220535,345353,Fred F. Carter Jr. Studios,23,Recorded At,https://api.discogs.com/labels/345353
+14220535,23937,Atlantic Recording Corporation,10,Manufactured By,https://api.discogs.com/labels/23937
+14220535,524898,Screen Gems-Columbia Music,21,Published By,https://api.discogs.com/labels/524898
+14220535,659678,Colgems Music,21,Published By,https://api.discogs.com/labels/659678
+14220535,354643,Songpainter Music,21,Published By,https://api.discogs.com/labels/354643
+14220535,27576,Specialty Records Corporation,17,Pressed By,https://api.discogs.com/labels/27576
+14220536,96171,The Decca Record Company Limited,4,Record Company,https://api.discogs.com/labels/96171
+14220536,96171,The Decca Record Company Limited,13,Phonographic Copyright (p),https://api.discogs.com/labels/96171
+14220536,96171,The Decca Record Company Limited,14,Copyright (c),https://api.discogs.com/labels/96171
+14220536,266192,Senol Printing Ltd.,19,Printed By,https://api.discogs.com/labels/266192
+14220536,1625275,Glasgow Cathedral,23,Recorded At,https://api.discogs.com/labels/1625275
+14220536,348572,British Celanese Limited,16,Made By,https://api.discogs.com/labels/348572
+14220541,648424,Starshape,13,Phonographic Copyright (p),https://api.discogs.com/labels/648424
+14220543,1154355,Nuclear Blast Tonträger Produktions- und Vertriebs GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/1154355
+14220543,1154355,Nuclear Blast Tonträger Produktions- und Vertriebs GmbH,14,Copyright (c),https://api.discogs.com/labels/1154355
+14220543,348813,Helloween GbR,6,Licensed From,https://api.discogs.com/labels/348813
+14220543,663430,Hanseatic Musikverlag GmbH & Co KG,21,Published By,https://api.discogs.com/labels/663430
+14220543,587131,Wintrup Musikverlag,21,Published By,https://api.discogs.com/labels/587131
+14220543,206061,BMG Rights Management,21,Published By,https://api.discogs.com/labels/206061
+14220543,266081,Technicolor,31,Glass Mastered At,https://api.discogs.com/labels/266081
+14220543,266081,Technicolor,31,Glass Mastered At,https://api.discogs.com/labels/266081
+14220543,266081,Technicolor,31,Glass Mastered At,https://api.discogs.com/labels/266081
+14220545,270104,Peer Musikverlag GmbH,21,Published By,https://api.discogs.com/labels/270104
+14220549,107525,Deutsche Grammophon GmbH,10,Manufactured By,https://api.discogs.com/labels/107525
+14220549,264210,Gerhard Kaiser GmbH,19,Printed By,https://api.discogs.com/labels/264210
+14220553,73846,Polydor International GmbH,13,Phonographic Copyright (p),https://api.discogs.com/labels/73846
+14220557,623464,Quick To Scold Productions,14,Copyright (c),https://api.discogs.com/labels/623464
+14220557,623464,Quick To Scold Productions,13,Phonographic Copyright (p),https://api.discogs.com/labels/623464
+14220559,541201,Alam El Phan Co. (Mohsen Gaber),4,Record Company,https://api.discogs.com/labels/541201
+14220562,33182,Napalm Records,14,Copyright (c),https://api.discogs.com/labels/33182
+14220562,540386,"ООО ""Инновационные Технологии""",17,Pressed By,https://api.discogs.com/labels/540386
+14220562,271784,Napalm Records Handels GmbH,6,Licensed From,https://api.discogs.com/labels/271784
+14220562,151952,"ООО ""Союз Мьюзик""",13,Phonographic Copyright (p),https://api.discogs.com/labels/151952
+14220564,65072,Look Studio Srl,21,Published By,https://api.discogs.com/labels/65072
+14220567,191290,Bevox,23,Recorded At,https://api.discogs.com/labels/191290
+14220569,1265836,Blizz Musiklabor,23,Recorded At,https://api.discogs.com/labels/1265836
+14220570,594769,"ООО ""Музыкальное издательство М.О.""",13,Phonographic Copyright (p),https://api.discogs.com/labels/594769
+14220571,295136,Winterland,23,Recorded At,https://api.discogs.com/labels/295136
+14220571,563633,Marin County Civic Center,23,Recorded At,https://api.discogs.com/labels/563633
+14220571,563634,Island Music Center,23,Recorded At,https://api.discogs.com/labels/563634
+14220571,563632,"State University Of New York, Plattsburgh",23,Recorded At,https://api.discogs.com/labels/563632
+14220571,309486,Wally Heider Recording,23,Recorded At,https://api.discogs.com/labels/309486
+14220571,273595,Fedco Audio Labs,23,Recorded At,https://api.discogs.com/labels/273595
+14220571,267980,Electric Lady Studios,28,Remixed At,https://api.discogs.com/labels/267980
+14220571,186075,The Mastering Lab,29,Mastered At,https://api.discogs.com/labels/186075
+14220571,74446,"A&M Records, Inc.",13,Phonographic Copyright (p),https://api.discogs.com/labels/74446
+14220571,74446,"A&M Records, Inc.",14,Copyright (c),https://api.discogs.com/labels/74446
+14220571,68029,UMe,16,Made By,https://api.discogs.com/labels/68029
+14220572,1737620,Duke Reid Jr,9,Distributed By,https://api.discogs.com/labels/1737620
+14220583,654,Capitol Records,13,Phonographic Copyright (p),https://api.discogs.com/labels/654
+14220583,654,Capitol Records,14,Copyright (c),https://api.discogs.com/labels/654
+14220583,654,Capitol Records,10,Manufactured By,https://api.discogs.com/labels/654
+14220583,294033,EMI MFG.,31,Glass Mastered At,https://api.discogs.com/labels/294033
+14220586,1610996,Sikkdome,13,Phonographic Copyright (p),https://api.discogs.com/labels/1610996
+14220590,355705,"Industrias Eléctricas y Musicales Odeon, S.A.",10,Manufactured By,https://api.discogs.com/labels/355705
+14220592,1703008,Vic Unsworth Music,10,Manufactured By,https://api.discogs.com/labels/1703008
+14220592,1703008,Vic Unsworth Music,9,Distributed By,https://api.discogs.com/labels/1703008
+14220593,220170,London Wavelength,14,Copyright (c),https://api.discogs.com/labels/220170
+14220594,291895,"Paris Theatre, London",23,Recorded At,https://api.discogs.com/labels/291895
+14220594,93218,Nimbus,31,Glass Mastered At,https://api.discogs.com/labels/93218
+14220594,317836,Lupus Music,21,Published By,https://api.discogs.com/labels/317836
+14220597,1703030,Albrecht Sound Studios,23,Recorded At,https://api.discogs.com/labels/1703030
+14220597,1703030,Albrecht Sound Studios,29,Mastered At,https://api.discogs.com/labels/1703030
+14220598,541201,Alam El Phan Co. (Mohsen Gaber),4,Record Company,https://api.discogs.com/labels/541201
+14220598,141622,EMI Greece S.A.,9,Distributed By,https://api.discogs.com/labels/141622
+14220598,152578,Digital Press Hellas,10,Manufactured By,https://api.discogs.com/labels/152578
+14220600,1514567,"ТОО ""Московские Окна ЛТД""",13,Phonographic Copyright (p),https://api.discogs.com/labels/1514567
+14220601,90718,Warner Bros. Records Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/90718
+14220601,131984,WB Music Corp.,21,Published By,https://api.discogs.com/labels/131984
+14220601,370073,Gary Morris Music,21,Published By,https://api.discogs.com/labels/370073
+14220601,51877,Chappell Music,21,Published By,https://api.discogs.com/labels/51877
+14220601,32380,MCA Music,21,Published By,https://api.discogs.com/labels/32380
+14220601,331189,Chriswald Music Inc.,21,Published By,https://api.discogs.com/labels/331189
+14220601,331188,Hopi Sound Music,21,Published By,https://api.discogs.com/labels/331188
+14220602,314605,"Capitol Records Pressing Plant, Jacksonville",17,Pressed By,https://api.discogs.com/labels/314605
+14220603,285412,MJJ Productions Inc.,13,Phonographic Copyright (p),https://api.discogs.com/labels/285412
+14220603,285412,MJJ Productions Inc.,14,Copyright (c),https://api.discogs.com/labels/285412
+14220603,25487,Sony Music,9,Distributed By,https://api.discogs.com/labels/25487
+14220603,25487,Sony Music,16,Made By,https://api.discogs.com/labels/25487
+14220605,282350,Bruton Music Ltd,14,Copyright (c),https://api.discogs.com/labels/282350
+14220605,282350,Bruton Music Ltd,13,Phonographic Copyright (p),https://api.discogs.com/labels/282350
+14220605,21873,Supraphon,14,Copyright (c),https://api.discogs.com/labels/21873
+14220605,21873,Supraphon,13,Phonographic Copyright (p),https://api.discogs.com/labels/21873
+14220605,267848,DADC Austria,16,Made By,https://api.discogs.com/labels/267848
+14220607,40755,Mercury Records Ltd. (London),13,Phonographic Copyright (p),https://api.discogs.com/labels/40755
+14220607,263839,Bludgeon Riffola Ltd.,14,Copyright (c),https://api.discogs.com/labels/263839
+14220607,11537,Island Def Jam Music Group,10,Manufactured By,https://api.discogs.com/labels/11537
+14220607,11537,Island Def Jam Music Group,8,Marketed By,https://api.discogs.com/labels/11537
+14220607,265436,"Universal Music & Video Distribution, Corp.",9,Distributed By,https://api.discogs.com/labels/265436
+14220607,381697,"EDC, USA",16,Made By,https://api.discogs.com/labels/381697
+14220607,452324,"Joe's Garage, Dublin",23,Recorded At,https://api.discogs.com/labels/452324
+14220607,268275,Polar Studios,23,Recorded At,https://api.discogs.com/labels/268275
+14220607,266083,Rumbo Recorders,23,Recorded At,https://api.discogs.com/labels/266083
+14220607,264021,Olympic Studios,27,Mixed At,https://api.discogs.com/labels/264021
+14220607,327985,Toytown Studios,27,Mixed At,https://api.discogs.com/labels/327985
+14220607,311714,The Location Studios,36,Edited At,https://api.discogs.com/labels/311714
+14220607,263839,Bludgeon Riffola Ltd.,21,Published By,https://api.discogs.com/labels/263839
+14220607,403862,Vivian Campbell Music,21,Published By,https://api.discogs.com/labels/403862
+14220607,545403,Vivian Campbell Songs,21,Published By,https://api.discogs.com/labels/545403
+14220607,837665,Pete Woodroffe Songs,21,Published By,https://api.discogs.com/labels/837665
+14220607,265705,Zomba Music Publishers Ltd.,21,Published By,https://api.discogs.com/labels/265705
+14220607,264150,Universal Music Publishing Ltd.,21,Published By,https://api.discogs.com/labels/264150
+14220607,304788,Rondor Music Publishing,21,Published By,https://api.discogs.com/labels/304788
+14220607,303651,Sony/ATV Songs LLC,21,Published By,https://api.discogs.com/labels/303651
+14220607,837663,White Pearl Songs,21,Published By,https://api.discogs.com/labels/837663
+14220607,267480,Universal Music Publishing AB,21,Published By,https://api.discogs.com/labels/267480
+14220607,465818,Andreas Carlsson Publishing AB,21,Published By,https://api.discogs.com/labels/465818
+14220607,837664,Warner Chappell Publishing Inc.,21,Published By,https://api.discogs.com/labels/837664
+14220607,380181,Maratone AB,21,Published By,https://api.discogs.com/labels/380181
+14220612,281794,Grateful Dead Productions,13,Phonographic Copyright (p),https://api.discogs.com/labels/281794
+14220612,281794,Grateful Dead Productions,14,Copyright (c),https://api.discogs.com/labels/281794
+14220612,53821,Rhino Entertainment Company,8,Marketed By,https://api.discogs.com/labels/53821
+14220612,53821,Rhino Entertainment Company,10,Manufactured By,https://api.discogs.com/labels/53821
+14220612,348559,"Tivoli Koncertsalen, Copenhagen",23,Recorded At,https://api.discogs.com/labels/348559

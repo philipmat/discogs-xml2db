@@ -1,57 +1,45 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+namespace discogs;
 
-namespace discogs
+internal class RecordCounter<T>(bool verbose = false) : IExporter<T>
+    where T : IExportable, new()
 {
+    private readonly bool _verbose = verbose;
+    private readonly Dictionary<string, int> _counter = GetSchemeCounts();
 
-    internal class RecordCounter<T> : IExporter<T>
-        where T : IExportToCsv, new()
+    public Task CompleteExportAsync(int finalCount)
     {
-        private readonly bool _verbose;
-        private readonly Dictionary<string, int> _counter;
-
-        public RecordCounter(bool verbose = false)
+        Console.WriteLine($"Would write {finalCount:n0} parsed records across the following files:");
+        int maxFile = _counter.Max(kvp => kvp.Key.Length);
+        int maxNum = _counter.Max(kvp => $"{kvp.Value:n0}".Length);
+        foreach (var kvp in _counter.OrderBy(kvp => kvp.Key))
         {
-            _verbose = verbose;
-            _counter = GetSchemeCounts();
+            string file = kvp.Key.PadLeft(maxFile);
+            string num = kvp.Value.ToString("n0").PadLeft(maxNum);
+            Console.WriteLine($" -  {file} : {num}");
         }
 
-        public Task CompleteExportAsync(int finalCount)
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
+
+    public Task ExportAsync(T value)
+    {
+        foreach (var (stream, _) in value.Export())
         {
-            Console.WriteLine($"Would write {finalCount:n0} parsed records across the following files:");
-            var maxFile = _counter.Max(kvp => kvp.Key.Length);
-            var maxNum = _counter.Max(kvp => $"{kvp.Value:n0}".Length);
-            foreach (var kvp in _counter.OrderBy(kvp => kvp.Key))
-            {
-                var file = kvp.Key.PadLeft(maxFile);
-                var num = kvp.Value.ToString("n0").PadLeft(maxNum);
-                Console.WriteLine($" -  {file} : {num}");
-            }
-            return Task.CompletedTask;
+            _counter[stream] += 1;
         }
 
-        public void Dispose()
-        {
-            System.GC.SuppressFinalize(this);
-        }
+        return Task.CompletedTask;
+    }
 
-        public Task ExportAsync(T value)
-        {
-            foreach (var (stream, _) in value.ExportToCsv())
-            {
-                _counter[stream] += 1;
-            }
-            return Task.CompletedTask;
-        }
-        private static Dictionary<string, int> GetSchemeCounts()
-        {
-            var obj = new T();
-            IReadOnlyDictionary<string, string[]> files = obj.GetCsvExportScheme();
-            return files.ToDictionary(kvp => kvp.Key, kvp => 0);
-        }
-
-
+    private static Dictionary<string, int> GetSchemeCounts()
+    {
+        var obj = new T();
+        IReadOnlyDictionary<string, string[]> files = obj.GetExportStreamsAndFields();
+        return files.ToDictionary(kvp => kvp.Key, _ => 0);
     }
 }

@@ -11,7 +11,7 @@ D_PATTERN="discogs_[0-9]{8}_(artists|labels|masters|releases).xml.gz"
 WGET=wget
 command -v wget2 >/dev/null 2>&1 && WGET=wget2
 
-zTEST=""
+TEST=""
 DOWNLOAD_DIR=""
 for arg in "$@"; do
 	if [ "$arg" = '--test' ]; then

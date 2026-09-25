@@ -1,0 +1,394 @@
+<release id="3" status="Accepted">
+    <images>
+        <image type="primary" uri="" uri150="" width="600" height="595"/>
+        <image type="secondary" uri="" uri150="" width="600" height="472"/>
+        <image type="secondary" uri="" uri150="" width="599" height="600"/>
+        <image type="secondary" uri="" uri150="" width="600" height="470"/>
+    </images>
+    <artists>
+        <artist>
+            <id>3</id>
+            <name>Josh Wink</name>
+            <anv></anv>
+            <join></join>
+            <role></role>
+            <tracks></tracks>
+        </artist>
+    </artists>
+    <title>Profound Sounds Vol. 1</title>
+    <labels>
+        <label name="Ruffhouse Records" catno="CK 63628" id="6"/>
+    </labels>
+    <extraartists>
+        <artist>
+            <id>3</id>
+            <name>Josh Wink</name>
+            <anv></anv>
+            <join></join>
+            <role>DJ Mix</role>
+            <tracks></tracks>
+        </artist>
+    </extraartists>
+    <formats>
+        <format name="CD" qty="1" text="">
+            <descriptions>
+                <description>Compilation</description>
+                <description>Mixed</description>
+            </descriptions>
+        </format>
+    </formats>
+    <genres>
+        <genre>Electronic</genre>
+    </genres>
+    <styles>
+        <style>Techno</style>
+        <style>Tech House</style>
+    </styles>
+    <country>US</country>
+    <released>1999-07-13</released>
+    <notes>1: Track title is given as "D2" (which is the side of record on the vinyl version of i220-010 release). This was also released on CD where this track is listed on 8th position. On both version no titles are given (only writing/producing credits). Both versions of i220-010 can be seen on the master release page [m27265]. Additionally this track contains female vocals that aren't present on original i220-010 release. &#13;
+4: Credited as J. Dahlbäck. &#13;
+5: Track title wrongly given as "Vol. 1". &#13;
+6: Credited as Gez Varley presents Tony Montana. &#13;
+12: Track exclusive to Profound Sounds Vol. 1.</notes>
+    <data_quality>Correct</data_quality>
+    <master_id is_main_release="false">66526</master_id>
+    <tracklist>
+        <track>
+            <position>1</position>
+            <title>Untitled 8</title>
+            <duration>7:00</duration>
+            <sub_tracks>
+                <track>
+                    <position>11.a</position>
+                    <title>909 Shuffle</title>
+                    <duration>3:10</duration>
+                </track>
+                <track>
+                    <position>11.b</position>
+                    <title>Laser 101 Rmx</title>
+                    <duration>4:26</duration>
+                </track>
+                <track>
+                    <position>11.c</position>
+                    <title>Adrenalin (Ciborg Rmx)</title>
+                    <duration>5:38</duration>
+                </track>
+            </sub_tracks>
+            <artists>
+                <artist>
+                    <id>5</id>
+                    <name>Heiko Laux</name>
+                    <anv></anv>
+                    <join>&amp;</join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+                <artist>
+                    <id>4</id>
+                    <name>Johannes Heil</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+            <extraartists>
+                <artist>
+                    <id>11233</id>
+                    <name>Chris Lum</name>
+                    <anv></anv>
+                    <join></join>
+                    <role>Producer</role>
+                    <tracks></tracks>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>2</position>
+            <title>Anjua (Sneaky 3)</title>
+            <duration>5:28</duration>
+            <artists>
+                <artist>
+                    <id>15525</id>
+                    <name>Karl Axel Bissler</name>
+                    <anv>K.A.B.</anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+        </track>
+        <track>
+            <position>3</position>
+            <title>When The Funk Hits The Fan (Mood II Swing When The Dub Hits The Fan)</title>
+            <duration>5:25</duration>
+            <artists>
+                <artist>
+                    <id>7</id>
+                    <name>Sylk 130</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+            <extraartists>
+                <artist>
+                    <id>8</id>
+                    <name>Mood II Swing</name>
+                    <anv></anv>
+                    <join></join>
+                    <role>Remix</role>
+                    <tracks></tracks>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>4</position>
+            <title>What's The Time, Mr. Templar</title>
+            <duration>4:27</duration>
+            <artists>
+                <artist>
+                    <id>1</id>
+                    <name>The Persuader</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+        </track>
+        <track>
+            <position>5</position>
+            <title>Vol. 2</title>
+            <duration>5:36</duration>
+            <artists>
+                <artist>
+                    <id>267132</id>
+                    <name>Care Company (2)</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+        </track>
+        <track>
+            <position>6</position>
+            <title>Political Prisoner</title>
+            <duration>3:37</duration>
+            <artists>
+                <artist>
+                    <id>6981</id>
+                    <name>Gez Varley</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+        </track>
+        <track>
+            <position>7</position>
+            <title>Pop Kulture</title>
+            <duration>5:03</duration>
+            <artists>
+                <artist>
+                    <id>11</id>
+                    <name>DJ Dozia</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+        </track>
+        <track>
+            <position>8</position>
+            <title>K-Mart Shopping (Hi-Fi Mix)</title>
+            <duration>5:42</duration>
+            <artists>
+                <artist>
+                    <id>10702</id>
+                    <name>Nerio's Dubwork</name>
+                    <anv></anv>
+                    <join>Meets</join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+                <artist>
+                    <id>233190</id>
+                    <name>Kathy Lee</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+            <extraartists>
+                <artist>
+                    <id>23</id>
+                    <name>Alex Hi-Fi</name>
+                    <anv></anv>
+                    <join></join>
+                    <role>Remix</role>
+                    <tracks></tracks>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>9</position>
+            <title>Lovelee Dae (Eight Miles High Mix)</title>
+            <duration>5:47</duration>
+            <artists>
+                <artist>
+                    <id>13</id>
+                    <name>Blaze</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+            <extraartists>
+                <artist>
+                    <id>14</id>
+                    <name>Eight Miles High</name>
+                    <anv></anv>
+                    <join></join>
+                    <role>Remix</role>
+                    <tracks></tracks>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>10</position>
+            <title>Sweat</title>
+            <duration>6:06</duration>
+            <artists>
+                <artist>
+                    <id>67226</id>
+                    <name>Stacey Pullen</name>
+                    <anv></anv>
+                    <join>Presents</join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+                <artist>
+                    <id>7554</id>
+                    <name>Black Odyssey</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+            <extraartists>
+                <artist>
+                    <id>67226</id>
+                    <name>Stacey Pullen</name>
+                    <anv></anv>
+                    <join></join>
+                    <role>Presenter</role>
+                    <tracks></tracks>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>11</position>
+            <title>Silver</title>
+            <duration>3:16</duration>
+            <artists>
+                <artist>
+                    <id>3906</id>
+                    <name>Christian Smith &amp; John Selway</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+        </track>
+        <track>
+            <position>12</position>
+            <title>Untitled</title>
+            <duration>2:46</duration>
+            <artists>
+                <artist>
+                    <id>3</id>
+                    <name>Josh Wink</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+        </track>
+        <track>
+            <position>13</position>
+            <title>Boom Box</title>
+            <duration>3:41</duration>
+            <artists>
+                <artist>
+                    <id>19</id>
+                    <name>Sound Associates</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+        </track>
+        <track>
+            <position>14</position>
+            <title>Track 2</title>
+            <duration>3:39</duration>
+            <artists>
+                <artist>
+                    <id>20</id>
+                    <name>Percy X</name>
+                    <anv></anv>
+                    <join></join>
+                    <role></role>
+                    <tracks></tracks>
+                </artist>
+            </artists>
+        </track>
+    </tracklist>
+    <identifiers>
+        <identifier type="Barcode" value="074646362822"/>
+    </identifiers>
+    <videos>
+        <video src="https://www.youtube.com/watch?v=bqUfNGJEKlo" duration="4074" embed="true">
+            <title>Profound Sounds Vol. 1 - Josh Wink</title>
+            <description>mix 1999</description>
+        </video>
+        <video src="https://www.youtube.com/watch?v=UB_rOhpn5js" duration="853" embed="true">
+            <title>Josh Wink Profound Sounds Vol 1 Mlada Fronta H2O Arthur Paradiso</title>
+            <description></description>
+        </video>
+        <video src="https://www.youtube.com/watch?v=cpQWEQjunF4" duration="421" embed="true">
+            <title>Profound Sounds Track 1....</title>
+            <description>How it SHOULD sound......</description>
+        </video>
+    </videos>
+    <companies>
+        <company>
+            <id>93330</id>
+            <name>Columbia Records</name>
+            <catno></catno>
+            <entity_type>10</entity_type>
+            <entity_type_name>Manufactured By</entity_type_name>
+            <resource_url>https://api.discogs.com/labels/93330</resource_url>
+        </company>
+        <company>
+            <id>93330</id>
+            <name>Columbia Records</name>
+            <catno></catno>
+            <entity_type>9</entity_type>
+            <entity_type_name>Distributed By</entity_type_name>
+            <resource_url>https://api.discogs.com/labels/93330</resource_url>
+        </company>
+    </companies>
+</release>

@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/sh
 #set -xv
 
 USER_AGENT="Mozilla/5.0 (compatible; discogs-xml2db/v2.0; +https://github.com/philipmat/discogs-xml2db)"
@@ -11,7 +11,7 @@ D_PATTERN="discogs_[0-9]{8}_(artists|labels|masters|releases).xml.gz"
 WGET=wget
 command -v wget2 >/dev/null 2>&1 && WGET=wget2
 
-TEST=""
+zTEST=""
 DOWNLOAD_DIR=""
 for arg in "$@"; do
 	if [ "$arg" = '--test' ]; then

@@ -1,27 +1,15 @@
-﻿using ShellProgressBar;
+﻿using System.CommandLine;
+using System.CommandLine.Help;
+using ShellProgressBar;
 
 namespace discogs;
 
-public class Program
+public static class Program
 {
     private const int ExitOk = 0;
     private const int ExitHelp = 1;
     private const int ExitParamIssue = 2;
     private const int ProgressDisplayThrottle = 1_000; // display only once every "ProgressDisplayThrottle" increment
-
-    private const string Usage = """
-                                 Converts discogs XML files for database import.
-                                 Usage: discogs [options] [files...]
-
-                                 Options:
-
-                                 --dry-run   Parse the files, output counts, but don't write any actual files
-                                 --verbose   More verbose output
-                                 --gz        Compress output files (gzip)
-                                 files...    Path to discogs_[date]_[type].xml, or .xml.gz files.
-                                             Can specify multiple files.
-
-                                 """;
 
     private static readonly Dictionary<string, int> _statistics = new([], StringComparer.OrdinalIgnoreCase)
     {
@@ -33,58 +21,99 @@ public class Program
 
     static async Task<int> Main(string[] args)
     {
-        if (args.Length == 0 || args.Contains("-h") || args.Contains("--help"))
+        if (!TryParseArguments(args, out RunOptions parsedOptions, out List<string> files, out int exitCode))
         {
-            Console.WriteLine(Usage);
-            return ExitHelp;
+            return exitCode;
         }
 
-        // TODO: use an argument parsing library
-        using RunOptions options = new();
-        List<string> files = [];
-        foreach (string arg in args)
+        using RunOptions options = parsedOptions;
+        if (!options.DryRun)
         {
-            if (string.Equals(arg, "--dry-run", StringComparison.OrdinalIgnoreCase))
-            {
-                options.DryRun = true;
-            }
-            else if (string.Equals(arg, "--verbose", StringComparison.OrdinalIgnoreCase))
-            {
-                options.Verbose = true;
-            }
-            else if (string.Equals(arg, "--gz", StringComparison.OrdinalIgnoreCase))
-            {
-                options.CompressOutput = true;
-            }
-            else if (string.Equals(arg, "--v1", StringComparison.OrdinalIgnoreCase))
-            {
-                options.UseVersion1 = true;
-            }
-            else if (File.Exists(arg))
-            {
-                files.Add(arg);
-            }
-            else
-            {
-                await Console.Error.WriteLineAsync($"Error: Unknown argument or file {arg}.");
-                Console.WriteLine(Usage);
-                return ExitParamIssue;
-            }
+            Directory.CreateDirectory(options.OutputDirectory);
         }
 
-        if (files.Count == 0)
-        {
-            await Console.Error.WriteLineAsync("Error: no file names passed as arguments.");
-            Console.WriteLine(Usage);
-            return ExitParamIssue;
-        }
-
-        options.FileCount = files.Count;
         List<Task> tasks = files.Select(f => ParseFile(f, options)).ToList();
         await Task.WhenAll(tasks);
         return ExitOk;
     }
 
+    private static bool TryParseArguments(
+        string[] args,
+        out RunOptions options,
+        out List<string> files,
+        out int exitCode)
+    {
+        Option<bool> dryRunOption = new("--dry-run")
+        {
+            Description = "Parse the files, output counts, but don't write any actual files."
+        };
+        Option<bool> verboseOption = new("--verbose")
+        {
+            Description = "More verbose output."
+        };
+        Option<bool> gzOption = new("--gz")
+        {
+            Description = "Compress output files (gzip)."
+        };
+        Option<DirectoryInfo> outputOption = new("--output", "-o")
+        {
+            Description = "Where to write the csv files. Defaults to the current directory.",
+            HelpName = "dir",
+        };
+        Option<bool> v1Option = new("--v1")
+        {
+            Description = "Use the older, XmlSerializer-based parser."
+        };
+        Argument<FileInfo[]> filesArgument = new("files")
+        {
+            Description = "Path to discogs_[date]_[type].xml, or .xml.gz files. Can specify multiple files.",
+            Arity = ArgumentArity.OneOrMore,
+        };
+        filesArgument.AcceptExistingOnly();
+
+        RootCommand rootCommand = new("Converts discogs XML files for database import.")
+        {
+            dryRunOption,
+            verboseOption,
+            gzOption,
+            outputOption,
+            v1Option,
+            filesArgument,
+        };
+
+        ParseResult parseResult = rootCommand.Parse(args.Length == 0 ? ["--help"] : args);
+        options = null;
+        files = [];
+
+        if (parseResult.Errors.Count > 0)
+        {
+            // prints the errors, followed by the usage
+            parseResult.Invoke();
+            exitCode = ExitParamIssue;
+            return false;
+        }
+
+        if (parseResult.Action is not null)
+        {
+            // --help or --version
+            parseResult.Invoke();
+            exitCode = parseResult.Action is HelpAction ? ExitHelp : ExitOk;
+            return false;
+        }
+
+        files = parseResult.GetRequiredValue(filesArgument).Select(f => f.FullName).ToList();
+        options = new RunOptions
+        {
+            DryRun = parseResult.GetValue(dryRunOption),
+            Verbose = parseResult.GetValue(verboseOption),
+            CompressOutput = parseResult.GetValue(gzOption),
+            UseVersion1 = parseResult.GetValue(v1Option),
+            OutputDirectory = parseResult.GetValue(outputOption)?.FullName ?? Directory.GetCurrentDirectory(),
+            FileCount = files.Count,
+        };
+        exitCode = ExitOk;
+        return true;
+    }
 
     private static async Task ParseFile(string fileName, RunOptions options)
     {
@@ -120,20 +149,20 @@ public class Program
         else
         {
             exporter = new CsvExporter<T>(
-                Path.GetDirectoryName(fileName),
+                options.OutputDirectory,
                 compress: options.CompressOutput,
                 verbose: options.Verbose);
         }
 
-        ProgressBarBase pbar = options.GetProgress(typeName, ticks);
+        ProgressBarBase progBar = options.GetProgress(typeName, ticks);
 
         Parser<T> parser = options.UseVersion1
             ? new XmlSerializerBasedParser<T>(exporter, ProgressDisplayThrottle)
             : new Parser<T>(exporter, ProgressDisplayThrottle);
-        parser.OnSucessfulParse += (_, _) => pbar.Tick();
+        parser.OnSucessfulParse += (_, _) => progBar.Tick();
         await parser.ParseFileAsync(fileName);
         exporter.Dispose();
-        options.Finished(pbar);
+        options.Finished(progBar);
     }
 
     private class RunOptions : IDisposable
@@ -144,10 +173,12 @@ public class Program
 
         public bool UseVersion1;
 
+        public string OutputDirectory = Directory.GetCurrentDirectory();
+
         public int FileCount;
 
-        private readonly List<ProgressBarBase> _progressBars = new();
-        private readonly object _lock = new();
+        private readonly List<ProgressBarBase> _progressBars = [];
+        private readonly Lock _lock = new();
 
         public void Dispose()
         {

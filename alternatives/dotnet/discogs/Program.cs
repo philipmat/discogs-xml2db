@@ -60,10 +60,6 @@ public static class Program
             Description = "Where to write the csv files. Defaults to the current directory.",
             HelpName = "dir",
         };
-        Option<bool> v1Option = new("--v1")
-        {
-            Description = "Use the older, XmlSerializer-based parser."
-        };
         Argument<FileInfo[]> filesArgument = new("files")
         {
             Description = "Path to discogs_[date]_[type].xml, or .xml.gz files. Can specify multiple files.",
@@ -77,7 +73,6 @@ public static class Program
             verboseOption,
             gzOption,
             outputOption,
-            v1Option,
             filesArgument,
         };
 
@@ -107,7 +102,6 @@ public static class Program
             DryRun = parseResult.GetValue(dryRunOption),
             Verbose = parseResult.GetValue(verboseOption),
             CompressOutput = parseResult.GetValue(gzOption),
-            UseVersion1 = parseResult.GetValue(v1Option),
             OutputDirectory = parseResult.GetValue(outputOption)?.FullName ?? Directory.GetCurrentDirectory(),
             FileCount = files.Count,
         };
@@ -156,9 +150,7 @@ public static class Program
 
         ProgressBarBase progBar = options.GetProgress(typeName, ticks);
 
-        Parser<T> parser = options.UseVersion1
-            ? new XmlSerializerBasedParser<T>(exporter, ProgressDisplayThrottle)
-            : new Parser<T>(exporter, ProgressDisplayThrottle);
+        var parser = new Parser<T>(exporter, ProgressDisplayThrottle);
         parser.OnSucessfulParse += (_, _) => progBar.Tick();
         await parser.ParseFileAsync(fileName);
         exporter.Dispose();
@@ -170,8 +162,6 @@ public static class Program
         public bool Verbose;
         public bool DryRun;
         public bool CompressOutput;
-
-        public bool UseVersion1;
 
         public string OutputDirectory = Directory.GetCurrentDirectory();
 

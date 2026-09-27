@@ -61,7 +61,6 @@ Options:
   --verbose           More verbose output.
   --gz                Compress output files (gzip).
   -o, --output <dir>  Where to write the csv files. Defaults to the current directory.
-  --v1                Use the older, XmlSerializer-based parser.
   -?, -h, --help      Show help and usage information
   --version           Show version information
 ```

@@ -3,60 +3,6 @@ namespace tests;
 public class ObjectDeserializationTests
 {
     [Fact]
-    public async Task Artist_DeserializesAllProperties_WithXmlSerializer()
-    {
-        Artist artist = await DeserializeAsync<Artist>("artist.xml");
-
-        // Assert
-        artist.Id.Should().Be("27");
-        artist.Name.Should().Be("Cari Lekebusch");
-        artist.RealName.Should().Be("Kari Pekka Lekebusch");
-        artist.Profile.Should().Match("Capricorn born *");
-        artist.DataQuality.Should().Be("Needs Vote");
-        artist.Urls.Should()
-            .HaveCount(3)
-            .And
-            .AllSatisfy(u => u.Should().Contain("lekebusch"));
-        artist.Urls[0].Should().Be("https://lekebusch.bandcamp.com/");
-        artist.NameVariations.Should()
-            .HaveCount(2)
-            .And
-            .SatisfyRespectively(
-                n => n.Should().Be("C Lekebusch"),
-                n => n.Should()
-                    .Be("Cari Lekebusch den rykande Bönsyrsan", because: "escaped entities are transformed"));
-        artist.Members.Should()
-            .HaveCount(2)
-            .And
-            .SatisfyRespectively(
-                m =>
-                {
-                    m.Id.Should().Be("6549", because: "6549 is the first member");
-                    m.Value.Should().Be("Richard Worth", because: "Richard Worth is the first member");
-                },
-                m =>
-                {
-                    m.Id.Should().Be("28896", because: "28896 is the second member");
-                    m.Value.Should().Be("Jay Rodriguez");
-                }
-            );
-        artist.Aliases.Should()
-            .HaveCount(2)
-            .And
-            .SatisfyRespectively(
-                a => a.Id.Should().Be("89"),
-                a => a.Value.Should().Be("Braincell")
-            );
-        artist.Groups.Should()
-            .HaveCount(2)
-            .And
-            .SatisfyRespectively(
-                g => g.Id.Should().Be("2"),
-                g => g.Value.Should().Be("Puente Latino")
-            );
-    }
-
-    [Fact]
     public void Artist_Populate()
     {
         // Arrange
@@ -512,24 +458,33 @@ public class ObjectDeserializationTests
         t4.SubTracks[0].ExtraArtists[1].Name.Should().Be("Keith Emerson");
     }
 
-
-    [DebugOnly]
-    public async Task Artist_11037_DeserializationMatchesBothApproaches()
+    [Fact]
+    public async Task Artist_11037_PreservesCarriageReturnEntity()
     {
-        var artist = await DeserializeAsync<Artist>("artist_11037.xml");
+        List<Artist> artists = await RetrieveObjectsAsync<Artist>("artist_problems.xml");
 
         // Assert
+        artists.Should().HaveCount(1);
+        Artist artist = artists[0];
         artist.Id.Should().Be("11037");
         artist.Name.Should().Be("Soul Boy");
-        artist.RealName.Should().Be("M. Marsico, L. Macchiaizzano\rif  M. Marsico & L. M");
+        artist.RealName.Should().Be(
+            "M. Marsico, L. Macchiaizzano\rif  M. Marsico & L. M",
+            because: "&#13; is decoded to a bare \\r, which is kept as-is");
+    }
 
-        var artists = RetrieveObjects<Artist>("artist_problems.xml")
-            .ToList();
+    private static async Task<List<T>> RetrieveObjectsAsync<T>(string resourceName)
+        where T : IExportable, new()
+    {
+        var objs = new List<T>();
+        var exporter = Substitute.For<IExporter<T>>();
+        exporter.WhenForAnyArgs(x => x.ExportAsync(Arg.Any<T>()))
+            .Do(ci => objs.Add(ci.Arg<T>()));
+        await using Stream resStream = TestCommons.GetResourceStream(resourceName);
+        var parser = new Parser<T>(exporter);
+        await parser.ParseStreamAsync(resStream);
 
-        artists.Should().HaveCount(1);
-        artists[0].Id.Should().Be(artist.Id);
-        artists[0].Name.Should().Be(artist.Name);
-        artists[0].RealName.Should().Be(artist.RealName);
+        return objs;
     }
 
     private static void Populate<T>(T obj, string resourceName)
@@ -550,34 +505,5 @@ public class ObjectDeserializationTests
         obj.Populate(reader);
 
         //*/
-    }
-
-    private static IEnumerable<T> RetrieveObjects<T>(string resourceName)
-        where T : IExportable, new()
-    {
-        var objs = new List<T>();
-        var exporter = Substitute.For<IExporter<T>>();
-        exporter.WhenForAnyArgs(x => x.ExportAsync(Arg.Any<T>()))
-            .Do(ci => objs.Add(ci.Arg<T>()));
-        using Stream resStream = TestCommons.GetResourceStream(resourceName);
-        var parser = new Parser<T>(exporter);
-        parser.ParseStreamAsync(resStream).Wait();
-
-        return objs;
-    }
-
-    private static async Task<T> DeserializeAsync<T>(string resourceFileName)
-        where T : IExportable, new()
-    {
-        string xml = await TestCommons.GetResourceAsync(resourceFileName);
-        return new ParserProxy<T>().DeserializeProxy(xml);
-    }
-
-
-    private class ParserProxy<T>() : XmlSerializerBasedParser<T>(null)
-        where T : IExportable, new()
-    {
-        public T DeserializeProxy(string content)
-            => Deserialize(content);
     }
 }

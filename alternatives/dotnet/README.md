@@ -11,7 +11,7 @@ It provides a significant speedup over the python version:
 | discogs_20260901_artists.xml.gz  |   10,203,002 |  12:20  | 1:40  |
 | discogs_20200901_labels.xml.gz   |    2,415,475 |  2:37   | 0:19  |
 | discogs_20200901_masters.xml.gz  |    2,589,349 |  9:12   | 2:04  |
-| discogs_20200901_releases.xml.gz |   19,417,067 | 3:11:42 | 47:36 |
+| discogs_20200901_releases.xml.gz |   19,417,067 | 3:11:42 | 50:04 |
 
 ## Features
 
@@ -120,4 +120,3 @@ Use `-r osx-x64` or `-r win-x64` for other platforms.
 
 To generate sample XML files for parity testing,
 see the `Generating XML fixtures` section in the [Python README](../python/README.md).
-

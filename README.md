@@ -22,7 +22,7 @@ promising:
 | discogs_20200806_artists.xml.gz  |    7,046,615 |  6:22   | 2:35  |
 | discogs_20200806_labels.xml.gz   |    1,571,873 |  1:15   | 0:22  |
 | discogs_20200806_masters.xml.gz  |    1,734,371 |  3:56   | 1:57  |
-| discogs_20200806_releases.xml.gz |   12,867,980 | 1:45:16 | 42:38 |
+| discogs_20200806_releases.xml.gz |   19,417,067 | 3:11:42 | 50:04 |
 
 If you're interested in testing one of these versions, read more about it
 in the [.NET Parser README](./alternatives/dotnet/README.md) or grab

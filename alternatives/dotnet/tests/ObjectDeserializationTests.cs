@@ -72,6 +72,23 @@ public class ObjectDeserializationTests
             });
     }
 
+    [Theory]
+    [InlineData("<artist><name></name><id>66827</id></artist>")]
+    [InlineData("<artist><id>66827</id><name></name></artist>")]
+    public void Artist_66827_Populate_EmptyName_UsesIdFallback(string xml)
+    {
+        // Given
+        Artist artist = new();
+        using XmlReader reader = XmlReader.Create(new StringReader(xml), Parser<Artist>.DefaultReaderSettings);
+        reader.MoveToContent();
+
+        // When
+        artist.Populate(reader);
+
+        // Then
+        artist.Name.Should().Be("[artist #66827]");
+    }
+
     [Fact]
     public void Label_Populate()
     {
@@ -486,9 +503,10 @@ public class ObjectDeserializationTests
         Artist artist = artists[0];
         artist.Id.Should().Be("11037");
         artist.Name.Should().Be("Soul Boy");
-        artist.RealName.Should().Be(
-            "M. Marsico, L. Macchiaizzano\rif  M. Marsico & L. M",
-            because: "&#13; is decoded to a bare \\r, which is kept as-is");
+        artist.RealName.Should()
+            .Be(
+                "M. Marsico, L. Macchiaizzano\rif  M. Marsico & L. M",
+                because: "&#13; is decoded to a bare \\r, which is kept as-is");
     }
 
     private static async Task<List<T>> RetrieveObjectsAsync<T>(string resourceName)

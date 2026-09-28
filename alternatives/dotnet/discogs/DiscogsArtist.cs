@@ -145,6 +145,11 @@ public class Artist : IExportable
                     break;
             }
         }
+
+        if (string.IsNullOrEmpty(Name))
+        {
+            Name = $"[artist #{Id}]";
+        }
     }
 }
 

@@ -6,12 +6,12 @@ are provided with each release.
 
 It provides a significant speedup over the python version:
 
-| File | Record Count | Python | C# |
-| --- | ---: | :---: | :---: |
-| discogs_20200806_artists.xml.gz  |  7,046,615 | 6:22    | 2:35 |
-| discogs_20200806_labels.xml.gz   |  1,571,873 | 1:15    | 0:22 |
-| discogs_20200806_masters.xml.gz  |  1,734,371 | 3:56    | 1:57 |
-| discogs_20200806_releases.xml.gz | 12,867,980 | 1:45:16 | 42:38 |
+| File                             | Record Count | Python  |  C#   |
+|----------------------------------|-------------:|:-------:|:-----:|
+| discogs_20260901_artists.xml.gz  |   10,203,002 |  12:20  | 1:40  |
+| discogs_20200901_labels.xml.gz   |    2,415,475 |  2:37   | 0:19  |
+| discogs_20200901_masters.xml.gz  |    2,589,349 |  9:12   | 2:04  |
+| discogs_20200901_releases.xml.gz |   19,417,067 | 3:11:42 | 47:36 |
 
 ## Features
 

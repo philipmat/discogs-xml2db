@@ -299,10 +299,10 @@ def main(arguments):
     # this is used to get a rough idea of how many items we can expect
     # in each dump file so that we can show the progress bar
     rough_counts = {
-        'artists': 5000000,
-        'labels': 1100000,
-        'masters': 1250000,
-        'releases': 8500000,
+        'artists': 10_000_000,
+        'labels': 2_400_000,
+        'masters': 2_500_000,
+        'releases': 19_500_00,
     }
     if arguments['--apicounts']:
         headers = {

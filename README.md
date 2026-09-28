@@ -13,7 +13,7 @@ Let us know how it goes!
 
 ## Experimental version
 
-In parallel to the original Python codebase, we're working on a parser/exporter
+In parallel to the original Python codebase, we've worked on a parser/exporter
 that's even faster. This is a complete rewrite in C# and initial results are highly
 promising:
 
@@ -31,7 +31,9 @@ the appropriate binaries from the
 
 While this version does not have complete feature-parity with the Python
 version (yet), the core export-to-csv is there, and it's likely it will
-eventually replace it.
+eventually replace it.  
+The best approach right now is: use dotnet version for export-to-csv,
+then use the python scripts to import into your target DB.
 
 ![DotNet Build](https://github.com/philipmat/discogs-xml2db/workflows/DotNet%20Build/badge.svg)
 

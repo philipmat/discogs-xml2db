@@ -240,16 +240,13 @@ public class Release : IExportable
             return;
         }
 
-        // <master id="123"> unlike all others
         Id = reader.GetAttribute("id");
-        reader.Read();
-        while (!reader.EOF)
+        Status = reader.GetAttribute("status");
+        int depth = reader.EnterElement();
+        while (reader.NextChildElement(depth))
         {
             switch (reader.Name)
             {
-                case "release":
-                    // it's back on a release node (EndElement); release control
-                    return;
                 case "title":
                     Title = reader.ReadElementContentAsString();
                     break;
@@ -302,18 +299,8 @@ public class Release : IExportable
                     TrackList = Track.Parse(reader);
                     break;
                 default:
-                    reader.Read();
+                    reader.Skip();
                     break;
-            }
-
-            if (reader.NodeType == XmlNodeType.EndElement)
-            {
-                if (reader.Name == "release")
-                {
-                    return;
-                }
-
-                reader.Skip();
             }
         }
     }
@@ -346,17 +333,20 @@ public class Release : IExportable
         public static Artist[] Parse(XmlReader reader)
         {
             List<Artist> list = [];
-            while (reader.Read() && reader.IsStartElement("artist"))
+            int depth = reader.EnterElement();
+            while (reader.NextChildElement(depth))
             {
-                Artist obj = new();
-                reader.Read();
-                while (!reader.EOF)
+                if (reader.Name != "artist")
                 {
-                    if (reader.Name == "artist")
-                    {
-                        break;
-                    }
+                    reader.Skip();
+                    continue;
+                }
 
+                Artist obj = new();
+                list.Add(obj);
+                int artistDepth = reader.EnterElement();
+                while (reader.NextChildElement(artistDepth))
+                {
                     switch (reader.Name)
                     {
                         case "id":
@@ -382,8 +372,6 @@ public class Release : IExportable
                             break;
                     }
                 }
-
-                list.Add(obj);
             }
 
             return list.ToArray();
@@ -404,17 +392,21 @@ public class Release : IExportable
 
         public static Label[] Parse(XmlReader reader)
         {
-            // expects to be on the <identifiers> node
             List<Label> list = [];
-            while (reader.Read() && reader.IsStartElement("label"))
+            int depth = reader.EnterElement();
+            while (reader.NextChildElement(depth))
             {
-                Label obj = new()
+                if (reader.Name == "label")
                 {
-                    Name = reader.GetAttribute("name"),
-                    CatalogNumber = reader.GetAttribute("catno"),
-                    Id = reader.GetAttribute("id"),
-                };
-                list.Add(obj);
+                    list.Add(new Label
+                    {
+                        Name = reader.GetAttribute("name"),
+                        CatalogNumber = reader.GetAttribute("catno"),
+                        Id = reader.GetAttribute("id"),
+                    });
+                }
+
+                reader.Skip();
             }
 
             return list.ToArray();
@@ -439,33 +431,36 @@ public class Release : IExportable
 
         public static Format[] Parse(XmlReader reader)
         {
-            // expects to be on <identifiers> node
-            // reader.Read();
             List<Format> list = [];
-            while (reader.Read() && reader.IsStartElement("format"))
+            int depth = reader.EnterElement();
+            while (reader.NextChildElement(depth))
             {
+                if (reader.Name != "format")
+                {
+                    reader.Skip();
+                    continue;
+                }
+
                 Format obj = new()
                 {
                     Name = reader.GetAttribute("name"),
                     Quantity = reader.GetAttribute("qty"),
                     Text = reader.GetAttribute("text"),
                 };
-                // read descriptions
-                if (reader.IsEmptyElement)
-                {
-                    // does not have descriptions
-                    list.Add(obj);
-                    continue;
-                }
-
-                reader.Read();
-                obj.Descriptions = reader.ReadChildren("description");
-                if (reader.NodeType == XmlNodeType.EndElement)
-                {
-                    reader.Skip();
-                }
-
                 list.Add(obj);
+
+                int formatDepth = reader.EnterElement();
+                while (reader.NextChildElement(formatDepth))
+                {
+                    if (reader.Name == "descriptions")
+                    {
+                        obj.Descriptions = reader.ReadChildren("description");
+                    }
+                    else
+                    {
+                        reader.Skip();
+                    }
+                }
             }
 
             return list.ToArray();
@@ -513,18 +508,21 @@ public class Release : IExportable
 
         public static Track[] Parse(XmlReader reader)
         {
-            List<Track> list = new();
-            while (reader.Read() && reader.IsStartElement("track"))
+            List<Track> list = [];
+            int depth = reader.EnterElement();
+            while (reader.NextChildElement(depth))
             {
-                Track obj = new();
-                reader.Read(); // mode into sub-nodes
-                while (!reader.EOF)
+                if (reader.Name != "track")
                 {
-                    if (reader.Name == "track")
-                    {
-                        break;
-                    }
+                    reader.Skip();
+                    continue;
+                }
 
+                Track obj = new();
+                list.Add(obj);
+                int trackDepth = reader.EnterElement();
+                while (reader.NextChildElement(trackDepth))
+                {
                     switch (reader.Name)
                     {
                         case "position":
@@ -538,35 +536,18 @@ public class Release : IExportable
                             break;
                         case "artists":
                             obj.Artists = Artist.Parse(reader);
-                            if (reader.NodeType == XmlNodeType.EndElement)
-                            {
-                                reader.Skip();
-                            }
-
                             break;
                         case "extraartists":
                             obj.ExtraArtists = Artist.Parse(reader);
-                            if (reader.NodeType == XmlNodeType.EndElement)
-                            {
-                                reader.Skip();
-                            }
-
                             break;
                         case "sub_tracks":
                             obj.SubTracks = Parse(reader);
-                            if (reader.NodeType == XmlNodeType.EndElement)
-                            {
-                                reader.Skip();
-                            }
-
                             break;
                         default:
                             reader.Skip();
                             break;
                     }
                 }
-
-                list.Add(obj);
             }
 
             return list.ToArray();
@@ -587,17 +568,21 @@ public class Release : IExportable
 
         public static Identifier[] Parse(XmlReader reader)
         {
-            // expects to be on the < identifiers > node
             List<Identifier> list = [];
-            while (reader.Read() && reader.IsStartElement("identifier"))
+            int depth = reader.EnterElement();
+            while (reader.NextChildElement(depth))
             {
-                Identifier obj = new()
+                if (reader.Name == "identifier")
                 {
-                    Type = reader.GetAttribute("type"),
-                    Value = reader.GetAttribute("value"),
-                    Description = reader.GetAttribute("description"),
-                };
-                list.Add(obj);
+                    list.Add(new Identifier
+                    {
+                        Type = reader.GetAttribute("type"),
+                        Value = reader.GetAttribute("value"),
+                        Description = reader.GetAttribute("description"),
+                    });
+                }
+
+                reader.Skip();
             }
 
             return list.ToArray();
@@ -628,17 +613,20 @@ public class Release : IExportable
         public static Company[] Parse(XmlReader reader)
         {
             List<Company> list = [];
-            while (reader.Read() && reader.IsStartElement("company"))
+            int depth = reader.EnterElement();
+            while (reader.NextChildElement(depth))
             {
-                Company obj = new();
-                reader.Read();
-                while (!reader.EOF)
+                if (reader.Name != "company")
                 {
-                    if (reader.Name == "company")
-                    {
-                        break;
-                    }
+                    reader.Skip();
+                    continue;
+                }
 
+                Company obj = new();
+                list.Add(obj);
+                int companyDepth = reader.EnterElement();
+                while (reader.NextChildElement(companyDepth))
+                {
                     switch (reader.Name)
                     {
                         case "id":
@@ -664,8 +652,6 @@ public class Release : IExportable
                             break;
                     }
                 }
-
-                list.Add(obj);
             }
 
             return list.ToArray();

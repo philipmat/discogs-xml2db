@@ -202,6 +202,23 @@ public class ObjectDeserializationTests
             );
     }
 
+    [Theory]
+    [InlineData("""<release id="7" status="Accepted"><title>T</title></release>""", "Accepted")]
+    [InlineData("""<release id="7" status="Draft"/>""", "Draft")]
+    [InlineData("""<release id="7"><title>T</title></release>""", null)]
+    public void Release_Export_WritesStatusColumn(string xml, string expectedStatus)
+    {
+        Release release = new();
+        using XmlReader reader = XmlReader.Create(new StringReader(xml), Parser<Release>.DefaultReaderSettings);
+        reader.MoveToContent();
+
+        release.Populate(reader);
+
+        string[] row = release.Export().Single(r => r.StreamName == "release").RowValues;
+        string[] header = release.GetExportStreamsAndFields()["release"];
+        row[Array.IndexOf(header, "status")].Should().Be(expectedStatus);
+    }
+
     [Fact]
     public void Release_Populate()
     {
@@ -212,6 +229,7 @@ public class ObjectDeserializationTests
 
         // Assert
         release.Title.Should().Be("Profound Sounds Vol. 1");
+        release.Status.Should().Be("Accepted");
         release.Country.Should().Be("US");
         release.Released.Should().Be("1999-07-13");
         release.Notes.Should().NotBeNullOrEmpty();

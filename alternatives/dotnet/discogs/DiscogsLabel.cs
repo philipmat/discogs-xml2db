@@ -81,25 +81,18 @@ public class Label : IExportable
         }
     }
 
-    public void Populate(XmlReader reader) => Populate2(reader);
-
-
-    private void Populate2(XmlReader reader)
+    public void Populate(XmlReader reader)
     {
         if (reader.Name != "label")
         {
             return;
         }
 
-        // <master id="123"> unlike all others
-        reader.Read();
-        while (!reader.EOF)
+        int depth = reader.EnterElement();
+        while (reader.NextChildElement(depth))
         {
             switch (reader.Name)
             {
-                case "label":
-                    // it's back on a release node (EndElement); release control
-                    return;
                 case "images":
                     Images = Image.Parse(reader);
                     break;
@@ -132,110 +125,8 @@ public class Label : IExportable
                     Sublabels = ParseSublabels(reader);
                     break;
                 default:
-                    reader.Read();
+                    reader.Skip();
                     break;
-            }
-
-            if (reader.NodeType == XmlNodeType.EndElement)
-            {
-                if (reader.Name == "label")
-                {
-                    return;
-                }
-
-                reader.Skip();
-            }
-        }
-    }
-
-    private void Populate1(XmlReader reader)
-    {
-        while (reader.Read())
-        {
-            if (reader.IsStartElement("label"))
-            {
-                return;
-            }
-
-            if (reader.IsStartElement("id"))
-            {
-                Id = reader.ReadElementContentAsString();
-            }
-
-            if (reader.IsStartElement("name"))
-            {
-                Name = reader.ReadElementContentAsString();
-            }
-
-            if (reader.IsStartElement("contactinfo"))
-            {
-                ContactInfo = reader.ReadElementContentAsString();
-            }
-
-            if (reader.IsStartElement("profile"))
-            {
-                Profile = reader.ReadElementContentAsString();
-            }
-
-            if (reader.IsStartElement("data_quality"))
-            {
-                DataQuality = reader.ReadElementContentAsString();
-            }
-
-            if (reader.IsStartElement("parentLabel"))
-            {
-                ParentLabel = new()
-                {
-                    Id = reader.GetAttribute("id"),
-                    Name = reader.ReadElementContentAsString()
-                };
-            }
-
-            if (reader.IsStartElement("sublabels"))
-            {
-                reader.Read();
-                List<Label> sublabelList = [];
-                while (reader.IsStartElement("label"))
-                {
-                    Label label = new()
-                    {
-                        Id = reader.GetAttribute("id"),
-                        Name = reader.ReadElementContentAsString()
-                    };
-                    sublabelList.Add(label);
-                }
-
-                Sublabels = sublabelList.ToArray();
-            }
-
-            if (reader.IsStartElement("images"))
-            {
-                List<Image> images = [];
-                while (reader.Read() && reader.IsStartElement("image"))
-                {
-                    Image image = new()
-                    {
-                        Type = reader.GetAttribute("type"), Width = reader.GetAttribute("width"),
-                        Height = reader.GetAttribute("height")
-                    };
-                    images.Add(image);
-                }
-
-                this.Images = images.ToArray();
-            }
-
-            if (reader.IsStartElement("urls"))
-            {
-                reader.Read();
-                List<string> urls = [];
-                while (reader.IsStartElement("url"))
-                {
-                    string url = reader.ReadElementContentAsString();
-                    if (!string.IsNullOrWhiteSpace(url))
-                        urls.Add(url);
-                }
-
-                this.Urls = urls.ToArray();
             }
         }
     }
@@ -244,11 +135,11 @@ public class Label : IExportable
 
     private static Label[] ParseSublabels(XmlReader reader)
     {
-        reader.Read();
         List<Label> sublabelList = [];
-        while (reader.IsStartElement("label"))
+        int depth = reader.EnterElement();
+        while (reader.NextChildElement(depth))
         {
-            if (reader.IsEmptyElement)
+            if (reader.Name != "label")
             {
                 reader.Skip();
                 continue;
@@ -260,7 +151,11 @@ public class Label : IExportable
                 Name = reader.ReadElementContentAsString(),
                 IsSubLabel = true
             };
-            sublabelList.Add(label);
+            // <label id="1"/> and <label id="1"></label> carry no sublabel name
+            if (!string.IsNullOrEmpty(label.Name))
+            {
+                sublabelList.Add(label);
+            }
         }
 
         return sublabelList.ToArray();

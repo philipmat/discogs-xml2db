@@ -21,10 +21,15 @@ public class Image
     internal static Image[] Parse(XmlReader reader)
     {
         List<Image> list = [];
-        while (reader.Read() && reader.IsStartElement("image"))
+        int depth = reader.EnterElement();
+        while (reader.NextChildElement(depth))
         {
-            Image obj = ParseImage(reader);
-            list.Add(obj);
+            if (reader.Name == "image")
+            {
+                list.Add(ParseImage(reader));
+            }
+
+            reader.Skip();
         }
 
         return list.ToArray();
@@ -66,41 +71,39 @@ public class Video
     internal static Video[] Parse(XmlReader reader)
     {
         List<Video> list = [];
-        while (reader.Read() && reader.IsStartElement("video"))
+        int depth = reader.EnterElement();
+        while (reader.NextChildElement(depth))
         {
+            if (reader.Name != "video")
+            {
+                reader.Skip();
+                continue;
+            }
+
             Video one = new()
             {
                 Src = reader.GetAttribute("src"),
                 Duration = reader.GetAttribute("duration"),
                 Embed = reader.GetAttribute("embed"),
             };
-
-            reader.Read();
-            while (!reader.EOF)
-            {
-                if (reader.Name == "title")
-                {
-                    one.Title = reader.ReadElementContentAsString();
-                    continue;
-                }
-
-                if (reader.Name == "description")
-                {
-                    one.Description = reader.ReadElementContentAsString();
-                    continue;
-                }
-
-                if (reader.Name == "video")
-                {
-                    // reader.Skip();
-                    break;
-                }
-
-                // any other element
-                reader.Read();
-            }
-
             list.Add(one);
+
+            int videoDepth = reader.EnterElement();
+            while (reader.NextChildElement(videoDepth))
+            {
+                switch (reader.Name)
+                {
+                    case "title":
+                        one.Title = reader.ReadElementContentAsString();
+                        break;
+                    case "description":
+                        one.Description = reader.ReadElementContentAsString();
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
         }
 
         return list.ToArray();

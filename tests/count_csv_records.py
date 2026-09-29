@@ -8,8 +8,9 @@ import bz2
 import csv
 import gzip
 import sys
+from collections.abc import Iterable
 from pathlib import Path
-from typing import IO, Iterable, Iterator, TextIO
+from typing import TextIO
 
 
 def open_text(path: str) -> TextIO:

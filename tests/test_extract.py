@@ -1,11 +1,7 @@
+import csv
 import logging
 import os
 import pathlib
-import shutil
-import tempfile
-import csv
-
-from typing import Dict
 
 try:
     from discogsxml2db.exporter import main as export_main
@@ -19,7 +15,7 @@ except ImportError:
 
 class TestExtraction:
     _samples_folder: str = None
-    _resulting_counts: Dict[str, Dict[str, int]] = {
+    _resulting_counts: dict[str, dict[str, int]] = {
         "label": {"label.csv": 1000, "label_image.csv": 421, "label_url.csv": 437},
         "artist": {
             "artist_alias.csv": 548,
@@ -55,7 +51,9 @@ class TestExtraction:
 
     @classmethod
     def setup_class(cls):
-        cls._samples_folder = os.path.join(pathlib.Path(__file__).absolute().parent, "samples")
+        cls._samples_folder = os.path.join(
+            pathlib.Path(__file__).absolute().parent, "samples"
+        )
 
     def test_artists_counts(self, tmp_path):
         self._check_counts("artist", tmp_path)

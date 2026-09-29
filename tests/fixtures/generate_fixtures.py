@@ -19,11 +19,11 @@ import json
 import random
 import re
 import sys
+import time
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Sequence, Tuple
-import time
 from xml.sax.saxutils import escape as xml_escape
 
 from lxml import etree
@@ -32,10 +32,10 @@ from lxml import etree
 @dataclass
 class SourceInfo:
     path: Path
-    preamble_lines: List[str]
+    preamble_lines: list[str]
     root_tag: str
-    root_attrib: Dict[str, str]
-    nsmap: Dict[Optional[str], str]
+    root_attrib: dict[str, str]
+    nsmap: dict[str | None, str]
 
 
 @dataclass
@@ -73,7 +73,7 @@ class Progress:
         )
 
 
-def make_progress(label: str, every: int) -> Optional[Progress]:
+def make_progress(label: str, every: int) -> Progress | None:
     """Create a Progress helper or return None when disabled."""
     if every <= 0:
         return None
@@ -87,18 +87,18 @@ def open_xml(path: Path):
     return path.open("rb")
 
 
-def extract_preamble(path: Path, max_bytes: int = 65536) -> List[str]:
+def extract_preamble(path: Path, max_bytes: int = 65536) -> list[str]:
     """Return XML declaration and DOCTYPE lines from the file header."""
     with open_xml(path) as fp:
         data = fp.read(max_bytes)
     text = data.decode("utf-8", errors="replace")
-    parts: List[str] = []
+    parts: list[str] = []
     for match in re.finditer(r"<\?xml[^?]*\?>|<!DOCTYPE[^>]*>", text, re.IGNORECASE):
         parts.append(match.group(0).strip())
     return parts
 
 
-def get_root_info(path: Path) -> Tuple[str, Dict[str, str], Dict[Optional[str], str]]:
+def get_root_info(path: Path) -> tuple[str, dict[str, str], dict[str | None, str]]:
     """Extract root tag, attributes, and namespace map from an XML file."""
     with open_xml(path) as fp:
         context = etree.iterparse(fp, events=("start",), huge_tree=True)
@@ -106,7 +106,7 @@ def get_root_info(path: Path) -> Tuple[str, Dict[str, str], Dict[Optional[str], 
     return root.tag, dict(root.attrib), dict(root.nsmap)
 
 
-def qname(tag: str, nsmap: Dict[Optional[str], str]) -> str:
+def qname(tag: str, nsmap: dict[str | None, str]) -> str:
     """Convert a namespace-qualified tag into a prefixed name when possible."""
     if tag.startswith("{"):
         uri, local = tag[1:].split("}", 1)
@@ -122,11 +122,11 @@ def qname(tag: str, nsmap: Dict[Optional[str], str]) -> str:
 
 
 def build_root_tag(
-    tag: str, attrib: Dict[str, str], nsmap: Dict[Optional[str], str]
-) -> Tuple[str, str]:
+    tag: str, attrib: dict[str, str], nsmap: dict[str | None, str]
+) -> tuple[str, str]:
     """Build start/end root tags, preserving attributes and namespaces."""
     qn = qname(tag, nsmap)
-    attrs: List[str] = []
+    attrs: list[str] = []
     for k, v in attrib.items():
         ak = qname(k, nsmap) if k.startswith("{") else k
         attrs.append(f'{ak}="{xml_escape(v)}"')
@@ -144,7 +144,7 @@ def build_root_tag(
 
 
 def iter_entities(
-    path: Path, tag: str, progress: Optional[Progress] = None
+    path: Path, tag: str, progress: Progress | None = None
 ) -> Iterable[etree._Element]:
     """Yield entities for a given tag using streaming parse and cleanup.
 
@@ -173,7 +173,7 @@ def ln(name: str) -> str:
     return f'*[local-name()="{name}"]'
 
 
-def release_complexity(element: etree._Element) -> Dict[str, int]:
+def release_complexity(element: etree._Element) -> dict[str, int]:
     """Compute a per-release feature count used for selection ranking."""
     counts = {
         "release_artists": xpath_count(element, f"./{ln('artists')}/{ln('artist')}"),
@@ -202,7 +202,7 @@ def release_complexity(element: etree._Element) -> Dict[str, int]:
     return counts
 
 
-def release_id(element: etree._Element) -> Optional[int]:
+def release_id(element: etree._Element) -> int | None:
     """Return release id from the element attribute, if valid."""
     value = element.get("id")
     if value is None:
@@ -213,7 +213,7 @@ def release_id(element: etree._Element) -> Optional[int]:
         return None
 
 
-def master_id(element: etree._Element) -> Optional[int]:
+def master_id(element: etree._Element) -> int | None:
     """Return master id from the element attribute, if valid."""
     value = element.get("id")
     if value is None:
@@ -224,7 +224,7 @@ def master_id(element: etree._Element) -> Optional[int]:
         return None
 
 
-def child_id_text(element: etree._Element) -> Optional[int]:
+def child_id_text(element: etree._Element) -> int | None:
     """Return integer id from a child <id> element, if present."""
     node = element.find("id")
     if node is None or node.text is None:
@@ -235,7 +235,7 @@ def child_id_text(element: etree._Element) -> Optional[int]:
         return None
 
 
-def collect_release_refs(element: etree._Element) -> Tuple[set, set, set]:
+def collect_release_refs(element: etree._Element) -> tuple[set, set, set]:
     """Collect master, artist, and label ids referenced by a release."""
     master_ids: set = set()
     artist_ids: set = set()
@@ -273,7 +273,7 @@ def collect_release_refs(element: etree._Element) -> Tuple[set, set, set]:
     return master_ids, artist_ids, label_ids
 
 
-def collect_master_refs(element: etree._Element) -> Tuple[set, set]:
+def collect_master_refs(element: etree._Element) -> tuple[set, set]:
     """Collect main_release and artist ids referenced by a master."""
     release_ids: set = set()
     artist_ids: set = set()
@@ -315,10 +315,10 @@ def collect_artist_member_ids(element: etree._Element) -> set:
 
 
 def reservoir_add(
-    reservoir: List[Tuple[int, int, bytes, Dict[str, int]]],
+    reservoir: list[tuple[int, int, bytes, dict[str, int]]],
     seen: int,
     capacity: int,
-    item: Tuple[int, int, bytes, Dict[str, int]],
+    item: tuple[int, int, bytes, dict[str, int]],
     rng: random.Random,
 ) -> None:
     """Update a reservoir sample in-place."""
@@ -338,21 +338,21 @@ def select_releases(
     complexity: str,
     seed: int,
     mixed_ratio: float,
-    available_artists: Optional[set],
-    available_labels: Optional[set],
-    available_masters: Optional[set],
+    available_artists: set | None,
+    available_labels: set | None,
+    available_masters: set | None,
     progress_every: int,
-) -> Tuple[Dict[int, bytes], Dict[int, Dict[str, int]], Dict[int, int]]:
+) -> tuple[dict[int, bytes], dict[int, dict[str, int]], dict[int, int]]:
     """Select release elements according to complexity or randomness."""
     rng = random.Random(seed)
     if size <= 0:
         return {}, {}, {}
 
-    selected: Dict[int, bytes] = {}
-    meta: Dict[int, Dict[str, int]] = {}
-    coverage_map: Dict[int, int] = {}
+    selected: dict[int, bytes] = {}
+    meta: dict[int, dict[str, int]] = {}
+    coverage_map: dict[int, int] = {}
 
-    def coverage_score(element: etree._Element) -> Optional[int]:
+    def coverage_score(element: etree._Element) -> int | None:
         """Compute how many referenced ids are present in available dumps."""
         if (
             available_artists is None
@@ -368,8 +368,8 @@ def select_releases(
         return score
 
     def push_top(
-        heap: List[Tuple[Tuple[int, int], int, bytes, Dict[str, int], int]],
-        item: Tuple[Tuple[int, int], int, bytes, Dict[str, int], int],
+        heap: list[tuple[tuple[int, int], int, bytes, dict[str, int], int]],
+        item: tuple[tuple[int, int], int, bytes, dict[str, int], int],
         limit: int,
     ) -> None:
         if limit <= 0:
@@ -382,7 +382,7 @@ def select_releases(
 
     progress = make_progress("Scanning releases (selection)", progress_every)
     if complexity == "random":
-        reservoir: List[Tuple[int, int, bytes, Dict[str, int]]] = []
+        reservoir: list[tuple[int, int, bytes, dict[str, int]]] = []
         seen = 0
         for element in iter_entities(path, "release", progress):
             rid = release_id(element)
@@ -410,7 +410,7 @@ def select_releases(
     if complexity == "mixed":
         top_size = max(1, int(round(size * mixed_ratio)))
         remaining = max(0, size - top_size)
-        top_heap: List[Tuple[Tuple[int, int], int, bytes, Dict[str, int], int]] = []
+        top_heap: list[tuple[tuple[int, int], int, bytes, dict[str, int], int]] = []
         for element in iter_entities(path, "release", progress):
             rid = release_id(element)
             if rid is None:
@@ -427,12 +427,14 @@ def select_releases(
             push_top(top_heap, item, top_size)
 
         top_ids = {rid for _, rid, _, _, _ in top_heap}
-        reservoir: List[Tuple[int, int, bytes, Dict[str, int]]] = []
+        reservoir: list[tuple[int, int, bytes, dict[str, int]]] = []
         seen = 0
         if remaining > 0:
             if progress is not None:
                 progress.finish()
-            progress = make_progress("Scanning releases (mixed remainder)", progress_every)
+            progress = make_progress(
+                "Scanning releases (mixed remainder)", progress_every
+            )
             for element in iter_entities(path, "release", progress):
                 rid = release_id(element)
                 if rid is None or rid in top_ids:
@@ -462,7 +464,7 @@ def select_releases(
         return selected, meta, coverage_map
 
     # highest complexity (default)
-    top_heap: List[Tuple[Tuple[int, int], int, bytes, Dict[str, int], int]] = []
+    top_heap: list[tuple[tuple[int, int], int, bytes, dict[str, int], int]] = []
     for element in iter_entities(path, "release", progress):
         rid = release_id(element)
         if rid is None:
@@ -490,10 +492,10 @@ def select_releases(
 def extract_releases(
     path: Path,
     target_ids: set,
-    existing: Dict[int, bytes],
-    meta: Dict[int, Dict[str, int]],
+    existing: dict[int, bytes],
+    meta: dict[int, dict[str, int]],
     progress_every: int,
-) -> Tuple[set, set, set]:
+) -> tuple[set, set, set]:
     """Extract releases by id and collect their cross-file references."""
     new_master_ids: set = set()
     new_artist_ids: set = set()
@@ -524,9 +526,9 @@ def extract_releases(
 def extract_masters(
     path: Path,
     target_ids: set,
-    existing: Dict[int, bytes],
+    existing: dict[int, bytes],
     progress_every: int,
-) -> Tuple[set, set]:
+) -> tuple[set, set]:
     """Extract masters by id and collect referenced releases and artists."""
     new_release_ids: set = set()
     new_artist_ids: set = set()
@@ -553,7 +555,7 @@ def extract_masters(
 def extract_artists(
     path: Path,
     target_ids: set,
-    existing: Dict[int, bytes],
+    existing: dict[int, bytes],
     progress_every: int,
 ) -> set:
     """Extract artists by id and collect member references."""
@@ -578,7 +580,7 @@ def extract_artists(
 def extract_labels(
     path: Path,
     target_ids: set,
-    existing: Dict[int, bytes],
+    existing: dict[int, bytes],
     progress_every: int,
 ) -> None:
     """Extract labels by id into the output map."""
@@ -599,12 +601,12 @@ def extract_by_id(
     path: Path,
     tag: str,
     target_ids: set,
-    existing: Dict[int, bytes],
+    existing: dict[int, bytes],
     progress_every: int,
     *,
-    id_attr: Optional[str] = None,
-    id_child: Optional[str] = None,
-    label: Optional[str] = None,
+    id_attr: str | None = None,
+    id_child: str | None = None,
+    label: str | None = None,
 ) -> None:
     """Extract elements by id (attribute or child element)."""
     remaining = target_ids - set(existing.keys())
@@ -612,7 +614,7 @@ def extract_by_id(
         return
     progress = make_progress(label or f"Scanning {tag}s", progress_every)
     for element in iter_entities(path, tag, progress):
-        value: Optional[str] = None
+        value: str | None = None
         if id_attr:
             value = element.get(id_attr)
         elif id_child:
@@ -634,7 +636,7 @@ def extract_by_id(
 
 def write_output(
     info: SourceInfo,
-    elements_by_id: Dict[int, bytes],
+    elements_by_id: dict[int, bytes],
     output_path: Path,
 ) -> None:
     """Write a fixture XML file with preserved header and root info."""
@@ -658,7 +660,7 @@ def write_output(
 def find_dump(input_dir: Path, kind: str) -> Path:
     """Locate a dump file by kind, preferring uncompressed XML."""
     patterns = [f"*{kind}*.xml", f"*{kind}*.xml.gz"]
-    candidates: List[Path] = []
+    candidates: list[Path] = []
     for pattern in patterns:
         candidates.extend(sorted(input_dir.glob(pattern)))
     if not candidates:
@@ -720,7 +722,7 @@ def collect_available_ids(
     return ids
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     """CLI entry point for fixture generation."""
     parser = argparse.ArgumentParser(description="Generate Discogs XML fixtures")
     parser.add_argument("--input-dir", type=Path, default=Path("tests/samples"))
@@ -765,9 +767,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     input_dir: Path = args.input_dir
     output_dir: Path = args.output_dir
 
-    artists_path = Path(args.artists) if args.artists else find_dump(input_dir, "artists")
+    artists_path = (
+        Path(args.artists) if args.artists else find_dump(input_dir, "artists")
+    )
     labels_path = Path(args.labels) if args.labels else find_dump(input_dir, "labels")
-    masters_path = Path(args.masters) if args.masters else find_dump(input_dir, "masters")
+    masters_path = (
+        Path(args.masters) if args.masters else find_dump(input_dir, "masters")
+    )
     releases_path = (
         Path(args.releases) if args.releases else find_dump(input_dir, "releases")
     )
@@ -795,8 +801,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     manifest_mode = args.manifest is not None
     do_availability_scan = False
-    release_meta: Dict[int, Dict[str, int]] = {}
-    release_coverage: Dict[int, int] = {}
+    release_meta: dict[int, dict[str, int]] = {}
+    release_coverage: dict[int, int] = {}
 
     if manifest_mode:
         manifest_path = args.manifest
@@ -828,10 +834,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             file=sys.stderr,
         )
 
-        release_map: Dict[int, bytes] = {}
-        master_map: Dict[int, bytes] = {}
-        artist_map: Dict[int, bytes] = {}
-        label_map: Dict[int, bytes] = {}
+        release_map: dict[int, bytes] = {}
+        master_map: dict[int, bytes] = {}
+        artist_map: dict[int, bytes] = {}
+        label_map: dict[int, bytes] = {}
 
         extract_by_id(
             releases_path,
@@ -941,10 +947,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         )
         seed_release_ids = set(selected_releases.keys())
 
-        release_map: Dict[int, bytes] = dict(selected_releases)
-        master_map: Dict[int, bytes] = {}
-        artist_map: Dict[int, bytes] = {}
-        label_map: Dict[int, bytes] = {}
+        release_map: dict[int, bytes] = dict(selected_releases)
+        master_map: dict[int, bytes] = {}
+        artist_map: dict[int, bytes] = {}
+        label_map: dict[int, bytes] = {}
 
         needed_release_ids: set = set(release_map.keys())
         needed_master_ids: set = set()

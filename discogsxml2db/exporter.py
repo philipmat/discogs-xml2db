@@ -135,6 +135,7 @@ class EntityCsvExporter:
 
         # ncols=self.progress_bar_width does not seem to work well when the console is not as wide
         # leaving out ncols allows the tqdm to set out a good width
+        cnt = 0
         with tqdm(
             total=self.max_hint,
             desc=f"Processing {self.entity:>10}s",

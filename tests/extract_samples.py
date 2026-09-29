@@ -10,14 +10,15 @@ Options:
 
 """
 
-import sys
-import requests
+import contextlib
 import gzip
-import pathlib
-import lxml.etree as etree
 import os
+import pathlib
+import sys
 
+import requests
 from docopt import docopt
+from lxml import etree
 from tqdm import tqdm
 
 
@@ -44,11 +45,9 @@ def main():
     }
 
     headers = {"User-Agent": "discogs-xml2db/1.0 +https://github.com/philipmat/discogs-xml2db/"}
-    try:
+    with contextlib.suppress(requests.exceptions.RequestException, TypeError, ValueError, AttributeError):
         response = requests.get("https://api.discogs.com/", timeout=5, headers=headers)
         rough_counts.update(response.json().get("statistics"))
-    except Exception:
-        pass
 
     in_file = arguments["FILE"]
     try:
@@ -61,21 +60,13 @@ def main():
     percent_breaks = max_records // SAMPLES
     extract_count = int(arguments["--count"])
     extract_batch = extract_count // SAMPLES
-    extract_windows = [
-        (percent_breaks * step, percent_breaks * step + extract_batch) for step in range(0, SAMPLES)
-    ]
+    extract_windows = [(percent_breaks * step, percent_breaks * step + extract_batch) for step in range(SAMPLES)]
 
     # since we run this as a script, we need to add the parent folder
     # so we can import discogsxml2db from it
 
     parent_path = str(pathlib.Path(__file__).absolute().parent.parent)
     sys.path.insert(1, parent_path)
-    from discogsxml2db.parser import (
-        DiscogsArtistParser,
-        DiscogsLabelParser,
-        DiscogsMasterParser,
-        DiscogsReleaseParser,
-    )  # noqa
 
     _parsers = {
         "artists": {"tag": "artist", "id_method": lambda el: el.find("id")},
@@ -91,11 +82,11 @@ def main():
         elif fpath.endswith(".xml"):
             return open(fpath, mode="rb")
         else:
-            raise RuntimeError("unknown file type: {}".format(fpath))
+            raise RuntimeError(f"unknown file type: {fpath}")
 
     def in_extraction_window(pos: int) -> bool:
         for min_x, max_x in extract_windows:
-            if min_x <= pos and pos < max_x:
+            if min_x <= pos < max_x:
                 return True
             if min_x > pos:
                 return False
@@ -107,11 +98,12 @@ def main():
         out_fp.write(b"<" + bytearray(parser_name, "utf-8") + b">\n")
         try:
             inner_pbar = tqdm(
-                total=extract_count, desc="Extracting records", unit="records", position=1
+                total=extract_count,
+                desc="Extracting records",
+                unit="records",
+                position=1,
             )
-            with tqdm(
-                total=max_records, desc="Processing records", unit="records", position=0
-            ) as pbar:
+            with tqdm(total=max_records, desc="Processing records", unit="records", position=0) as pbar:
                 parse_count = 0
                 for _, element in etree.iterparse(in_fp, tag=parser["tag"]):
                     e_id = parser["id_method"](element)
@@ -125,7 +117,7 @@ def main():
                     # clear element to preserve memory
                     element.clear()
             inner_pbar.close()
-        except Exception as ex:
+        except Exception as ex:  # noqa: BLE001 - report errors without aborting extraction
             print(ex)
         finally:
             in_fp.close()

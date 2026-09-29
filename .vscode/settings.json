@@ -9,17 +9,10 @@
         "**/__pycache__": true,
         "**/.pytest_cache": true,
     },
-    "python.linting.pycodestyleEnabled": true,
-    "python.linting.pylintEnabled": false,
-    "python.linting.prospectorEnabled": false,
-    "python.linting.enabled": true,
-    "python.formatting.provider": "black",
-    "python.formatting.blackArgs": [
-        "--line-length",
-        "100"
-    ],
+    "ruff.lint.enable": true,
     "[python]": {
-        "editor.formatOnSave": false
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": "charliemarsh.ruff"
     },
     "cSpell.words": [
         "ABCDEFG",
@@ -49,7 +42,6 @@
         "postgresql",
         "psql",
         "pycache",
-        "pycodestyle",
         "pytest",
         "tqdm",
         "venv"

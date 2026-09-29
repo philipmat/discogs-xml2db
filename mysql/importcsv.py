@@ -25,11 +25,12 @@ Options:
 #    file = uncompress(monitor_progress(PATH))
 #    cursor.copy_expert(sql, file)
 
-
+import configparser
 import os
 import sys
-import configparser
+
 from docopt import docopt
+
 try:
     import mysql.connector
 except ImportError:
@@ -39,7 +40,7 @@ except ImportError:
 
 def read_config(path):
     with open(path) as f:
-        file_content = '[general]\n' + f.read()
+        file_content = "[general]\n" + f.read()
     config_parser = configparser.RawConfigParser()
     config_parser.read_string(file_content)
     config = config_parser["general"]
@@ -47,26 +48,27 @@ def read_config(path):
 
 
 def import_csv(path, mysql_config):
-    base, filename = os.path.split(path)
-    table, ext = filename.split('.', 1)
-    if ext != 'csv':
-        print('%s can not be imported: not a .csv file' % filename)
+    _base, filename = os.path.split(path)
+    table, ext = filename.split(".", 1)
+    if ext != "csv":
+        print(f"{filename} can not be imported: not a .csv file")
         return
-    fp = open(path, encoding="utf8")
-    print("importing %s" % filename)
-    cols = fp.readline()[:-1]
-    sql = """load data local infile '%s'
-           into table `%s`
+    print(f"importing {filename}")
+    with open(path, encoding="utf8") as fp:
+        cols = fp.readline()[:-1]
+    sql = f"""load data local infile '{path}'
+           into table `{table}`
            fields terminated by ',' ESCAPED BY '' OPTIONALLY ENCLOSED BY '\\"'
            lines terminated by '\\n'
            IGNORE 1 LINES
-           (%s);""" % (path, table, cols)
+           ({cols});"""
     connection = mysql.connector.connect(
-        host=mysql_config['host'],
-        database=mysql_config['database'],
-        user=mysql_config['user'],
-        password=mysql_config['password'],
-        allow_local_infile=True)
+        host=mysql_config["host"],
+        database=mysql_config["database"],
+        user=mysql_config["user"],
+        password=mysql_config["password"],
+        allow_local_infile=True,
+    )
     cursor = connection.cursor()
     cursor.execute(sql)
     connection.commit()
@@ -74,17 +76,17 @@ def import_csv(path, mysql_config):
     connection.close()
 
 
-arguments = docopt(__doc__, version='0.1')
-paths = arguments['PATH']
+arguments = docopt(__doc__, version="0.1")
+paths = arguments["PATH"]
 
-if arguments['--config']:
-    mysql_config = read_config(arguments['--config'])
+if arguments["--config"]:
+    mysql_config = read_config(arguments["--config"])
 else:
     root = os.path.realpath(os.path.dirname(__file__))
-    mysql_config = read_config(os.path.join(root, 'mysql.conf'))
+    mysql_config = read_config(os.path.join(root, "mysql.conf"))
 
 for path in paths:
     if os.path.isfile(path):
         import_csv(path, mysql_config)
     else:
-        print("error: '%s' is not a readable file" % path)
+        print(f"error: '{path}' is not a readable file")

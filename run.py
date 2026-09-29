@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Usage:
   run.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] [--output=<dir>] <INPUT_FILE> <INPUT_FILE>...
   run.py [--bz2] [--dry-run] [--limit=<lines>] [--debug] [--apicounts] [--output=<dir>] INPUT_DIR [--export=<entity>]...
@@ -15,14 +14,15 @@ Options:
   --output=<dir> Where to write the csv files. Defaults to current dir.
 
 """
+
 import sys
 
 from docopt import docopt
+
 from discogsxml2db.exporter import main
 
-
-if __name__ == '__main__':
-    arguments = docopt(__doc__, version='Discogs-to-SQL exporter')
+if __name__ == "__main__":
+    arguments = docopt(__doc__, version="Discogs-to-SQL exporter")
     if arguments["--debug"]:
         print(arguments)
     sys.exit(main(arguments))

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Usage:
     importcsv.py --db=<db> [--batch=<n>] [--fast] PATH ...
 
@@ -9,6 +9,7 @@ Options:
   PATH              one or more csv files (optionally .bz2)
 
 """
+
 import bz2
 import csv
 import os
@@ -22,21 +23,21 @@ from docopt import docopt
 # so we can import discogsxml2db from it
 parent_path = str(pathlib.Path(__file__).absolute().parent.parent)
 sys.path.insert(1, parent_path)
-from discogsxml2db.exporter import csv_headers  # noqa
+from discogsxml2db.exporter import csv_headers  # noqa: E402
 
 
 def _open_csv(path):
-    if path.endswith('.csv'):
-        return open(path, newline='', encoding='utf-8')
-    if path.endswith('.csv.bz2'):
-        return bz2.open(path, mode='rt', newline='', encoding='utf-8')
+    if path.endswith(".csv"):
+        return open(path, newline="", encoding="utf-8")
+    if path.endswith(".csv.bz2"):
+        return bz2.open(path, mode="rt", newline="", encoding="utf-8")
     return None
 
 
 def _normalize_header(header):
     if not header:
         return header
-    header[0] = header[0].lstrip('\ufeff')
+    header[0] = header[0].lstrip("\ufeff")
     return header
 
 
@@ -48,34 +49,34 @@ def _apply_fast_pragmas(db):
 
 
 def import_csv(path, db, batch_size):
-    base, filename = os.path.split(path)
-    table, ext = filename.split('.', 1)
-    if ext not in ('csv', 'csv.bz2'):
-        print("%s can not be imported: not a .csv or .csv.bz2 file" % filename)
+    _base, filename = os.path.split(path)
+    table, ext = filename.split(".", 1)
+    if ext not in ("csv", "csv.bz2"):
+        print(f"{filename} can not be imported: not a .csv or .csv.bz2 file")
         return
 
     columns = csv_headers.get(table)
     if not columns:
-        print("%s can not be imported: unknown table" % filename)
+        print(f"{filename} can not be imported: unknown table")
         return
 
     fp = _open_csv(path)
     if not fp:
-        print("%s can not be imported: failed to open" % filename)
+        print(f"{filename} can not be imported: failed to open")
         return
 
-    print("importing %s" % filename)
+    print(f"importing {filename}")
     reader = csv.reader(fp)
     header = _normalize_header(next(reader, None))
     if header is None:
-        print("%s can not be imported: empty file" % filename)
+        print(f"{filename} can not be imported: empty file")
         return
     if header != columns:
-        print("warning: header mismatch in %s" % filename)
+        print(f"warning: header mismatch in {filename}")
 
     placeholders = ", ".join(["?"] * len(columns))
     col_list = ", ".join(columns)
-    sql = "INSERT INTO {} ({}) VALUES ({})".format(table, col_list, placeholders)
+    sql = f"INSERT INTO {table} ({col_list}) VALUES ({placeholders})"
 
     cursor = db.cursor()
     batch = []
@@ -93,10 +94,10 @@ def import_csv(path, db, batch_size):
     fp.close()
 
 
-arguments = docopt(__doc__, version='0.1')
-db_path = arguments['--db']
+arguments = docopt(__doc__, version="0.1")
+db_path = arguments["--db"]
 try:
-    batch_size = int(arguments['--batch'])
+    batch_size = int(arguments["--batch"])
 except ValueError:
     print("error: --batch must be an integer")
     sys.exit(1)
@@ -110,13 +111,13 @@ if batch_size <= 0:
     sys.exit(1)
 
 connection = sqlite3.connect(db_path)
-if arguments['--fast']:
+if arguments["--fast"]:
     _apply_fast_pragmas(connection)
 
-for path in arguments['PATH']:
+for path in arguments["PATH"]:
     if os.path.isfile(path):
         import_csv(os.path.abspath(path), connection, batch_size)
     else:
-        print("error: '%s' is not a readable file" % path)
+        print(f"error: '{path}' is not a readable file")
 
 connection.close()

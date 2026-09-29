@@ -23,7 +23,7 @@
 
 ## Conventions
 - Keep changes minimal and avoid drive-by reformatting.
-- Respect the 120-character line limit from `setup.cfg`.
+- Respect the 120-character line limit from `pyproject.toml` (enforced by `ruff check` and `ruff format`).
 - Prefer existing patterns in the codebase (e.g., argument handling in `run.py` and `discogsxml2db/exporter.py`).
 - Be cautious with performance-sensitive paths; these dumps are large in real usage.
 

@@ -1,11 +1,8 @@
+import csv
 import logging
 import os
 import pathlib
-import shutil
-import tempfile
-import csv
-
-from typing import Dict
+from typing import ClassVar
 
 try:
     from discogsxml2db.exporter import main as export_main
@@ -17,9 +14,12 @@ except ImportError:
     from discogsxml2db.exporter import main as export_main
 
 
+logger = logging.getLogger(__name__)
+
+
 class TestExtraction:
     _samples_folder: str = None
-    _resulting_counts: Dict[str, Dict[str, int]] = {
+    _resulting_counts: ClassVar[dict[str, dict[str, int]]] = {
         "label": {"label.csv": 1000, "label_image.csv": 421, "label_url.csv": 437},
         "artist": {
             "artist_alias.csv": 548,
@@ -86,7 +86,7 @@ class TestExtraction:
             "--apicounts": False,
         }
 
-        logging.debug("Counting %s: %r", entity, arguments)
+        logger.debug("Counting %s: %r", entity, arguments)
 
         # act
         export_main(arguments)
@@ -94,7 +94,7 @@ class TestExtraction:
         # asserts
         for file_name in self._resulting_counts[entity]:
             csv_file = os.path.join(tmp_path, file_name)
-            logging.info("Testing for file %s", csv_file)
+            logger.info("Testing for file %s", csv_file)
             assert os.path.exists(csv_file), f"Expected {csv_file} to exist."
             actual_records = self._count_records(csv_file)
             expected_records = self._resulting_counts[entity][file_name]

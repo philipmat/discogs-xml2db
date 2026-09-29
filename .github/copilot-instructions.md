@@ -6,7 +6,7 @@ This repository contains a Python-based exporter for Discogs XML dumps, plus an 
 ## General guidance
 - Keep diffs minimal and targeted; avoid large refactors unless explicitly requested.
 - Follow existing patterns and naming conventions in the touched module.
-- Respect the 120-character line limit from `setup.cfg`.
+- Respect the 120-character line limit from `pyproject.toml` (enforced by `ruff check` and `ruff format`).
 - Do not add or modify large binary/sample data in the repo.
 
 ## Python specifics

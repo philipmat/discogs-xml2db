@@ -10,6 +10,7 @@ Options:
 
 """
 
+import contextlib
 import gzip
 import os
 import pathlib
@@ -46,11 +47,11 @@ def main():
     headers = {
         "User-Agent": "discogs-xml2db/1.0 +https://github.com/philipmat/discogs-xml2db/"
     }
-    try:
+    with contextlib.suppress(
+        requests.exceptions.RequestException, TypeError, ValueError, AttributeError
+    ):
         response = requests.get("https://api.discogs.com/", timeout=5, headers=headers)
         rough_counts.update(response.json().get("statistics"))
-    except Exception:
-        pass
 
     in_file = arguments["FILE"]
     try:
@@ -127,7 +128,7 @@ def main():
                     # clear element to preserve memory
                     element.clear()
             inner_pbar.close()
-        except Exception as ex:
+        except Exception as ex:  # noqa: BLE001 - report errors without aborting extraction
             print(ex)
         finally:
             in_fp.close()

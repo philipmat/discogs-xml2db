@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import bz2
+import contextlib
 import os
 import pathlib
 import sys
@@ -16,7 +17,7 @@ from discogsxml2db.exporter import csv_headers
 
 def load_csv(filename, db):
     print(f"Importing data from {filename}")
-    base, fname = os.path.split(filename)
+    _base, fname = os.path.split(filename)
     table, ext = fname.split(".", 1)
     if ext.startswith("csv"):
         q = sql.SQL("COPY {} ({}) FROM STDIN WITH CSV HEADER").format(
@@ -24,14 +25,15 @@ def load_csv(filename, db):
             sql.SQL(", ").join(map(sql.Identifier, csv_headers[table])),
         )
 
-    if ext == "csv":
-        fp = open(filename, encoding="utf-8")
-    elif ext == "csv.bz2":
-        fp = bz2.BZ2File(filename)
+    with contextlib.ExitStack() as stack:
+        if ext == "csv":
+            fp = stack.enter_context(open(filename, encoding="utf-8"))
+        elif ext == "csv.bz2":
+            fp = stack.enter_context(bz2.BZ2File(filename))
 
-    cursor = db.cursor()
-    cursor.copy_expert(q, fp)
-    db.commit()
+        cursor = db.cursor()
+        cursor.copy_expert(q, fp)
+        db.commit()
 
 
 root = os.path.realpath(os.path.dirname(__file__))

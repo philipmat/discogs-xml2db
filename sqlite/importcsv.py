@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Usage:
     importcsv.py --db=<db> [--batch=<n>] [--fast] PATH ...
 
@@ -49,30 +49,30 @@ def _apply_fast_pragmas(db):
 
 
 def import_csv(path, db, batch_size):
-    base, filename = os.path.split(path)
+    _base, filename = os.path.split(path)
     table, ext = filename.split(".", 1)
     if ext not in ("csv", "csv.bz2"):
-        print("%s can not be imported: not a .csv or .csv.bz2 file" % filename)
+        print(f"{filename} can not be imported: not a .csv or .csv.bz2 file")
         return
 
     columns = csv_headers.get(table)
     if not columns:
-        print("%s can not be imported: unknown table" % filename)
+        print(f"{filename} can not be imported: unknown table")
         return
 
     fp = _open_csv(path)
     if not fp:
-        print("%s can not be imported: failed to open" % filename)
+        print(f"{filename} can not be imported: failed to open")
         return
 
-    print("importing %s" % filename)
+    print(f"importing {filename}")
     reader = csv.reader(fp)
     header = _normalize_header(next(reader, None))
     if header is None:
-        print("%s can not be imported: empty file" % filename)
+        print(f"{filename} can not be imported: empty file")
         return
     if header != columns:
-        print("warning: header mismatch in %s" % filename)
+        print(f"warning: header mismatch in {filename}")
 
     placeholders = ", ".join(["?"] * len(columns))
     col_list = ", ".join(columns)
@@ -118,6 +118,6 @@ for path in arguments["PATH"]:
     if os.path.isfile(path):
         import_csv(os.path.abspath(path), connection, batch_size)
     else:
-        print("error: '%s' is not a readable file" % path)
+        print(f"error: '{path}' is not a readable file")
 
 connection.close()

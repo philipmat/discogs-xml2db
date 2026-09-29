@@ -1,4 +1,5 @@
 import bz2
+import contextlib
 import csv
 import glob
 import gzip
@@ -95,14 +96,14 @@ class EntityCsvExporter:
     def build_ops(self):
         if self.bz2:
             open_func = bz2.open
-            fname_template = "{table}.csv.bz2"
+            extension = ".csv.bz2"
         else:
             open_func = open
-            fname_template = "{table}.csv"
+            extension = ".csv"
 
         operations = []
         for table, func, args in self.actions:
-            fname = fname_template.format(table=table)
+            fname = f"{table}{extension}"
 
             # opens file with newline='' to keep Windows export happy: https://stackoverflow.com/a/29116560
             os.makedirs(self.out_dir, exist_ok=True)
@@ -174,9 +175,7 @@ class LabelExporter(EntityCsvExporter):
         )
 
     def validate(self, label):
-        if not getattr(label, "name", None):
-            return False
-        return True
+        return bool(getattr(label, "name", None))
 
 
 class ArtistExporter(EntityCsvExporter):
@@ -205,7 +204,7 @@ class ArtistExporter(EntityCsvExporter):
 
     def validate(self, artist):
         if not getattr(artist, "name", None):
-            artist.name = "[artist #%d]" % artist.id
+            artist.name = f"[artist #{artist.id}]"
         return True
 
 
@@ -375,10 +374,8 @@ def main(arguments):
             "User-Agent": "discogs-xml2db/1.0 +https://github.com/philipmat/discogs-xml2db/"
         }
         response = requests.get("https://api.discogs.com/", timeout=5, headers=headers)
-        try:
+        with contextlib.suppress(TypeError, ValueError, AttributeError):
             rough_counts.update(response.json().get("statistics"))
-        except Exception:
-            pass
 
     if arguments["INPUT_DIR"] and os.path.isdir(arguments["INPUT_DIR"]):
         # use --export to select the entities
@@ -402,11 +399,11 @@ def main(arguments):
         else:
             files = [arguments["INPUT_DIR"]]
         for in_file in files:
-            for entity in _exporters:
+            for entity, exporter_class in _exporters.items():
                 # discogs files are named discogs_{date}_{entity}s.xml
                 if f"_{entity}" in in_file:
                     expected_count = rough_counts[f"{entity}s"]
-                    exporter = _exporters[entity](
+                    exporter = exporter_class(
                         in_file,
                         out_base,
                         limit=limit,

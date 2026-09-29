@@ -408,7 +408,7 @@ def select_releases(
         return selected, meta, coverage_map
 
     if complexity == "mixed":
-        top_size = max(1, int(round(size * mixed_ratio)))
+        top_size = max(1, round(size * mixed_ratio))
         remaining = max(0, size - top_size)
         top_heap: list[tuple[tuple[int, int], int, bytes, dict[str, int], int]] = []
         for element in iter_entities(path, "release", progress):

@@ -48,20 +48,20 @@ def read_config(path):
 
 
 def import_csv(path, mysql_config):
-    base, filename = os.path.split(path)
+    _base, filename = os.path.split(path)
     table, ext = filename.split(".", 1)
     if ext != "csv":
-        print("%s can not be imported: not a .csv file" % filename)
+        print(f"{filename} can not be imported: not a .csv file")
         return
-    fp = open(path, encoding="utf8")
-    print("importing %s" % filename)
-    cols = fp.readline()[:-1]
-    sql = """load data local infile '%s'
-           into table `%s`
+    print(f"importing {filename}")
+    with open(path, encoding="utf8") as fp:
+        cols = fp.readline()[:-1]
+    sql = f"""load data local infile '{path}'
+           into table `{table}`
            fields terminated by ',' ESCAPED BY '' OPTIONALLY ENCLOSED BY '\\"'
            lines terminated by '\\n'
            IGNORE 1 LINES
-           (%s);""" % (path, table, cols)
+           ({cols});"""
     connection = mysql.connector.connect(
         host=mysql_config["host"],
         database=mysql_config["database"],
@@ -89,4 +89,4 @@ for path in paths:
     if os.path.isfile(path):
         import_csv(path, mysql_config)
     else:
-        print("error: '%s' is not a readable file" % path)
+        print(f"error: '{path}' is not a readable file")

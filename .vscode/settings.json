@@ -9,11 +9,7 @@
         "**/__pycache__": true,
         "**/.pytest_cache": true,
     },
-    "python.linting.pycodestyleEnabled": true,
-    "python.linting.pylintEnabled": false,
-    "python.linting.prospectorEnabled": false,
-    "python.linting.enabled": true,
-    "python.formatting.provider": "ruff",
+    "ruff.lint.enable": true,
     "[python]": {
         "editor.formatOnSave": false,
         "editor.defaultFormatter": "charliemarsh.ruff"
@@ -46,7 +42,6 @@
         "postgresql",
         "psql",
         "pycache",
-        "pycodestyle",
         "pytest",
         "tqdm",
         "venv"

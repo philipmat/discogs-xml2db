@@ -4,12 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "pycodestyle all files",
+            "label": "ruff all files",
             "type": "shell",
-            "command": "pycodestyle",
-            "windows": {
-                "command": "pycodestyle . --exclude=.git,.venv,__pycache__,v1.x --count --statistics"
-            },
+            "command": "ruff check . --output-format=concise && ruff format --check .",
             "presentation": {
                 "echo": true,
                 "reveal": "always",
@@ -19,12 +16,15 @@
                 "clear": false
             },
             "problemMatcher": {
-                "fileLocation": "absolute",
-                "pattern":{
-                    "regexp": "^([^\\\\s].*):\\\\((\\\\d+,\\\\d+)\\\\):\\\\s*(.*)$",
+                "owner": "ruff",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": {
+                    "regexp": "^(.+?):(\\d+):(\\d+): (\\S+) (.*)$",
                     "file": 1,
-                    "location": 2,
-                    "message": 3
+                    "line": 2,
+                    "column": 3,
+                    "code": 4,
+                    "message": 5
                 }
             }
         }

@@ -1,6 +1,11 @@
 [tool.ruff]
-# Keep in sync with the pycodestyle max-line-length in setup.cfg
 line-length = 120
 
 # Oldest Python version supported by CI
 target-version = "py310"
+
+[tool.ruff.lint]
+# Enable all pycodestyle errors and warnings on top of the defaults
+extend-select = ["E", "W"]
+# Scripts carry shebangs but are invoked via `python <script>`
+ignore = ["EXE001"]

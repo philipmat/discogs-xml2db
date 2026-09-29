@@ -368,7 +368,7 @@ def main(arguments):
         "artists": 10_000_000,
         "labels": 2_400_000,
         "masters": 2_500_000,
-        "releases": 19_500_00,
+        "releases": 19_500_000,
     }
     if arguments["--apicounts"]:
         headers = {

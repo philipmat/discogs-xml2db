@@ -12,7 +12,7 @@ from psycopg2 import sql
 # so we can import discogsxml2db from it
 parent_path = str(pathlib.Path(__file__).absolute().parent.parent)
 sys.path.insert(1, parent_path)
-from discogsxml2db.exporter import csv_headers
+from discogsxml2db.exporter import csv_headers  # noqa: E402
 
 
 def load_csv(filename, db):

@@ -17,11 +17,12 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     strategy:
       matrix:
         python-version:
-        - '3.10' # earliest to still receive security updates (rel 2021-10-04, EOL 2023-04-05, Sec EOL 2026-10-31)
+        - '3.11' # earliest to still receive security updates (rel 2022-10-24, EOL 2024-04-01, Sec EOL 2027-10-31)
         - '3.13' # current dev (rel 2024-10-07, EOL 2026-10-31, Sec EOL 2029-10-31)
         - '3.x'  # most recent python available, based on https://endoflife.date/python
 

@@ -13,13 +13,10 @@
     "python.linting.pylintEnabled": false,
     "python.linting.prospectorEnabled": false,
     "python.linting.enabled": true,
-    "python.formatting.provider": "black",
-    "python.formatting.blackArgs": [
-        "--line-length",
-        "100"
-    ],
+    "python.formatting.provider": "ruff",
     "[python]": {
-        "editor.formatOnSave": false
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": "charliemarsh.ruff"
     },
     "cSpell.words": [
         "ABCDEFG",

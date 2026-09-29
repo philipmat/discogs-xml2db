@@ -1,0 +1,445 @@
+<release id="4497890" status="Accepted">
+    <images>
+        <image type="primary" uri="" uri150="" width="565" height="562"/>
+        <image type="secondary" uri="" uri150="" width="564" height="562"/>
+        <image type="secondary" uri="" uri150="" width="600" height="297"/>
+        <image type="secondary" uri="" uri150="" width="567" height="563"/>
+        <image type="secondary" uri="" uri150="" width="566" height="561"/>
+        <image type="secondary" uri="" uri150="" width="562" height="562"/>
+        <image type="secondary" uri="" uri150="" width="569" height="563"/>
+        <image type="secondary" uri="" uri150="" width="600" height="469"/>
+        <image type="secondary" uri="" uri150="" width="600" height="469"/>
+        <image type="secondary" uri="" uri150="" width="580" height="580"/>
+        <image type="secondary" uri="" uri150="" width="580" height="580"/>
+    </images>
+    <artists>
+        <artist>
+            <id>39765</id>
+            <name>Emerson, Lake &amp; Palmer</name>
+            <anv/>
+            <join/>
+            <role/>
+            <tracks/>
+        </artist>
+    </artists>
+    <title>The Show That Never Ends</title>
+    <labels>
+        <label name="Recall 2cd" catno="SMD CD 370" id="158904"/>
+    </labels>
+    <extraartists>
+        <artist>
+            <id>3257209</id>
+            <name>Simon Spall</name>
+            <anv/>
+            <join/>
+            <role>Liner Notes</role>
+            <tracks/>
+        </artist>
+        <artist>
+            <id>1059225</id>
+            <name>Brian Burrows (3)</name>
+            <anv>Sir Brian Burrows</anv>
+            <join/>
+            <role>Sleeve</role>
+            <tracks/>
+        </artist>
+    </extraartists>
+    <formats>
+        <format name="CD" qty="2" text="">
+            <descriptions>
+                <description>Album</description>
+            </descriptions>
+        </format>
+    </formats>
+    <genres>
+        <genre>Rock</genre>
+    </genres>
+    <styles>
+        <style>Prog Rock</style>
+    </styles>
+    <country>UK</country>
+    <released>2001</released>
+    <notes>Live tracks recorded on the "Then &amp; Now" tour.
+The 1997 live recordings here are the same as on [m=242931] (which includes an additional 1974 recording).
+
+"Honky Tonk Train Blues" is misspelled on the release as "Honk Tonk Train Blues"</notes>
+    <data_quality>Needs Vote</data_quality>
+    <master_id is_main_release="false">242931</master_id>
+    <tracklist>
+        <track>
+            <position>1-1</position>
+            <title>A Time And A Place</title>
+            <duration>4:06</duration>
+            <extraartists>
+                <artist>
+                    <id>39765</id>
+                    <name>Emerson, Lake &amp; Palmer</name>
+                    <anv>Emerson / Lake / Palmer</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position/>
+            <title>Piano Concerto No. 1</title>
+            <duration/>
+            <extraartists>
+                <artist>
+                    <id>252850</id>
+                    <name>Keith Emerson</name>
+                    <anv/>
+                    <join/>
+                    <role>Featuring</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>252850</id>
+                    <name>Keith Emerson</name>
+                    <anv>Emerson</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+            <sub_tracks>
+                <track>
+                    <position>1-2</position>
+                    <title>Third Movement</title>
+                    <duration>4:50</duration>
+                </track>
+            </sub_tracks>
+        </track>
+        <track>
+            <position>1-3</position>
+            <title>From The Beginning</title>
+            <duration>4:14</duration>
+            <extraartists>
+                <artist>
+                    <id>259120</id>
+                    <name>Greg Lake</name>
+                    <anv>Lake</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position/>
+            <title>Karn Evil 9</title>
+            <duration/>
+            <sub_tracks>
+                <track>
+                    <position>1-4</position>
+                    <title>First Impression Pt. 2</title>
+                    <duration>5:25</duration>
+                    <extraartists>
+                        <artist>
+                            <id>259120</id>
+                            <name>Greg Lake</name>
+                            <anv>Lake</anv>
+                            <join/>
+                            <role>Written-By</role>
+                            <tracks/>
+                        </artist>
+                        <artist>
+                            <id>252850</id>
+                            <name>Keith Emerson</name>
+                            <anv>Emerson</anv>
+                            <join/>
+                            <role>Written-By</role>
+                            <tracks/>
+                        </artist>
+                    </extraartists>
+                </track>
+            </sub_tracks>
+        </track>
+        <track>
+            <position>1-5</position>
+            <title>Tiger In A Spotlight</title>
+            <duration>3:35</duration>
+            <extraartists>
+                <artist>
+                    <id>39765</id>
+                    <name>Emerson, Lake &amp; Palmer</name>
+                    <anv>Emerson / Lake / Palmer</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>1-6</position>
+            <title>Hoedown</title>
+            <duration>4:55</duration>
+            <extraartists>
+                <artist>
+                    <id>767788</id>
+                    <name>Aaron Copland</name>
+                    <anv>Copland</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>39765</id>
+                    <name>Emerson, Lake &amp; Palmer</name>
+                    <anv>Emerson / Lake / Palmer</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>1-7</position>
+            <title>Touch &amp; Go</title>
+            <duration>4:12</duration>
+            <extraartists>
+                <artist>
+                    <id>259120</id>
+                    <name>Greg Lake</name>
+                    <anv>Lake</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>252850</id>
+                    <name>Keith Emerson</name>
+                    <anv>Emerson</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>1-8</position>
+            <title>Knife Edge</title>
+            <duration>6:13</duration>
+            <extraartists>
+                <artist>
+                    <id>566086</id>
+                    <name>Dik Fraser</name>
+                    <anv>Fraser</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>259120</id>
+                    <name>Greg Lake</name>
+                    <anv>Lake</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>252850</id>
+                    <name>Keith Emerson</name>
+                    <anv>Emerson</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>822473</id>
+                    <name>Leo&#353; Jan&#225;&#269;ek</name>
+                    <anv>Janacek</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>1-9</position>
+            <title>Bitches Crystal</title>
+            <duration>4:30</duration>
+            <extraartists>
+                <artist>
+                    <id>259120</id>
+                    <name>Greg Lake</name>
+                    <anv>Lake</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>252850</id>
+                    <name>Keith Emerson</name>
+                    <anv>Emerson</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>2-1</position>
+            <title>Honky Tonk Train Blues</title>
+            <duration>3:42</duration>
+            <extraartists>
+                <artist>
+                    <id>317893</id>
+                    <name>Meade "Lux" Lewis</name>
+                    <anv>Lewis</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>2-2</position>
+            <title>Take A Pebble</title>
+            <duration>7:10</duration>
+            <extraartists>
+                <artist>
+                    <id>259120</id>
+                    <name>Greg Lake</name>
+                    <anv>Lake</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>2-3</position>
+            <title>Lucky Man</title>
+            <duration>5:06</duration>
+            <extraartists>
+                <artist>
+                    <id>259120</id>
+                    <name>Greg Lake</name>
+                    <anv>Lake</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>2-4</position>
+            <title>Fanfare For The Common Man / Blue Rondo A La Turk</title>
+            <duration>22:11</duration>
+            <extraartists>
+                <artist>
+                    <id>37737</id>
+                    <name>Dave Brubeck</name>
+                    <anv>Brubeck</anv>
+                    <join/>
+                    <role>Written-By [Blue Rondo A La Turk]</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>767788</id>
+                    <name>Aaron Copland</name>
+                    <anv>Copland</anv>
+                    <join/>
+                    <role>Written-By [Fanfare For The Common Man]</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>39765</id>
+                    <name>Emerson, Lake &amp; Palmer</name>
+                    <anv>Emerson / Lake / Palmer</anv>
+                    <join/>
+                    <role>Written-By [Fanfare For The Common Man]</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+        <track>
+            <position>2-5</position>
+            <title>21st Century Schizoid Man / America</title>
+            <duration>4:56</duration>
+            <extraartists>
+                <artist>
+                    <id>259120</id>
+                    <name>Greg Lake</name>
+                    <anv>Lake</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>259119</id>
+                    <name>Ian McDonald</name>
+                    <anv>McDonald</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>259121</id>
+                    <name>Michael Giles</name>
+                    <anv>Giles</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>253144</id>
+                    <name>Peter Sinfield</name>
+                    <anv>Sinfield</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+                <artist>
+                    <id>10355</id>
+                    <name>Robert Fripp</name>
+                    <anv>Fripp</anv>
+                    <join/>
+                    <role>Written-By</role>
+                    <tracks/>
+                </artist>
+            </extraartists>
+        </track>
+    </tracklist>
+    <identifiers>
+        <identifier type="Barcode" value="636551437028"/>
+        <identifier type="Matrix / Runout" description="CD1 (Variation 1)" value="SMDCD370/A *043193"/>
+        <identifier type="Matrix / Runout" description="CD2 (Variation 1)" value="SMDCD370/B *046903"/>
+        <identifier type="Matrix / Runout" description="CD1 (Variation 2)" value="02 SMDCD 370 CD1"/>
+        <identifier type="Matrix / Runout" description="CD2 (Variation 2)" value="01 SMDCD 370 CD2"/>
+        <identifier type="Matrix / Runout" description="CD1 (Variation 3)" value="SMDCD370-1 01"/>
+        <identifier type="Matrix / Runout" description="CD2 (Variation 3)" value="SMDCD370-2 01"/>
+        <identifier type="Mastering SID Code" description="CD1 + CD 2 (Variation 2)" value="IFPI L371"/>
+        <identifier type="Mastering SID Code" description="CD 1 (Variation 3)" value="IFPI LY33"/>
+        <identifier type="Mastering SID Code" description="CD 2 (Variation 3)" value="IFPI LY34"/>
+        <identifier type="Label Code" value="LC 01770"/>
+    </identifiers>
+    <companies>
+        <company>
+            <id>5723</id>
+            <name>Snapper Music</name>
+            <catno/>
+            <entity_type>13</entity_type>
+            <entity_type_name>Phonographic Copyright (p)</entity_type_name>
+            <resource_url>https://api.discogs.com/labels/5723</resource_url>
+        </company>
+        <company>
+            <id>5723</id>
+            <name>Snapper Music</name>
+            <catno/>
+            <entity_type>14</entity_type>
+            <entity_type_name>Copyright (c)</entity_type_name>
+            <resource_url>https://api.discogs.com/labels/5723</resource_url>
+        </company>
+        <company>
+            <id>132604</id>
+            <name>Eagle Rock Entertainment</name>
+            <catno/>
+            <entity_type>6</entity_type>
+            <entity_type_name>Licensed From</entity_type_name>
+            <resource_url>https://api.discogs.com/labels/132604</resource_url>
+        </company>
+    </companies>
+</release>

@@ -27,6 +27,9 @@ fi
 # If a dump download gets rate limited, back off (up to 60s between tries) instead of failing.
 WGET_RETRY="--tries=5 --waitretry=60 --retry-on-http-error=429"
 
+WGET=wget
+command -v wget2 >/dev/null 2>&1 && WGET=wget2
+
 TEST=""
 DOWNLOAD_DIR="."
 for arg in "$@"; do

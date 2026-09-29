@@ -1,0 +1,1038 @@
+release_id,name,qty,text_string,descriptions
+1,Vinyl,2,,"12""; 33 ⅓ RPM"
+2,Vinyl,1,,"12""; 33 ⅓ RPM"
+3,CD,1,,Compilation; Mixed
+4,CD,1,,Album
+5,CD,1,,Album; Limited Edition
+6,Vinyl,1,,"12""; 33 ⅓ RPM"
+7,Vinyl,1,Clear,"12""; EP"
+8,Vinyl,1,,"12""; EP"
+9,Vinyl,1,,"12""; 33 ⅓ RPM"
+10,Vinyl,1,,"12""; 33 ⅓ RPM"
+11,Vinyl,1,,"12""; 33 ⅓ RPM"
+12,Vinyl,1,,"12""; 33 ⅓ RPM"
+13,Vinyl,1,,"12""; 33 ⅓ RPM"
+14,Vinyl,1,,"12""; 33 ⅓ RPM"
+15,Vinyl,1,,"12""; EP"
+16,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+17,Vinyl,1,,"12""; 33 ⅓ RPM"
+18,Vinyl,1,,"12""; EP"
+19,Vinyl,1,,"12""; Repress"
+20,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+21,Vinyl,1,,"12""; EP; 33 ⅓ RPM"
+22,Vinyl,1,,"12""; 33 ⅓ RPM"
+23,Vinyl,1,,"12"""
+24,Vinyl,1,,"12""; 33 ⅓ RPM"
+25,Vinyl,1,,"12""; 33 ⅓ RPM; Limited Edition"
+26,Vinyl,1,,"12""; 33 ⅓ RPM"
+27,Vinyl,1,,"12""; 33 ⅓ RPM"
+28,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+29,Vinyl,1,,"12""; 33 ⅓ RPM"
+30,Vinyl,1,,"12""; EP"
+31,Vinyl,2,,"12""; 33 ⅓ RPM"
+35,Vinyl,1,,"12"""
+36,CD,1,,Compilation; Mixed
+37,CD,1,,Compilation; Mixed
+38,Vinyl,1,,"12"""
+39,Vinyl,1,,"12""; 33 ⅓ RPM"
+40,Vinyl,1,,"12""; EP; 33 ⅓ RPM"
+41,Vinyl,1,,"12"""
+42,Vinyl,1,,"12""; 33 ⅓ RPM"
+43,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+44,Vinyl,1,,"12"""
+45,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+46,Vinyl,1,,"12""; 33 ⅓ RPM"
+47,Vinyl,1,,"12""; 33 ⅓ RPM; 45 RPM; Limited Edition"
+48,CD,1,,Album
+49,CD,1,,Mixed
+51,Vinyl,1,,"12""; 33 ⅓ RPM"
+52,Vinyl,1,,"12""; 33 ⅓ RPM"
+53,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+54,Vinyl,2,,"12""; 33 ⅓ RPM"
+55,CD,1,,Mixed
+56,CD,1,,Compilation; Mixed
+57,Vinyl,1,,"12"""
+58,Vinyl,2,,"12""; 33 ⅓ RPM"
+59,CD,1,,Album; Limited Edition
+60,CD,1,,Album
+61,CD,1,,Album; Limited Edition
+62,Vinyl,1,Transparent Blue,"12""; 33 ⅓ RPM"
+63,Vinyl,1,,"12""; 33 ⅓ RPM; 45 RPM"
+64,Vinyl,1,,"12"""
+65,Vinyl,2,,LP; Album
+66,Vinyl,3,,"12""; Album"
+67,Vinyl,1,,"12""; 33 ⅓ RPM"
+68,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+69,Vinyl,1,,"12""; EP"
+70,Vinyl,1,,"12""; EP"
+71,Vinyl,2,,LP; Album
+72,Vinyl,1,,"12""; EP"
+73,Vinyl,1,,"12""; 33 ⅓ RPM"
+74,Vinyl,2,,"12""; 33 ⅓ RPM"
+75,Vinyl,1,,"12""; 33 ⅓ RPM"
+76,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+77,Vinyl,1,,"12""; 33 ⅓ RPM"
+78,Vinyl,1,,"12""; 33 ⅓ RPM"
+79,Vinyl,1,,"12"""
+80,Vinyl,1,,"12""; 33 ⅓ RPM; EP; Stereo"
+81,Vinyl,1,,"12""; EP; 33 ⅓ RPM"
+82,Vinyl,1,,"12""; 33 ⅓ RPM"
+83,Vinyl,1,,"12""; 33 ⅓ RPM"
+84,Vinyl,1,,"12""; 33 ⅓ RPM"
+85,Vinyl,2,,"12""; 33 ⅓ RPM; Album"
+86,Vinyl,1,,"12"""
+87,Vinyl,1,,"12""; 33 ⅓ RPM"
+88,Vinyl,1,,"12""; 33 ⅓ RPM"
+89,Vinyl,1,,"12""; 33 ⅓ RPM"
+90,Vinyl,1,,"12""; 33 ⅓ RPM"
+91,Vinyl,1,,"12""; 33 ⅓ RPM"
+92,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+93,Vinyl,1,,"12"""
+94,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+95,Vinyl,1,,"12""; 45 RPM"
+96,Vinyl,1,,"12""; 33 ⅓ RPM"
+97,Vinyl,1,,"12""; 33 ⅓ RPM"
+98,Vinyl,1,,"12""; 33 ⅓ RPM"
+99,Vinyl,1,,"12""; EP"
+100,Vinyl,1,,"12"""
+101,Vinyl,1,,"12""; 33 ⅓ RPM"
+102,Vinyl,1,,"12""; 33 ⅓ RPM"
+103,Vinyl,1,,"12""; EP"
+104,Vinyl,1,Orange Sleeve,"12"""
+1586308,CDr,1,,Mini
+1586309,Vinyl,1,,LP; Compilation
+1586310,CDr,1,,Mini; Limited Edition; Numbered
+1586311,Vinyl,1,,LP; Album
+1586312,Vinyl,1,,"7""; 45 RPM"
+1586313,Vinyl,1,,LP; Compilation
+1586314,File,2,320 kbps,MP3
+1586316,Vinyl,1,,"12"""
+1586318,Vinyl,1,,"12""; 45 RPM"
+1586320,File,10,320 kbps,MP3; Album
+1586321,Vinyl,1,,"12""; 45 RPM"
+1586322,File,3,,MP3; EP
+1586324,CDr,1,,Limited Edition
+1586326,Vinyl,1,,LP; Album; Reissue; Stereo
+1586327,Vinyl,1,,"12""; 45 RPM; 33 ⅓ RPM"
+1586328,Vinyl,1,,LP; Album; Reissue
+1586329,Vinyl,1,,"12""; White Label; 33 ⅓ RPM"
+1586330,Vinyl,1,,LP; Album
+1586331,CD,1,,Album
+1586332,Vinyl,1,,"7"""
+1586333,Vinyl,1,,LP; Album
+1586335,Vinyl,1,,"7""; 45 RPM; Single; Promo; Stereo; Mono"
+1586336,Vinyl,1,,LP; Album
+1586337,Cassette,1,,Album; Unofficial Release
+1586338,Vinyl,1,,"12""; 45 RPM; Promo"
+1586339,File,3,320 kbps,MP3
+1586340,CD,1,,Maxi-Single
+1586341,CD,1,,Album
+1586342,CD,1,,Album
+1586344,Vinyl,1,,"7"""
+1586345,CD,1,,Maxi-Single
+1586346,Vinyl,1,"Anti-LP, Lim.",
+1586347,Vinyl,1,,LP; Album
+1586348,Vinyl,1,,LP; Album
+1586350,Cassette,1,,Album; Unofficial Release
+1586351,Vinyl,1,,"12""; Promo"
+1586353,CD,1,,Single
+1586354,Vinyl,1,,LP
+1586355,File,4,320 kbps,MP3; EP
+1586356,Vinyl,1,,"7""; 45 RPM; Single Sided; Numbered; Unofficial Release; White Label"
+1586357,File,5,,MP3
+1586360,Vinyl,1,,"12""; 33 ⅓ RPM; Maxi-Single"
+1586361,CD,1,,
+1586362,CD,1,,Maxi-Single
+1586363,Cassette,1,,Album; Unofficial Release
+1586364,File,10,,MP3; Album; Reissue
+1586365,Vinyl,1,Plum coloured labels,LP; Compilation; Mono
+1586367,CD,1,,Maxi-Single
+1586368,Vinyl,1,,"7""; 45 RPM"
+1586369,Vinyl,1,,"12""; 33 ⅓ RPM; EP; Promo; White Label"
+1586370,CD,1,Cardboard sleeve,Single; Promo
+1586372,Cassette,1,,Compilation
+1586373,Cassette,1,,Album; Unofficial Release
+1586374,CD,1,,Single
+1586375,File,9,,MP3
+1586376,Cassette,1,,Album; Unofficial Release
+1586377,Vinyl,1,,"12"""
+1586378,Vinyl,1,,LP; Album
+1586379,Vinyl,1,,"12"""
+1586381,Vinyl,1,,LP; Mixed
+1586382,CD,1,Cardboard,Maxi-Single
+1586383,File,1,,MP3
+1586384,Vinyl,1,,"12""; 33 ⅓ RPM; 45 RPM; EP"
+1586385,Cassette,1,,Album; Unofficial Release
+1586386,Vinyl,1,,"12""; 45 RPM; Promo; White Label"
+1586387,File,5,320 kbps,MP3; Compilation
+1586388,CDr,1,,Album
+1586389,Vinyl,1,,LP; Album; Reissue
+1586390,Vinyl,1,,"12""; Sampler; Promo; 33 ⅓ RPM"
+1586392,Vinyl,1,,LP; Album
+1586393,CD,1,,Maxi-Single
+1586394,Vinyl,1,,LP; Album; Reissue
+1586395,CD,1,Cardboard Sleeve,Single
+1586397,Cassette,1,,Album; Unofficial Release
+1586398,Vinyl,1,,LP; Album; Limited Edition
+1586399,Vinyl,1,,LP; Album
+1586401,Vinyl,1,,"12""; Promo; White Label"
+1586402,Vinyl,1,,"12"""
+1586403,Vinyl,1,,LP; Album
+1586405,Vinyl,1,,LP; Album
+1586406,Vinyl,1,,LP; Compilation
+1586407,Vinyl,1,,"7""; Single; 45 RPM; Mono"
+1586408,CD,1,,Album; Reissue
+1586409,CD,1,,Album; Reissue; Remastered
+1586410,CD,1,,Album; Limited Edition
+1586411,File,2,,MP3
+1586412,CD,1,,
+1586413,Vinyl,1,,"12"""
+1586414,CDr,1,,Limited Edition
+1586415,CD,1,,Album
+1586416,CD,1,,Compilation; Mixed
+1586418,Vinyl,1,,LP; Compilation
+1586419,CD,1,,Album; Remastered
+1586421,CDr,1,"Boxed Set, Edition Of 22.",
+1586422,CD,1,,Maxi-Single
+1586423,CD,1,,Album; Limited Edition
+1586425,Cassette,1,,Album
+1586426,CD,2,,Album
+1586427,Vinyl,1,,LP; Album; Stereo
+1586429,CDr,1,,Single; Promo
+3019914,File,4,,WAV; EP
+3019916,CD,1,,Compilation; Reissue
+3019917,Vinyl,2,,"7""; EP"
+3019918,Vinyl,1,,LP; Compilation
+3019920,Vinyl,1,Orange,Album; LP; Limited Edition
+3019921,Vinyl,1,Brown,"45 RPM; 12""; Mini-Album; Remastered; Limited Edition"
+3019922,CD,1,,Album
+3019923,File,12,192 kbps,MP3
+3019923,File,1,128 kbps,MP3
+3019923,All Media,1,,Mixtape
+3019924,Vinyl,1,,LP; Stereo; Reissue; Album
+3019925,Vinyl,1,Black,"7""; Test Pressing"
+3019926,Vinyl,1,,"12""; 45 RPM"
+3019927,CD,1,,Album
+3019928,Vinyl,1,,LP; Album
+3019930,CD,1,,Album
+3019931,Vinyl,1,,LP; Stereo; Mono
+3019932,File,1,320 kbps,MP3
+3019933,Vinyl,1,,"12""; 33 ⅓ RPM; Promo"
+3019934,CD,1,,Album
+3019936,Vinyl,1,,LP
+3019937,CD,1,,Album
+3019940,CD,1,,Single
+3019941,Vinyl,1,Clear,"45 RPM; 12""; Mini-Album; Remastered; Limited Edition"
+3019942,Vinyl,1,Gatefold,LP; Album
+3019943,CD,1,,Compilation
+3019944,File,8,,WAV; EP
+3019945,Vinyl,1,,"10""; Single; 45 RPM"
+3019946,Vinyl,1,Clear,"45 RPM; 12""; Mini-Album; Remastered"
+3019946,CD,1,,Mini-Album
+3019946,All Media,1,,Limited Edition
+3019947,CD,1,,Compilation
+3019948,Vinyl,1,,LP; Compilation
+3019949,Vinyl,1,,LP; Album; Stereo; Promo
+3019950,Vinyl,1,,LP
+3019951,CD,1,,Maxi-Single
+3019952,Vinyl,2,,LP; Album; Limited Edition
+3019954,CD,1,,Album
+3019955,Vinyl,1,,LP; Reissue
+3019956,CD,1,,Album; Club Edition
+3019957,Cassette,1,Live,Album
+3019958,Vinyl,1,,"12""; Promo; Mono"
+3019959,Vinyl,1,,"12""; 33 ⅓ RPM; EP"
+3019960,CDr,1,,Album; Promo
+3019961,CD,1,,Album
+3019962,Vinyl,1,Brown,"45 RPM; 12""; Mini-Album; Remastered"
+3019962,CD,1,,Mini-Album
+3019962,All Media,1,,Limited Edition
+3019963,CD,1,,Album
+3019964,CD,1,,Compilation
+3019965,Vinyl,1,,"7""; 45 RPM; Single"
+3019966,CD,3,,Compilation; Mixed
+3019967,Vinyl,1,,LP
+3019969,Vinyl,1,,LP; Album
+3019970,Vinyl,1,,LP; Album
+3019971,Vinyl,1,Black Cover,LP; Album; Reissue
+3019972,File,3,VBR,MP3
+3019973,Vinyl,1,Gold,"7""; 33 ⅓ RPM"
+3019975,CD,1,,Album
+3019976,CD,1,,Album
+3019977,CD,1,,Album
+3019978,Vinyl,1,Green,LP; Compilation
+3019979,CD,1,,Album; Compilation
+3019980,CD,1,,Single
+3019981,Vinyl,1,,"12"""
+3019982,CD,1,,Album; Reissue
+3019983,Vinyl,1,,LP; Compilation; Stereo
+3019984,Vinyl,1,,LP
+3019985,Cassette,1,,Album
+3019986,File,3,VBR,MP3
+3019987,CD,1,,Album
+3019988,Vinyl,1,Yellow,LP; Compilation
+3019989,CD,1,,Album
+3019991,Vinyl,1,,LP; Album
+3019992,CD,1,EMI Uden Pressing,Album; Reissue; Remastered
+3019993,Vinyl,1,,"12""; 33 ⅓ RPM; Stereo"
+3019994,CD,1,,Album
+3019995,CD,1,,EP
+3019996,File,4,320 kbps,MP3
+3019997,CDr,1,,Limited Edition; Album
+3019998,CD,1,,Album
+3019999,DVD,2,dts,DVD-Video; PAL
+3020000,File,3,VBR,MP3
+3020001,Vinyl,1,,LP; Album
+3020002,CD,1,,Album
+3020003,Vinyl,1,,LP; Album
+3020004,CD,1,,Album
+3020005,CD,1,,Album; Enhanced
+3020006,CDr,1,,Unofficial Release
+3020007,CD,1,,Maxi-Single
+3020008,Vinyl,1,,LP
+3020009,Vinyl,1,,"7""; Single; 45 RPM"
+3020010,File,4,,MP3
+3020011,CD,1,,EP
+3020012,CD,1,,Album
+3020013,CD,1,,Album
+3020014,Vinyl,1,,"12""; EP; Promo; White Label"
+3020015,Vinyl,1,,LP; Compilation; Mono; Reissue
+3020016,Vinyl,1,,"7""; Single Sided; White Label"
+3020017,Cassette,1,,Album
+3020018,Vinyl,1,,LP; Compilation
+3020019,File,1,,FLAC; Album
+3020020,CD,1,,Album
+3020022,Vinyl,1,Burgundy,"7""; 45 RPM"
+3020023,CD,1,,Compilation
+3020024,Vinyl,1,,LP; Compilation
+4497809,CDr,1,,Album
+4497810,Vinyl,2,,LP; Album; Reissue
+4497810,Box Set,1,,
+4497811,Vinyl,1,,"7""; Single"
+4497812,CD,1,,Sampler; Promo
+4497813,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+4497814,Vinyl,1,,LP; Album
+4497815,CD,1,,
+4497816,Vinyl,1,,LP; Compilation
+4497817,CD,1,,Compilation; Promo
+4497818,Vinyl,1,,LP; Album
+4497821,Vinyl,1,"180gr, Gatefold sleeve",LP; Album
+4497822,CD,1,EP,
+4497823,Cassette,1,,Album
+4497824,Vinyl,1,,LP; Album
+4497827,CD,1,,Album; Reissue; Remastered; Repress
+4497828,DVD,3,Digipack,
+4497829,CD,1,,Compilation
+4497830,CD,1,,Album
+4497831,CD,1,,
+4497833,CD,1,,Compilation; Stereo
+4497834,Cassette,1,,Compilation
+4497835,CD,1,,Compilation
+4497836,Vinyl,1,Blue,"7""; Limited Edition"
+4497837,Vinyl,2,Indica Edition,LP; Album; Limited Edition; Reissue; Remastered
+4497839,CDr,1,,Album; Promo
+4497840,Cassette,1,,Compilation
+4497841,CD,1,,Album; Reissue
+4497843,Vinyl,1,,LP; Album; Stereo
+4497845,Vinyl,1,,LP; Stereo
+4497847,CD,1,,Album; Unofficial Release
+4497848,Vinyl,1,,LP
+4497850,Vinyl,3,,LP; Album; Compilation; Stereo
+4497850,Box Set,1,,
+4497851,Cassette,1,,Album; Reissue; Remastered
+4497852,CD,1,,Promo; Sampler
+4497853,Cassette,1,,Compilation
+4497855,Vinyl,1,,"7""; Single"
+4497857,CD,1,,Album; Reissue
+4497858,DVD,1,,
+4497859,Vinyl,1,,"7""; 45 RPM; Single"
+4497861,Vinyl,1,,LP
+4497862,CD,1,CD1,Single
+4497863,CD,1,,Compilation
+4497865,CD,3,,Compilation
+4497866,Vinyl,1,,LP
+4497867,CD,1,,Sampler; Promo
+4497869,Vinyl,1,,LP; Album; Mono; Reissue
+4497870,Cassette,1,,Compilation
+4497871,CD,1,,Album; Stereo
+4497871,DVD,1,,DVD-Video
+4497872,Vinyl,1,,LP; Compilation
+4497873,Vinyl,1,,LP; Album; Picture Disc; Reissue; Repress; Limited Edition
+4497874,CD,1,,Album
+4497875,Vinyl,1,,"7""; Single; 45 RPM"
+4497877,CD,1,SHM-CD,Album; Reissue; Remastered
+4497878,File,8,320 kbps,MP3; Album
+4497879,File,9,,
+4497880,CDr,1,,EP; Limited Edition
+4497882,Vinyl,1,,"7""; 45 RPM; White Label"
+4497883,Cassette,1,,Album; Limited Edition; Reissue
+4497884,Vinyl,1,,"7""; 45 RPM; Reissue"
+4497886,Vinyl,1,,LP; Album
+4497887,Vinyl,1,,"7""; 45 RPM; Single"
+4497888,Vinyl,1,,LP; Stereo
+4497889,Vinyl,1,,LP; Album
+4497890,CD,2,,Album
+4497891,File,3,320 kbps,MP3
+4497892,Vinyl,1,,LP; Album
+4497894,CD,1,,Album
+4497895,Vinyl,1,,LP; Album
+4497896,CD,1,,Sampler; Promo
+4497897,CD,1,,Album; Unofficial Release
+4497898,CD,1,,Album; Promo
+4497899,Cassette,1,Columbia House,Album; Club Edition
+4497900,Vinyl,1,,"LP; 10"""
+4497902,Vinyl,1,,LP; Compilation
+4497903,CD,1,,Enhanced; Reissue
+4497904,Vinyl,1,Red,LP; Album; Stereo; Unofficial Release
+4497905,Vinyl,1,,LP; Promo
+4497906,CD,1,SHM-CD,Album; Reissue; Remastered
+4497907,Vinyl,2,,LP
+4497907,Box Set,1,,
+4497908,Vinyl,1,,LP
+4497910,Shellac,1,,"78 RPM; 10"""
+4497911,Vinyl,1,,"12""; EP; 33 ⅓ RPM"
+4497912,CD,1,,Album
+4497913,Cassette,1,,Compilation; Reissue; Unofficial Release
+4497914,Vinyl,1,Red,LP; Album; Stereo; Unofficial Release
+4497915,Vinyl,1,,LP; Album
+4497916,CD,1,,Sampler; Promo
+4497917,CD,1,Digipak,Album
+4497919,CD,1,,Compilation
+4497920,Vinyl,1,,LP; Album; Reissue
+4497922,Vinyl,1,,LP; Stereo; Reissue
+4497923,Vinyl,2,Orange,LP; Limited Edition
+4497924,CD,1,Cardboard Sleeve,Single
+4497925,CD,1,,Album
+4497926,Cassette,1,Dolby HX Pro B NR,Album
+4497928,Vinyl,3,Box Set,LP; Album; Unofficial Release
+4497929,Vinyl,1,,LP; Reissue
+4497930,Vinyl,1,Paper Labels,"7""; 45 RPM; Single"
+4497931,Vinyl,1,,Album; LP; Mono
+4497932,CDr,1,,Album; Unofficial Release
+6084054,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+6084055,Vinyl,1,,"LP; 10"""
+6084056,Vinyl,1,,"7""; 45 RPM; Single"
+6084058,Vinyl,1,,"7""; 45 RPM; Single"
+6084059,Vinyl,2,Red,LP; Album; Limited Edition
+6084060,CD,1,,Maxi-Single
+6084060,DVD,1,,DVD-Video; NTSC
+6084060,All Media,1,A,Limited Edition
+6084061,File,3,24-bit/96kHz,FLAC; EP
+6084062,Vinyl,1,,LP; Single Sided; Compilation
+6084063,CD,1,,Single; Promo
+6084064,Vinyl,1,,LP; Album
+6084065,Vinyl,1,,"7""; 45 RPM; Single"
+6084067,Vinyl,1,,LP; Album; Mono
+6084068,CDr,1,,EP; Promo
+6084069,CD,1,,Album
+6084070,Vinyl,1,,LP; Album
+6084071,CD,1,,Compilation
+6084072,Vinyl,1,,"7""; 45 RPM; Single"
+6084073,Vinyl,1,,"7""; 45 RPM; Mono"
+6084074,Vinyl,1,,"7""; 45 RPM; Single"
+6084075,Vinyl,1,,LP; Album
+6084076,CD,1,,Single; Promo
+6084077,File,2,320 kbps,MP3
+6084078,CD,1,,Maxi-Single
+6084078,DVD,1,,DVD-Video; NTSC
+6084078,All Media,1,B,Limited Edition
+6084079,CD,1,,Album
+6084080,Cassette,1,,Album
+6084081,CD,1,Cardboard Sleeve,Single; Promo
+6084082,Vinyl,1,Silver Vinyl,LP; Album; Limited Edition
+6084083,CD,1,,Single
+6084084,CD,1,,EP; Promo
+6084085,Vinyl,1,,LP; Album; Repress
+6084086,Vinyl,1,Gatefold,LP; Album
+6084087,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+6084088,Cassette,1,,EP
+6084090,Vinyl,1,,"7""; 45 RPM"
+6084091,Vinyl,1,,"7""; 45 RPM; Single"
+6084092,Vinyl,1,,"7""; 45 RPM"
+6084093,Vinyl,1,,"7""; 45 RPM; Single"
+6084094,CD,1,,Compilation; Unofficial Release
+6084095,Vinyl,1,,"7""; 45 RPM; Mono"
+6084096,CD,1,,Album; Promo; Reissue
+6084097,CD,1,,Album
+6084098,Vinyl,1,,LP; Album
+6084099,Cassette,1,,Album; Reissue; Mono
+6084100,Shellac,3,,"12""; 78 RPM"
+6084101,CDr,1,,Album; Promo
+6084102,CD,1,,Album
+6084103,CD,1,,Album; Unofficial Release
+6084104,CD,1,,Album
+6084105,CD,1,,Album; Promo
+6084106,Vinyl,1,,"7""; Single"
+6084107,CD,1,,Album
+6084109,CD,1,,Album; Club Edition
+6084110,CD,1,,Album
+6084111,CD,1,,Maxi-Single
+6084112,CD,1,,Album
+6084113,CD,1,Cardboard Sleeve,Single; Promo
+6084114,Vinyl,1,,LP; Compilation
+6084115,Vinyl,1,,LP; Album
+6084116,Vinyl,1,,LP; Album; Mono
+6084118,CDr,1,,Album; Promo
+6084119,Vinyl,1,,"7""; 45 RPM; Mono"
+6084121,CD,1,,Album
+6084122,Vinyl,1,,LP; Compilation; Stereo
+6084123,CD,1,Carboard Sleeve,Single; Promo
+6084124,CD,1,,Compilation; Mono
+6084126,Vinyl,1,,"7""; 45 RPM; Promo"
+6084127,Vinyl,1,,LP; Album
+6084128,CD,1,,Album
+6084129,Vinyl,1,,LP; Compilation; Mono
+6084130,Vinyl,1,,"7""; 45 RPM; Mono"
+6084131,Vinyl,1,,LP; Album
+6084132,Vinyl,1,Red Transparent,LP; Album; Reissue
+6084135,CD,1,,Album; Promo
+6084136,Vinyl,1,4 Prong Center,"7""; 45 RPM"
+6084137,Cassette,1,,Compilation
+6084138,Vinyl,1,,"7""; Single"
+6084139,Vinyl,1,,"7""; 45 RPM; Single"
+6084140,CD,1,,Album; Promo
+6084141,Cassette,1,,Album
+6084142,CD,1,,Album; Compilation
+6084143,CDr,1,,EP; Promo
+6084144,CD,1,,Album; Reissue
+6084145,CD,1,,Compilation; Promo; Sampler
+6084146,CD,1,,Album
+6084147,CD,1,,Album
+6084148,Cassette,1,,Album; Reissue; Mono
+6084149,Vinyl,1,Red,LP; Album
+6084150,Vinyl,1,,LP; Album
+6084151,Vinyl,1,,LP; Album; Stereo
+6084152,File,1,256 CBR,MP3; Promo
+6084153,Vinyl,1,,LP; Album; Promo
+6084154,Vinyl,1,,LP; Album
+6084155,Cassette,1,Dolby B NR,
+6084156,Vinyl,1,,LP; Album
+6084157,Vinyl,1,,"7""; 45 RPM"
+6084160,CD,1,,Maxi-Single; Limited Edition; Stereo
+6084161,Vinyl,1,Forest Green,LP; Album
+6084162,Vinyl,1,Mixed,"7""; 45 RPM"
+6084163,Vinyl,1,,LP; Album
+6084166,Vinyl,1,,LP; Compilation; Repress
+7697980,Vinyl,1,,"7""; 45 RPM; Single"
+7697984,File,1,320 kbps,MP3
+7697987,Shellac,1,,"10""; 78 RPM"
+7697988,Vinyl,1,,"7""; 45 RPM; Single"
+7697989,File,3,320 kbps,MP3; EP
+7697991,Reel-To-Reel,1,,"7 ½ ips; 4-Track Stereo; 7"" Cine Reel; Album"
+7697992,Vinyl,3,,LP
+7697993,Vinyl,1,Lilac,LP; Album; Limited Edition
+7697994,Vinyl,1,,"7""; 45 RPM; Single"
+7697996,Vinyl,1,,"7""; 45 RPM; Single"
+7697997,Vinyl,1,,"7""; 45 RPM; Single"
+7697999,Reel-To-Reel,1,,7 ½ ips; 4-Track Stereo; Album
+7698001,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+7698002,File,3,320 kbps,MP3; Single
+7698004,Vinyl,1,,"7""; 45 RPM; Single"
+7698005,Vinyl,1,,LP; Album
+7698006,Vinyl,1,,"7""; 45 RPM; Promo"
+7698007,Vinyl,1,,LP; Album
+7698008,CD,1,,
+7698009,File,2,320 kbps,MP3; Single; Promo
+7698010,Vinyl,1,,LP; Album
+7698012,CD,1,,Album; Promo
+7698015,Vinyl,1,,LP
+7698017,Vinyl,1,,"7""; 45 RPM; EP"
+7698018,Vinyl,1,,LP; Album; Mono
+7698019,Vinyl,1,,LP; Album; Stereo
+7698021,Vinyl,1,,LP; Compilation
+7698023,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+7698024,Vinyl,1,,LP; Album; Reissue
+7698025,Vinyl,1,,LP; Album; Mono
+7698026,Vinyl,1,,"7""; 45 RPM; Single"
+7698027,File,12,320 kbps,MP3; Compilation; Remastered; Stereo
+7698028,Vinyl,1,,"7""; Single"
+7698030,CD,1,,Reissue; Remastered; Mono
+7698031,Vinyl,1,,"7""; 45 RPM; Single"
+7698033,Shellac,1,,"10""; 78 RPM"
+7698034,Vinyl,1,,"7""; Single"
+7698035,CD,1,,
+7698036,Vinyl,1,,"7""; 45 RPM; Single"
+7698037,Vinyl,1,,"7""; 45 RPM; Promo"
+7698038,Vinyl,1,,"12""; Promo; White Label"
+7698041,Cassette,1,,Unofficial Release
+7698043,CD,1,,Album
+7698044,Vinyl,1,,"7""; 45 RPM; Single"
+7698045,Vinyl,1,,LP; Album; Reissue; Mono
+7698046,Vinyl,1,Jacksonville Pressing,"7""; 45 RPM; Single"
+7698047,Vinyl,2,,"12""; Album"
+7698048,Vinyl,1,,"7""; 45 RPM; Single"
+7698049,Vinyl,1,,LP; Album; Limited Edition
+7698050,Cassette,1,C30,Album; Limited Edition
+7698051,CD,1,,Album
+7698052,Cassette,1,,Album
+7698053,Vinyl,1,,LP; Album; Mono
+7698054,Vinyl,1,,LP
+7698055,Vinyl,1,,"7""; 45 RPM; Single"
+7698056,Vinyl,1,,"7""; 45 RPM"
+7698058,Vinyl,1,,"12""; 33 ⅓ RPM"
+7698059,CD,1,,Album
+7698060,CD,1,Girl CD,Single
+7698061,Vinyl,1,Splatter,LP; Album; Limited Edition
+7698063,CD,1,,Compilation; Reissue
+7698065,Vinyl,1,,"7""; 45 RPM; Single"
+7698066,Vinyl,1,,"12""; 33 ⅓ RPM; Compilation; Unofficial Release"
+7698067,CD,1,,Compilation; Promo; Sampler
+7698068,CD,1,,Album
+7698069,Vinyl,1,,"7""; 45 RPM"
+7698070,File,1,320 kbps,MP3
+7698071,Cassette,1,,Album
+7698073,Vinyl,1,,LP; Stereo
+7698074,Vinyl,1,,"7""; Single"
+7698076,Vinyl,1,,LP; Album; Reissue; Mono
+7698077,Cassette,1,,Album
+7698078,Vinyl,1,,"7""; 45 RPM; Single"
+7698079,CD,1,,Album
+7698080,Vinyl,1,,"12"""
+7698081,CD,1,,Single
+7698082,CD,1,,Album
+7698083,File,8,,FLAC; Album
+7698085,Cassette,1,,Album
+7698086,Vinyl,1,,LP; Album
+7698087,Vinyl,1,,"7""; 45 RPM; Single"
+7698088,CD,1,,
+7698089,Vinyl,1,,LP; Compilation
+7698090,Vinyl,1,,LP; Album
+7698091,CD,1,,Album
+7698092,CD,1,,Album
+7698095,Cassette,1,,Album
+7698096,CD,1,,Album; Deluxe Edition
+7698097,File,5,,FLAC
+7698098,CD,1,,Single
+7698099,CDr,1,,EP
+7698100,CD,1,,Album
+7698101,CD,1,,Compilation; Remastered
+7698102,CD,1,,Album
+7698103,Cassette,1,,Album; Reissue
+7698104,CD,1,,Album; Enhanced
+7698105,CD,1,,Album
+7698106,CD,1,,Mixed
+7698107,Vinyl,1,,"7""; 45 RPM; Single"
+7698108,Vinyl,1,,"12""; Promo; White Label"
+9342952,Vinyl,1,,"12""; 45 RPM; Single"
+9342953,Vinyl,1,,LP; Album
+9342954,CD,1,,Single; Promo
+9342955,CD,1,,Album; Reissue
+9342956,Vinyl,1,,LP; Album; Mono
+9342957,CD,1,,Album; Stereo
+9342958,CD,1,,Compilation
+9342959,Vinyl,1,,LP; Compilation; Stereo
+9342960,Vinyl,1,,LP; Repress; Stereo
+9342961,Vinyl,1,,LP; Album
+9342964,Vinyl,1,,LP; Album
+9342965,Vinyl,1,,"7""; 45 RPM; Single"
+9342966,Vinyl,1,,"12""; 45 RPM; Promo; White Label"
+9342967,CDr,1,,Album
+9342968,Vinyl,1,Yellow Vinyl,"7""; 45 RPM; Single"
+9342970,Cassette,1,,Album
+9342971,Vinyl,1,,LP; Album; Stereo
+9342972,CD,1,,Compilation; Unofficial Release
+9342973,CD,1,,Album
+9342974,Vinyl,1,,"7""; 45 RPM; Repress"
+9342975,Vinyl,1,,LP; Album; Stereo
+9342977,Cassette,1,,Single Sided; Limited Edition; Numbered
+9342978,Vinyl,1,ED4,LP; Album; Reissue; Stereo
+9342979,Vinyl,1,Black w/ White Splatter,"12""; 33 ⅓ RPM; EP; Limited Edition"
+9342980,CDr,1,,EP
+9342981,Vinyl,1,Gatefold,LP; Album
+9342982,CDr,1,,Promo
+9342983,CD,1,,Album; Unofficial Release
+9342984,CD,1,Longbox,Compilation
+9342985,CD,1,,Compilation
+9342986,Vinyl,1,,"12""; 33 ⅓ RPM; White Label"
+9342987,Vinyl,1,,"7""; 45 RPM; Repress"
+9342988,File,1,320 kbps,MP3
+9342990,Vinyl,1,,LP; Album
+9342991,Vinyl,1,,LP; Album; Stereo
+9342992,Vinyl,1,,"7""; 45 RPM; Single; Repress"
+9342993,CD,5,,Compilation
+9342993,Box Set,1,,
+9342994,CD,1,,Album
+9342995,CD,1,,Album
+9342996,Vinyl,1,,LP; Album
+9342997,CD,1,,Album
+9342998,CD,1,,Stereo
+9342999,CD,1,,
+9343000,Cassette,1,,Album
+9343002,Vinyl,1,,LP; Album
+9343003,File,2,,AIFF; Single
+9343004,Vinyl,1,,LP; Album; Stereo
+9343005,Vinyl,1,,"7""; 45 RPM; Mono"
+9343006,CDr,1,,Compilation
+9343008,Vinyl,4,,"12""; 33 ⅓ RPM; Promo"
+9343008,Box Set,1,,Limited Edition
+9343009,Vinyl,1,,"12""; 45 RPM; Promo"
+9343010,CD,1,,Single; Promo
+9343013,Vinyl,1,,LP; Album; Stereo
+9343014,CD,1,,Compilation
+9343015,CD,2,,Unofficial Release
+9343017,Vinyl,1,,"7""; 45 RPM; Repress"
+9343018,Vinyl,1,Aqua Blue,LP; Album; Remastered
+9343019,CD,1,,Compilation
+9343020,File,1,320 kbps,MP3; Single
+9343021,CD,1,,Album; Reissue; Remastered
+9343022,CD,2,,Compilation
+9343023,Vinyl,1,,"12"""
+9343024,Vinyl,1,,"7""; 45 RPM; Single"
+9343025,CD,1,,Compilation
+9343028,CD,1,,
+9343029,Vinyl,1,,"7""; 45 RPM; Reissue"
+9343031,Vinyl,1,,"7""; 45 RPM; Single; Stereo"
+9343032,Vinyl,1,,"12""; 45 RPM; Promo; White Label"
+9343033,CD,1,,Album; Reissue
+9343034,CD,1,,Mini; Single; Promo
+9343035,CD,1,DigiFile,Album
+9343036,Vinyl,1,,"12"""
+9343037,Vinyl,1,,"12""; 33 ⅓ RPM; Promo; White Label"
+9343038,Vinyl,1,,LP; Album; Stereo
+9343040,Cassette,1,,Album
+9343041,CD,1,,Album; Enhanced; Reissue
+9343042,CD,1,,Album; Reissue; Unofficial Release
+9343043,Vinyl,1,Accepted,"12""; 45 RPM; Test Pressing"
+9343044,CDr,1,,Mixed
+9343045,Vinyl,1,,"16""; 33 ⅓ RPM"
+9343046,Vinyl,1,,"12""; 33 ⅓ RPM; Promo; White Label"
+9343047,CDr,1,,Copy Protected; Numbered; Promo; Sampler
+9343048,Vinyl,1,,"7""; 45 RPM"
+9343049,Vinyl,1,Winchester,"12""; EP"
+9343051,Vinyl,1,,LP; Album; Reissue; Stereo
+9343052,CD,1,,Album; Unofficial Release
+9343053,Cassette,1,,Album
+9343054,File,13,320 kbps,MP3
+9343059,CD,1,,Album; Limited Edition
+9343060,Vinyl,1,,LP; Album
+9343061,Vinyl,1,,"12""; Single; Promo"
+9343062,Vinyl,1,,LP; Compilation; Stereo
+9343063,CD,1,,Album; Unofficial Release
+9343064,Vinyl,1,,"7""; 45 RPM; Single"
+9343065,Vinyl,1,,"12""; 33 ⅓ RPM"
+9343066,CD,1,,Album
+9343067,Cassette,15,,
+9343067,Box Set,1,Handpainted & collaged,Album; Limited Edition; Numbered
+9343068,Cassette,1,Green,EP; Repress
+9343069,CD,1,,
+9343070,CD,2,,Unofficial Release
+11058779,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+11058780,Box Set,1,,Compilation; Unofficial Release
+11058780,CD,16,,Album; Enhanced; Remastered; Stereo
+11058780,DVD,1,,DVD-Video; NTSC
+11058781,CD,1,,Compilation
+11058782,VHS,1,,Promo
+11058783,Vinyl,1,,"7""; 45 RPM"
+11058785,CD,1,,Album; Unofficial Release
+11058786,Vinyl,1,,LP; Album; Stereo
+11058787,Cassette,1,,Album
+11058788,CD,1,Super jewel box,Album
+11058789,Vinyl,1,,LP
+11058790,Vinyl,1,,LP; Album
+11058791,Vinyl,1,,LP; Album; Stereo
+11058793,CD,1,,Album; Limited Edition; Promo
+11058794,CD,2,"25th Anniversary, Digipak",HDCD; Album; Deluxe Edition; Reissue; Remastered
+11058796,Vinyl,1,,LP; Test Pressing; White Label
+11058797,Vinyl,1,,LP
+11058798,Cassette,1,,Mini-Album; Stereo
+11058799,CD,1,,Mini-Album
+11058801,File,1,320 kbps,MP3
+11058802,Cassette,1,,Album
+11058803,Vinyl,2,Green,LP; Limited Edition; Unofficial Release
+11058804,Vinyl,1,180 Gram,LP; Album
+11058804,CD,1,,Album
+11058805,File,3,,WAV
+11058806,CD,1,,Album; Promo
+11058809,CD,1,Mediamotion,Album; Reissue; Remastered; Repress
+11058810,Vinyl,2,GATEFOLD,LP; Compilation; Stereo
+11058812,CD,1,,Album
+11058813,Vinyl,1,,"7""; 45 RPM"
+11058814,Vinyl,1,,LP; Album
+11058815,File,1,,"MP3; 3.5""; Single; Stereo"
+11058816,CD,1,,Album; Unofficial Release
+11058817,CD,1,,
+11058818,CD,1,,Album
+11058819,Vinyl,1,,"12""; 33 ⅓ RPM; Limited Edition; Numbered"
+11058820,Vinyl,1,,LP; Album
+11058821,Cassette,1,,Limited Edition; Promo
+11058822,CD,1,,Album
+11058823,CDr,1,,
+11058824,CD,1,,Album; Promo
+11058825,CD,1,,Album; Stereo
+11058826,CD,1,,Album; Reissue; Repress
+11058827,CD,1,,Album
+11058828,DVD,1,,DVD-Video; NTSC
+11058830,CD,1,,Album; Unofficial Release
+11058831,Vinyl,1,,LP; Album
+11058832,CD,1,,Album
+11058833,Cassette,1,,Album
+11058834,Vinyl,1,,LP; Compilation; Mono
+11058836,Vinyl,3,,LP; Album; Stereo
+11058836,Box Set,1,,
+11058837,Vinyl,1,,"7""; 45 RPM"
+11058838,Cassette,1,,Compilation; Unofficial Release
+11058839,Cassette,1,,Album; Limited Edition
+11058840,CD,1,,Compilation
+11058846,Vinyl,1,,LP; Repress
+11058847,File,3,320 kbps,MP3
+11058849,Vinyl,1,,"7""; 45 RPM; Single"
+11058850,Vinyl,1,,LP; Album
+11058851,CDr,1,,Album; Limited Edition
+11058852,Cassette,1,,Compilation; Unofficial Release
+11058853,CD,1,,Album
+11058855,CD,2,SHMCD,Album; Limited Edition
+11058857,Vinyl,1,,"7""; 45 RPM; EP"
+11058858,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+11058859,Vinyl,1,,LP; Album
+11058860,File,6,320 kbps,MP3; EP
+11058863,CD,1,,Album
+11058864,Vinyl,2,,LP; Compilation
+11058865,Vinyl,1,,LP; Compilation
+11058866,CD,1,,Album
+11058868,8-Track Cartridge,1,,Compilation
+11058871,Cassette,1,,Compilation; Unofficial Release
+11058873,Cassette,1,C68,Album; Limited Edition; Numbered
+11058877,Vinyl,1,,"10""; 45 RPM; Limited Edition"
+11058879,Vinyl,2,,LP
+11058879,Box Set,1,,
+11058880,CD,1,,Album
+11058881,Vinyl,1,,LP; Album; Limited Edition; Reissue
+11058882,CD,1,"mp3, 192 kBit/sec",CD-ROM; Compilation; Unofficial Release
+11058884,CD,1,,CD-ROM; Stereo; Multichannel
+11058885,Vinyl,1,,LP; Compilation
+11058886,CD,1,,Album
+11058888,File,11,320 kbps,MP3; Album
+11058889,File,8,,WAV
+11058890,Shellac,1,,"10""; 78 RPM"
+11058893,Vinyl,1,White,LP; Album; Limited Edition; Reissue
+11058894,CD,1,Card Sleeve,Album
+11058895,Vinyl,1,,"12""; 45 RPM; Limited Edition; Numbered; Reissue; Test Pressing; White Label"
+11058896,CD,1,,Album
+11058897,Vinyl,1,Yellow,"12""; Limited Edition; Numbered"
+11058899,File,10,192 kbps,MP3; Mini-Album
+11058900,CD,1,,Album
+11058901,VHS,1,,Promo; Stereo; PAL
+11058902,Vinyl,1,,"12""; 45 RPM; White Label"
+11058903,CDr,1,,Limited Edition; Mono
+11058904,Cassette,1,,Album; Reissue
+11058905,Cassette,1,,Album
+11058906,Vinyl,1,,LP
+11058907,Cassette,1,,Album; Reissue
+11058908,Cassette,1,,Album; Reissue
+11058909,Cassette,1,,Album
+11058910,Vinyl,1,,LP; Club Edition
+12645388,Vinyl,1,180 Gram Limited Gatefold Edition,LP; Compilation
+12645389,Vinyl,1,,LP; Album; Stereo
+12645390,Vinyl,2,Red,LP; Album; Reissue; Remastered
+12645391,CD,1,,Album; Limited Edition; Reissue
+12645392,Vinyl,1,,"7""; Single"
+12645393,Vinyl,1,,"12""; Maxi-Single"
+12645394,Vinyl,1,,LP
+12645395,CD,1,,Limited Edition
+12645396,Vinyl,1,,"12""; Maxi-Single"
+12645397,Vinyl,1,,"7""; Single"
+12645398,CD,1,,Compilation
+12645399,Cassette,1,,Album
+12645400,Vinyl,1,,"7""; 33 ⅓ RPM; EP; Numbered; Special Edition; Stereo"
+12645401,CD,1,,Album; Limited Edition; Reissue
+12645403,File,1,,WAV
+12645405,Vinyl,1,,"7""; Single"
+12645408,Cassette,1,Dolby,Album
+12645409,Cassette,1,,Mini-Album
+12645410,CD,1,,Album
+12645412,File,1,320 kbps,MP3; Album; Reissue
+12645413,Shellac,1,,"10""; 78 RPM"
+12645414,Vinyl,1,Purple,LP; Album; Limited Edition; Reissue
+12645415,Shellac,1,,"10""; 78 RPM"
+12645416,CD,1,,Album
+12645417,CD,1,,Album; Promo
+12645418,Vinyl,1,,LP; Stereo
+12645419,Cassette,1,,Single Sided; Mini-Album; Stereo
+12645420,CD,1,,Album; Limited Edition
+12645421,DVD,1,,DVD-Video; Multichannel; NTSC; Stereo
+12645423,File,1,VBR,MP3; Album; Reissue
+12645424,Vinyl,1,,"12""; Single Sided; Limited Edition; Numbered; Test Pressing"
+12645426,File,1,,ogg-vorbis; Album; Reissue
+12645428,Vinyl,1,,"7""; Single"
+12645430,File,1,,WAV; Album; Reissue
+12645431,File,4,,FLAC; MP3; WAV; EP; Stereo
+12645432,File,1,,AAC; Album; Reissue
+12645433,File,4,320 kbps,MP3; EP
+12645434,File,1,,AIFF; Album; Reissue
+12645435,CD,1,,Album; Reissue
+12645436,File,1,,ALAC; Album; Reissue
+12645438,File,1,,FLAC; Album; Reissue
+12645443,Box Set,1,,Compilation; Limited Edition
+12645443,Vinyl,1,,LP; Album; Reissue; Remastered
+12645443,Vinyl,2,,LP; Album; Remastered
+12645443,Vinyl,1,,LP; Album; Reissue; Remastered
+12645443,Vinyl,1,,LP; Album; Reissue; Remastered
+12645443,Vinyl,1,,LP; Album
+12645443,Vinyl,1,,LP; Single Sided; Album; Etched
+12645443,Vinyl,3,,LP; Album; Reissue; Remastered
+12645443,Vinyl,2,,LP; Compilation
+12645443,Vinyl,3,,LP; Compilation
+12645444,File,2,320 kbps,MP3
+12645445,Shellac,1,,"10""; 78 RPM"
+12645446,File,4,320 kbps,MP3; EP
+12645447,CD,1,,Album; Reissue
+12645448,Vinyl,1,,"7""; 45 RPM; EP"
+12645450,CD,1,,Album
+12645450,DVD,1,,DVD-Video; PAL
+12645451,CD,1,SHM-CD,Album; Reissue; Remastered
+12645452,CD,1,,
+12645453,Vinyl,1,,"7""; 45 RPM; Stereo"
+12645455,Vinyl,1,Gatefold,LP; Album
+12645456,Vinyl,1,,LP; Album
+12645457,CD,1,,EP
+12645458,File,1,,MP3; Mixed
+12645460,File,1,320 kbps,MP3
+12645461,File,5,320 kbps,MP3; EP
+12645462,CD,1,,CD-ROM; EP; Promo
+12645463,Vinyl,2,Gold,LP; Album; Limited Edition; Numbered
+12645463,CD,1,,Album
+12645464,File,1,,AAC; Single; Stereo
+12645465,Vinyl,1,,"12"""
+12645466,Vinyl,1,,LP; Album
+12645467,Vinyl,1,,"7""; Single"
+12645468,CD,1,,Reissue
+12645469,CD,2,,Compilation
+12645470,Vinyl,1,,LP; Mono
+12645471,Vinyl,1,,LP; Album; Limited Edition
+12645472,Vinyl,2,,LP; 45 RPM; Compilation
+12645473,Vinyl,1,,"7""; 45 RPM; Single; Promo; Mono"
+12645474,CD,1,,Album
+12645475,Vinyl,1,,"7""; Single"
+12645476,Vinyl,1,,"12""; 33 ⅓ RPM; EP; Stereo"
+12645477,CD,1,,Compilation; Remastered
+12645478,CDr,1,,Single; Promo
+12645479,File,2,320 kbps,MP3
+12645479,File,2,,WAV
+12645480,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+12645481,CD,1,,Album; Stereo
+12645482,Vinyl,1,,"7""; 33 ⅓ RPM; EP; Stereo"
+12645483,Vinyl,1,Bone Splatter,LP; Album; Limited Edition
+12645484,CD,1,,
+12645485,Vinyl,1,,"7""; Single"
+12645486,CD,1,,Promo; Sampler
+12645487,Vinyl,1,,LP; Album; Stereo
+12645488,Vinyl,1,,LP; Stereo
+12645489,CD,2,,Album; Reissue; Remastered; Mono
+12645490,CD,1,,Album
+12645491,Vinyl,1,,LP
+12645492,Vinyl,1,,LP
+12645493,CD,1,,Compilation
+12645494,Vinyl,1,,LP
+12645495,Shellac,1,,"10""; 78 RPM"
+12645496,Vinyl,1,,LP
+12645497,File,2,320 kbps,MP3
+12645497,File,2,,WAV
+12645498,Vinyl,1,,"7""; 45 RPM"
+12645499,Vinyl,1,,LP; Compilation; Stereo
+12645500,Vinyl,1,Clear Splattered,LP; Album; Limited Edition
+12645501,CD,1,,Album
+12645503,File,1,320 kbps,MP3; Single
+12645504,Vinyl,1,,"8""; 33 ⅓ RPM; Club Edition; Mono"
+12645505,File,1,,AAC; AIFF; ALAC; FLAC; MP3; WAV; Album; Stereo
+14220496,Vinyl,1,,LP; Album; Reissue; Stereo
+14220497,File,1,320 kbps,MP3
+14220498,Vinyl,1,,"7""; 45 RPM"
+14220499,File,1,,AAC; Single
+14220500,Vinyl,1,,"7""; 45 RPM"
+14220501,Vinyl,1,,LP; Album
+14220502,File,1,320 kbps,MP3; Single
+14220503,Vinyl,1,,LP; Album; Promo; Stereo
+14220505,CD,1,Digipak,Album
+14220506,Vinyl,1,,"10""; Album"
+14220507,Cassette,1,,Album
+14220508,Vinyl,1,,"7""; 45 RPM; Single"
+14220509,CD,1,,
+14220510,Vinyl,1,,"7""; Single"
+14220511,File,1,,FLAC; Single
+14220512,CD,1,,
+14220513,Acetate,1,,
+14220514,Vinyl,1,,"7""; 45 RPM; Mono"
+14220517,Vinyl,1,,"7""; 45 RPM"
+14220518,File,1,320 kbps,MP3
+14220519,Vinyl,1,Version A,LP; Transcription
+14220520,Vinyl,5,,LP
+14220520,Box Set,1,,
+14220522,Vinyl,1,White,LP; Album; Limited Edition
+14220525,Vinyl,1,Yellow Vinyl,LP; Limited Edition; Numbered; Reissue
+14220526,File,1,,AAC; Single
+14220527,Vinyl,1,,LP
+14220528,CD,1,,
+14220529,Vinyl,1,,"7""; 45 RPM; EP; Mono"
+14220530,CD,1,,Album
+14220531,Vinyl,1,,"7""; 45 RPM; EP"
+14220532,File,1,320 kbps,MP3
+14220533,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+14220534,CD,1,Digipak,Album
+14220535,Vinyl,1,SP,"7""; 45 RPM; Promo; Stereo; Mono"
+14220536,Vinyl,1,,LP; Stereo
+14220537,DVD,1,,DVD-Video
+14220539,CD,1,,Album; Numbered
+14220540,Cassette,1,,
+14220541,File,1,256 kbps,AAC; Single
+14220543,CD,3,Digipak,Album
+14220544,Cassette,1,,Album
+14220545,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+14220546,File,6,,FLAC; EP
+14220547,Vinyl,1,,"10""; Album; Repress"
+14220548,CD,1,,
+14220549,Vinyl,1,Gatefold,LP; Album
+14220550,Flexi-disc,1,,"6""; Single Sided; Single; Unofficial Release; Mono"
+14220551,Vinyl,1,,LP
+14220553,Vinyl,1,,LP; Reissue; Stereo
+14220556,Cassette,2,,Stereo
+14220557,CDr,1,,Promo
+14220558,File,1,,AAC; Single
+14220559,CD,1,,Album
+14220560,Vinyl,1,,"7""; 45 RPM; Single"
+14220561,File,4,,FLAC; EP
+14220562,CD,1,,Album
+14220563,Vinyl,1,,"7""; 45 RPM"
+14220564,CD,1,,Album; Stereo
+14220565,CD,1,,Compilation; Reissue
+14220566,Vinyl,1,,"7""; 45 RPM; EP"
+14220567,Cassette,1,,Mono
+14220568,File,1,,FLAC; Single
+14220569,Vinyl,1,,"12""; EP; Limited Edition; Numbered"
+14220570,Cassette,1,,Album
+14220571,CD,1,,Album; Reissue; Remastered
+14220572,Vinyl,1,,"7""; 45 RPM; Single"
+14220573,Box Set,1,,
+14220573,Vinyl,5,,LP; Album
+14220575,Vinyl,1,,LP; Transcription
+14220576,File,12,,MP3; Album
+14220577,Vinyl,1,,LP; Album
+14220578,Vinyl,1,,"7""; 45 RPM; Single; Promo"
+14220579,CD,1,,Single; Sampler
+14220580,Vinyl,1,,"7""; 45 RPM"
+14220581,Vinyl,1,,LP; Compilation
+14220582,CD,2,,Compilation
+14220583,CD,1,,HDCD; Single; Promo
+14220585,CD,1,,Album
+14220586,File,2,320 kbps,MP3
+14220587,Vinyl,1,,"7""; 45 RPM; Single; Stereo"
+14220589,Vinyl,1,White,LP; Album
+14220590,Vinyl,1,,LP; Album; Mono
+14220591,File,12,320 kbps,MP3; Album
+14220592,Cassette,1,,Album
+14220593,Vinyl,1,,LP; Transcription
+14220594,CD,2,,Transcription
+14220596,Vinyl,1,,"7""; 45 RPM"
+14220597,Cassette,1,,EP
+14220598,CD,1,,Album
+14220600,Cassette,1,,Album
+14220601,Vinyl,1,,"7""; 45 RPM; Single"
+14220602,Vinyl,1,Jacksonville Pressing,LP
+14220603,CD,1,Rental CD,Album
+14220604,Cassette,1,,Album; Compilation
+14220605,CD,1,,
+14220606,Cassette,1,,Album
+14220607,CD,1,,Album; Reissue
+14220609,CD,1,,Album
+14220610,Vinyl,1,,"7""; 45 RPM; Single"
+14220611,Vinyl,1,,LP; Compilation
+14220612,CD,3,,HDCD

@@ -44,20 +44,14 @@ def main():
         "releases": 12867980,
     }
 
-    headers = {
-        "User-Agent": "discogs-xml2db/1.0 +https://github.com/philipmat/discogs-xml2db/"
-    }
-    with contextlib.suppress(
-        requests.exceptions.RequestException, TypeError, ValueError, AttributeError
-    ):
+    headers = {"User-Agent": "discogs-xml2db/1.0 +https://github.com/philipmat/discogs-xml2db/"}
+    with contextlib.suppress(requests.exceptions.RequestException, TypeError, ValueError, AttributeError):
         response = requests.get("https://api.discogs.com/", timeout=5, headers=headers)
         rough_counts.update(response.json().get("statistics"))
 
     in_file = arguments["FILE"]
     try:
-        parser_name, max_records = next(
-            (x, rough_counts[x]) for x in rough_counts if x in in_file
-        )
+        parser_name, max_records = next((x, rough_counts[x]) for x in rough_counts if x in in_file)
     except StopIteration:
         print(f"Unable to figure out what kind of file {in_file} is.")
 
@@ -66,10 +60,7 @@ def main():
     percent_breaks = max_records // SAMPLES
     extract_count = int(arguments["--count"])
     extract_batch = extract_count // SAMPLES
-    extract_windows = [
-        (percent_breaks * step, percent_breaks * step + extract_batch)
-        for step in range(SAMPLES)
-    ]
+    extract_windows = [(percent_breaks * step, percent_breaks * step + extract_batch) for step in range(SAMPLES)]
 
     # since we run this as a script, we need to add the parent folder
     # so we can import discogsxml2db from it
@@ -112,9 +103,7 @@ def main():
                 unit="records",
                 position=1,
             )
-            with tqdm(
-                total=max_records, desc="Processing records", unit="records", position=0
-            ) as pbar:
+            with tqdm(total=max_records, desc="Processing records", unit="records", position=0) as pbar:
                 parse_count = 0
                 for _, element in etree.iterparse(in_fp, tag=parser["tag"]):
                     e_id = parser["id_method"](element)

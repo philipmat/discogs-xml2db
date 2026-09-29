@@ -121,9 +121,7 @@ def qname(tag: str, nsmap: dict[str | None, str]) -> str:
     return tag
 
 
-def build_root_tag(
-    tag: str, attrib: dict[str, str], nsmap: dict[str | None, str]
-) -> tuple[str, str]:
+def build_root_tag(tag: str, attrib: dict[str, str], nsmap: dict[str | None, str]) -> tuple[str, str]:
     """Build start/end root tags, preserving attributes and namespaces."""
     qn = qname(tag, nsmap)
     attrs: list[str] = []
@@ -143,9 +141,7 @@ def build_root_tag(
     return start, end
 
 
-def iter_entities(
-    path: Path, tag: str, progress: Progress | None = None
-) -> Iterable[etree._Element]:
+def iter_entities(path: Path, tag: str, progress: Progress | None = None) -> Iterable[etree._Element]:
     """Yield entities for a given tag using streaming parse and cleanup.
 
     Uses lxml's huge_tree mode for very large (trusted) Discogs dumps.
@@ -177,21 +173,13 @@ def release_complexity(element: etree._Element) -> dict[str, int]:
     """Compute a per-release feature count used for selection ranking."""
     counts = {
         "release_artists": xpath_count(element, f"./{ln('artists')}/{ln('artist')}"),
-        "release_extraartists": xpath_count(
-            element, f"./{ln('extraartists')}/{ln('artist')}"
-        ),
-        "track_artists": xpath_count(
-            element, f".//{ln('tracklist')}//{ln('artists')}/{ln('artist')}"
-        ),
-        "track_extraartists": xpath_count(
-            element, f".//{ln('tracklist')}//{ln('extraartists')}/{ln('artist')}"
-        ),
+        "release_extraartists": xpath_count(element, f"./{ln('extraartists')}/{ln('artist')}"),
+        "track_artists": xpath_count(element, f".//{ln('tracklist')}//{ln('artists')}/{ln('artist')}"),
+        "track_extraartists": xpath_count(element, f".//{ln('tracklist')}//{ln('extraartists')}/{ln('artist')}"),
         "labels": xpath_count(element, f"./{ln('labels')}/{ln('label')}"),
         "formats": xpath_count(element, f"./{ln('formats')}/{ln('format')}"),
         "tracks": xpath_count(element, f".//{ln('tracklist')}//{ln('track')}"),
-        "identifiers": xpath_count(
-            element, f"./{ln('identifiers')}/{ln('identifier')}"
-        ),
+        "identifiers": xpath_count(element, f"./{ln('identifiers')}/{ln('identifier')}"),
         "videos": xpath_count(element, f"./{ln('videos')}/{ln('video')}"),
         "companies": xpath_count(element, f"./{ln('companies')}/{ln('company')}"),
         "images": xpath_count(element, f"./{ln('images')}/{ln('image')}"),
@@ -354,11 +342,7 @@ def select_releases(
 
     def coverage_score(element: etree._Element) -> int | None:
         """Compute how many referenced ids are present in available dumps."""
-        if (
-            available_artists is None
-            or available_labels is None
-            or available_masters is None
-        ):
+        if available_artists is None or available_labels is None or available_masters is None:
             return None
         masters, artists, labels = collect_release_refs(element)
         score = 0
@@ -432,9 +416,7 @@ def select_releases(
         if remaining > 0:
             if progress is not None:
                 progress.finish()
-            progress = make_progress(
-                "Scanning releases (mixed remainder)", progress_every
-            )
+            progress = make_progress("Scanning releases (mixed remainder)", progress_every)
             for element in iter_entities(path, "release", progress):
                 rid = release_id(element)
                 if rid is None or rid in top_ids:
@@ -767,16 +749,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     input_dir: Path = args.input_dir
     output_dir: Path = args.output_dir
 
-    artists_path = (
-        Path(args.artists) if args.artists else find_dump(input_dir, "artists")
-    )
+    artists_path = Path(args.artists) if args.artists else find_dump(input_dir, "artists")
     labels_path = Path(args.labels) if args.labels else find_dump(input_dir, "labels")
-    masters_path = (
-        Path(args.masters) if args.masters else find_dump(input_dir, "masters")
-    )
-    releases_path = (
-        Path(args.releases) if args.releases else find_dump(input_dir, "releases")
-    )
+    masters_path = Path(args.masters) if args.masters else find_dump(input_dir, "masters")
+    releases_path = Path(args.releases) if args.releases else find_dump(input_dir, "releases")
 
     for p in (artists_path, labels_path, masters_path, releases_path):
         if not p.exists():
@@ -876,11 +852,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             label="Scanning labels (manifest)",
         )
     else:
-        total_size_mb = (
-            artists_path.stat().st_size
-            + labels_path.stat().st_size
-            + masters_path.stat().st_size
-        ) / (1024 * 1024)
+        total_size_mb = (artists_path.stat().st_size + labels_path.stat().st_size + masters_path.stat().st_size) / (
+            1024 * 1024
+        )
         do_availability_scan = False
         if args.availability_scan == "always":
             do_availability_scan = True
@@ -1003,9 +977,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         # close artist member references
         while True:
-            new_member_ids = extract_artists(
-                artists_path, needed_artist_ids, artist_map, args.progress_every
-            )
+            new_member_ids = extract_artists(artists_path, needed_artist_ids, artist_map, args.progress_every)
             if not new_member_ids - needed_artist_ids:
                 break
             needed_artist_ids |= new_member_ids

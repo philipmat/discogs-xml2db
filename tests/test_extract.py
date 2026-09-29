@@ -55,9 +55,7 @@ class TestExtraction:
 
     @classmethod
     def setup_class(cls):
-        cls._samples_folder = os.path.join(
-            pathlib.Path(__file__).absolute().parent, "samples"
-        )
+        cls._samples_folder = os.path.join(pathlib.Path(__file__).absolute().parent, "samples")
 
     def test_artists_counts(self, tmp_path):
         self._check_counts("artist", tmp_path)

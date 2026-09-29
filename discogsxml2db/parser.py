@@ -313,9 +313,7 @@ class DiscogsReleaseParser(DiscogsDumpEntityParser):
                         list(self.element_artists(e, extra=(t == "extraartists"))),
                     )
                 elif t in ("sub_tracks"):
-                    subtracks = list(
-                        self.element_tracklist(e, parent=int(self.track_sequence))
-                    )
+                    subtracks = list(self.element_tracklist(e, parent=int(self.track_sequence)))
             yield entity
             if subtracks:
                 for t in subtracks:

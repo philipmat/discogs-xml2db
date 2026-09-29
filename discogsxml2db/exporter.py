@@ -21,16 +21,11 @@ def _write_entity(writer, entity, fields):
 
 
 def _write_fields_rows(writer, entity, name, fields):
-    writer.writerows(
-        [entity.id] + [getattr(element, i, "") for i in fields]
-        for element in getattr(entity, name, [])
-    )
+    writer.writerows([entity.id] + [getattr(element, i, "") for i in fields] for element in getattr(entity, name, []))
 
 
 def _write_rows(writer, entity, name):
-    writer.writerows(
-        [entity.id, element] for element in getattr(entity, name, []) if element
-    )
+    writer.writerows([entity.id, element] for element in getattr(entity, name, []) if element)
 
 
 _parsers = {
@@ -107,9 +102,7 @@ class EntityCsvExporter:
 
             # opens file with newline='' to keep Windows export happy: https://stackoverflow.com/a/29116560
             os.makedirs(self.out_dir, exist_ok=True)
-            out_file_obj = open_func(
-                os.path.join(self.out_dir, fname), "wt", newline="", encoding="utf-8"
-            )
+            out_file_obj = open_func(os.path.join(self.out_dir, fname), "wt", newline="", encoding="utf-8")
             writer = csv.writer(out_file_obj)
 
             if self.write_csv_headers:
@@ -141,9 +134,7 @@ class EntityCsvExporter:
             desc=f"Processing {self.entity:>10}s",
             unit=f"{self.entity}s",
         ) as pbar:
-            for cnt, entity in enumerate(
-                filter(self.validate, self.parser.parse(fp)), start=1
-            ):
+            for cnt, entity in enumerate(filter(self.validate, self.parser.parse(fp)), start=1):
                 if not self.dry_run:
                     self.run_ops(entity, operations)
                 pbar.update()
@@ -197,10 +188,7 @@ class ArtistExporter(EntityCsvExporter):
     @staticmethod
     def write_group_members(writer, artist):
         writer.writerows(
-            [
-                [artist.id, member_id, member_name]
-                for member_id, member_name in getattr(artist, "members", [])
-            ]
+            [[artist.id, member_id, member_name] for member_id, member_name in getattr(artist, "members", [])]
         )
 
     def validate(self, artist):
@@ -299,14 +287,9 @@ class ReleaseExporter(EntityCsvExporter):
 
     def write_track_artists(self, writer, release):
         writer.writerows(
-            (
-                [release.id, track.sequence, track.track_id]
-                + [getattr(element, i, "") for i in self.artist_fields]
-            )
+            ([release.id, track.sequence, track.track_id] + [getattr(element, i, "") for i in self.artist_fields])
             for track in getattr(release, "tracklist", [])
-            for element in (
-                getattr(track, "artists", []) + getattr(track, "extraartists", [])
-            )
+            for element in (getattr(track, "artists", []) + getattr(track, "extraartists", []))
         )
 
 
@@ -347,8 +330,7 @@ csv_headers = {
         "release_identifier": "release_id description type value",
         "release_track": "release_id sequence position parent title duration track_id",
         "release_track_artist": (
-            "release_id track_sequence track_id artist_id artist_name "
-            "extra anv position join_string role tracks"
+            "release_id track_sequence track_id artist_id artist_name extra anv position join_string role tracks"
         ),
         "release_image": "release_id type width height",
     }.items()
@@ -371,9 +353,7 @@ def main(arguments):
         "releases": 19_500_000,
     }
     if arguments["--apicounts"]:
-        headers = {
-            "User-Agent": "discogs-xml2db/1.0 +https://github.com/philipmat/discogs-xml2db/"
-        }
+        headers = {"User-Agent": "discogs-xml2db/1.0 +https://github.com/philipmat/discogs-xml2db/"}
         response = requests.get("https://api.discogs.com/", timeout=5, headers=headers)
         with contextlib.suppress(TypeError, ValueError, AttributeError):
             rough_counts.update(response.json().get("statistics"))

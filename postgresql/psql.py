@@ -13,12 +13,8 @@ parser.add_option(
     default=False,
     help="don't configure the default schema",
 )
-parser.add_option(
-    "-s", "--schema", dest="schema", default="discogs", help="default schema"
-)
-parser.add_option(
-    "-c", "--config", dest="cfgfile", default=None, help="configuration file"
-)
+parser.add_option("-s", "--schema", dest="schema", default="discogs", help="default schema")
+parser.add_option("-c", "--config", dest="cfgfile", default=None, help="configuration file")
 options, args = parser.parse_args()
 
 if options.cfgfile is None:

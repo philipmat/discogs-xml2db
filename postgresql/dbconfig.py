@@ -80,8 +80,7 @@ columns = {
         "release_identifier": "release_id description type value",
         "release_track": "release_id sequence position parent title duration track_id",
         "release_track_artist": (
-            "release_id track_sequence track_id artist_id artist_name "
-            "extra anv position join_string role tracks"
+            "release_id track_sequence track_id artist_id artist_name extra anv position join_string role tracks"
         ),
         "release_image": "release_id type width height",
     }.items()

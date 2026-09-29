@@ -1,0 +1,6 @@
+[tool.ruff]
+# Keep in sync with the pycodestyle max-line-length in setup.cfg
+line-length = 120
+
+# Oldest Python version supported by CI
+target-version = "py310"
